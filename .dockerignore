@@ -1,0 +1,58 @@
+# Git files
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+README.md
+*.md
+docs/
+
+# IDE and editor files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment files (should be set via Cloud Run env vars)
+.env
+.env.local
+.env.*.local
+
+# Logs and temp files
+*.log
+logs/
+tmp/
+temp/
+/tmp/
+
+# Build artifacts
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Test files
+tests/
+test/
+*.test.php
+phpunit.xml
+
+# Development tools
+composer.lock
+package-lock.json
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Other
+.dockerignore
+Dockerfile
+docker-compose.yml

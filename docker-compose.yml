@@ -1,0 +1,73 @@
+# Docker Compose for Local Development
+# This file helps you run the application locally with a MySQL database
+
+version: '3.8'
+
+services:
+  # PHP Application
+  app:
+    build: .
+    container_name: applesauce-api
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=8080
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASS=localpassword
+      - DB_NAME=kalrul
+      - DB_PORT=3306
+      - APP_ENV=development
+      - APP_DEBUG=true
+    depends_on:
+      - db
+    volumes:
+      # Mount source code for live development (optional)
+      # Uncomment the next line to enable live reload
+      # - .:/var/www/html
+    restart: unless-stopped
+    networks:
+      - applesauce-network
+
+  # MySQL Database
+  db:
+    image: mysql:8.0
+    container_name: applesauce-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=localpassword
+      - MYSQL_DATABASE=kalrul
+      - MYSQL_USER=applesauce
+      - MYSQL_PASSWORD=localpassword
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      # Uncomment to import SQL dump on startup
+      # - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: unless-stopped
+    networks:
+      - applesauce-network
+
+  # phpMyAdmin (Optional - for database management)
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: applesauce-phpmyadmin
+    environment:
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=localpassword
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+    restart: unless-stopped
+    networks:
+      - applesauce-network
+
+volumes:
+  mysql-data:
+    driver: local
+
+networks:
+  applesauce-network:
+    driver: bridge

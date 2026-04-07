@@ -1,0 +1,62 @@
+# Environment files with credentials
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+tmp/
+temp/
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Dependency directories
+node_modules/
+vendor/
+
+# Build artifacts
+dist/
+build/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# PHP temporary files
+*.cache
+.phpunit.result.cache
+
+# Composer
+composer.phar
+composer.lock
+
+# Database dumps (be careful with these)
+*.sql
+*.dump
+
+# Docker volumes data
+mysql-data/
+
+# Cloud deployment files (optional)
+.gcloud/
+.kube/
+
+# Session files
+sessions/
+tmp/sessions/
+
+# Test output
+coverage/
+test-results/
