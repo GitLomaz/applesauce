@@ -38,7 +38,7 @@ echo "<table border='1'>
 
 $sql = "SELECT * FROM `dailyActions`";
 $sql_rows = sql_query($sql, $conn);
-while($row = mysqli_fetch_array($sql_rows,MYSQL_ASSOC)){
+while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 	$day = $row["Day"];
 	$total = $row["Total"];
 	echo "<tr>";

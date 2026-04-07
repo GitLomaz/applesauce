@@ -30,7 +30,7 @@ UU:::::U     U:::::UUT:::::TT:::::::TT:::::TII::::::IILL:::::::LL
 function getRow($conn, $table, $index){
     $sql_q = "select * from `".$table."` where `".getKey($table)."` =".$index." LIMIT 1";
     $sql = sql_query($sql_q, $conn);
-    return mysqli_fetch_array($sql,MYSQL_ASSOC);
+    return mysqli_fetch_array($sql,MYSQLI_ASSOC);
 }
 
 // -- Function Name : getKey
@@ -115,7 +115,7 @@ function getSingleShopEquipment($conn, $id){
 
     $sql = "SELECT * FROM `equipmentTemplate` WHERE `index` = ".$id;
     $sql_rows = sql_query($sql, $conn);
-    while($row = mysqli_fetch_array($sql_rows,MYSQL_ASSOC)){
+    while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
         $script = "<strong>Item Name: </strong>".$row['name']."<br/><br/><strong>Item Class: </strong>";
 
         if($row['slot'] == "weapon" || $row['slot'] == "2hweapon"){
@@ -217,7 +217,7 @@ RRRRRRRR     RRRRRRREEEEEEEEEEEEEEEEEEEEEEAAAAAAA                   AAAAAAADDDDD
 function getAttribute($conn, $table, $attribute, $index){
     $sql_q = "select `".$attribute."` from `".$table."` where `".getKey($table)."` =".$index." LIMIT 1";
     $sql = sql_query($sql_q, $conn);
-    $row = mysqli_fetch_array($sql,MYSQL_ASSOC);
+    $row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
     return $row[$attribute];
 }
 
@@ -227,7 +227,7 @@ function getAttribute($conn, $table, $attribute, $index){
 function getNews($conn){
     $sqlGetNews = 'SELECT `imageOffset`, `image`, `title`, `date`, `update` FROM news ORDER BY `newsIndex` DESC';
     $sqlNewsResult = sql_query($sqlGetNews, $conn);
-    while(($row = mysqli_fetch_array($sqlNewsResult,MYSQL_ASSOC))){
+    while(($row = mysqli_fetch_array($sqlNewsResult,MYSQLI_ASSOC))){
         $output[] = $row;
     }
     return $output;
@@ -277,7 +277,7 @@ function getStatusBar($acc, $conn){
     $rowset = sql_query($sql, $conn);
     $output["buffs"] = null;
 
-    while($row = mysqli_fetch_array($rowset,MYSQL_ASSOC)){
+    while($row = mysqli_fetch_array($rowset,MYSQLI_ASSOC)){
         $output["buffs"][] = $row;
     }
     return $output;
@@ -289,7 +289,7 @@ function getStatusBar($acc, $conn){
 function getInventory($acc, $conn){
     $sql = "SELECT item_ID as itemID, COALESCE(`count`,0) as `count`, COALESCE(used,0) as `used`, COALESCE(archived,0) as `archived`, `name`, image, `value`, usable, combat, quest, equipment, `value`, description, visible from item t inner join inventory i on t.item_ID = i.itemID and playerID = $acc order by name";
     $result = sql_query($sql, $conn);
-    while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
+    while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
         $output[] = $row;
     }
     return $output;
@@ -323,7 +323,7 @@ function getEquipment($acc, $conn){
 
     $sql = "SELECT * FROM kalrul.equipmentInventory where playerID = $acc and archived = 0 and name != 'unarmed' order by name;";
     $result = sql_query($sql, $conn);
-    while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
+    while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
         $script = "<strong>Item Name: </strong>".$row['name']."<br/><br/><strong>Item Class: </strong>";
 
         if($row['slot'] == "weapon" || $row['slot'] == "2hweapon"){
@@ -383,7 +383,7 @@ function getCalcStats($acc, $conn){
     if($equippedShield != 0){
         $sql = "SELECT * FROM charSkills s inner join skillLevels l on s.skillID = l.skillID where playerID = $acc and l.level = s.level and s.skillID = 9";
         $result = sql_query($sql, $conn);
-        $row = mysqli_fetch_array($result,MYSQL_ASSOC);
+        $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
         $block = $block + ($row['damage']);
     }
     $calcRow["block"] = $block;
@@ -435,7 +435,7 @@ function getEquippedItems($acc, $conn){
         if($item != -1){
             $sql = "SELECT item_ID as itemID, COALESCE(`count`,0) as `count`, COALESCE(used,0) as `used`, COALESCE(archived,0) as `archived`, `name`, image, `value`, usable, combat, quest, equipment, `value`, description, visible from item t inner join inventory i on t.item_ID = i.itemID and playerID = $acc and i.itemID = $item";
             $result = sql_query($sql, $conn);
-            $output[] = mysqli_fetch_array($result,MYSQL_ASSOC);
+            $output[] = mysqli_fetch_array($result,MYSQLI_ASSOC);
         }else{
             $output[]["itemID"] = -1;
         }
@@ -458,7 +458,7 @@ function getEquippedSkills($acc, $conn){
         if($skill != -1){
             $sql = "select c.skillID, c.level, s.name, s.image, s.type, l.cost, l.script from charSkills c inner join skills s on c.skillID = s.index inner join skillLevels l on c.skillID = l.skillID and c.level = l.level where playerID = $acc and c.skillID = $skill";
             $result = sql_query($sql, $conn);
-            $output[] = mysqli_fetch_array($result,MYSQL_ASSOC);
+            $output[] = mysqli_fetch_array($result,MYSQLI_ASSOC);
         }else{
             $output[]["skillID"] = -1;
         }

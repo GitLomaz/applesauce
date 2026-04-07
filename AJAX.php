@@ -37,7 +37,7 @@
 		$output["session"] = 1;
 		if($account == ''){
 			$sqlGetAccount = sql_query("SELECT `Account` from `sessions` where `Cookie` = '$token'", $conn);
-			$row = mysqli_fetch_array($sqlGetAccount,MYSQL_ASSOC);
+			$row = mysqli_fetch_array($sqlGetAccount,MYSQLI_ASSOC);
 			$acc = $row['Account'];
 		}
 		$sql = "UPDATE `sessions` set `cookie` = '".$token."', Expiry = NOW() + INTERVAL 15 MINUTE WHERE Type = 'Session' AND Account = $acc";

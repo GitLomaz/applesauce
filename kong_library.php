@@ -26,7 +26,7 @@
 		$sql_rows = sql_query($sql, $conn);
 		$zones = '';
 		$enemies = '';
-		while($row = mysqli_fetch_array($sql_rows,MYSQL_ASSOC)){
+		while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 			if( $zones != ''){
 				$zones .= ',';
 				$enemies .= ',';
@@ -115,7 +115,7 @@
 		if ($zones != ''){
 			$sql = "select e.*, s.* from enemySpawns s inner join enemies e on e.enemyID = s.enemyID where zone in ($zones) and e.enemyID not in ($enemies)";
 			$sql_rows = sql_query($sql, $conn);
-			while($row = mysqli_fetch_array($sql_rows,MYSQL_ASSOC)){
+			while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 				$name = $row['name'];
 				$level = "lvl:??";
 				$image = "genericMonster";
@@ -163,7 +163,7 @@
 			sql_query($sqlCreateAccount, $conn);
 			return 1;
 		}else{
-			while($row = mysqli_fetch_array($sqlAccount,MYSQL_ASSOC)){
+			while($row = mysqli_fetch_array($sqlAccount,MYSQLI_ASSOC)){
 				return $row['level'];
 			}
 		}
@@ -181,7 +181,7 @@
 			$sqlLookUp = "SELECT * FROM account WHERE account = '".$login."'";
 			$sqlAccount = sql_query($sqlLookUp, $conn);
 
-			while($row = mysqli_fetch_array($sqlAccount,MYSQL_ASSOC)){
+			while($row = mysqli_fetch_array($sqlAccount,MYSQLI_ASSOC)){
 				$LookUpAccountNo = $row['playerID'];
 			}
 				$token = '';
@@ -195,10 +195,10 @@
 				kongSubmitInitStats($conn, $LookUpAccountNo);
 				return $token;
 		}else{
-			while($row = mysqli_fetch_array($sqlAccount,MYSQL_ASSOC)){
+			while($row = mysqli_fetch_array($sqlAccount,MYSQLI_ASSOC)){
 				$sqlLookUp = "SELECT * FROM account WHERE account = '".$login."'";
 				$sqlAccount = sql_query($sqlLookUp, $conn);
-				while($row = mysqli_fetch_array($sqlAccount,MYSQL_ASSOC)){
+				while($row = mysqli_fetch_array($sqlAccount,MYSQLI_ASSOC)){
 					$_SESSION['accountNo'] = $row['playerID'];
 				}
 				$token = '';
@@ -242,11 +242,11 @@
 		$deaths = getAttribute($conn, "account", "deaths", $acc);
 		$tower = getAttribute($conn, "character", "towerLevel", $acc);
 		$sql = "SELECT count(*) as count FROM kalrul.resets where level > 49 and playerID = $acc";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 		$resets = $row['count'];
 		$level = getAttribute($conn, "character", "level", $acc);
 		$sql = "SELECT sum(count) as 'kills' FROM kalrul.charKills where playerID = $acc;";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 		$kills = $row['kills'];
 		$steps = getAttribute($conn, "account", "stepsTaken", $acc);
 		$quests = count(getCompleteQuests($conn, $acc));

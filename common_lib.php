@@ -10,7 +10,7 @@
 	function logAction($conn, $acc, $action, $param1, $param2){
 		$sql = 'select `timestamp` as `time` from actions ORDER BY actionID DESC LIMIT 1';
 		$sqlR = sql_query($sql, $conn);
-		$row = mysqli_fetch_array($sqlR, MYSQL_ASSOC);
+		$row = mysqli_fetch_array($sqlR, MYSQLI_ASSOC);
 		$timestamp = $row['time'];
 		$message = '';
 		$accountName =  getAttribute($conn, "account", "account", $acc);
@@ -578,7 +578,7 @@
 
 		$sql = "SELECT * FROM `equipmentTemplate` WHERE `index` = ".$id;
 		$sql_rows = sql_query($sql, $conn);
-		while($row = mysqli_fetch_array($sql_rows,MYSQL_ASSOC)){
+		while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 			$script = "<strong>Item Name: </strong>".$row['name']."<br/><br/><strong>Item Class: </strong>";
 
 			if($row['slot'] == "weapon" || $row['slot'] == "2hweapon"){
@@ -721,7 +721,7 @@
 		$sql = "SELECT * FROM `equipmentInventory` WHERE `name` != 'unarmed' AND `archived` != 1 AND `playerID` = ".$acc;
 		$sql_rows = sql_query($sql, $conn);
 		$check = false;
-		while($row = mysqli_fetch_array($sql_rows,MYSQL_ASSOC)){
+		while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 			if($row['upgrade'] > 0){
 				$row["name"] = "+" . $row['upgrade'] . " " . $row["name"];
 			}
@@ -887,7 +887,7 @@
 		$sql = "SELECT * FROM `equipmentInventory` WHERE `index` = $item";
 		$sql_rows = sql_query($sql, $conn);
 		$check = false;
-		while($row = mysqli_fetch_array($sql_rows,MYSQL_ASSOC)){
+		while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 			$check = true;
 			if($crafting){
 				$row['name'] = "+".($row['upgrade'] + 1)." ".$row['name'];
@@ -1058,7 +1058,7 @@
 		if(getInventoryItem($conn, $acc, $item) > 0){
 			$sql_get_item = "select * from `item` where item_ID =".$item;
 			$sql_item_result = sql_query($sql_get_item, $conn);
-			while($row = mysqli_fetch_array($sql_item_result,MYSQL_ASSOC)){
+			while($row = mysqli_fetch_array($sql_item_result,MYSQLI_ASSOC)){
 
 				if($row['usable'] == 1){
 					$minVal1 = $row['useMin'] * $amnt;
@@ -1100,12 +1100,12 @@
 						case 3:
 							//CHEST (RESET?)
 							$maxSQL = "SELECT SUM(rate) as total FROM `chests` where chestID = $item";
-							$max = mysqli_fetch_array(sql_query($maxSQL, $conn),MYSQL_ASSOC)['total'];
+							$max = mysqli_fetch_array(sql_query($maxSQL, $conn),MYSQLI_ASSOC)['total'];
 							$roll = rand (0,($max - 1)) + 1;
 							$sql_get_items = "SELECT * FROM `chests` where chestID = $item";
 							$sql_result = sql_query($sql_get_items, $conn);
 							$totalWeight = 0;
-							while($row = mysqli_fetch_array($sql_result,MYSQL_ASSOC)){
+							while($row = mysqli_fetch_array($sql_result,MYSQLI_ASSOC)){
 								$totalWeight =  intval($totalWeight) + intval($row['rate']);
 
 								if($totalWeight >= $roll && $used == false){
@@ -1168,12 +1168,12 @@
 						case 6:
 							//CHEST
 							$maxSQL = "SELECT SUM(rate) as total FROM `chests` where chestID = $item";
-							$max = mysqli_fetch_array(sql_query($maxSQL, $conn),MYSQL_ASSOC)['total'];
+							$max = mysqli_fetch_array(sql_query($maxSQL, $conn),MYSQLI_ASSOC)['total'];
 							$roll = rand (0,($max - 1)) + 1;
 							$sql_get_items = "SELECT * FROM `chests` where chestID = $item";
 							$sql_result = sql_query($sql_get_items, $conn);
 							$totalWeight = 0;
-							while($row = mysqli_fetch_array($sql_result,MYSQL_ASSOC)){
+							while($row = mysqli_fetch_array($sql_result,MYSQLI_ASSOC)){
 								$totalWeight =  intval($totalWeight) + intval($row['rate']);
 
 								if($totalWeight >= $roll && $used == false){
@@ -1295,7 +1295,7 @@
 		}
 		logAction($conn, $acc, 'levelUp', $level, NULL);
 		$sql = "SELECT exp FROM exp WHERE level = $level";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 		$nextLevel = $row['exp'];
 		$class = getAttribute($conn, "character", "class", $acc);
 
@@ -1439,7 +1439,7 @@
 		if($table != 'calcValues'){
 			$sql_q = "select `".$attribute."` from `".$table."` where `".getKey($table)."` =".$index." LIMIT 1";
 			$sql = sql_query($sql_q, $conn);
-			$row = mysqli_fetch_array($sql,MYSQL_ASSOC);
+			$row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
 			return $row[$attribute];
 		}else{
 			$sql_q = "SELECT
@@ -1496,7 +1496,7 @@
 					AND (`equipmentInventory`.`equipped` = 1))
 			GROUP BY `character`.`playerID`";
 			$sql = sql_query($sql_q, $conn);
-			$row = mysqli_fetch_array($sql,MYSQL_ASSOC);
+			$row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
 			return $row[$attribute];
 		}
 	}
@@ -1508,7 +1508,7 @@
 		if($table != "calcValues"){
 			$sql_q = "select * from `".$table."` where `".getKey($table)."` =".$index." LIMIT 1";
 			$sql = sql_query($sql_q, $conn);
-			return mysqli_fetch_array($sql,MYSQL_ASSOC);
+			return mysqli_fetch_array($sql,MYSQLI_ASSOC);
 		}else{
 			$sql_q = "SELECT
 		        `character`.`playerID` AS `playerID`,
@@ -1564,7 +1564,7 @@
 		            AND (`equipmentInventory`.`equipped` = 1))
 		    GROUP BY `character`.`playerID`";
 			$sql = sql_query($sql_q, $conn);
-			return mysqli_fetch_array($sql,MYSQL_ASSOC);
+			return mysqli_fetch_array($sql,MYSQLI_ASSOC);
 		}
 
 	}
@@ -1583,7 +1583,7 @@
 		}
 		$sql = "SELECT SUM(`count`) AS 'count' FROM `charKills` WHERE `playerID` = ".$acc;
 		$sql_row = sql_query($sql, $conn);
-		$kills = mysqli_fetch_array($sql_row,MYSQL_ASSOC)['count'];
+		$kills = mysqli_fetch_array($sql_row,MYSQLI_ASSOC)['count'];
 		$level = $row['level'];
 		$str = $row['strength'];
 		$dex = $row['dexterity'];
@@ -1622,7 +1622,7 @@
 		if($equippedShield != 0){
 			$sql = "SELECT * FROM charSkills s inner join skillLevels l on s.skillID = l.skillID where playerID = $acc and l.level = s.level and s.skillID = 9";
 			$result = sql_query($sql, $conn);
-			$row = mysqli_fetch_array($result,MYSQL_ASSOC);
+			$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
 			$block = $block + ($row['damage']);
 		}
 
@@ -1748,7 +1748,7 @@
 		$sql_get_items = "SELECT * FROM `item`";
 		// where item_id = 78";
 		$sql_item_result = sql_query($sql_get_items, $conn);
-		while($row = mysqli_fetch_array($sql_item_result,MYSQL_ASSOC)){
+		while($row = mysqli_fetch_array($sql_item_result,MYSQLI_ASSOC)){
 			$type = "";
 
 			if($row['quest'] == 1){
@@ -1796,7 +1796,7 @@
 		//  --------------------------------------------------------------------------------------------------
 		$sql_get_items = "SELECT * FROM `item` where item_ID = $item";
 		$sql_item_result = sql_query($sql_get_items, $conn);
-		while($row = mysqli_fetch_array($sql_item_result,MYSQL_ASSOC)){
+		while($row = mysqli_fetch_array($sql_item_result,MYSQLI_ASSOC)){
 			$type = "";
 
 			if($row['quest'] == 1){
@@ -1839,7 +1839,7 @@
 	function getSkillInfo($conn){
 		$sql_get_skills = "SELECT * FROM `skills`";
 		$sql_skills_result = sql_query($sql_get_skills, $conn);
-		while($row = mysqli_fetch_array($sql_skills_result,MYSQL_ASSOC)){
+		while($row = mysqli_fetch_array($sql_skills_result,MYSQLI_ASSOC)){
 			$type = '';
 			switch ($row['type']){
 				case "Combat":
@@ -1874,7 +1874,7 @@
 	function getSkillLevels($conn){
 		$sql_get_skills = "SELECT * FROM `skillLevels` l inner join `skills` s on s.`index` = l.`skillID`";
 		$sql_skills_result = sql_query($sql_get_skills, $conn);
-		while($row = mysqli_fetch_array($sql_skills_result,MYSQL_ASSOC)){
+		while($row = mysqli_fetch_array($sql_skills_result,MYSQLI_ASSOC)){
 
 			if($row['cost'] == 0){
 				$cost = "N/A";
@@ -1896,7 +1896,7 @@
 	function getCharSkillLevels($conn, $acc){
 		$sql_get_skills = "SELECT * FROM `charSkills` where playerID = ".$acc;
 		$sql_skills_result = sql_query($sql_get_skills, $conn);
-		while($row = mysqli_fetch_array($sql_skills_result,MYSQL_ASSOC)){
+		while($row = mysqli_fetch_array($sql_skills_result,MYSQLI_ASSOC)){
 			$string = $row['skillID'].'|'.$row['level'];
 			$output[] = $string;
 		}
@@ -1950,7 +1950,7 @@
 		$query = sql_query($existingSQL, $conn);
 
 		if(mysqli_num_rows($query) > 0){
-			$row = mysqli_fetch_array($query,MYSQL_ASSOC);
+			$row = mysqli_fetch_array($query,MYSQLI_ASSOC);
 
 			if(getAttribute($conn, 'character', 'level', $acc) >= $row['requiredLevel']){
 				$maxLevel = $row['maxLevel'];
@@ -1980,7 +1980,7 @@
 		} else {
 			$sql = "select * from skills where `index` = ".$skillID;
 			$query = sql_query($sql, $conn);
-			$row = mysqli_fetch_array($query,MYSQL_ASSOC);
+			$row = mysqli_fetch_array($query,MYSQLI_ASSOC);
 			$maxLevel = $row['maxLevel'];
 
 			if(getAttribute($conn, 'character', 'level', $acc) >= $row['requiredLevel']){
@@ -2014,7 +2014,7 @@
 		if(in_array($skillID, $passiveSkills)){
 			$sql = "SELECT damage FROM skillLevels WHERE skillID = $skillID AND level = $level";
 			$query = sql_query($sql, $conn);
-			$row = mysqli_fetch_array($query,MYSQL_ASSOC);
+			$row = mysqli_fetch_array($query,MYSQLI_ASSOC);
 			$effect = $row["damage"];
 			$sql = "SELECT * FROM playerBuffs where passiveID = $skillID and playerID = $acc";
 			$query = sql_query($sql, $conn);
@@ -2123,7 +2123,7 @@
 	function getNews($conn){
 		$sqlGetNews = 'SELECT * FROM news ORDER BY `newsIndex` DESC';
 		$sqlNewsResult = sql_query($sqlGetNews, $conn);
-		while(($row = mysqli_fetch_array($sqlNewsResult,MYSQL_ASSOC))){
+		while(($row = mysqli_fetch_array($sqlNewsResult,MYSQLI_ASSOC))){
 			$output[] = $row['imageOffset'];
 			$output[] = $row['image'];
 			$output[] = $row['title'];
@@ -2139,12 +2139,12 @@
 	// -- Purpose : Returns shop info based on a shop name
 	function getShopInfo($conn, $shop){
 		$sql_shop_result = sql_query("SELECT * FROM `shops` WHERE shop_index = $shop", $conn);
-		while($row = mysqli_fetch_array($sql_shop_result,MYSQL_ASSOC)){
+		while($row = mysqli_fetch_array($sql_shop_result,MYSQLI_ASSOC)){
 			$sql = "select item_ID as itemID, `name`, image, usable, combat, quest, equipment, `value`, description, visible from item where item_ID in (".
 				$row['item_1'].','.$row['item_2'].','.$row['item_3'].','.$row['item_4'].','.$row['item_5'].','.$row['item_6'].','.$row['item_7'].','.$row['item_8'].")";
 				$sql_item_result = sql_query($sql, $conn);
 				$counter = 0;
-				while($item = mysqli_fetch_array($sql_item_result,MYSQL_ASSOC)){
+				while($item = mysqli_fetch_array($sql_item_result,MYSQLI_ASSOC)){
 					$output["items"][] = $item;
 				}
 
@@ -2164,7 +2164,7 @@
 		//
 		//  --------------------------------------------------------------------------------------------------
 		$sql_shop_result = sql_query("SELECT * FROM `equipmentShops` WHERE shop_index = $shop", $conn);
-		while($row = mysqli_fetch_array($sql_shop_result,MYSQL_ASSOC)){
+		while($row = mysqli_fetch_array($sql_shop_result,MYSQLI_ASSOC)){
 			$output[] = getSingleEquipment($conn, $row['item_1']);
 			$output[] = getSingleEquipment($conn, $row['item_2']);
 			$output[] = getSingleEquipment($conn, $row['item_3']);
@@ -2241,7 +2241,7 @@
 		$statsRow = '';
 
 		if(mysqli_num_rows($rowset) != 0){
-			while($row = mysqli_fetch_array($rowset,MYSQL_ASSOC)){
+			while($row = mysqli_fetch_array($rowset,MYSQLI_ASSOC)){
 				$statsRow .= $row['script']."|".$row['image']."|".$row['remaining']."*";
 			}
 
@@ -2362,7 +2362,7 @@
 	function unequipSkill($acc, $slot, $conn){
 		$sql = "select skill_".$slot." as skill from equippedStuff WHERE equipIndex=$acc";
 		$result = sql_query($sql, $conn);
-		$row = mysqli_fetch_array($result,MYSQL_ASSOC);
+		$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
 		$skill = $row["skill"];
 		$skillRow = getRow($conn, "skills", $skill);
 		$type = $skillRow['type'];
@@ -2382,7 +2382,7 @@
 	function getString($conn, $item, $c1, $c2, $c3){
 		$sql = 'SELECT * FROM `strings` WHERE (forKey = '.$item.') AND c1 = "'.$c1.'" AND c2 = "'.$c2.'" AND c3 = "'.$c3.'" ORDER BY RAND() LIMIT 1;';
 		$res = sql_query($sql, $conn);
-		$row = mysqli_fetch_array($res, MYSQL_ASSOC);
+		$row = mysqli_fetch_array($res, MYSQLI_ASSOC);
 		return isset($row['text']) ? $row['text'] : "";
 	}
 
@@ -2442,7 +2442,7 @@
 	// -- Purpose : Returns the current count of an item on an an account
 	function getInventoryItem($conn, $acc, $item){
 		$sql = "SELECT * FROM `inventory` WHERE `playerID` = ".$acc." AND `itemID` = ".$item;
-		$itemRow = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$itemRow = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($itemRow['count'] == ''){
 			$itemRow['count'] = 0;
@@ -2456,7 +2456,7 @@
 	// -- Purpose : Returns the current count of an item on an an account
 	function getStoredItem($conn, $acc, $item){
 		$sql = "SELECT * FROM `inventory` WHERE `playerID` = ".$acc." AND `itemID` = ".$item;
-		$itemRow = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$itemRow = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($itemRow['stored'] == ''){
 			$itemRow['stored'] = 0;
@@ -2484,7 +2484,7 @@
 	// -- Purpose : Generates the item array for client for account in args
 	function generateItemArray($conn, $acc){
 		$sql = "SELECT COUNT(*) FROM `item`";
-		$itemRow = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$itemRow = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 		$itemCount = $itemRow['COUNT(*)'];
 		$counter = 0;
 		while($counter != $itemCount){
@@ -2528,13 +2528,13 @@
 		$sql_rows = sql_query($sql, $conn);
 		$counter = 1;
 		$quests = false;
-		while($questList = mysqli_fetch_array($sql_rows,MYSQL_ASSOC)){
+		while($questList = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 			$quests = true;
 			//Cycles through each row tel one incomplete
 			$quest = $questList['questID'];
 			$sql = "SELECT * FROM `questPlayerStatus` WHERE `playerID` = ".$acc." AND `questID` = ".$quest;
 			//Grabs the quest status from table
-			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$questTitle = getAttribute($conn, "quests", "name", $quest);
 
 			if($Row['status'] == "" || $Row['status'] == "working"){
@@ -2589,7 +2589,7 @@
 
 		if($npc == -1){
 			$sql = "SELECT lastDailyComplete + 26 as questID, lastDailyTime as timestamp FROM `character` where playerID = $acc";
-			$charRow = mysqli_fetch_array(sql_query($sql, $conn), MYSQL_ASSOC);
+			$charRow = mysqli_fetch_array(sql_query($sql, $conn), MYSQLI_ASSOC);
 			$quest = $charRow["questID"];
 			$timestamp = $charRow["timestamp"];
 			date_default_timezone_set("UTC");
@@ -2608,7 +2608,7 @@
 			}
 			$sql = "SELECT * FROM `questPlayerStatus` WHERE `playerID` = ".$acc." AND `questID` = ".$quest;
 			//Grabs the quest status from table
-			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$questTitle = getAttribute($conn, "quests", "name", $quest);
 			if($Row['status'] == "" || $Row['status'] == "working"){
 				$output["questID"] = $quest;
@@ -2778,7 +2778,7 @@
 			}
 		} else {
 			$sql = 'SELECT COUNT(*) FROM `equipmentInventory` WHERE `slot` = "'.$slot.'" AND `equipped` = 1 AND `playerID` = '.$acc;
-			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$itemCount = $Row['COUNT(*)'];
 
 			if($itemCount == 2){
@@ -2863,7 +2863,7 @@
 	function getAchievementList($conn){
 		$sql = 'SELECT * FROM `achievements` order by `order`';
 		$result = sql_query($sql, $conn);
-		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
+		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$script = "<strong>".$row['name']." </strong><br><br>".$row['description']."<br><br>[complete]";
 			$string = $row['index'].'|'.$row['name'].'|'.$row['image'].'|'.$script;
 			$output[] = $string;
@@ -2878,7 +2878,7 @@
 	function getAchievementProgress($conn, $acc){
 		// ===================================================== The Traveler =====================================================
 		$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = 1";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
 			$steps = getAttribute($conn, "account", "stepsTaken", $acc);
@@ -2891,7 +2891,7 @@
 
 		// ===================================================== The Adventurer ===================================================
 		$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = 2";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
 			$steps = getAttribute($conn, "account", "stepsTaken", $acc);
@@ -2904,11 +2904,11 @@
 
 		// ======================================================= Killer =========================================================
 		$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = 3";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
 			$sql = "SELECT sum(count) as 'kills' FROM kalrul.charKills where playerID = $acc;";
-			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$kills = $row['kills'];
 
 			if($kills > 9){
@@ -2919,11 +2919,11 @@
 
 		// =================================================== Seasoned Figher ====================================================
 		$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = 4";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
 			$sql = "SELECT sum(count) as 'kills' FROM kalrul.charKills where playerID = $acc;";
-			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$kills = $row['kills'];
 
 			if($kills > 249){
@@ -2934,7 +2934,7 @@
 
 		// ======================================================= Novice =========================================================
 		$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = 12";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
 
@@ -2946,7 +2946,7 @@
 
 		// ====================================================== Trainee =========================================================
 		$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = 13";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
 
@@ -2958,7 +2958,7 @@
 
 		// ====================================================== Well Trined ======================================================
 		$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = 14";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
 
@@ -2970,7 +2970,7 @@
 
 		// ======================================================== Master ==========================================================
 		$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = 15";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
 
@@ -2982,11 +2982,11 @@
 
 		// ======================================================= Potaholic ========================================================
 		$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = 18";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
 			$sql = "SELECT sum(used) as 'used' FROM kalrul.inventory where playerID = $acc and itemID in (2,3,4,5,6,7,8,9,10);";
-			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$used = $row['used'];
 
 			if($used > 99){
@@ -2997,7 +2997,7 @@
 
 		// ==================================================== Public Service ======================================================
 		$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = 19";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
 
@@ -3009,11 +3009,11 @@
 
 		// ======================================================== Rocking =========================================================
 		$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = 24";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
 			$sql = "SELECT sum(used) as 'used' FROM kalrul.inventory where playerID = $acc and itemID in (11,12);";
-			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$used = $row['used'];
 
 			if($used > 24){
@@ -3024,11 +3024,11 @@
 
 		// ===================================================== Homeward Bound =====================================================
 		$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = 23";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
 			$sql = "SELECT sum(used) as 'used' FROM kalrul.inventory where playerID = $acc and itemID in (1);";
-			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$used = $row['used'];
 
 			if($used > 9){
@@ -3039,11 +3039,11 @@
 
 		// ======================================================= Massacre =========================================================
 		$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = 25";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
 			$sql = "SELECT sum(count) as 'kills' FROM kalrul.charKills where playerID = $acc;";
-			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$kills = $row['kills'];
 
 			if($kills > 2999){
@@ -3054,7 +3054,7 @@
 
 		// =================================================== The Collector I =======================================================
 		$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = 20";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
 			$sql = "select * from completeQuests where playerID = $acc and questID in (11,13,15,16,20)";
@@ -3068,7 +3068,7 @@
 
 		// =================================================== The Collector II =======================================================
 		$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = 21";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
 			$sql = "select questID, count(questID) from completeQuests where playerID = $acc and questID in (11,13,15,16,20) group by questID";
@@ -3082,11 +3082,11 @@
 
 		// ================================================== Nothing Better To Do ====================================================
 		$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = 26";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
 			$sql = "SELECT questID, COUNT( questID ) AS counter FROM completeQuests WHERE playerID = $acc GROUP BY questID ORDER BY counter DESC";
-			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$kills = $row['counter'];
 
 			if($kills > 4){
@@ -3097,7 +3097,7 @@
 
 		// ==================================================== Lending a Hand ========================================================
 		$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = 17";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
 			$sql = "select * from completeQuests where playerID = $acc";
@@ -3111,7 +3111,7 @@
 
 		// ====================================================== Game Saved ==========================================================
 		$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = 27";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
 			$sql = "select * from playerWaypoints where spawnID = 101 and playerID = $acc";
@@ -3125,7 +3125,7 @@
 
 		// ====================================================== Maxed Out ==========================================================
 		$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = 16";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
 			$sql = "SELECT * FROM kalrul.charSkills c inner join skills s on c.skillID = s.index where level = maxLevel and playerID = $acc";
@@ -3140,12 +3140,12 @@
 		// ================================================== Get All Achievements ===================================================
 		$sql = 'SELECT * FROM `achievements` order by `order`';
 		$result = sql_query($sql, $conn);
-		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
+		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$counter = $row['index'];
 			$success = 0;
 			$time = '';
 			$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = $counter";
-			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 			if($row['timestamp'] != ''){
 				$success = 1;
@@ -3171,7 +3171,7 @@
 	// -- Purpose : sets an achievement to complete
 	function setAchievement($conn, $acc, $ach){
 		$sql = "SELECT * FROM charAchievements WHERE playerID = $acc AND achievementID = $ach";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
 			sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, $ach)", $conn);
@@ -3185,7 +3185,7 @@
 	function getCompleteQuests($conn, $acc){
 		$sql = "SELECT DISTINCT(q.questID) as questID, count(*) as 'count', repeatable, name FROM `completeQuests` c inner join `quests` q on c.questID = q.questID where playerID = $acc group by questID";
 		$result = sql_query($sql, $conn);
-		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
+		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$string = $row['questID']."|".$row['repeatable']."|".$row['count']."|".$row['name'];
 			$output[] = $string;
 		}
@@ -3199,7 +3199,7 @@
 	function getIncompleteQuests($conn, $acc){
 		$sql = "SELECT DISTINCT(q.questID) as questID, name FROM `questPlayerStatus` c inner join `quests` q on c.questID = q.questID where playerID = $acc and status = 'working'";
 		$result = sql_query($sql, $conn);
-		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
+		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$string = $row['questID'].'|'.$row['name'];
 			$output[] = $string;
 		}
@@ -3214,12 +3214,12 @@
 
 		$sql = "SELECT * FROM `quests` WHERE  `questID` = ".$questID;
 		$sql_rows = sql_query($sql, $conn);
-		while($questList = mysqli_fetch_array($sql_rows,MYSQL_ASSOC)){
+		while($questList = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 			//Cycles through each row tel one incomplete
 			$quest = $questID;
 			$sql = "SELECT * FROM `questPlayerStatus` s inner join quests q on q.questID = s.questID WHERE `playerID` = ".$acc." AND q.questID = ".$quest;
 			//Grabs the quest status from table
-			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQL_ASSOC);
+			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			//if($Row['status'] == "" || $Row['status'] == "working"){
 			$questTitle = $Row['name'];
 			$output["questID"] = $quest;
@@ -3266,7 +3266,7 @@
 		$z = $row['posZ'];
 		$sql = "SELECT * FROM playerWaypoints p inner join spawnPoints s on s.spawnID = p.spawnID where p.playerID = $acc or p.playerID = -1 order by p.index desc";
 		$sql_rows = sql_query($sql, $conn);
-		while($waypoints = mysqli_fetch_array($sql_rows,MYSQL_ASSOC)){
+		while($waypoints = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 			$distence = sqrt((($x - $waypoints['posX'])*($x - $waypoints['posX'])) + (($y - $waypoints['posY']) * ($y - $waypoints['posY'])) + (($z - $waypoints['posZ'])*($z - $waypoints['posZ'])));
 			$distence = $distence * 15;
 			$distence = floor($distence /100) * 100;
@@ -3289,7 +3289,7 @@
 	function setSpawn($conn, $acc){
 		$sql = "select s.spawnID as spawn from spawnPoints s inner join `character` c on c.zone = s.displayName where c.playerID = $acc";
 		$rows = sql_query($sql, $conn);
-		$row = mysqli_fetch_array($rows,MYSQL_ASSOC);
+		$row = mysqli_fetch_array($rows,MYSQLI_ASSOC);
 		$spawn = $row['spawn'];
 		sql_query("UPDATE `character` set respawn = $spawn where playerID = $acc", $conn);
 		return getSpawn($conn, $acc);
@@ -3301,13 +3301,13 @@
 	function teleport($conn, $acc, $loc){
 		$sql = "select * from spawnPoints s inner join `character` c on c.zone = s.displayName where c.playerID = $acc";
 		$sql_rows = sql_query($sql, $conn);
-		while($row = mysqli_fetch_array($sql_rows,MYSQL_ASSOC)){
+		while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 			$x = $row['posX'];
 			$y = $row['posY'];
 			$z = $row['posZ'];
 			$sql = "SELECT * FROM playerWaypoints p inner join spawnPoints s on s.spawnID = p.spawnID where (p.playerID = $acc or p.playerID = -1) and s.spawnID = $loc order by p.index desc";
 			$sql_rows = sql_query($sql, $conn);
-			while($waypoints = mysqli_fetch_array($sql_rows,MYSQL_ASSOC)){
+			while($waypoints = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 				$distence = sqrt((($x - $waypoints['posX'])*($x - $waypoints['posX'])) + (($y - $waypoints['posY']) * ($y - $waypoints['posY'])) + (($z - $waypoints['posZ'])*($z - $waypoints['posZ'])));
 				$distence = $distence * 15;
 				$distence = floor($distence /100) * 100;
@@ -3340,7 +3340,7 @@
 		$sql = "select * from  `character` c inner join inventory i on i.playerID = c.playerID
 			where c.playerID = $acc and towerLevel >= $floor and itemID = 235 and `count` >= " . $costs[$floor];
 		$sql_rows = sql_query($sql, $conn);
-		while($row = mysqli_fetch_array($sql_rows,MYSQL_ASSOC)){
+		while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 			$sql = "update inventory set `count` = `count` - " . $costs[$floor] . " where itemID = 235 and playerID = $acc";
 			sql_query($sql, $conn);
 			$sql = "update `character` set currentTowerLevel = $floor where playerID = $acc";
@@ -3391,7 +3391,7 @@
 			}
 		}
 		$result = sql_query($sql, $conn);
-		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
+		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$output[] = $row['x'] . '|' .$row['y'] . '|' .$row['radius'] . '|' .$row['fade'] . '|' .$row['flicker'] . '|' .$row['flicker'];
 		}
 		return isset($output) ? $output : null;
@@ -3402,7 +3402,7 @@
 	// -- Purpose : gets skill tree based on char class
 	function getSkillTree($conn, $acc){
 		$sql = "select * from skillTrees where class = (select class from `character` where playerID = $acc)";
-		return mysqli_fetch_array(sql_query($sql, $conn), MYSQL_ASSOC)["imageList"];
+		return mysqli_fetch_array(sql_query($sql, $conn), MYSQLI_ASSOC)["imageList"];
 	}
 
 	// -- Function Name : startDailyQuest
@@ -3411,7 +3411,7 @@
 	function startDailyQuest($acc, $conn){
 		$sql = "SELECT lastDailyComplete + 27 as questID FROM `character` where playerID = $acc;";
 		//error_log($sql);
-		$quest = mysqli_fetch_array(sql_query($sql, $conn), MYSQL_ASSOC)["questID"];
+		$quest = mysqli_fetch_array(sql_query($sql, $conn), MYSQLI_ASSOC)["questID"];
 		if(isset($quest)){
 			if ($quest == 32){
 				$quest = 27;
@@ -3425,7 +3425,7 @@
 	// -- Purpose : Completes the daily quest
 	function finishDailyQuest($acc, $conn){
 		$sql = "SELECT lastDailyComplete + 27 as questID FROM `character` where playerID = $acc;";
-		$quest = mysqli_fetch_array(sql_query($sql, $conn), MYSQL_ASSOC)["questID"];
+		$quest = mysqli_fetch_array(sql_query($sql, $conn), MYSQLI_ASSOC)["questID"];
 		if(isset($quest)){
 			if($quest != 31){
 				completeQuest($conn, $acc, $quest);
@@ -3441,7 +3441,7 @@
 	function getInventoryJSON($acc, $conn){
 		$sql = "select item_ID as itemID, COALESCE(`count`,0) as `count`, COALESCE(`stored`,0) as `stored`, COALESCE(used,0) as `used`, COALESCE(archived,0) as `archived`, `name`, image, `value`, usable, combat, quest, equipment, `value`, description, visible from item t left join inventory i on t.item_ID = i.itemID and playerID = $acc order by name";
 		$result = sql_query($sql, $conn);
-		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
+		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$type = "";
 
 			if($row['quest'] == 1){
@@ -3473,7 +3473,7 @@
 		}
 		$sql = "SELECT `index` as itemID, 1 as `count`, template, null as `used`, script as `description`, archived, upgrade, `name`, `equipped`, image, price as `value`, 0 as usable, 0 as combat, 0 as quest, 1 as equipment, 1 as visible FROM kalrul.equipmentInventory where playerID = $acc and archived = 0 and name != 'unarmed' order by name;";
 		$result = sql_query($sql, $conn);
-		while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
+		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			if($row['upgrade'] > 0){
 				$row["name"] = "+" . $row['upgrade'] . " " . $row["name"];
 			}
@@ -3515,7 +3515,7 @@
 			if($ing[1] == 1){
 				$sql = "SELECT * FROM equipmentInventory where `index` = " . $ing[0];
 				$result = sql_query($sql, $conn);
-				while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
+				while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 					$currentUp = $row["upgrade"];
 					$slot = $row["slot"];
 					if(($slot == 'weapon' || $slot == '2hweapon') && $ing[2] == 150 && $ing[4] == 150){
@@ -3580,7 +3580,7 @@
 		}else{
 			$sql = "select * from Recipe where item1 = ".$ing[0]." AND equip1 = ".$ing[1]." AND item2 = ".$ing[2]." AND equip2 = ".$ing[3]." AND item3 = ".$ing[4]." AND equip3 = ".$ing[5];
 			$result = sql_query($sql, $conn);
-			while($row = mysqli_fetch_array($result,MYSQL_ASSOC)){
+			while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 				$output["cost"] = $row["cost"];
 				$output["costText"] = $row["cost"] . " Silver";
 				$output["rate"] = $row["rate"];
@@ -3589,7 +3589,7 @@
 				if($row["outcomeType"] == 0){
 					$sql = "select * from item where item_ID = ".$row["outcome"];
 					$result = sql_query($sql, $conn);
-					$row = mysqli_fetch_array($result,MYSQL_ASSOC);
+					$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
 					$output["itemID"] = $row["item_ID"];
 					$output["image"] = $row["image"];
 					$output["card"] = getSingleItemCard($row["item_ID"], $conn);
@@ -3677,7 +3677,7 @@
 		}else{
 			$sql = "select * from Recipe where recipeID = ". $recipe["recipeID"];
 			$result = sql_query($sql, $conn);
-			$row = mysqli_fetch_array($result,MYSQL_ASSOC);
+			$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
 			$success = true;
 			$sql = "update inventory set count = count - 1 where playerID = $acc and count > 0 and itemID = " . $row["item1"];
 			$query = sql_query($sql, $conn);

@@ -40,7 +40,7 @@
 			if($call != 'getChat'){
 				if($account == ''){
 					$sqlGetAccount = sql_query("SELECT `Account` from `sessions` where `Cookie` = '$token'", $conn);
-					$row = mysqli_fetch_array($sqlGetAccount,MYSQL_ASSOC);
+					$row = mysqli_fetch_array($sqlGetAccount,MYSQLI_ASSOC);
 					$account = $row['Account'];
 				}
 				$sql = "UPDATE `sessions` set `cookie` = '".$token."', Expiry = NOW() + INTERVAL 15 MINUTE WHERE Type = 'Session' AND Account = $account";
@@ -190,7 +190,7 @@
 					$sql = "select `count` from inventory where itemID = 235 and playerID = $account";
 					$blag = sql_query($sql, $conn);
 					$stones = 0;
-					while($row = mysqli_fetch_array($blag,MYSQL_ASSOC)){
+					while($row = mysqli_fetch_array($blag,MYSQLI_ASSOC)){
 						$stones = $row["count"];
 					}
 					$output["stones"] = $stones;
@@ -383,7 +383,7 @@
 					$sql = "SELECT SUM(vit) as vit, SUM(str) as str, SUM(spr) as spr, SUM(dex) as dex, SUM(pala) as pala, SUM(sin) as sin, sum(warlock) as warlock
 						FROM resets WHERE playerID = $account";
 					$sql_rows = sql_query($sql, $conn);
-					while($row = mysqli_fetch_array($sql_rows,MYSQL_ASSOC)){
+					while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 						$spr = $row["spr"];
 						$dex = $row["dex"];
 						$str = $row["str"];
@@ -510,7 +510,7 @@
 				$SF = 0;
 				$ED = 0;
 				$OT = 0;
-				while($row = mysqli_fetch_array($blag,MYSQL_ASSOC)){
+				while($row = mysqli_fetch_array($blag,MYSQLI_ASSOC)){
 					if (strpos($row['browser'],'Explorer') !== false) {
 						$IE++;
 					}else if (strpos($row['browser'],'hrome') !== false) {
@@ -539,7 +539,7 @@
 				$SF = 0;
 				$ED = 0;
 				$OT = 0;
-				while($row = mysqli_fetch_array($blag,MYSQL_ASSOC)){
+				while($row = mysqli_fetch_array($blag,MYSQLI_ASSOC)){
 					if (strpos($row['host'],'142.55.49.127') !== false) {
 						$IE++;
 					}else if (strpos($row['host'],'142.55.49.246') !== false) {
@@ -554,7 +554,7 @@
 				break;
 			case "getErrorLog":
 				$blag = sql_query('SELECT * FROM `tortuga_debug` where `message` != "" order by `index` desc', $conn);
-				while($row = mysqli_fetch_array($blag,MYSQL_ASSOC)){
+				while($row = mysqli_fetch_array($blag,MYSQLI_ASSOC)){
 					$output[] = $row['index']."|".$row['timestamp']."|".$row['host']."|".$row['browser']."|".$row['user']."|".str_replace('"', "'", $row['message']);
 				}
 				print json_encode($output);
@@ -562,7 +562,7 @@
 			case "getUsername":
 				//print $param1;
 				$sql = sql_query("SELECT * FROM `account` where salt = '$param1'", $conn);
-				$Row = mysqli_fetch_array($sql,MYSQL_ASSOC);
+				$Row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
 				print	 $Row['account'];
 				break;
 			case "resetPass":
@@ -655,7 +655,7 @@
 				$token = mysqli_real_escape_string($conn, $_POST['userToken']);
 				$sql = "select * from `account` where password = $ID";
 				$sql_rows = sql_query($sql, $conn);
-				while($row = mysqli_fetch_array($sql_rows,MYSQL_ASSOC)){
+				while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 					$account = $row['playerID'];
 					print updateStoreInv($account, $conn, $ID, $token);
 				}
