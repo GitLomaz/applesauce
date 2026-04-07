@@ -3,11 +3,14 @@
 	set_time_limit(128);
 	// Include centralized configuration
 	require_once(__DIR__ . '/config.php');
+
+	// CORS handling (preflight + headers)
+	require_once(__DIR__ . '/cors.php');
+
 	include_once('kong_library.php');
 	include_once('common_lib.php');
 	include_once('combat_lib.php');
 	//include_once('steam/auth.php');
-	header('Access-Control-Allow-Origin: *');
 	session_start();
 	$conn = sql_connect();
 	$output = array();

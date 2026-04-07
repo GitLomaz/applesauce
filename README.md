@@ -1,192 +1,98 @@
-# Applesauce API - Cloud Run Ready
+# Applesauce API - Cloud Run
 
-This PHP application has been refactored and optimized for deployment on Google Cloud Run.
+PHP API running on Google Cloud Run with automatic deployment from repository. Cloud SQL instance `static-lens-268201:us-central1:kalrul` is attached.
 
-## What Changed
+## Cloud Run Configuration
 
-### ✅ Configuration Improvements
-- **Centralized configuration** in `config.php` - all settings in one place
-- **Environment variables** instead of hardcoded credentials
-- **Cloud Run logging** - proper stdout/stderr logging for Cloud Run
-- **Connection pooling** - database connections are reused efficiently
-- **Security** - credentials removed from source code
+Set these environment variables in Cloud Run Console:
 
-### ✅ Cloud Infrastructure
-- **Dockerfile** - optimized PHP 8.2 + Apache container
-- **Health endpoint** - `/health.php` for monitoring
-- **.dockerignore** - optimized container builds
-- **Deployment guide** - complete instructions in `DEPLOYMENT.md`
+| Variable | Value | Description |
+|----------|-------|-------------|
+| `DB_UNIX_SOCKET` | `/cloudsql/static-lens-268201:us-central1:kalrul` | Cloud SQL connection (default) |
+| `DB_USER` | `root` | Database username |
+| `DB_PASS` | (use Secret Manager) | Database password |
+| `DB_NAME` | `kalrul` | Database name |
+| `APP_ENV` | `production` | Environment |
 
-### ✅ Code Updates
-All PHP files updated to:
-- Use `config.php` for configuration
-- Remove hardcoded database credentials
-- Use Cloud Run-compatible logging
-- Support environment variables
+**Note:** Use Secret Manager for `DB_PASS` instead of plain text.
 
-## Quick Start
+## Local Development
 
-### Local Testing
-
-1. Copy environment variables:
+### Docker Compose (Recommended)
 ```bash
-cp .env.example .env
-# Edit .env with your database credentials
+docker-compose up
 ```
+- App: http://localhost:8080
+- Health: http://localhost:8080/health.php
+- phpMyAdmin: http://localhost:8081
 
-2. Build and run locally:
+### Docker
 ```bash
 docker build -t applesauce-api .
 docker run -p 8080:8080 \
   -e PORT=8080 \
-  -e DB_HOST=your-host \
-  -e DB_USER=your-user \
+  -e DB_HOST=your-db-host \
+  -e DB_USER=root \
   -e DB_PASS=your-password \
   -e DB_NAME=kalrul \
   applesauce-api
 ```
 
-3. Test health check:
-```bash
-curl http://localhost:8080/health.php
-```
+## What Changed for Cloud Run
 
-### Deploy to Cloud Run
+### Configuration
+- **config.php** - Centralized configuration with environment variables
+- Database credentials removed from source code
+- Cloud SQL Unix socket support (uses `static-lens-268201:us-central1:kalrul` by default)
+- Cloud Run logging (stdout/stderr)
+- Connection pooling
 
-```bash
-# Login and set project
-gcloud auth login
-gcloud config set project YOUR_PROJECT_ID
+### Updated PHP Files
+All files now use `config.php`:
+- library.php, class_lib.php, common_lib.php
+- AJAX.php, kong_AJAX.php
+- combat_lib.php, kong_library.php
+- nightly.php
 
-# Deploy
-gcloud run deploy applesauce-api \
-  --source . \
-  --platform managed \
-  --region us-central1 \
-  --allow-unauthenticated \
-  --set-env-vars "DB_HOST=YOUR_HOST,DB_USER=YOUR_USER,DB_NAME=kalrul" \
-  --set-secrets "DB_PASS=db-password:latest"
-```
+### Infrastructure
+- **Dockerfile** - PHP 8.2 + Apache optimized for Cloud Run
+- **health.php** - Health check endpoint for monitoring
+- **docker-compose.yml** - Local development environment
 
-See `DEPLOYMENT.md` for complete deployment instructions.
+## Deployment
 
-## Required Environment Variables
-
-| Variable | Description | Required | Default |
-|----------|-------------|----------|---------|
-| `DB_HOST` | Database hostname | Yes | - |
-| `DB_USER` | Database username | Yes | - |
-| `DB_PASS` | Database password | Yes | - |
-| `DB_NAME` | Database name | Yes | kalrul |
-| `DB_PORT` | Database port | No | 3306 |
-| `DB_UNIX_SOCKET` | Unix socket for Cloud SQL | No | - |
-| `APP_ENV` | Environment (production/development) | No | production |
-| `APP_DEBUG` | Enable debug mode | No | false |
-| `SESSION_TIMEOUT_MINUTES` | Session timeout | No | 15 |
-
-## Files Added/Modified
-
-### New Files
-- `config.php` - Centralized configuration
-- `health.php` - Health check endpoint
-- `Dockerfile` - Container definition
-- `.dockerignore` - Build optimization
-- `.env.example` - Environment variable template
-- `DEPLOYMENT.md` - Complete deployment guide
-- `README.md` - This file
-
-### Modified Files
-- `library.php` - Uses config.php
-- `class_lib.php` - Uses config.php
-- `common_lib.php` - Uses config.php
-- `AJAX.php` - Uses config.php
-- `combat_lib.php` - Uses config.php
-- `kong_library.php` - Uses config.php
-- `kong_AJAX.php` - Uses config.php
-- `nightly.php` - Uses config.php and improved logging
-
-## Database Connection
-
-The app now supports two connection methods:
-
-### 1. Standard TCP Connection
-Set these environment variables:
-```
-DB_HOST=your-db-host
-DB_USER=your-user
-DB_PASS=your-password
-DB_NAME=kalrul
-DB_PORT=3306
-```
-
-### 2. Cloud SQL Unix Socket (Recommended for Cloud Run)
-Set these environment variables:
-```
-DB_UNIX_SOCKET=/cloudsql/PROJECT:REGION:INSTANCE
-DB_USER=your-user
-DB_PASS=your-password
-DB_NAME=kalrul
-```
-
-## Security Notes
-
-🔒 **Important Security Changes:**
-1. All database credentials removed from source code
-2. Passwords now use environment variables or Secret Manager
-3. Logging configured for Cloud Run (no sensitive data in logs)
-4. Error display disabled in production mode
+Automatic deployment via Cloud Run repository integration.
+- Push to repository → triggers automatic deployment
+- Cloud SQL instance attached automatically
 
 ## Monitoring
 
-### View Logs
-```bash
-gcloud run services logs tail applesauce-api --region us-central1
-```
+**Cloud Run Console:** https://console.cloud.google.com/run
 
-### Check Health
+**Health Check:**
 ```bash
+# Production
 curl https://your-service-url.run.app/health.php
+
+# Local
+curl http://localhost:8080/health.php
 ```
 
-### Monitor Performance
-Navigate to Cloud Console > Cloud Run > applesauce-api > Metrics
+**Logs:** View in Cloud Run console under the Logs tab.
 
-## Next Steps
+## Database Connection
 
-1. **Review Configuration**: Check `config.php` settings
-2. **Test Locally**: Use Docker to test before deploying
-3. **Set Up Database**: Create Cloud SQL instance or configure external DB
-4. **Deploy**: Follow instructions in `DEPLOYMENT.md`
-5. **Monitor**: Set up Cloud Run logging and monitoring
-6. **Optimize**: Adjust memory, CPU, and concurrency settings
+Default connection uses Cloud SQL Unix socket:
+```
+/cloudsql/static-lens-268201:us-central1:kalrul
+```
 
-## Troubleshooting
+Falls back to TCP (DB_HOST) for local development.
 
-### Container won't start
-- Check Cloud Run logs
-- Verify environment variables are set correctly
-- Test health endpoint
+## Security
 
-### Database connection fails
-- Verify credentials
-- Check network connectivity
-- Review CloudSQL configuration for Cloud Run
-
-### 503 Errors
-- Check health endpoint status
-- Verify database is accessible
-- Review Cloud Run logs for errors
-
-## Additional Resources
-
-- [Full Deployment Guide](DEPLOYMENT.md)
-- [Cloud Run Documentation](https://cloud.google.com/run/docs)
-- [Cloud SQL Best Practices](https://cloud.google.com/sql/docs/mysql/best-practices)
-
-## Support
-
-For deployment issues:
-1. Check `DEPLOYMENT.md` for detailed instructions
-2. Review Cloud Run logs
-3. Verify all environment variables are set
-4. Test health endpoint
+✅ No credentials in source code
+✅ Environment variables for all configuration
+✅ Secret Manager recommended for passwords
+✅ Cloud Run logging (no sensitive data)
+✅ Error display disabled in production

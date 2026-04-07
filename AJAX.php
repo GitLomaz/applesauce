@@ -1,8 +1,11 @@
 <?php
 	// Include centralized configuration
 	require_once(__DIR__ . '/config.php');
+
+	// CORS handling (preflight + headers)
+	require_once(__DIR__ . '/cors.php');
+
 	include_once('library.php');
-	header('Access-Control-Allow-Origin: *');
 	session_start();
 	$conn = sql_connect();
 	$output = array();
