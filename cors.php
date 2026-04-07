@@ -1,19 +1,34 @@
 <?php
-// CORS helper - always allow all origins
+// CORS helper - allow specific origins with credentials
 // Include this before any output on endpoints that need CORS
 
-// Always allow any origin
-header('Access-Control-Allow-Origin: *');
+// Define allowed origins
+$allowed_origins = [
+    'http://localhost:8080',
+    'https://yourdomain.com',
+    'https://www.yourdomain.com'
+];
+
+// Get the origin of the request
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+
+// Check if origin is allowed
+if (in_array($origin, $allowed_origins)) {
+    header('Access-Control-Allow-Origin: ' . $origin);
+} else {
+    // Fallback to localhost for development
+    header('Access-Control-Allow-Origin: http://localhost:8080');
+}
+
+// Enable credentials (required for cookies/sessions)
+header('Access-Control-Allow-Credentials: true');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE');
-header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
-header('Access-Control-Max-Age: 86400');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With, Accept, Origin');
+header('Access-Control-Max-Age: 3600');
 
-// NOTE: Do not send Access-Control-Allow-Credentials: true with a wildcard origin.
-
-// Handle preflight request and exit early
+// Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    // short-circuit preflight with no content
-    http_response_code(204);
+    http_response_code(200);
     exit;
 }
 

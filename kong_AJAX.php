@@ -325,9 +325,10 @@
 				case "getShadow":
 					print json_encode(getShadows($conn, $account));
 					break;
-				case "kongBuff":
-					kongBuff($conn, $account);
-					break;
+				// DEPRECATED: Kongregate ad buff system
+				// case "kongBuff":
+				// 	kongBuff($conn, $account);
+				// 	break;
 				case "softReset":
 					print softReset($conn, $account);
 					break;
@@ -584,27 +585,71 @@
 					print "Password Changed!";
 				}
 				break;
-			case "kongLoginCreate":
-				$account = mysqli_real_escape_string($conn, $_POST['login']);
-				$pass = mysqli_real_escape_string($conn, $_POST['pass']);
-				$token = mysqli_real_escape_string($conn, $_POST['kongToken']);
-				if($token != "BETA"){
-					$url = "https://api.kongregate.com/api/authenticate.json?user_id=$pass&game_auth_token=$token&api_key=df4d3c9f-3665-4e4c-9d66-0d039b7314ad";
-					$ch = curl_init();
-					curl_setopt($ch, CURLOPT_URL, $url);
-					curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-					curl_setopt($ch, CURLOPT_TIMEOUT, '3');
-					$content = trim(curl_exec($ch));
-					curl_close($ch);
-				}else{
-					$content = '!true!';
+			case "createLocalSession":
+				// New local session authentication
+				$sessionId = mysqli_real_escape_string($conn, $_POST['sessionId'] ?? '');
+				
+				if (empty($sessionId)) {
+					echo "Error: Invalid session ID";
+					exit;
 				}
-				if(strpos($content, 'true') > 0){
-					print trim(kongLogin($conn, $account, $pass));
-				}else{
-					print "oops!";
+				
+				// Check if session already exists
+				$sql = "SELECT Cookie, Account FROM sessions WHERE SessionID = ?";
+				$stmt = mysqli_prepare($conn, $sql);
+				mysqli_stmt_bind_param($stmt, 's', $sessionId);
+				mysqli_stmt_execute($stmt);
+				$result = mysqli_stmt_get_result($stmt);
+				
+				if ($row = mysqli_fetch_assoc($result)) {
+					// Existing session - return cookie
+					echo $row['Cookie'];
+				} else {
+					// New session - create account and session
+					$cookie = bin2hex(random_bytes(8)); // Generate 16-char cookie
+					
+					// Create new account
+					$sql = "INSERT INTO `character` (playerName, createdDate) VALUES (?, NOW())";
+					$stmt = mysqli_prepare($conn, $sql);
+					$playerName = 'Player_' . substr($sessionId, 0, 15); // Use part of sessionId as temp name
+					mysqli_stmt_bind_param($stmt, 's', $playerName);
+					mysqli_stmt_execute($stmt);
+					$playerId = mysqli_insert_id($conn);
+					
+					// Create session
+					$sql = "INSERT INTO sessions (Cookie, Account, SessionID, lastActive) VALUES (?, ?, ?, NOW())";
+					$stmt = mysqli_prepare($conn, $sql);
+					mysqli_stmt_bind_param($stmt, 'sis', $cookie, $playerId, $sessionId);
+					
+					if (mysqli_stmt_execute($stmt)) {
+						echo $cookie;
+					} else {
+						echo "Error creating session";
+					}
 				}
 				break;
+			// DEPRECATED: Old Kongregate authentication - keeping for reference
+			// case "kongLoginCreate":
+			// 	$account = mysqli_real_escape_string($conn, $_POST['login']);
+			// 	$pass = mysqli_real_escape_string($conn, $_POST['pass']);
+			// 	$token = mysqli_real_escape_string($conn, $_POST['kongToken']);
+			// 	if($token != "BETA"){
+			// 		$url = "https://api.kongregate.com/api/authenticate.json?user_id=$pass&game_auth_token=$token&api_key=df4d3c9f-3665-4e4c-9d66-0d039b7314ad";
+			// 		$ch = curl_init();
+			// 		curl_setopt($ch, CURLOPT_URL, $url);
+			// 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+			// 		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
+			// 		$content = trim(curl_exec($ch));
+			// 		curl_close($ch);
+			// 	}else{
+			// 		$content = '!true!';
+			// 	}
+			// 	if(strpos($content, 'true') > 0){
+			// 		print trim(kongLogin($conn, $account, $pass));
+			// 	}else{
+			// 		print "oops!";
+			// 	}
+			// 	break;
 			case "mazeLoginCreate":
 				$account = mysqli_real_escape_string($conn, $_POST['login']);
 				$pass = mysqli_real_escape_string($conn, $_POST['pass']);
@@ -650,16 +695,17 @@
 				$sql = "update maze_account set level = 1 where account_number = '$account'";
 				sql_query($sql, $conn);
 				break;
-			case "updateStoreInv":
-				$ID = mysqli_real_escape_string($conn, $_POST['userID']);
-				$token = mysqli_real_escape_string($conn, $_POST['userToken']);
-				$sql = "select * from `account` where password = $ID";
-				$sql_rows = sql_query($sql, $conn);
-				while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
-					$account = $row['playerID'];
-					print updateStoreInv($account, $conn, $ID, $token);
-				}
-				break;
+			// DEPRECATED: Kongregate store inventory (MTX) system
+			// case "updateStoreInv":
+			// 	$ID = mysqli_real_escape_string($conn, $_POST['userID']);
+			// 	$token = mysqli_real_escape_string($conn, $_POST['userToken']);
+			// 	$sql = "select * from `account` where password = $ID";
+			// 	$sql_rows = sql_query($sql, $conn);
+			// 	while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
+			// 		$account = $row['playerID'];
+			// 		print updateStoreInv($account, $conn, $ID, $token);
+			// 	}
+			// 	break;
 			case "leader":
 					print json_encode(craft(437, json_decode('["59288","1","150","0","150","0"]'), $conn));
 				break;
