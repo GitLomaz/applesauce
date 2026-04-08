@@ -1532,7 +1532,7 @@
 		        (`equipmentBonus`.`earthRes` + `buffsBonus`.`earthRes`) AS `earthRes`,
 		        (`equipmentBonus`.`arcaneRes` + `buffsBonus`.`arcaneRes`) AS `arcaneRes`,
 		        (`equipmentBonus`.`holyRes` + `buffsBonus`.`holyRes`) AS `holyRes`,
-		        `equipmentInventory`.`class` AS `weapon`,
+		        ANY_VALUE(`equipmentInventory`.`class`) AS `weapon`,
 		        `character`.`exp` AS `exp`,
 		        `character`.`next` AS `next`,
 		        `character`.`level` AS `level`,
@@ -1712,10 +1712,14 @@
 		//
 		//  --------------------------------------------------------------------------------------------------
 		$row = getRow($conn, "equippedStuff", $acc);
-		$counter = 0;
-		while($counter != 4){
-			$counter++;
-			$output[] = $row['item_'.$counter];
+		$output = array();
+		
+		if($row !== null){
+			$counter = 0;
+			while($counter != 4){
+				$counter++;
+				$output[] = $row['item_'.$counter];
+			}
 		}
 
 		return json_encode($output);
