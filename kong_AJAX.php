@@ -615,8 +615,8 @@
 			$defaultClass = 'Guest'; // Temporary class, user can change later
 			$defaultZone = '';
 			mysqli_stmt_bind_param($stmt, 'ss', $defaultClass, $defaultZone);
-					// Create session (Type defaults to 'Session')
-					$sql = "INSERT INTO sessions (Cookie, Account, SessionID, Type, lastActive) VALUES (?, ?, ?, 'Session', NOW())";
+					// Create session (Type defaults to 'Session') and set expiry 1 year from now
+					$sql = "INSERT INTO sessions (Cookie, Account, SessionID, Type, lastActive, Expiry) VALUES (?, ?, ?, 'Session', NOW(), NOW() + INTERVAL 1 YEAR)";
 					$stmt = mysqli_prepare($conn, $sql);
 					mysqli_stmt_bind_param($stmt, 'sis', $cookie, $playerId, $sessionId);
 					
