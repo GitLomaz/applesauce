@@ -608,14 +608,13 @@
 					// New session - create account and session
 					$cookie = bin2hex(random_bytes(8)); // Generate 16-char cookie
 					
-					// Create new account
-					$sql = "INSERT INTO `character` (playerName, createdDate) VALUES (?, NOW())";
-					$stmt = mysqli_prepare($conn, $sql);
-					$playerName = 'Player_' . substr($sessionId, 0, 15); // Use part of sessionId as temp name
-					mysqli_stmt_bind_param($stmt, 's', $playerName);
-					mysqli_stmt_execute($stmt);
-					$playerId = mysqli_insert_id($conn);
-					
+			// Create new character with default values
+			// Note: Most fields have defaults in the DB schema
+			$sql = "INSERT INTO `character` (class, zone, strength, dexterity, vitality, spirit, skillPoints) VALUES (?, ?, 1, 1, 3, 1, 0)";
+			$stmt = mysqli_prepare($conn, $sql);
+			$defaultClass = 'Guest'; // Temporary class, user can change later
+			$defaultZone = '';
+			mysqli_stmt_bind_param($stmt, 'ss', $defaultClass, $defaultZone);
 					// Create session
 					$sql = "INSERT INTO sessions (Cookie, Account, SessionID, lastActive) VALUES (?, ?, ?, NOW())";
 					$stmt = mysqli_prepare($conn, $sql);
