@@ -432,17 +432,7 @@
 						$skillPoints = $sin;
 					}
 					$total = $pala + $sin + $warlock;
-					
-					// Ensure account row exists before creating character
-					$accCheck = getRow($conn, "account", $account);
-					if (!$accCheck || empty($accCheck)) {
-						$randomAccount = "player_" . $account . "_" . bin2hex(random_bytes(4));
-						$sql = "INSERT INTO `account` (playerID, account, password, salt, email) VALUES (?, ?, 'N/A', 'N/A', 'N/A')";
-						$stmt = mysqli_prepare($conn, $sql);
-						mysqli_stmt_bind_param($stmt, "is", $account, $randomAccount);
-						mysqli_stmt_execute($stmt);
-						mysqli_stmt_close($stmt);
-					}
+
 					
 					$sqlCreateChar = "INSERT INTO `character`(playerID, class, strength, dexterity, spirit, vitality, respawn, skillPoints, diff, neverLogged, resetScript,  map, locationX, locationY, combatModifier) VALUES ($account, '$param1',$str,$dex,$spr,$vit, $respawn, $skillPoints, $param2, 0, '$param4', 'VanaheimrNE', 4726, 5121, 100)";
 					sql_query($sqlCreateChar, $conn);
