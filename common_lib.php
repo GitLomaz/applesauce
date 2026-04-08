@@ -2332,10 +2332,7 @@
 				}
 
 				if ($affected == 1 && $async != 'no'){
-					$enemy = chooseEnemy($acc, isset($steps) ? $steps : 0, $conn);
-					$debug[] = "chooseEnemy returned=".var_export($enemy, true);
-					kongSubmitInitStats($conn, $acc);
-					return json_encode(array('debug' => $debug, 'enemy' => $enemy));
+					return chooseEnemy($acc, $steps, $conn);
 				}
 
 				kongSubmitInitStats($conn, $acc);
