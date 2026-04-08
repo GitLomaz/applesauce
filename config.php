@@ -79,6 +79,9 @@ function get_db_connection() {
         // Set charset to UTF-8
         $conn->set_charset("utf8mb4");
         
+        // Disable ONLY_FULL_GROUP_BY for legacy queries
+        $conn->query("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
+        
         return $conn;
         
     } catch (Exception $e) {
