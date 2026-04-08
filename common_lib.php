@@ -1905,7 +1905,7 @@
 			$output[] = $string;
 		}
 
-		return isset($output) ? $output : null;
+		return isset($output) ? $output : array();
 	}
 
 	// -- Function Name : allocateSkills
@@ -3176,7 +3176,7 @@
 			$output[] = $string;
 		}
 
-		return isset($output) ? $output : null;
+		return isset($output) ? $output : array();
 	}
 
 	// -- Function Name : setAchievement
@@ -3203,7 +3203,7 @@
 			$output[] = $string;
 		}
 
-		return isset($output) ? $output : null;
+		return isset($output) ? $output : array();
 	}
 
 	// -- Function Name : getIncompleteQuests
@@ -3217,7 +3217,7 @@
 			$output[] = $string;
 		}
 
-		return isset($output) ? $output : null;
+		return isset($output) ? $output : array();
 	}
 
 	// -- Function Name : getQuestForLog
