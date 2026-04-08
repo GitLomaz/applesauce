@@ -2211,7 +2211,7 @@
 		$maxHP = $calcRow['maxHealth'];
 		$output[] = number_format($currentHP)."/".number_format($maxHP);
 		$missingMana = $maxMana - $currentMana;
-		$offset = ($missingMana / $maxMana) * 234 + 24;
+		$offset = (($maxMana != 0) ? ($missingMana / $maxMana) : 0) * 234 + 24;
 
 		if($currentMana == 0){
 			$output[] = "-265px";
@@ -2220,7 +2220,7 @@
 		}
 
 		$missingHP = $maxHP - $currentHP;
-		$offset = ($missingHP / $maxHP) * 234 + 24;
+		$offset = (($maxHP != 0) ? ($missingHP / $maxHP) : 0) * 234 + 24;
 		if($currentHP == 0){
 			$output[] = "270px";
 		} else {
@@ -2230,7 +2230,7 @@
 		$currentEXP = $charRow['exp'];
 		$maxEXP = $charRow['next'];
 		$missingEXP = $maxEXP - $currentEXP;
-		$offset = ($missingEXP / $maxEXP) * 797 + 14;
+		$offset = (($maxEXP != 0) ? ($missingEXP / $maxEXP) : 0) * 797 + 14;
 
 		if($currentEXP == 0){
 			$output[] = "-815px";
