@@ -43,8 +43,9 @@
 					$row = mysqli_fetch_array($sqlGetAccount,MYSQLI_ASSOC);
 					$account = $row['Account'];
 				}
-				$sql = "UPDATE `sessions` set `cookie` = '".$token."', Expiry = NOW() + INTERVAL 15 MINUTE WHERE Type = 'Session' AND Account = $account";
-				sql_query($sql, $conn);
+					// Update session expiry by cookie to avoid malformed SQL when Account is empty
+					$sql = "UPDATE `sessions` SET `cookie` = '" . $token . "', Expiry = DATE_ADD(NOW(), INTERVAL " . SESSION_TIMEOUT_MINUTES . " MINUTE) WHERE Type = 'Session' AND Cookie = '" . $token . "'";
+					sql_query($sql, $conn);
 			}
 			if($account != 437){
 				//return 0;
