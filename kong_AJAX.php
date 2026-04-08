@@ -621,7 +621,7 @@
 				// Create new Paladin character with proper stats (matching rebirth code)
 				// Paladin stats: str=3, dex=2, spr=1, vit=3, respawn=100, skillPoints=0
 				// Location: VanaheimrNE at 4726, 5121
-				$sql = "INSERT INTO `character` (class, strength, dexterity, spirit, vitality, respawn, skillPoints, diff, neverLogged, resetScript, map, locationX, locationY, combatModifier) VALUES ('Paladin', 3, 2, 1, 3, 100, 0, 1, 0, '', 'VanaheimrNE', 4726, 5121, 100)";
+				$sql = "INSERT INTO `character` (class, strength, dexterity, spirit, vitality, respawn, skillPoints, diff, neverLogged, resetScript, map, zone, locationX, locationY, combatModifier) VALUES ('Paladin', 3, 2, 1, 3, 100, 0, 1, 0, '', 'VanaheimrNE', 'East Vanaheimr Village', 4726, 5121, 100)";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_execute($stmt);
 				$playerId = mysqli_insert_id($conn);
