@@ -2342,7 +2342,7 @@
 		}
 
 		// No combat triggered - return debug info
-		return json_encode(array('debug' => $debug, 'enemy' => null));
+		// return json_encode(array('debug' => $debug, 'enemy' => null));
 
 	}
 
