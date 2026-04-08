@@ -2287,9 +2287,18 @@
 					}
 					$sql = "UPDATE `character` SET locationX = ".$x.", locationY = ".$y.", map = '".$map."', `combatModifier` = 0 WHERE playerID = $acc LIMIT 1";
 				} else {
-					$moveX = abs(isset($_SESSION['oldX']) ? $_SESSION['oldX'] : '');
-					$moveY = abs(isset($_SESSION['oldY']) ? $_SESSION['oldY'] : '');
-					$steps = sqrt(($moveX^2)+($moveY^2));
+					$oldX = isset($_SESSION['oldX']) ? floatval($_SESSION['oldX']) : null;
+					$oldY = isset($_SESSION['oldY']) ? floatval($_SESSION['oldY']) : null;
+
+					if ($oldX !== null && $oldY !== null) {
+						$moveX = abs($x - $oldX);
+						$moveY = abs($y - $oldY);
+					} else {
+						$moveX = 0;
+						$moveY = 0;
+					}
+
+					$steps = sqrt(($moveX * $moveX) + ($moveY * $moveY));
 					$_SESSION['oldX'] = $x;
 					$_SESSION['oldY'] = $y;
 					$sql = "UPDATE `account` set `stepsTaken` = `stepsTaken` + ".floor($steps)." where playerID = $acc";
