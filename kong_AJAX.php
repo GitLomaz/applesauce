@@ -43,9 +43,16 @@
 					$row = mysqli_fetch_array($sqlGetAccount,MYSQLI_ASSOC);
 					$account = $row['Account'];
 				}
-					// Update session expiry by cookie to avoid malformed SQL when Account is empty
-					$sql = "UPDATE `sessions` SET `cookie` = '" . $token . "', Expiry = DATE_ADD(NOW(), INTERVAL " . SESSION_TIMEOUT_MINUTES . " MINUTE) WHERE Type = 'Session' AND Cookie = '" . $token . "'";
-					sql_query($sql, $conn);
+			
+			// Handle NULL account (sessions without character) - skip operations requiring account
+			if($account === null || $account === '') {
+				error_log("Session has no associated account. Cookie: $token");
+				// Don't update session expiry if no account exists
+			} else {
+				// Update session expiry by cookie
+				$sql = "UPDATE `sessions` SET `cookie` = '" . $token . "', Expiry = DATE_ADD(NOW(), INTERVAL " . SESSION_TIMEOUT_MINUTES . " MINUTE) WHERE Type = 'Session' AND Cookie = '" . $token . "'";
+				sql_query($sql, $conn);
+			}
 			}
 			if($account != 437){
 				//return 0;
@@ -609,23 +616,26 @@
 					// New session - create account and session
 					$cookie = bin2hex(random_bytes(8)); // Generate 16-char cookie
 					
-			// Create new character with default values
-			// Note: Most fields have defaults in the DB schema
-			$sql = "INSERT INTO `character` (class, zone, strength, dexterity, vitality, spirit, skillPoints) VALUES (?, ?, 1, 1, 3, 1, 0)";
-			$stmt = mysqli_prepare($conn, $sql);
-			$defaultClass = 'Guest'; // Temporary class, user can change later
-			$defaultZone = '';
-			mysqli_stmt_bind_param($stmt, 'ss', $defaultClass, $defaultZone);
-					// Create session (Type defaults to 'Session') and set expiry 1 year from now
-					$sql = "INSERT INTO sessions (Cookie, Account, SessionID, Type, lastActive, Expiry) VALUES (?, ?, ?, 'Session', NOW(), NOW() + INTERVAL 1 YEAR)";
-					$stmt = mysqli_prepare($conn, $sql);
-					mysqli_stmt_bind_param($stmt, 'sis', $cookie, $playerId, $sessionId);
-					
-					if (mysqli_stmt_execute($stmt)) {
-						echo $cookie;
-					} else {
-						echo "Error creating session";
-					}
+				// Create new character with default values
+				// Note: Most fields have defaults in the DB schema
+				$sql = "INSERT INTO `character` (class, zone, strength, dexterity, vitality, spirit, skillPoints) VALUES (?, ?, 1, 1, 3, 1, 0)";
+				$stmt = mysqli_prepare($conn, $sql);
+				$defaultClass = 'Guest'; // Temporary class, user can change later
+				$defaultZone = '';
+				mysqli_stmt_bind_param($stmt, 'ss', $defaultClass, $defaultZone);
+				mysqli_stmt_execute($stmt);
+				$playerId = mysqli_insert_id($conn);
+				
+				// Create session (Type defaults to 'Session') and set expiry 1 year from now
+				$sql = "INSERT INTO sessions (Cookie, Account, SessionID, Type, lastActive, Expiry) VALUES (?, ?, ?, 'Session', NOW(), NOW() + INTERVAL 1 YEAR)";
+				$stmt = mysqli_prepare($conn, $sql);
+				mysqli_stmt_bind_param($stmt, 'sis', $cookie, $playerId, $sessionId);
+				
+				if (mysqli_stmt_execute($stmt)) {
+					echo $cookie;
+				} else {
+					echo "Error creating session";
+				}
 				}
 				break;
 			// DEPRECATED: Old Kongregate authentication - keeping for reference
