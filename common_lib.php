@@ -2294,6 +2294,14 @@
 					$oldX = isset($_SESSION['oldX']) ? floatval($_SESSION['oldX']) : null;
 					$oldY = isset($_SESSION['oldY']) ? floatval($_SESSION['oldY']) : null;
 
+					if ($oldX === null || $oldY === null) {
+						// Session missing previous coords — fallback to DB-stored character location
+						$charRow = getRow($conn, "character", $acc);
+						$oldX = isset($charRow['locationX']) ? floatval($charRow['locationX']) : null;
+						$oldY = isset($charRow['locationY']) ? floatval($charRow['locationY']) : null;
+						$debug[] = "fallback_old_from_db: oldX=" . var_export($oldX, true) . " oldY=" . var_export($oldY, true);
+					}
+
 					if ($oldX !== null && $oldY !== null) {
 						$moveX = abs($x - $oldX);
 						$moveY = abs($y - $oldY);
