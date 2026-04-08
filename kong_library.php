@@ -237,6 +237,7 @@
 		sql_query($sql, $conn);
 	}
 	function kongSubmitInitStats($conn, $acc){
+		return true; // Ignore all!
 		$url = 'https://api.kongregate.com/api/submit_statistics.json';
 		$userID = getAttribute($conn, "account", "password", $acc);
 		$deaths = getAttribute($conn, "account", "deaths", $acc);

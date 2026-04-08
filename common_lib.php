@@ -2258,12 +2258,16 @@
 	// -- Params : $conn, $acc, $x, $y, $async, $map
 	// -- Purpose : Preforms location updates, as well as a combat check
 	function locationPing($conn, $acc, $x, $y, $async, $map){
+			$debug = array();
+			$debug[] = "locationPing start: acc=$acc x=$x y=$y async=$async map=$map";
 
-		if(getRow($conn, "combat", $acc) == 0){
+			if(getRow($conn, "combat", $acc) == 0){
 			$x = floor($x);
 			$y = floor($y);
 
-			if($x > 0 && $y > 0){
+				$debug[] = "floored: x=$x y=$y";
+
+				if($x > 0 && $y > 0){
 
 				if ($async == 'no'){
 					if(getAttribute($conn, "character", "map", $acc) == "endless.php?"){
@@ -2307,15 +2311,29 @@
 				}
 
 				sql_query($sql, $conn);
+				$debug[] = "executed SQL: " . $sql;
+				$affected = mysqli_affected_rows($conn);
+				$debug[] = "mysqli_affected_rows=$affected";
 
-				if (mysqli_affected_rows($conn) == 1 && $async != 'no'){
-					return chooseEnemy($acc, $steps, $conn);
+				if (isset($steps)){
+					$debug[] = "steps=".floor($steps);
+				}
+
+				if ($affected == 1 && $async != 'no'){
+					$enemy = chooseEnemy($acc, isset($steps) ? $steps : 0, $conn);
+					$debug[] = "chooseEnemy returned=".var_export($enemy, true);
+					kongSubmitInitStats($conn, $acc);
+					return json_encode(array('debug' => $debug, 'enemy' => $enemy));
 				}
 
 				kongSubmitInitStats($conn, $acc);
 			}
 
+
 		}
+
+		// No combat triggered - return debug info
+		return json_encode(array('debug' => $debug, 'enemy' => null));
 
 	}
 
