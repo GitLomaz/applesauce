@@ -640,7 +640,7 @@
 				mysqli_stmt_execute($stmt);
 				
 				// Create starting equipment (fists)
-				$sql = "INSERT INTO `equipmentInventory` (`playerID`, `equipped`, `baseDmgMin`, `baseDmgMax`) VALUES (?, 1, 1, 2)";
+				$sql = "INSERT INTO `equipmentInventory` (`playerID`, `equipped`, `baseDmgMin`, `baseDmgMax`, `name`, `template`) VALUES (?, 1, 1, 2, 'unarmed', 0)";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_bind_param($stmt, "i", $playerId);
 				mysqli_stmt_execute($stmt);
