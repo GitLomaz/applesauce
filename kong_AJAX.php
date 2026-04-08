@@ -618,13 +618,11 @@
 					// New session - create account and session
 					$cookie = bin2hex(random_bytes(8)); // Generate 16-char cookie
 					
-				// Create new character with default values
-				// Note: Most fields have defaults in the DB schema
-				$sql = "INSERT INTO `character` (class, zone, strength, dexterity, vitality, spirit, skillPoints) VALUES (?, ?, 1, 1, 3, 1, 0)";
+				// Create new Paladin character with proper stats (matching rebirth code)
+				// Paladin stats: str=3, dex=2, spr=1, vit=3, respawn=100, skillPoints=0
+				// Location: VanaheimrNE at 4726, 5121
+				$sql = "INSERT INTO `character` (class, strength, dexterity, spirit, vitality, respawn, skillPoints, diff, neverLogged, resetScript, map, locationX, locationY, combatModifier) VALUES ('Paladin', 3, 2, 1, 3, 100, 0, 1, 0, '', 'VanaheimrNE', 4726, 5121, 100)";
 				$stmt = mysqli_prepare($conn, $sql);
-				$defaultClass = 'Guest'; // Temporary class, user can change later
-				$defaultZone = '';
-				mysqli_stmt_bind_param($stmt, 'ss', $defaultClass, $defaultZone);
 				mysqli_stmt_execute($stmt);
 				$playerId = mysqli_insert_id($conn);
 				
@@ -634,6 +632,32 @@
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_bind_param($stmt, "is", $playerId, $randomAccount);
 				mysqli_stmt_execute($stmt);
+				
+				// Create equippedStuff entry
+				$sql = "INSERT INTO `equippedStuff` (`equipIndex`) VALUES (?)";
+				$stmt = mysqli_prepare($conn, $sql);
+				mysqli_stmt_bind_param($stmt, "i", $playerId);
+				mysqli_stmt_execute($stmt);
+				
+				// Create starting equipment (fists)
+				$sql = "INSERT INTO `equipmentInventory` (`playerID`, `equipped`, `baseDmgMin`, `baseDmgMax`) VALUES (?, 1, 1, 2)";
+				$stmt = mysqli_prepare($conn, $sql);
+				mysqli_stmt_bind_param($stmt, "i", $playerId);
+				mysqli_stmt_execute($stmt);
+				
+				// Create playerBuffs entry
+				$sql = "INSERT INTO `playerBuffs` (playerID) VALUES (?)";
+				$stmt = mysqli_prepare($conn, $sql);
+				mysqli_stmt_bind_param($stmt, "i", $playerId);
+				mysqli_stmt_execute($stmt);
+				
+				// Initialize character with full HP/Mana and starting items (matching rebirth code)
+				fullheal($playerId, $conn);
+				fullmana($playerId, $conn);
+				addItemAmount($conn, $playerId, 1, 5);   // Add 5 health potions
+				addItemAmount($conn, $playerId, 5, 20);  // Add 20 of item 5
+				equipItem($playerId, 5, $conn);          // Equip item 5
+				buyEquipment($conn, "17|", $playerId, false);  // Buy starting equipment
 				
 				// Create session (Type defaults to 'Session') and set expiry 1 year from now
 				$sql = "INSERT INTO sessions (Cookie, Account, SessionID, Type, lastActive, Expiry) VALUES (?, ?, ?, 'Session', NOW(), NOW() + INTERVAL 1 YEAR)";
