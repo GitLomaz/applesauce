@@ -320,11 +320,6 @@
 
     function chooseEnemy($acc, $steps, $conn)
     {
-        try{
-            kongSubmitInitStats($conn, $acc);
-        }catch (Exception $e) {
-
-        }
     	$buffmod = 10;
     	$buffmulti = 1;
     	$sql = "select sum(test) as active from (SELECT count(*) as test FROM `playerBuffs` a where playerID = $acc and itemID in (86,87,88,93,102,87) union SELECT count(*) as test FROM `equipmentInventory` b where playerID = $acc and template in (56, 63, 72) and equipped = 1) as t";
@@ -335,13 +330,7 @@
     		$buffmulti = 100;
     	}
 
-    	if ($acc == 437) {
-
-    		// return;  //COMBAT OFF
-
-    	}
-
-        $charRow = getRow($conn, "character", $acc);
+			$charRow = getRow($conn, "character", $acc);
     	$zone = $charRow['zone'];
     	if (strpos($zone, 'Kal-Rul Tower') !== false) {
 

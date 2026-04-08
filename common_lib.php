@@ -2203,7 +2203,7 @@
 		$level = $charRow['level'];
 		$class = $charRow['class'];
 		$user = $accRow['account'];
-		$output[] = $user.", The level ".$level." ".$class;
+		$output[] = "Level ".$level." ".$class;
 		$currentMana = $charRow['mana'];
 		$maxMana = $calcRow['maxMana'];
 		$output[] = number_format($currentMana)."/".number_format($maxMana);

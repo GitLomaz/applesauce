@@ -5,8 +5,7 @@
 // Define allowed origins
 $allowed_origins = [
     'http://localhost:8080',
-    'https://yourdomain.com',
-    'https://www.yourdomain.com'
+    'https://gitlomaz.github.io'
 ];
 
 // Get the origin of the request
