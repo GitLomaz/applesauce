@@ -2303,6 +2303,10 @@
 					}
 
 					$steps = sqrt(($moveX * $moveX) + ($moveY * $moveY));
+					$debug[] = "session_keys=" . var_export(array_keys($_SESSION), true);
+					$debug[] = "oldX=" . var_export($oldX, true) . " oldY=" . var_export($oldY, true);
+					$debug[] = "moveX=" . $moveX . " moveY=" . $moveY;
+					$debug[] = "raw_steps=" . $steps . " floored_steps=" . floor($steps);
 					$_SESSION['oldX'] = $x;
 					$_SESSION['oldY'] = $y;
 					$sql = "UPDATE `account` set `stepsTaken` = `stepsTaken` + ".floor($steps)." where playerID = $acc";
