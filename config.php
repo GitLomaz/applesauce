@@ -24,9 +24,7 @@ define('DB_PASS', getenv('DB_PASS') ?: getenv('DB_PASS') ?: '');
 define('DB_NAME', getenv('DB_NAME') ?: 'kalrul');
 define('DB_PORT', getenv('DB_PORT') ?: '3306');
 
-// Cloud SQL Unix Socket (for Cloud Run with attached Cloud SQL)
-// Format: /cloudsql/PROJECT:REGION:INSTANCE
-define('DB_UNIX_SOCKET', getenv('DB_UNIX_SOCKET') ?: '/cloudsql/static-lens-268201:us-central1:kalrul');
+// No Cloud SQL Unix socket: use TCP env vars for all environments
 
 // Session configuration
 define('SESSION_TIMEOUT_MINUTES', getenv('SESSION_TIMEOUT_MINUTES') ?: 15);
@@ -51,25 +49,14 @@ function get_db_connection() {
     }
     
     try {
-        // Use Unix socket if specified (for Cloud SQL)
-        if (DB_UNIX_SOCKET && file_exists(dirname(DB_UNIX_SOCKET))) {
-            $conn = new mysqli(
-                null,
-                DB_USER,
-                DB_PASS,
-                DB_NAME,
-                null,
-                DB_UNIX_SOCKET
-            );
-        } else {
-            $conn = new mysqli(
-                DB_HOST,
-                DB_USER,
-                DB_PASS,
-                DB_NAME,
-                DB_PORT
-            );
-        }
+        // Always use TCP connection via environment variables
+        $conn = new mysqli(
+            DB_HOST,
+            DB_USER,
+            DB_PASS,
+            DB_NAME,
+            DB_PORT
+        );
         
         if ($conn->connect_error) {
             error_log("Database connection failed: " . $conn->connect_error);
