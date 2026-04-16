@@ -49,6 +49,16 @@ function get_db_connection() {
     }
     
     try {
+        // Debug: log DB env info (masked password) to help diagnose intermittent auth failures
+        $raw_env_pass = getenv('DB_PASS');
+        $masked_pass = '';
+        if ($raw_env_pass === false || $raw_env_pass === '') {
+            $masked_pass = '(empty)';
+        } else {
+            $masked_pass = strlen($raw_env_pass) > 2 ? substr($raw_env_pass,0,1) . '***' . substr($raw_env_pass,-1) : '***';
+        }
+        error_log(sprintf('[DB DEBUG] host=%s user=%s pass=%s db=%s port=%s env_pass_present=%s', DB_HOST, DB_USER, $masked_pass, DB_NAME, DB_PORT, ($raw_env_pass !== false && $raw_env_pass !== '') ? 'true' : 'false'));
+
         // Always use TCP connection via environment variables
         $conn = new mysqli(
             DB_HOST,
@@ -59,7 +69,7 @@ function get_db_connection() {
         );
         
         if ($conn->connect_error) {
-            error_log("Database connection failed: " . $conn->connect_error);
+            error_log("Database connection failed: " . $conn->connect_error . " (errno " . $conn->connect_errno . ")");
             throw new Exception("Database connection failed");
         }
         
