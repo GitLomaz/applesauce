@@ -110,20 +110,32 @@ function createConnection() {
  * @throws Exception if query fails
  */
 function sql_query($query, $conn) {
-    $result = $conn->query($query);
-    
-    if (!$result) {
-        $error = "SQL Error: " . $conn->error . " | Query: " . $query;
-        error_log($error);
-        
-        if (APP_DEBUG) {
-            throw new Exception($error);
+    try {
+        $result = $conn->query($query);
+        if ($result === false) {
+            $error = "SQL Error: " . $conn->error . " | Query: " . $query;
+            error_log($error);
+            if (APP_DEBUG) {
+                throw new Exception($error);
+            }
+            return false;
         }
-        
+        return $result;
+    } catch (mysqli_sql_exception $e) {
+        // Log masked environment and connection info to help diagnose auth/permission errors
+        $raw_env_pass = getenv('DB_PASS');
+        $masked_pass = '';
+        if ($raw_env_pass === false || $raw_env_pass === '') {
+            $masked_pass = '(empty)';
+        } else {
+            $masked_pass = strlen($raw_env_pass) > 2 ? substr($raw_env_pass,0,1) . '***' . substr($raw_env_pass,-1) : '***';
+        }
+        error_log(sprintf('[DB QUERY ERROR] user=%s pass=%s host=%s db=%s errno=%s err=%s query="%s"', DB_USER, $masked_pass, DB_HOST, DB_NAME, $e->getCode(), $e->getMessage(), str_replace("\n", ' ', substr($query,0,500))));
+        if (APP_DEBUG) {
+            throw $e;
+        }
         return false;
     }
-    
-    return $result;
 }
 
 /**
