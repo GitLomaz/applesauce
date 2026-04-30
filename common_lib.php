@@ -1585,9 +1585,13 @@
 		}else{
 			$calcStats = getRow($conn, "calcValues", $acc);
 		}
-		$sql = "SELECT SUM(\"count\") AS 'count' FROM charKills WHERE playerid = ".$acc;
+		$sql = "SELECT COALESCE(SUM(\"count\"), 0) AS count FROM charKills WHERE playerid = ".$acc;
 		$sql_row = sql_query($sql, $conn);
-		$kills = $sql_row->fetch()['count'];
+		if($sql_row && $killRow = $sql_row->fetch()){
+			$kills = $killRow['count'] ?? 0;
+		} else {
+			$kills = 0;
+		}
 		$level = $row['level'];
 		$str = $row['strength'];
 		$dex = $row['dexterity'];
@@ -1626,8 +1630,9 @@
 		if($equippedShield != 0){
 			$sql = "SELECT * FROM charskills s inner join skilllevels l on s.skillid = l.skillid where playerid = $acc and l.level = s.level and s.skillid = 9";
 			$result = sql_query($sql, $conn);
-			$row = $result->fetch();
-			$block = $block + ($row['damage']);
+			if($result && $row = $result->fetch()){
+				$block = $block + ($row['damage'] ?? 0);
+			}
 		}
 
 		$block = $block * 100;
@@ -2960,7 +2965,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-			$sql = "SELECT sum(count) as 'kills' FROM kalrul.charKills where playerID = $acc;";
+			$sql = "SELECT COALESCE(sum(count), 0) as kills FROM charKills where playerID = $acc;";
 			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$kills = $row['kills'];
 
@@ -2975,7 +2980,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-			$sql = "SELECT sum(count) as 'kills' FROM kalrul.charKills where playerID = $acc;";
+			$sql = "SELECT COALESCE(sum(count), 0) as kills FROM charKills where playerID = $acc;";
 			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$kills = $row['kills'];
 
@@ -3038,7 +3043,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-			$sql = "SELECT sum(used) as 'used' FROM kalrul.inventory where playerID = $acc and itemID in (2,3,4,5,6,7,8,9,10);";
+			$sql = "SELECT COALESCE(sum(used), 0) as used FROM inventory where playerID = $acc and itemID in (2,3,4,5,6,7,8,9,10);";
 			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$used = $row['used'];
 
@@ -3065,7 +3070,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-			$sql = "SELECT sum(used) as 'used' FROM kalrul.inventory where playerID = $acc and itemID in (11,12);";
+			$sql = "SELECT COALESCE(sum(used), 0) as used FROM inventory where playerID = $acc and itemID in (11,12);";
 			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$used = $row['used'];
 
@@ -3080,7 +3085,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-			$sql = "SELECT sum(used) as 'used' FROM kalrul.inventory where playerID = $acc and itemID in (1);";
+			$sql = "SELECT COALESCE(sum(used), 0) as used FROM inventory where playerID = $acc and itemID in (1);";
 			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$used = $row['used'];
 
@@ -3095,7 +3100,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-			$sql = "SELECT sum(count) as 'kills' FROM kalrul.charKills where playerID = $acc;";
+			$sql = "SELECT COALESCE(sum(count), 0) as kills FROM charKills where playerID = $acc;";
 			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$kills = $row['kills'];
 

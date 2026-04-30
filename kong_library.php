@@ -245,7 +245,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 		$resets = $row['count'];
 		$level = getAttribute($conn, "character", "level", $acc);
-		$sql = "SELECT sum(count) as 'kills' FROM kalrul.charKills where playerID = $acc;";
+		$sql = "SELECT COALESCE(sum(count), 0) as kills FROM charKills where playerID = $acc;";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 		$kills = $row['kills'];
 		$steps = getAttribute($conn, "account", "stepsTaken", $acc);
