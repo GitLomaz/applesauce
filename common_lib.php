@@ -1538,7 +1538,7 @@
 		        (`equipmentBonus`.`earthRes` + `buffsBonus`.`earthRes`) AS `earthRes`,
 		        (`equipmentBonus`.`arcaneRes` + `buffsBonus`.`arcaneRes`) AS `arcaneRes`,
 		        (`equipmentBonus`.`holyRes` + `buffsBonus`.`holyRes`) AS `holyRes`,
-		        ANY_VALUE(`equipmentInventory`.`class`) AS `weapon`,
+		        (SELECT class FROM equipmentInventory WHERE playerID = $index AND equipped = 1 AND (slot = 'weapon' OR slot = '2hweapon') LIMIT 1) AS weapon,
 		        `character`.`exp` AS `exp`,
 		        `character`.`next` AS `next`,
 		        `character`.`level` AS `level`,
@@ -1557,8 +1557,7 @@
 		        COALESCE(`buffsBonus`.`weapElement`, 'physical') AS `weapElement`,
 		        `equipmentBonus`.`shapelessRes` AS `shapelessRes`,
 		        `equipmentBonus`.`shapelessExpDrop` AS `shapelessExpDrop`,
-		        `equipmentBonus`.`shapelessDmg` AS `shapelessDmg`,
-		        (SELECT class FROM equipmentInventory WHERE playerID = $index AND equipped = 1 AND (slot = 'weapon' OR slot = '2hweapon') LIMIT 1) AS weapon
+		        `equipmentBonus`.`shapelessDmg` AS `shapelessDmg`
 		    FROM
 		        `character`,`equipmentBonus`,`buffsBonus`
 		    WHERE
@@ -1580,7 +1579,7 @@
 		$row = getRow($conn, "character", $acc);
 		if(!$row || !is_array($row)){
 			error_log("[getCalcStats] Failed to get character row for account $acc");
-			return array();
+			return json_encode(array());
 		}
 		$logged = $row['neverlogged'] ?? 0;
 		if(isset($calcValues)){
@@ -1590,7 +1589,7 @@
 		}
 		if(!$calcStats || !is_array($calcStats)){
 			error_log("[getCalcStats] Failed to get calcValues for account $acc");
-			return array();
+			return json_encode(array());
 		}
 		$sql = "SELECT COALESCE(SUM(\"count\"), 0) AS count FROM charKills WHERE playerid = ".$acc;
 		$sql_row = sql_query($sql, $conn);
@@ -1860,7 +1859,7 @@
 	// -- Purpose : Returns information about all skills  -- key: combat:1 non:2 combat/non:3 buff:4 passive:5
 	function getSkillInfo($conn){
 		$output = array();
-		$sql_get_skills = "SELECT `index` as skillindex, name, image, prereq, requiredlevel, maxlevel, type, prereq2, prereq3 FROM skills";
+		$sql_get_skills = "SELECT `index` as skillindex, `name`, `image`, `prereq`, `requiredlevel`, `maxlevel`, `type`, `prereq2`, `prereq3` FROM `skills`";
 		$sql_skills_result = sql_query($sql_get_skills, $conn);
 		while($row = mysqli_fetch_array($sql_skills_result,MYSQLI_ASSOC)){
 			$type = '';
@@ -1896,7 +1895,7 @@
 	// -- Purpose : Gets all levels of all skills
 	function getSkillLevels($conn){
 		$output = array();
-		$sql_get_skills = "SELECT l.*, s.name, s.type, s.\"index\" as skillindex FROM skilllevels l inner join skills s on s.\"index\" = l.skillid";
+		$sql_get_skills = "SELECT l.*, s.`name`, s.`type`, s.`index` as skillindex FROM `skilllevels` l inner join `skills` s on s.`index` = l.`skillid`";
 		$sql_skills_result = sql_query($sql_get_skills, $conn);
 		while($row = mysqli_fetch_array($sql_skills_result,MYSQLI_ASSOC)){
 
@@ -2216,7 +2215,8 @@
 	function getStatus($acc, $conn, $calcValues = null){
 		$charRow = getRow($conn, "character", $acc);
 		if (!$charRow || !is_array($charRow)){
-			return array();
+			error_log("[getStatus] Failed to get character row for account $acc");
+			return json_encode(array());
 		}
 		$accRow = getRow($conn, "account", $acc);
 		if(isset($calcValues)){
@@ -2225,7 +2225,8 @@
 			$calcRow = getRow($conn, "calcValues", $acc);  //BOTTLENECK
 		}
 		if(!$calcRow || !is_array($calcRow)){
-			return array();
+			error_log("[getStatus] Failed to get calcValues for account $acc");
+			return json_encode(array());
 		}
 		$level = $charRow['level'] ?? 1;
 		$class = $charRow['class'] ?? 'Paladin';
@@ -3538,7 +3539,7 @@
 
 			$output[] = $row;
 		}
-		$sql = "SELECT `index` as itemID, 1 as `count`, template, null as `used`, script as `description`, archived, upgrade, `name`, `equipped`, image, price as `value`, 0 as usable, 0 as combat, 0 as quest, 1 as equipment, 1 as visible FROM equipmentInventory where playerID = $acc and archived = 0 and name != 'unarmed' order by name;";
+		$sql = "SELECT `index` as itemID, 1 as `count`, `template`, null as `used`, `script` as `description`, `archived`, `upgrade`, `name`, `equipped`, `image`, `price` as `value`, 0 as usable, 0 as combat, 0 as quest, 1 as equipment, 1 as visible FROM `equipmentInventory` where `playerID` = $acc and `archived` = 0 and `name` != 'unarmed' order by `name`;";
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			if($row['upgrade'] > 0){

@@ -132,8 +132,9 @@ class PDOResultWrapper {
  * @return string Query with backticks removed and MySQL functions converted
  */
 function convert_mysql_to_postgres($query) {
-    // Remove backticks - PostgreSQL doesn't use them
-    $query = str_replace('`', '', $query);
+    // Convert backticks to double quotes for PostgreSQL identifiers
+    // (handles reserved words like "index", "order", "date" etc.)
+    $query = str_replace('`', '"', $query);
     
     // Convert IFNULL to COALESCE
     $query = preg_replace('/IFNULL\s*\(/i', 'COALESCE(', $query);
