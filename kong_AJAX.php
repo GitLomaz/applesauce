@@ -149,7 +149,11 @@
 					break;
 				case "getLocation":
 					$row = getRow($conn, "character", $account);
-					print ($row["locationX"].'-'.$row["locationY"].'-'.$row["map"].'-'.$row["class"]);
+					if($row && is_array($row)){
+						print (($row["locationx"] ?? 0).'-'.($row["locationy"] ?? 0).'-'.($row["map"] ?? '').'-'.($row["class"] ?? ''));
+					} else {
+						print "0-0--";
+					}
 					break;
 				case "updateLocation":
 					print locationPing($conn, $account, $_POST['X'], $_POST['Y'], $_POST['async'], $_POST['map']);

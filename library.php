@@ -331,7 +331,7 @@ function getEquipment($acc, $conn){
     $keys['critDamage'] = "Bonus Crit Modifier: ";
     $keys['blockChance'] = "Block Chance: ";
 
-    $sql = "SELECT * FROM kalrul.equipmentInventory where playerID = $acc and archived = 0 and name != 'unarmed' order by name;";
+    $sql = "SELECT * FROM equipmentInventory where playerID = $acc and archived = 0 and name != 'unarmed' order by name;";
     $result = sql_query($sql, $conn);
     while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
         $script = "<strong>Item Name: </strong>".$row['name']."<br/><br/><strong>Item Class: </strong>";

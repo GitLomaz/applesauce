@@ -1440,7 +1440,12 @@
 			$sql_q = "select `".$attribute."` from `".$table."` where `".getKey($table)."` =".$index." LIMIT 1";
 			$sql = sql_query($sql_q, $conn);
 			$row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
-			return $row[$attribute];
+			if(!$row || !is_array($row)){
+				return null;
+			}
+			// PostgreSQL returns lowercase column names
+			$attr_lower = strtolower($attribute);
+			return $row[$attr_lower] ?? $row[$attribute] ?? null;
 		}else{
 			$sql_q = "SELECT
 				`character`.`playerID` AS `playerID`,
@@ -1552,21 +1557,18 @@
 		        `equipmentBonus`.`sprPerc` AS `sprPerc`,
 		        `equipmentBonus`.`vitPerc` AS `vitPerc`,
 		        `equipmentBonus`.`spellReduction` AS `spellReduction`,
-		        IFNULL(`buffsBonus`.`weapElement`, 'physical') AS `weapElement`,
+		        COALESCE(`buffsBonus`.`weapElement`, 'physical') AS `weapElement`,
 		        `equipmentBonus`.`shapelessRes` AS `shapelessRes`,
 		        `equipmentBonus`.`shapelessExpDrop` AS `shapelessExpDrop`,
-		        `equipmentBonus`.`shapelessDmg` AS `shapelessDmg`
+		        `equipmentBonus`.`shapelessDmg` AS `shapelessDmg`,
+		        (SELECT class FROM equipmentInventory WHERE playerID = $index AND equipped = 1 AND (slot = 'weapon' OR slot = '2hweapon') LIMIT 1) AS weapon
 		    FROM
-		        `character`,`equipmentBonus`,`buffsBonus`,`equipmentInventory`
+		        `character`,`equipmentBonus`,`buffsBonus`
 		    WHERE
 		        ((`equipmentBonus`.`playerID` = $index)
 		            AND (`buffsBonus`.`playerID` = $index)
-		            AND (`equipmentInventory`.`playerID` = $index)
-		            AND (`character`.`playerID` = $index)
-		            AND ((`equipmentInventory`.`slot` = 'weapon')
-		            OR (`equipmentInventory`.`slot` = '2hweapon'))
-		            AND (`equipmentInventory`.`equipped` = 1))
-		    GROUP BY `character`.`playerID`";
+		            AND (`character`.`playerID` = $index))
+		    GROUP BY `character`.`playerID`, `equipmentBonus`.`playerID`, `buffsBonus`.`playerID`";
 			$sql = sql_query($sql_q, $conn);
 			return mysqli_fetch_array($sql,MYSQLI_ASSOC);
 		}
@@ -1579,11 +1581,19 @@
 	function getCalcStats($acc, $conn, $calcValues = null){
 		$user = getAttribute($conn, "account", "account", $acc);
 		$row = getRow($conn, "character", $acc);
-		$logged = $row['neverLogged'];
+		if(!$row || !is_array($row)){
+			error_log("[getCalcStats] Failed to get character row for account $acc");
+			return array();
+		}
+		$logged = $row['neverlogged'] ?? 0;
 		if(isset($calcValues)){
 			$calcStats = $calcValues;
 		}else{
 			$calcStats = getRow($conn, "calcValues", $acc);
+		}
+		if(!$calcStats || !is_array($calcStats)){
+			error_log("[getCalcStats] Failed to get calcValues for account $acc");
+			return array();
 		}
 		$sql = "SELECT COALESCE(SUM(\"count\"), 0) AS count FROM charKills WHERE playerid = ".$acc;
 		$sql_row = sql_query($sql, $conn);
@@ -1592,11 +1602,11 @@
 		} else {
 			$kills = 0;
 		}
-		$level = $row['level'];
-		$str = $row['strength'];
-		$dex = $row['dexterity'];
-		$spr = $row['spirit'];
-		$vit = $row['vitality'];
+		$level = $row['level'] ?? 1;
+		$str = $row['strength'] ?? 1;
+		$dex = $row['dexterity'] ?? 1;
+		$spr = $row['spirit'] ?? 1;
+		$vit = $row['vitality'] ?? 1;
 		if($str != $calcStats['str']){
 			$str .= "  (" . $calcStats['str'] . ")";
 		}
@@ -1609,21 +1619,21 @@
 		if($vit != $calcStats['vit']){
 			$vit .= "  (" . $calcStats['vit'] . ")";
 		}
-		$steps = getAttribute($conn, "account", "stepsTaken", $acc);
-		$gold = $row['silver'];
-		$class = $row['class'];
-		$level = $row['level'];
-		$promptDaily = $row['promptDaily'];
-		$resetString = $row['resetScript'];
-		$freeStats = $row['statPoints'];
-		$freeSkills = $row['skillPoints'];
-		$armor = $calcStats['armor'];
-		$deaths = $row['deaths'];
-		$hp = $calcStats['maxHealth'];
-		$mp = $calcStats['maxMana'];
-		$atk = $calcStats["damage"];
-		$hit = floor($calcStats['hit']);
-		$dodge = floor($calcStats['flee']);
+		$steps = getAttribute($conn, "account", "stepsTaken", $acc) ?? 0;
+		$gold = $row['silver'] ?? 0;
+		$class = $row['class'] ?? 'Paladin';
+		$level = $row['level'] ?? 1;
+		$promptDaily = $row['promptdaily'] ?? 0;
+		$resetString = $row['resetscript'] ?? '';
+		$freeStats = $row['statpoints'] ?? 0;
+		$freeSkills = $row['skillpoints'] ?? 0;
+		$armor = $calcStats['armor'] ?? 0;
+		$deaths = $row['deaths'] ?? 0;
+		$hp = $calcStats['maxhealth'] ?? 100;
+		$mp = $calcStats['maxmana'] ?? 50;
+		$atk = $calcStats["damage"] ?? 1;
+		$hit = floor($calcStats['hit'] ?? 0);
+		$dodge = floor($calcStats['flee'] ?? 0);
 		$equippedShield = getAttribute($conn, "equipmentBonus", "blockChance", $acc);
 		$block = $calcStats["block"];
 
@@ -1637,12 +1647,12 @@
 
 		$block = $block * 100;
 
-		$crit = floor(($calcStats['critRate'] * 100));
-		$critMod = floor(($calcStats['critMulti'] * 100));
-		$fire = floor($calcStats['fireRes']);
-		$ice = floor($calcStats['iceRes']);
-		$earth = floor($calcStats['earthRes']);
-		$arcane = floor($calcStats['arcaneRes']);
+		$crit = floor(($calcStats['critrate'] ?? 0) * 100);
+		$critMod = floor(($calcStats['critmulti'] ?? 0) * 100);
+		$fire = floor($calcStats['fireres'] ?? 0);
+		$ice = floor($calcStats['iceres'] ?? 0);
+		$earth = floor($calcStats['earthres'] ?? 0);
+		$arcane = floor($calcStats['arcaneres'] ?? 0);
 		$holy = floor($calcStats['holyRes']);
 		$stats[] = $atk;
 		// 0 = attack
@@ -2208,8 +2218,8 @@
 	// -- Purpose : Returns an array containing all display information needed for char
 	function getStatus($acc, $conn, $calcValues = null){
 		$charRow = getRow($conn, "character", $acc);
-		if (!$charRow){
-			return;
+		if (!$charRow || !is_array($charRow)){
+			return array();
 		}
 		$accRow = getRow($conn, "account", $acc);
 		if(isset($calcValues)){
@@ -2217,15 +2227,18 @@
 		}else{
 			$calcRow = getRow($conn, "calcValues", $acc);  //BOTTLENECK
 		}
-		$level = $charRow['level'];
-		$class = $charRow['class'];
-		$user = $accRow['account'];
+		if(!$calcRow || !is_array($calcRow)){
+			return array();
+		}
+		$level = $charRow['level'] ?? 1;
+		$class = $charRow['class'] ?? 'Paladin';
+		$user = $accRow['account'] ?? 'Unknown';
 		$output[] = "Level ".$level." ".$class;
-		$currentMana = $charRow['mana'];
-		$maxMana = $calcRow['maxMana'];
+		$currentMana = $charRow['mana'] ?? 0;
+		$maxMana = $calcRow['maxmana'] ?? 50;
 		$output[] = number_format($currentMana)."/".number_format($maxMana);
-		$currentHP = $charRow['hitpoints'];
-		$maxHP = $calcRow['maxHealth'];
+		$currentHP = $charRow['hitpoints'] ?? 0;
+		$maxHP = $calcRow['maxhealth'] ?? 100;
 		$output[] = number_format($currentHP)."/".number_format($maxHP);
 		$missingMana = $maxMana - $currentMana;
 		$offset = (($maxMana != 0) ? ($missingMana / $maxMana) : 0) * 234 + 24;
@@ -2919,11 +2932,11 @@
 	// -- Purpose : Gets all achievements
 	function getAchievementList($conn){
 		$output = array();
-		$sql = 'SELECT * FROM `achievements` order by `order`';
+		$sql = 'SELECT * FROM `achievements` order by "order"';
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
-			$script = "<strong>".$row['name']." </strong><br><br>".$row['description']."<br><br>[complete]";
-			$string = $row['index'].'|'.$row['name'].'|'.$row['image'].'|'.$script;
+			$script = "<strong>".($row['name'] ?? '')." </strong><br><br>".($row['description'] ?? '')."<br><br>[complete]";
+			$string = ($row['index'] ?? 0).'|'.($row['name'] ?? '').'|'.($row['image'] ?? '').'|'.$script;
 			$output[] = $string;
 		}
 
@@ -3459,7 +3472,7 @@
 	// -- Purpose : gets skill tree based on char class
 	function getSkillTree($conn, $acc){
 		$sql = "select * from skillTrees where class = (select class from `character` where playerID = $acc)";
-		return mysqli_fetch_array(sql_query($sql, $conn), MYSQLI_ASSOC)["imageList"];
+		return mysqli_fetch_array(sql_query($sql, $conn), MYSQLI_ASSOC)["imagelist"];
 	}
 
 	// -- Function Name : startDailyQuest
