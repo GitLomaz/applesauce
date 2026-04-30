@@ -149,6 +149,8 @@
 					break;
 				case "getLocation":
 					$row = getRow($conn, "character", $account);
+					print "getting location for account $account: ";
+					print json_encode($row);
 					if($row && is_array($row)){
 						print (($row["locationx"] ?? 0).'-'.($row["locationy"] ?? 0).'-'.($row["map"] ?? '').'-'.($row["class"] ?? ''));
 					} else {
