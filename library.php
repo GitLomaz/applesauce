@@ -296,7 +296,7 @@ function getStatusBar($acc, $conn){
 // -- Purpose : Returns a json object containing all inventory items for a char
 function getInventory($acc, $conn){
     $output = array();
-    $sql = "SELECT item_ID as itemID, COALESCE(`count`,0) as `count`, COALESCE(used,0) as `used`, COALESCE(archived,0) as `archived`, `name`, image, `value`, usable, combat, quest, equipment, `value`, description, visible from item t inner join inventory i on t.item_ID = i.itemID and playerID = $acc order by name";
+    $sql = "SELECT item_id as itemid, COALESCE(count,0) as count, COALESCE(used,0) as used, COALESCE(archived,0) as archived, name, image, value, usable, combat, quest, equipment, value, description, visible from item t inner join inventory i on t.item_id = i.itemid and playerID = $acc order by name";
     $result = sql_query($sql, $conn);
     while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
         $output[] = $row;
@@ -444,11 +444,11 @@ function getEquippedItems($acc, $conn){
     while($counter != 5){
         $item = $row['item_'.$counter];
         if($item != -1){
-            $sql = "SELECT item_ID as itemID, COALESCE(`count`,0) as `count`, COALESCE(used,0) as `used`, COALESCE(archived,0) as `archived`, `name`, image, `value`, usable, combat, quest, equipment, `value`, description, visible from item t inner join inventory i on t.item_ID = i.itemID and playerID = $acc and i.itemID = $item";
+            $sql = "SELECT item_id as itemid, COALESCE(count,0) as count, COALESCE(used,0) as used, COALESCE(archived,0) as archived, name, image, value, usable, combat, quest, equipment, value, description, visible from item t inner join inventory i on t.item_id = i.itemid and playerID = $acc and i.itemid = $item";
             $result = sql_query($sql, $conn);
             $output[] = mysqli_fetch_array($result,MYSQLI_ASSOC);
         }else{
-            $output[]["itemID"] = -1;
+            $output[]]["itemid"] = -1;
         }
         $counter++;
     }

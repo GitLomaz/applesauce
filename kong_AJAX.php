@@ -754,6 +754,4 @@
 				break;
 		}
 	}
-	$sql = "INSERT INTO `debug` (`1`, `2`) values ('$call -- $param1 -- $param2 -- $param3 -- $param4 -- $param5', '" . (microtime(true) - $time_start) . "')";
-	sql_query($sql, $conn);
-?>
+

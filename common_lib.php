@@ -1752,7 +1752,7 @@
 		//
 		//  --------------------------------------------------------------------------------------------------
 		$output = array();
-		$sql_get_items = "SELECT item_ID as itemID, name, image, usable, combat, quest, equipment, value, description, visible FROM item";
+		$sql_get_items = "SELECT item_id as itemid, name, image, usable, combat, quest, equipment, value, description, visible FROM item";
 		// where item_id = 78";
 		$sql_item_result = sql_query($sql_get_items, $conn);
 		while($row = mysqli_fetch_array($sql_item_result,MYSQLI_ASSOC)){
@@ -1787,8 +1787,8 @@
 			}
 
 			$desc = "<strong>Item Name: </strong>".$row['name']."<br/><br/><strong>Item Type: </strong>".str_replace('&gt;', '>', str_replace('&lt;', '<', $type.htmlspecialchars($row['description'])));
-			$string = $row['itemID'].'|'.$row['name'].'|'.$row['image'].'|'.$row['usable'].'|'.$row['combat'].'|'.$quest.'|'.$row['equipment'].'|'.$row['value'].'|'.$desc;
-			$output[$row['itemID'] - 1] = $string;
+			$string = $row['item_id'].'|'.$row['name'].'|'.$row['image'].'|'.$row['usable'].'|'.$row['combat'].'|'.$quest.'|'.$row['equipment'].'|'.$row['value'].'|'.$desc;
+			$output[$row['item_id'] - 1] = $string;
 		}
 
 		return $output;
@@ -2152,7 +2152,7 @@
 	function getShopInfo($conn, $shop){
 		$sql_shop_result = sql_query("SELECT * FROM `shops` WHERE shop_index = $shop", $conn);
 		while($row = mysqli_fetch_array($sql_shop_result,MYSQLI_ASSOC)){
-			$sql = "select item_ID as itemID, `name`, image, usable, combat, quest, equipment, `value`, description, visible from item where item_ID in (".
+			$sql = "select item_id as itemid, name, image, usable, combat, quest, equipment, value, description, visible from item where item_id in (".
 				$row['item_1'].','.$row['item_2'].','.$row['item_3'].','.$row['item_4'].','.$row['item_5'].','.$row['item_6'].','.$row['item_7'].','.$row['item_8'].")";
 				$sql_item_result = sql_query($sql, $conn);
 				$counter = 0;
@@ -3489,7 +3489,7 @@
 		}
 	}
 	function getInventoryJSON($acc, $conn){
-		$sql = "select item_ID as itemID, COALESCE(`count`,0) as `count`, COALESCE(`stored`,0) as `stored`, COALESCE(used,0) as `used`, COALESCE(archived,0) as `archived`, `name`, image, `value`, usable, combat, quest, equipment, `value`, description, visible from item t left join inventory i on t.item_ID = i.itemID and playerID = $acc order by name";
+		$sql = "select item_id as itemid, COALESCE(count,0) as count, COALESCE(stored,0) as stored, COALESCE(used,0) as used, COALESCE(archived,0) as archived, name, image, value, usable, combat, quest, equipment, value, description, visible from item t left join inventory i on t.item_id = i.itemid and playerID = $acc order by name";
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$type = "";
