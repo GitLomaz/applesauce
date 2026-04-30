@@ -40,7 +40,7 @@ echo "<table border='1'>
 <th>DIFFERENCE</th>
 </tr>";
 
-while($row = mysqli_fetch_array($result))
+while($row = $result->fetch())
 {
 echo "<tr>";
 echo "<td>" . $row['action'] . "</td>";
@@ -51,7 +51,7 @@ echo "</tr>";
 }
 echo "</table>";
 
-mysqli_close($conn);
+// mysqli_close not needed with PDO
 ?>
 </body>
 </html>

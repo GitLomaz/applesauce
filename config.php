@@ -100,11 +100,37 @@ function createConnection() {
 }
 
 /**
+ * Result wrapper class to bridge PDO and mysqli-style code
+ */
+class PDOResultWrapper {
+    private $statement;
+    
+    public function __construct($statement) {
+        $this->statement = $statement;
+    }
+    
+    public function fetch($mode = PDO::FETCH_ASSOC) {
+        return $this->statement ? $this->statement->fetch($mode) : false;
+    }
+    
+    public function rowCount() {
+        return $this->statement ? $this->statement->rowCount() : 0;
+    }
+    
+    public function __call($method, $args) {
+        if ($this->statement && method_exists($this->statement, $method)) {
+            return call_user_func_array([$this->statement, $method], $args);
+        }
+        return null;
+    }
+}
+
+/**
  * Execute SQL query with error handling
  * 
  * @param string $query SQL query to execute
  * @param PDO $conn Database connection
- * @return PDOStatement|bool Query result statement
+ * @return PDOResultWrapper|bool Query result wrapper
  * @throws Exception if query fails
  */
 function sql_query($query, $conn) {
@@ -118,7 +144,7 @@ function sql_query($query, $conn) {
             }
             return false;
         }
-        return $result;
+        return new PDOResultWrapper($result);
     } catch (PDOException $e) {
         // Log masked environment and connection info to help diagnose auth/permission errors
         $raw_env_pass = getenv('DB_PASS');
@@ -151,44 +177,4 @@ function app_log($message, $level = 'INFO') {
     } else {
         echo $formatted;
     }
-}
-
-/**
- * Compatibility wrapper for mysqli_fetch_array - works with PDOStatement
- */
-function mysqli_fetch_array($statement, $result_type = null) {
-    if ($statement instanceof PDOStatement) {
-        return $statement->fetch(PDO::FETCH_ASSOC);
-    }
-    return false;
-}
-
-/**
- * Compatibility wrapper for mysqli_num_rows - works with PDOStatement
- */
-function mysqli_num_rows($statement) {
-    if ($statement instanceof PDOStatement) {
-        return $statement->rowCount();
-    }
-    return 0;
-}
-
-/**
- * Compatibility wrapper for mysqli_affected_rows - works with PDO
- */
-function mysqli_affected_rows($conn) {
-    if ($conn instanceof PDO) {
-        // For PDO, we need to track this differently
-        // This will return the last statement's affected rows if available
-        return $conn->lastInsertId() ? 1 : 0;
-    }
-    return 0;
-}
-
-/**
- * Compatibility wrapper for mysqli_close - PDO doesn't need explicit close
- */
-function mysqli_close($conn) {
-    // PDO doesn't need explicit close, connections are closed when the object is destroyed
-    return true;
 }

@@ -38,7 +38,7 @@ echo "<table border='1'>
 
 $sql = "SELECT * FROM dailyactions";
 $sql_rows = sql_query($sql, $conn);
-while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
+while($row = $sql_rows->fetch()){
 	$day = $row["Day"];
 	$total = $row["Total"];
 	echo "<tr>";
@@ -49,7 +49,7 @@ while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 
 echo "</table>";
 
-mysqli_close($conn);
+// mysqli_close not needed with PDO
 ?>
 </body>
 </html>

@@ -16,9 +16,9 @@
     	if ($row['hitpoints'] < 1) {
     		return 3;
     	}
-    	$sql = "SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1";
+    	$sql = "SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY combatEnemyID DESC LIMIT 1";
     	$sql_get_enemy = sql_query($sql, $conn);
-    	$enemyRow = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
+    	$enemyRow = $sql_get_enemy->fetch();
         if(!isset($enemyRow)){
             return;
         }
@@ -54,8 +54,8 @@
     	$levelMod = pow($levelMod, 2) / 2;
     	$flee = $flee + $levelMod;
     	$monsterName.= $enemyRow['name'];
-    	$sql = "SELECT `class`, `name`, `template` FROM `equipmentInventory` WHERE `name` != 'unarmed' AND `slot` = 'weapon' AND `equipped` = 1 AND `playerID` = $acc LIMIT 1";
-    	$row = mysqli_fetch_array(sql_query($sql, $conn) , MYSQLI_ASSOC);
+    	$sql = "SELECT class, name, template FROM equipmentInventory WHERE name != 'unarmed' AND slot = 'weapon' AND equipped = 1 AND playerID = $acc LIMIT 1";
+    	$row = sql_query($sql, $conn)->fetch();
     	$itemClass = $row['class'];
     	$text = getString($conn, "0", "melee", "left", $itemClass);
     	if ($itemClass != "") {
@@ -89,8 +89,8 @@
     		// CRITICAL HIT
 
     		$damage = getCrit($conn, $acc);
-    		$sql_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
-    		$row = mysqli_fetch_array($sql_enemy, MYSQLI_ASSOC);
+    		$sql_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY combatEnemyID DESC LIMIT 1", $conn);
+    		$row = $sql_enemy->fetch();
     		if (isset($element) && $element != "") {
     			$mod = 1;
 
