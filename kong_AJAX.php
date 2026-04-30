@@ -612,7 +612,7 @@
 				
 				if ($row = mysqli_fetch_assoc($result)) {
 					// Existing session - return cookie
-					echo $row['Cookie'];
+					echo $row['cookie'];
 				} else {
 					// New session - create account and session
 					$cookie = bin2hex(random_bytes(8)); // Generate 16-char cookie
