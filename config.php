@@ -129,11 +129,16 @@ class PDOResultWrapper {
  * Convert MySQL-style backticks to PostgreSQL-compatible syntax
  * 
  * @param string $query SQL query with MySQL backticks
- * @return string Query with backticks removed
+ * @return string Query with backticks removed and MySQL functions converted
  */
 function convert_mysql_to_postgres($query) {
     // Remove backticks - PostgreSQL doesn't use them
-    return str_replace('`', '', $query);
+    $query = str_replace('`', '', $query);
+    
+    // Convert IFNULL to COALESCE
+    $query = preg_replace('/IFNULL\s*\(/i', 'COALESCE(', $query);
+    
+    return $query;
 }
 
 /**
@@ -157,6 +162,10 @@ function sql_query($query, $conn) {
             }
             return false;
         }
+        
+        // Store last statement on connection for mysqli_affected_rows compatibility
+        $conn->lastStatement = $result;
+        
         return new PDOResultWrapper($result);
     } catch (PDOException $e) {
         // Log masked environment and connection info to help diagnose auth/permission errors
@@ -335,6 +344,24 @@ function mysqli_stmt_close($stmt) {
 function mysqli_insert_id($conn) {
     if ($conn instanceof PDO) {
         return $conn->lastInsertId();
+    }
+    return 0;
+}
+
+/**
+ * Get number of affected rows (PDO compatibility)
+ * 
+ * @param PDO|PDOStatement $conn_or_stmt Database connection or statement
+ * @return int Number of affected rows
+ */
+function mysqli_affected_rows($conn_or_stmt) {
+    // Check if it's a PDO connection with a stored last statement
+    if ($conn_or_stmt instanceof PDO && isset($conn_or_stmt->lastStatement)) {
+        return $conn_or_stmt->lastStatement->rowCount();
+    }
+    // If it's a statement directly
+    if ($conn_or_stmt instanceof PDOStatement) {
+        return $conn_or_stmt->rowCount();
     }
     return 0;
 }
