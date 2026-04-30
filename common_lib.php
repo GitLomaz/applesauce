@@ -1861,6 +1861,10 @@
 		$output = array();
 		$sql_get_skills = "SELECT `index` as skillindex, `name`, `image`, `prereq`, `requiredlevel`, `maxlevel`, `type`, `prereq2`, `prereq3` FROM `skills`";
 		$sql_skills_result = sql_query($sql_get_skills, $conn);
+		if(!$sql_skills_result){
+			error_log("[getSkillInfo] Query failed");
+			return array();
+		}
 		while($row = mysqli_fetch_array($sql_skills_result,MYSQLI_ASSOC)){
 			$type = '';
 			switch ($row['type']){
@@ -1882,12 +1886,12 @@
 				case "Aura":
 					$type = 6;
 					break;
+			}
+			$string = ($row['skillindex'] ?? 0).'|'.($row['name'] ?? '').'|'.($row['image'] ?? '').'|'.($row['prereq'] ?? 0).'|'.($row['requiredlevel'] ?? 0).'|'.($row['maxlevel'] ?? 0).'|'.$type.'|'.($row['prereq2'] ?? 0).'|'.($row['prereq3'] ?? 0);
+			$output[] = $string;
 		}
-		$string = $row['skillindex'].'|'.$row['name'].'|'.$row['image'].'|'.$row['prereq'].'|'.$row['requiredlevel'].'|'.$row['maxlevel'].'|'.$type.'|'.$row['prereq2'].'|'.$row['prereq3'];
-		$output[] = $string;
-	}
 
-	return $output;
+		return $output;
 	}
 
 	// -- Function Name : getSkillLevels
@@ -1897,16 +1901,28 @@
 		$output = array();
 		$sql_get_skills = "SELECT l.*, s.`name`, s.`type`, s.`index` as skillindex FROM `skilllevels` l inner join `skills` s on s.`index` = l.`skillid`";
 		$sql_skills_result = sql_query($sql_get_skills, $conn);
+		if(!$sql_skills_result){
+			error_log("[getSkillLevels] Query failed");
+			return array();
+		}
 		while($row = mysqli_fetch_array($sql_skills_result,MYSQLI_ASSOC)){
 
-			if($row['cost'] == 0){
+			if(($row['cost'] ?? 0) == 0){
 				$cost = "N/A";
 			} else {
 				$cost = $row['cost'];
 			}
 
-			$script = "<strong>Skill Name: </strong>".$row['name']."<br/><br/><strong>Skill Type: </strong>".$row['type']."<br/><br/><strong>Skill Level: </strong>".$row['level']."<br/><strong>Base Mana Cost: </strong><span id='manaCost-".$row['skillid']."'>$cost</span><br/><br/><strong>Skill Description: </strong>".$row['script'];
-			$string = $row['skillindex'].'|skill-'.$row['skillid'].'|'.$row['element'].'|'.$row['cost'].'|'.$script.'|level-'.$row['level'].'|'.$row['skillid'];
+			$name = $row['name'] ?? '';
+			$type = $row['type'] ?? '';
+			$level = $row['level'] ?? 1;
+			$skillid = $row['skillid'] ?? 0;
+			$script = $row['script'] ?? '';
+			$skillindex = $row['skillindex'] ?? 0;
+			$element = $row['element'] ?? '';
+			
+			$description = "<strong>Skill Name: </strong>".$name."<br/><br/><strong>Skill Type: </strong>".$type."<br/><br/><strong>Skill Level: </strong>".$level."<br/><strong>Base Mana Cost: </strong><span id='manaCost-".$skillid."'>$cost</span><br/><br/><strong>Skill Description: </strong>".$script;
+			$string = $skillindex.'|skill-'.$skillid.'|'.$element.'|'.$cost.'|'.$description.'|level-'.$level.'|'.$skillid;
 			$output[] = $string;
 		}
 
