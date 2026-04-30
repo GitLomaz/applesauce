@@ -2645,6 +2645,7 @@
 
     function checkCombat($acc, $conn)
     {
+    	$output = array();
     	$sql_combat = "SELECT * FROM `combat` WHERE `playerID` = " . $acc;
     	$sql_rows = sql_query($sql_combat, $conn);
     	$check = false;

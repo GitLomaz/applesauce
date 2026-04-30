@@ -718,6 +718,7 @@
 	// -- Params : $conn, $acc
 	// -- Purpose : Gets the description text for all equipment
 	function getEquipment($conn, $acc){
+		$output = array();
 		$sql = "SELECT * FROM equipmentinventory WHERE name != 'unarmed' AND archived != 1 AND playerid = ".$acc;
 		$sql_rows = sql_query($sql, $conn);
 		$check = false;
@@ -884,6 +885,7 @@
 	}
 
 	function getEquipmentItem($conn, $item, $crafting){
+		$output = array();
 		$sql = "SELECT * FROM equipmentinventory WHERE \"index\" = $item";
 		$sql_rows = sql_query($sql, $conn);
 		$check = false;
@@ -1731,6 +1733,7 @@
 		//  --------------------------------------------------------------------------------------------------
 		//
 		//  --------------------------------------------------------------------------------------------------
+		$output = array();
 		$row = getRow($conn, "equippedStuff", $acc);
 		$counter = 0;
 		while($counter != 4){
@@ -1748,6 +1751,7 @@
 		//  --------------------------------------------------------------------------------------------------
 		//
 		//  --------------------------------------------------------------------------------------------------
+		$output = array();
 		$sql_get_items = "SELECT * FROM `item`";
 		// where item_id = 78";
 		$sql_item_result = sql_query($sql_get_items, $conn);
@@ -1840,6 +1844,7 @@
 	// -- Params : $conn
 	// -- Purpose : Returns information about all skills  -- key: combat:1 non:2 combat/non:3 buff:4 passive:5
 	function getSkillInfo($conn){
+		$output = array();
 		$sql_get_skills = "SELECT * FROM `skills`";
 		$sql_skills_result = sql_query($sql_get_skills, $conn);
 		while($row = mysqli_fetch_array($sql_skills_result,MYSQLI_ASSOC)){
@@ -1875,6 +1880,7 @@
 	// -- Params : $conn
 	// -- Purpose : Gets all levels of all skills
 	function getSkillLevels($conn){
+		$output = array();
 		$sql_get_skills = "SELECT * FROM `skillLevels` l inner join `skills` s on s.`index` = l.`skillID`";
 		$sql_skills_result = sql_query($sql_get_skills, $conn);
 		while($row = mysqli_fetch_array($sql_skills_result,MYSQLI_ASSOC)){
@@ -1897,6 +1903,7 @@
 	// -- Params : $conn, $acc
 	// -- Purpose : Returns current skill level of all skills
 	function getCharSkillLevels($conn, $acc){
+		$output = array();
 		$sql_get_skills = "SELECT * FROM `charSkills` where playerID = ".$acc;
 		$sql_skills_result = sql_query($sql_get_skills, $conn);
 		while($row = mysqli_fetch_array($sql_skills_result,MYSQLI_ASSOC)){
@@ -1904,7 +1911,7 @@
 			$output[] = $string;
 		}
 
-		return isset($output) ? $output : array();
+		return $output;
 	}
 
 	// -- Function Name : allocateSkills
@@ -2124,16 +2131,18 @@
 	// -- Params : $conn
 	// -- Purpose : Returns an object holding all news posts
 	function getNews($conn){
+		$output = array(); // Initialize output array
 		$sqlGetNews = 'SELECT * FROM news ORDER BY `newsIndex` DESC';
 		$sqlNewsResult = sql_query($sqlGetNews, $conn);
-		while(($row = mysqli_fetch_array($sqlNewsResult,MYSQLI_ASSOC))){
-			$output[] = $row['imageOffset'];
-			$output[] = $row['image'];
-			$output[] = $row['title'];
-			$output[] = $row['date'];
-			$output[] = $row['update'];
+		if ($sqlNewsResult) {
+			while(($row = mysqli_fetch_array($sqlNewsResult,MYSQLI_ASSOC))){
+				$output[] = $row['imageOffset'];
+				$output[] = $row['image'];
+				$output[] = $row['title'];
+				$output[] = $row['date'];
+				$output[] = $row['update'];
+			}
 		}
-
 		return $output;
 	}
 
@@ -2166,6 +2175,7 @@
 		//  --------------------------------------------------------------------------------------------------
 		//
 		//  --------------------------------------------------------------------------------------------------
+		$output = array();
 		$sql_shop_result = sql_query("SELECT * FROM `equipmentShops` WHERE shop_index = $shop", $conn);
 		while($row = mysqli_fetch_array($sql_shop_result,MYSQLI_ASSOC)){
 			$output[] = getSingleEquipment($conn, $row['item_1']);
@@ -2900,6 +2910,7 @@
 	// -- Params : $conn
 	// -- Purpose : Gets all achievements
 	function getAchievementList($conn){
+		$output = array();
 		$sql = 'SELECT * FROM `achievements` order by `order`';
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){

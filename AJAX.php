@@ -12,6 +12,9 @@
 	$acc = isset($_SESSION['accountNo']) ? $_SESSION['accountNo'] : '437';
 	$return = json_decode(isset($_POST['return']) ? $_POST['return'] : '["empty"]');
 	$call = mysqli_real_escape_string($conn, isset($_POST['call']) ? $_POST['call'] : '');
+	
+	error_log("[AJAX.php] Call: $call");
+	
 	$token = mysqli_real_escape_string($conn, isset($_POST['token']) ? $_POST['token'] : '');
 	$param1 = mysqli_real_escape_string($conn, isset($_POST['param1']) ? $_POST['param1'] : '');
 	$param2 = mysqli_real_escape_string($conn, isset($_POST['param2']) ? $_POST['param2'] : '');
@@ -24,7 +27,10 @@
 	//No Auth Required Calls
 	switch ($call){
 		case "getNews":
-			print json_encode(getNews($conn));
+			$news = getNews($conn);
+			error_log("[AJAX.php] getNews result: " . json_encode($news));
+			print json_encode($news);
+			exit; // Exit after handling no-auth calls
 			break;
 	}
 

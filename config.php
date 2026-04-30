@@ -126,6 +126,17 @@ class PDOResultWrapper {
 }
 
 /**
+ * Convert MySQL-style backticks to PostgreSQL-compatible syntax
+ * 
+ * @param string $query SQL query with MySQL backticks
+ * @return string Query with backticks removed
+ */
+function convert_mysql_to_postgres($query) {
+    // Remove backticks - PostgreSQL doesn't use them
+    return str_replace('`', '', $query);
+}
+
+/**
  * Execute SQL query with error handling
  * 
  * @param string $query SQL query to execute
@@ -135,6 +146,8 @@ class PDOResultWrapper {
  */
 function sql_query($query, $conn) {
     try {
+        // Convert MySQL syntax to PostgreSQL
+        $query = convert_mysql_to_postgres($query);
         $result = $conn->query($query);
         if ($result === false) {
             $error = "SQL Error: Query failed | Query: " . $query;
@@ -217,6 +230,16 @@ function mysqli_fetch_array($result, $mode = null) {
 }
 
 /**
+ * Fetch associative array from query result
+ * 
+ * @param PDOResultWrapper $result Query result
+ * @return array|false Result row
+ */
+function mysqli_fetch_assoc($result) {
+    return mysqli_fetch_array($result);
+}
+
+/**
  * Get number of rows from query result
  * 
  * @param PDOResultWrapper $result Query result  
@@ -227,6 +250,80 @@ function mysqli_num_rows($result) {
         return 0;
     }
     return $result->rowCount();
+}
+
+/**
+ * Prepare a statement (PDO compatibility)
+ * 
+ * @param PDO $conn Database connection
+ * @param string $query SQL query to prepare
+ * @return PDOStatement|false Prepared statement
+ */
+function mysqli_prepare($conn, $query) {
+    if ($conn instanceof PDO) {
+        $query = convert_mysql_to_postgres($query);
+        return $conn->prepare($query);
+    }
+    return false;
+}
+
+/**
+ * Bind parameters to prepared statement (PDO compatibility)
+ * 
+ * @param PDOStatement $stmt Prepared statement
+ * @param string $types Parameter types (ignored in PDO)
+ * @param mixed ...$vars Variables to bind
+ * @return bool Success
+ */
+function mysqli_stmt_bind_param($stmt, $types, &...$vars) {
+    if (!$stmt) return false;
+    try {
+        $i = 1;
+        foreach ($vars as &$var) {
+            $stmt->bindParam($i++, $var);
+        }
+        return true;
+    } catch (PDOException $e) {
+        error_log("mysqli_stmt_bind_param error: " . $e->getMessage());
+        return false;
+    }
+}
+
+/**
+ * Execute prepared statement (PDO compatibility)
+ * 
+ * @param PDOStatement $stmt Prepared statement
+ * @return bool Success
+ */
+function mysqli_stmt_execute($stmt) {
+    if (!$stmt) return false;
+    try {
+        return $stmt->execute();
+    } catch (PDOException $e) {
+        error_log("mysqli_stmt_execute error: " . $e->getMessage());
+        return false;
+    }
+}
+
+/**
+ * Get result from prepared statement (PDO compatibility)
+ * 
+ * @param PDOStatement $stmt Prepared statement
+ * @return PDOResultWrapper Result wrapper
+ */
+function mysqli_stmt_get_result($stmt) {
+    return new PDOResultWrapper($stmt);
+}
+
+/**
+ * Close prepared statement (PDO compatibility)
+ * 
+ * @param PDOStatement $stmt Prepared statement
+ * @return bool Success
+ */
+function mysqli_stmt_close($stmt) {
+    // PDO statements are closed automatically
+    return true;
 }
 
 // Define constants

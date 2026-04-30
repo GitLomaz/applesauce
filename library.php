@@ -225,10 +225,18 @@ function getAttribute($conn, $table, $attribute, $index){
 // -- Params : $conn
 // -- Purpose : Returns an object holding all news posts
 function getNews($conn){
+    $output = array(); // Initialize output array
     $sqlGetNews = 'SELECT `imageOffset`, `image`, `title`, `date`, `update` FROM news ORDER BY `newsIndex` DESC';
+    error_log("[getNews] Executing query: $sqlGetNews");
     $sqlNewsResult = sql_query($sqlGetNews, $conn);
-    while(($row = mysqli_fetch_array($sqlNewsResult,MYSQLI_ASSOC))){
-        $output[] = $row;
+    error_log("[getNews] Query executed, result: " . ($sqlNewsResult ? "success" : "failed"));
+    if ($sqlNewsResult) {
+        $count = 0;
+        while(($row = mysqli_fetch_array($sqlNewsResult,MYSQLI_ASSOC))){
+            $output[] = $row;
+            $count++;
+        }
+        error_log("[getNews] Fetched $count news items");
     }
     return $output;
 }
@@ -287,6 +295,7 @@ function getStatusBar($acc, $conn){
 // -- Params : $acc, $conn
 // -- Purpose : Returns a json object containing all inventory items for a char
 function getInventory($acc, $conn){
+    $output = array();
     $sql = "SELECT item_ID as itemID, COALESCE(`count`,0) as `count`, COALESCE(used,0) as `used`, COALESCE(archived,0) as `archived`, `name`, image, `value`, usable, combat, quest, equipment, `value`, description, visible from item t inner join inventory i on t.item_ID = i.itemID and playerID = $acc order by name";
     $result = sql_query($sql, $conn);
     while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
@@ -300,6 +309,7 @@ function getInventory($acc, $conn){
 // -- Purpose : Returns a json object containing all equipment not archived
 function getEquipment($acc, $conn){
 
+    $output = array();
     $keys['str'] = "Strength: ";
     $keys['dex'] = "Dexterity: ";
     $keys['spr'] = "Spirit: ";
@@ -428,6 +438,7 @@ function getEquippedItems($acc, $conn){
     //  --------------------------------------------------------------------------------------------------
     //
     //  --------------------------------------------------------------------------------------------------
+    $output = array();
     $row = getRow($conn, "equippedStuff", $acc);
     $counter = 1;
     while($counter != 5){
@@ -451,6 +462,7 @@ function getEquippedSkills($acc, $conn){
     //  --------------------------------------------------------------------------------------------------
     //
     //  --------------------------------------------------------------------------------------------------
+    $output = array();
     $row = getRow($conn, "equippedStuff", $acc);
     $counter = 1;
     while($counter != 5){
