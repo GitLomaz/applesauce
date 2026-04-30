@@ -746,132 +746,132 @@
 
 			if($row['slot'] == "weapon" || $row['slot'] == "2hweapon"){
 				$script .= "Weapon - ".ucfirst($row['class'])."<br/><br/>";
-				$script .= "<strong>Damage: </strong>".$row['baseDmgMin']." - ".$row['baseDmgMax']."<br/><br/>";
+				$script .= "<strong>Damage: </strong>".($row['basedmgmin'] ?? 0)." - ".($row['basedmgmax'] ?? 0)."<br/><br/>";
 			} else {
 				$script .= ucfirst($row['slot'])."<br/><br/>";
 
-				if($row['baseArmor'] > 0){
-					$script .= "<strong>Armor: </strong>".$row['baseArmor']."<br/><br/>";
+				if(($row['basearmor'] ?? 0) > 0){
+					$script .= "<strong>Armor: </strong>".$row['basearmor']."<br/><br/>";
 				}
 
 			}
 
 
-			if($row['str'] > 0){
+			if(($row['str'] ?? 0) > 0){
 				$script .= "<strong>Strength: </strong>".$row['str']."<br/>";
 			}
 
 
-			if($row['dex'] > 0){
+			if(($row['dex'] ?? 0) > 0){
 				$script .= "<strong>Dexterity: </strong>".$row['dex']."<br/>";
 			}
 
 
-			if($row['spr'] > 0){
+			if(($row['spr'] ?? 0) > 0){
 				$script .= "<strong>Spirit: </strong>".$row['spr']."<br/>";
 			}
 
 
-			if($row['vit'] > 0){
+			if(($row['vit'] ?? 0) > 0){
 				$script .= "<strong>Vitality: </strong>".$row['vit']."<br/>";
 			}
 
 
-			if($row['minDmg'] > 0){
-				$script .= "<strong>Bonus Min Damage: </strong>".$row['minDmg']."<br/>";
+			if(($row['mindmg'] ?? 0) > 0){
+				$script .= "<strong>Bonus Min Damage: </strong>".$row['mindmg']."<br/>";
 			}
 
 
-			if($row['maxDmg'] > 0){
-				$script .= "<strong>Bonus Max Damage: </strong>".$row['maxDmg']."<br/>";
+			if(($row['maxdmg'] ?? 0) > 0){
+				$script .= "<strong>Bonus Max Damage: </strong>".$row['maxdmg']."<br/>";
 			}
 
 
-			if($row['armor'] > 0){
+			if(($row['armor'] ?? 0) > 0){
 				$script .= "<strong>Bonus Armor: </strong>".$row['armor']."<br/>";
 			}
 
 
-			if($row['fireRes'] > 0){
-				$script .= "<strong>Fire Resistance: </strong>".$row['fireRes']."%<br/>";
+			if(($row['fireres'] ?? 0) > 0){
+				$script .= "<strong>Fire Resistance: </strong>".$row['fireres']."%<br/>";
 			}
 
 
-			if($row['iceRes'] > 0){
-				$script .= "<strong>Ice Resistance: </strong>".$row['iceRes']."%<br/>";
+			if(($row['iceres'] ?? 0) > 0){
+				$script .= "<strong>Ice Resistance: </strong>".$row['iceres']."%<br/>";
 			}
 
 
-			if($row['arcaneRes'] > 0){
-				$script .= "<strong>Arcane Resistance: </strong>".$row['arcaneRes']."%<br/>";
+			if(($row['arcaneres'] ?? 0) > 0){
+				$script .= "<strong>Arcane Resistance: </strong>".$row['arcaneres']."%<br/>";
 			}
 
 
-			if($row['earthRes'] > 0){
-				$script .= "<strong>Earth Resistance: </strong>".$row['earthRes']."%<br/>";
+			if(($row['earthres'] ?? 0) > 0){
+				$script .= "<strong>Earth Resistance: </strong>".$row['earthres']."%<br/>";
 			}
 
 
-			if($row['holyRes'] > 0){
-				$script .= "<strong>Holy Resistance: </strong>".$row['holyRes']."%<br/>";
+			if(($row['holyres'] ?? 0) > 0){
+				$script .= "<strong>Holy Resistance: </strong>".$row['holyres']."%<br/>";
 			}
 
 
-			if($row['maxHP'] > 0){
-				$script .= "<strong>Maximum HP: </strong>".$row['maxHP']."<br/>";
+			if(($row['maxhp'] ?? 0) > 0){
+				$script .= "<strong>Maximum HP: </strong>".$row['maxhp']."<br/>";
 			}
 
 
-			if($row['maxMP'] > 0){
-				$script .= "<strong>Maximum MP: </strong>".$row['maxMP']."<br/>";
+			if(($row['maxmp'] ?? 0) > 0){
+				$script .= "<strong>Maximum MP: </strong>".$row['maxmp']."<br/>";
 			}
 
 
-			if($row['regenHP'] > 0){
-				$script .= "<strong>HP Regen: </strong>".$row['regenHP']."<br/>";
+			if(($row['regenhp'] ?? 0) > 0){
+				$script .= "<strong>HP Regen: </strong>".$row['regenhp']."<br/>";
 			}
 
 
-			if($row['regenMP'] > 0){
-				$script .= "<strong>MP Regen: </strong>".$row['regenMP']."<br/>";
+			if(($row['regenmp'] ?? 0) > 0){
+				$script .= "<strong>MP Regen: </strong>".$row['regenmp']."<br/>";
 			}
 
 
-			if($row['evasion'] > 0){
+			if(($row['evasion'] ?? 0) > 0){
 				$script .= "<strong>Evasion: </strong>".$row['evasion']."<br/>";
 			}
 
 
-			if($row['itemDrop'] > 0){
-				$script .= "<strong>Item Drop Increase: </strong>".$row['itemDrop']."%<br/>";
+			if(($row['itemdrop'] ?? 0) > 0){
+				$script .= "<strong>Item Drop Increase: </strong>".$row['itemdrop']."%<br/>";
 			}
 
 
-			if($row['silverDrop'] > 0){
-				$script .= "<strong>Silver Drop Increase: </strong>".$row['silverDrop']."%<br/>";
+			if(($row['silverdrop'] ?? 0) > 0){
+				$script .= "<strong>Silver Drop Increase: </strong>".$row['silverdrop']."%<br/>";
 			}
 
 
-			if($row['critChance'] > 0){
-				$script .= "<strong>Bonus Crit Chance: </strong>".$row['critChance']."%<br/>";
+			if(($row['critchance'] ?? 0) > 0){
+				$script .= "<strong>Bonus Crit Chance: </strong>".$row['critchance']."%<br/>";
 			}
 
 
-			if($row['critDamage'] > 0){
-				$script .= "<strong>Bonus Crit Modifier: </strong>".$row['critDamage']."%<br/>";
+			if(($row['critdamage'] ?? 0) > 0){
+				$script .= "<strong>Bonus Crit Modifier: </strong>".$row['critdamage']."%<br/>";
 			}
 
 
-			if($row['blockChance'] > 0){
-				$script .= "<strong>Block Rate: </strong>".$row['blockChance']."%<br/>";
+			if(($row['blockchance'] ?? 0) > 0){
+				$script .= "<strong>Block Rate: </strong>".$row['blockchance']."%<br/>";
 			}
 
 
-			if($row['statString'] != ''){
-				$script .= "<br/><strong style=\"color:cyan\">".$row['statString']."</strong>";
+			if(($row['statstring'] ?? '') != ''){
+				$script .= "<br/><strong style=\"color:cyan\">".$row['statstring']."</strong>";
 			}
 
-			$output[] = $row['index']."|".$row['name']."|".$row['image']."|".$row['slot']."|".$script."|".$row['script']."|".$row['price']."|".$row['equipped']."|".$row['stored']."|".$row['template'];
+			$output[] = ($row['index'] ?? 0)."|".($row['name'] ?? '')."|".($row['image'] ?? '')."|".($row['slot'] ?? '')."|".($script ?? '')."|".($row['script'] ?? '')."|".($row['price'] ?? 0)."|".($row['equipped'] ?? 0)."|".($row['stored'] ?? 0)."|".($row['template'] ?? 0);
 		}
 
 

@@ -50,7 +50,7 @@
 				// Don't update session expiry if no account exists
 			} else {
 				// Update session expiry by cookie
-				$sql = "UPDATE `sessions` SET `cookie` = '" . $token . "', Expiry = DATE_ADD(NOW(), INTERVAL " . SESSION_TIMEOUT_MINUTES . " MINUTE) WHERE Type = 'Session' AND Cookie = '" . $token . "'";
+				$sql = "UPDATE `sessions` SET `cookie` = '" . $token . "', Expiry = DATE_ADD(NOW(), INTERVAL '" . SESSION_TIMEOUT_MINUTES . " MINUTE') WHERE Type = 'Session' AND Cookie = '" . $token . "'";
 				sql_query($sql, $conn);
 			}
 			}
