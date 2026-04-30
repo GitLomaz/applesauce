@@ -8,9 +8,9 @@
 
 
 	function logAction($conn, $acc, $action, $param1, $param2){
-		$sql = 'select `timestamp` as `time` from actions ORDER BY actionID DESC LIMIT 1';
+		$sql = 'select "timestamp" as "time" from actions ORDER BY actionID DESC LIMIT 1';
 		$sqlR = sql_query($sql, $conn);
-		$row = mysqli_fetch_array($sqlR, MYSQLI_ASSOC);
+		$row = $sqlR->fetch();
 		$timestamp = $row['time'];
 		$message = '';
 		$accountName =  getAttribute($conn, "account", "account", $acc);
@@ -41,7 +41,7 @@
 		if($action == 'reset'){
 			$message = "$accountName reset their level $param1 $param2";
 		}
-		$sql = "insert into `actions` (`text`, `action`, `diff`) values ('$message', '$action', TIMESTAMPDIFF(SECOND,CURRENT_TIMESTAMP, '$timestamp'))";
+		$sql = "insert into actions (\"text\", \"action\", \"diff\") values ('$message', '$action', EXTRACT(EPOCH FROM (TIMESTAMP '$timestamp' - CURRENT_TIMESTAMP))::int)";
 		sql_query($sql, $conn);
 	}
 
@@ -109,7 +109,7 @@
 				break;
 			}
 
-			$sql = "UPDATE `character` set `silver` = `silver` - $cost where `playerID` = $acc";
+			$sql = "UPDATE \"character\" set \"silver\" = \"silver\" - $cost where \"playerID\" = $acc";
 			sql_query($sql, $conn);
 			return $restore;
 		}
@@ -194,31 +194,31 @@
 			}
 		}
 		logAction($conn, $acc, "reset", $level, $class);
-		$sql = "insert into resets (playerID, class, level, hardcore, $stat, $classShort, vit) values ($acc, '$class', $level, $core, $statVal, $classVal, $vit)";
+		$sql = "insert into resets (playerid, class, level, hardcore, $stat, $classShort, vit) values ($acc, '$class', $level, $core, $statVal, $classVal, $vit)";
 		sql_query($sql, $conn);
-		$sql = "DELETE FROM kalrul.character where playerID = $acc";
+		$sql = "DELETE FROM character where playerid = $acc";
 		sql_query($sql, $conn);
-		$sql = "DELETE FROM kalrul.charSkills where playerID = $acc";
+		$sql = "DELETE FROM charskills where playerid = $acc";
 		sql_query($sql, $conn);
-		$sql = "DELETE FROM kalrul.combat where playerID = $acc";
+		$sql = "DELETE FROM combat where playerid = $acc";
 		sql_query($sql, $conn);
-		$sql = "DELETE FROM kalrul.combatEnemies where playerID = $acc";
+		$sql = "DELETE FROM combatenemies where playerid = $acc";
 		sql_query($sql, $conn);
-		$sql = "DELETE FROM kalrul.completeQuests where playerID = $acc";
+		$sql = "DELETE FROM completequests where playerid = $acc";
 		sql_query($sql, $conn);
-		$sql = "UPDATE kalrul.equipmentInventory  SET `archived` = 1, `equipped` = 0, `stored` = 0 where playerID = $acc";
+		$sql = "UPDATE equipmentinventory SET \"archived\" = 1, \"equipped\" = 0, \"stored\" = 0 where playerid = $acc";
 		sql_query($sql, $conn);
-		$sql = "DELETE FROM kalrul.equippedStuff where equipIndex = $acc";
+		$sql = "DELETE FROM equippedstuff where equipindex = $acc";
 		sql_query($sql, $conn);
-		$sql = "UPDATE kalrul.inventory SET `archived` = `archived` + `count` + `stored`, `count` = 0, `stored` = 0 where playerID = $acc";
+		$sql = "UPDATE inventory SET \"archived\" = \"archived\" + \"count\" + \"stored\", \"count\" = 0, \"stored\" = 0 where playerid = $acc";
 		sql_query($sql, $conn);
-		$sql = "DELETE FROM kalrul.playerBuffs where playerID = $acc";
+		$sql = "DELETE FROM playerbuffs where playerid = $acc";
 		sql_query($sql, $conn);
-		$sql = "DELETE FROM kalrul.playerWaypoints where playerID = $acc";
+		$sql = "DELETE FROM playerwaypoints where playerid = $acc";
 		sql_query($sql, $conn);
-		$sql = "DELETE FROM kalrul.questPlayerStatus where playerID = $acc";
+		$sql = "DELETE FROM questplayerstatus where playerid = $acc";
 		sql_query($sql, $conn);
-		$sql = "DELETE FROM kalrul.inventory where playerID = $acc and itemID in (select item_ID from item where quest = 1)";
+		$sql = "DELETE FROM inventory where playerid = $acc and itemid in (select item_id from item where quest = 1)";
 		sql_query($sql, $conn);
 
 		return 1;
@@ -576,9 +576,9 @@
 			return -1;
 		}
 
-		$sql = "SELECT * FROM `equipmentTemplate` WHERE `index` = ".$id;
+		$sql = "SELECT * FROM equipmenttemplate WHERE \"index\" = ".$id;
 		$sql_rows = sql_query($sql, $conn);
-		while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
+		while($row = $sql_rows->fetch()){
 			$script = "<strong>Item Name: </strong>".$row['name']."<br/><br/><strong>Item Class: </strong>";
 
 			if($row['slot'] == "weapon" || $row['slot'] == "2hweapon"){
@@ -718,10 +718,10 @@
 	// -- Params : $conn, $acc
 	// -- Purpose : Gets the description text for all equipment
 	function getEquipment($conn, $acc){
-		$sql = "SELECT * FROM `equipmentInventory` WHERE `name` != 'unarmed' AND `archived` != 1 AND `playerID` = ".$acc;
+		$sql = "SELECT * FROM equipmentinventory WHERE name != 'unarmed' AND archived != 1 AND playerid = ".$acc;
 		$sql_rows = sql_query($sql, $conn);
 		$check = false;
-		while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
+		while($row = $sql_rows->fetch()){
 			if($row['upgrade'] > 0){
 				$row["name"] = "+" . $row['upgrade'] . " " . $row["name"];
 			}
@@ -884,10 +884,10 @@
 	}
 
 	function getEquipmentItem($conn, $item, $crafting){
-		$sql = "SELECT * FROM `equipmentInventory` WHERE `index` = $item";
+		$sql = "SELECT * FROM equipmentinventory WHERE \"index\" = $item";
 		$sql_rows = sql_query($sql, $conn);
 		$check = false;
-		while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
+		while($row = $sql_rows->fetch()){
 			$check = true;
 			if($crafting){
 				$row['name'] = "+".($row['upgrade'] + 1)." ".$row['name'];
@@ -1055,10 +1055,10 @@
 	// -- Purpose : Uses an item, applying all needed effects to player outside combat
 	function useItemNonCombat($acc, $item, $conn, $amnt){
 
-		if(getInventoryItem($conn, $acc, $item) > 0){
-			$sql_get_item = "select * from `item` where item_ID =".$item;
-			$sql_item_result = sql_query($sql_get_item, $conn);
-			while($row = mysqli_fetch_array($sql_item_result,MYSQLI_ASSOC)){
+			if(getInventoryItem($conn, $acc, $item) > 0){
+				$sql_get_item = "select * from item where item_id =".$item;
+				$sql_item_result = sql_query($sql_get_item, $conn);
+				while($row = $sql_item_result->fetch()){
 
 				if($row['usable'] == 1){
 					$minVal1 = $row['useMin'] * $amnt;
@@ -1155,12 +1155,11 @@
 									$values .= $NVP[1].', ';
 								}
 
-								$sql = 'insert into `playerBuffs` ('.$columns.' itemID, playerID, name, image, remaining, script) values ('.$values.$newItem.', '.$acc.', "';
+								$sql = 'insert into playerbuffs ('.$columns.' itemid, playerid, name, image, remaining, script) values ('.$values.$newItem.', '.$acc.', "';
 								$sql .= $row['name'].'", "'.$row['secondImage'].'", '.$row['duration'] * $amnt.', "'.$row['description'].'")';
 							} else {
-								$sql = 'update `playerBuffs` set `remaining` = `remaining` + '.$row['duration'] * $amnt.' where	itemID = '.$newItem.' and playerID = '.$acc;
+								$sql = 'update playerbuffs set remaining = remaining + '.$row['duration'] * $amnt.' where itemid = '.$newItem.' and playerid = '.$acc;
 							}
-
 							sql_query($sql, $conn);
 							$return = $row['duration'] * $amnt.' turns of buff recieved';
 							$used = true;
@@ -1295,7 +1294,7 @@
 		}
 		logAction($conn, $acc, 'levelUp', $level, NULL);
 		$sql = "SELECT exp FROM exp WHERE level = $level";
-		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
+		$row = sql_query($sql, $conn)->fetch();
 		$nextLevel = $row['exp'];
 		$class = getAttribute($conn, "character", "class", $acc);
 
@@ -1314,8 +1313,8 @@
 			$spr = 2;
 		}
 
-		$sql = "UPDATE `character` SET `level` = `level` + 1, `exp` = ".$diff.", `next` = ".$nextLevel.", `statPoints` = `statPoints` + 4, `skillPoints` = `skillPoints` + 1,";
-		$sql .= " `strength` = `strength` + ".$str.", `dexterity` = `dexterity` + ".$dex.", `spirit` = `spirit` + ".$spr." WHERE playerID = ".$acc;
+		$sql = "UPDATE \"character\" SET \"level\" = \"level\" + 1, \"exp\" = ".$diff.", \"next\" = ".$nextLevel.", \"statpoints\" = \"statpoints\" + 4, \"skillpoints\" = \"skillpoints\" + 1,";
+		$sql .= " \"strength\" = \"strength\" + ".$str.", \"dexterity\" = \"dexterity\" + ".$dex.", \"spirit\" = \"spirit\" + ".$spr." WHERE playerid = ".$acc;
 		sql_query($sql, $conn);
 		fullheal ($acc, $conn);
 		fullmana ($acc, $conn);
@@ -1401,18 +1400,18 @@
 
 		if($type == 'Aura'){
 
-			$sql = "select * from playerBuffs where buffID = $skill and playerID = $acc";
+			$sql = "select * from playerbuffs where buffid = $skill and playerid = $acc";
 			$query = sql_query($sql, $conn);
-			if(mysqli_num_rows($query) == 0){
-				$sql = "INSERT INTO playerBuffs (buffID, playerID, remaining, image, name, script) select $skill, $acc, 0, '$image', '$name', script from skillLevels sl inner join charSkills cs on cs.level = sl.level where sl.skillID = $skill and cs.skillID = $skill and playerID = $acc";
+			if($query->rowCount() == 0){
+				$sql = "INSERT INTO playerbuffs (buffid, playerid, remaining, image, name, script) select $skill, $acc, 0, '$image', '$name', script from skilllevels sl inner join charskills cs on cs.level = sl.level where sl.skillid = $skill and cs.skillid = $skill and playerid = $acc";
 				sql_query($sql, $conn);
 			}
 		}
 
-		$sql = "select * from charSkills where playerID = $acc AND skillID = $skill";
+		$sql = "select * from charskills where playerid = $acc AND skillid = $skill";
 		$query = sql_query($sql, $conn);
 
-		if(mysqli_num_rows($query) > 0){
+		if($query->rowCount() > 0){
 			$equipped = json_decode(getEquippedSkills($conn, $acc));
 
 			if(array_search($skill, $equipped) > -1){
@@ -1422,7 +1421,7 @@
 			$equipTo = array_search("-1", $equipped);
 
 			if($equipTo > -1){
-				sql_query('UPDATE equippedStuff SET `skill_'.($equipTo + 1).'`= '.$skill.' WHERE equipIndex='.$acc, $conn);
+				sql_query('UPDATE equippedstuff SET skill_'.($equipTo + 1).'= '.$skill.' WHERE equipindex='.$acc, $conn);
 				return '<span style="color:green;">Item added to battle ready list!</span>';
 			}
 
@@ -1581,9 +1580,9 @@
 		}else{
 			$calcStats = getRow($conn, "calcValues", $acc);
 		}
-		$sql = "SELECT SUM(`count`) AS 'count' FROM `charKills` WHERE `playerID` = ".$acc;
+		$sql = "SELECT SUM(\"count\") AS 'count' FROM charKills WHERE playerid = ".$acc;
 		$sql_row = sql_query($sql, $conn);
-		$kills = mysqli_fetch_array($sql_row,MYSQLI_ASSOC)['count'];
+		$kills = $sql_row->fetch()['count'];
 		$level = $row['level'];
 		$str = $row['strength'];
 		$dex = $row['dexterity'];
@@ -1620,9 +1619,9 @@
 		$block = $calcStats["block"];
 
 		if($equippedShield != 0){
-			$sql = "SELECT * FROM charSkills s inner join skillLevels l on s.skillID = l.skillID where playerID = $acc and l.level = s.level and s.skillID = 9";
+			$sql = "SELECT * FROM charskills s inner join skilllevels l on s.skillid = l.skillid where playerid = $acc and l.level = s.level and s.skillid = 9";
 			$result = sql_query($sql, $conn);
-			$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
+			$row = $result->fetch();
 			$block = $block + ($row['damage']);
 		}
 

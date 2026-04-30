@@ -30,7 +30,7 @@ margin: 0 auto;
 <?php
 include_once('common_lib.php');
 $conn = sql_connect();
-$result = sql_query("SELECT * from `actions` order by `actions`.`timestamp` desc LIMIT 2500", $conn);
+$result = sql_query("SELECT * from actions order by actions.\"timestamp\" desc LIMIT 2500", $conn);
 
 echo "<table border='1'>
 <tr>

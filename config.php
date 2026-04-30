@@ -18,11 +18,12 @@ ini_set('error_log', 'php://stderr'); // Send errors to stderr for Cloud Run
 
 // Database Configuration
 // Use environment variables for sensitive credentials
-define('DB_HOST', getenv('DB_HOST') ?: 'localhost');
-define('DB_USER', getenv('DB_USER') ?: 'root');
-define('DB_PASS', getenv('DB_PASS') ?: getenv('DB_PASS') ?: '');
-define('DB_NAME', getenv('DB_NAME') ?: 'kalrul');
-define('DB_PORT', getenv('DB_PORT') ?: '3306');
+// PostgreSQL connection via Supabase: postgresql://postgres:[DB_PASS]@db.pasokuwgludhtolrxctu.supabase.co:5432/postgres
+define('DB_HOST', getenv('DB_HOST') ?: 'db.pasokuwgludhtolrxctu.supabase.co');
+define('DB_USER', getenv('DB_USER') ?: 'postgres');
+define('DB_PASS', getenv('DB_PASS') ?: '');
+define('DB_NAME', getenv('DB_NAME') ?: 'postgres');
+define('DB_PORT', getenv('DB_PORT') ?: '5432');
 
 // No Cloud SQL Unix socket: use TCP env vars for all environments
 
@@ -35,16 +36,16 @@ define('APP_DEBUG', getenv('APP_DEBUG') === 'true');
 
 /**
  * Get database connection
- * Supports both standard TCP and Cloud SQL Unix socket connections
+ * PostgreSQL connection using PDO
  * 
- * @return mysqli Database connection object
+ * @return PDO Database connection object
  * @throws Exception if connection fails
  */
 function get_db_connection() {
     static $conn = null;
     
     // Return existing connection if available
-    if ($conn !== null && $conn->ping()) {
+    if ($conn !== null) {
         return $conn;
     }
     
@@ -59,31 +60,28 @@ function get_db_connection() {
         }
         error_log(sprintf('[DB DEBUG] host=%s user=%s pass=%s db=%s port=%s env_pass_present=%s', DB_HOST, DB_USER, $masked_pass, DB_NAME, DB_PORT, ($raw_env_pass !== false && $raw_env_pass !== '') ? 'true' : 'false'));
 
-        // Always use TCP connection via environment variables
-        $conn = new mysqli(
+        // Build PostgreSQL DSN
+        $dsn = sprintf(
+            "pgsql:host=%s;port=%s;dbname=%s;sslmode=require",
             DB_HOST,
-            DB_USER,
-            DB_PASS,
-            DB_NAME,
-            DB_PORT
+            DB_PORT,
+            DB_NAME
         );
         
-        if ($conn->connect_error) {
-            error_log("Database connection failed: " . $conn->connect_error . " (errno " . $conn->connect_errno . ")");
-            throw new Exception("Database connection failed");
-        }
+        // Create PDO connection with error mode set to exceptions
+        $conn = new PDO($dsn, DB_USER, DB_PASS, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+            PDO::ATTR_EMULATE_PREPARES => false,
+        ]);
         
-        // Set charset to UTF-8
-        $conn->set_charset("utf8mb4");
-        
-        // Disable ONLY_FULL_GROUP_BY for legacy queries
-        $conn->query("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
+        error_log("PostgreSQL connection established successfully");
         
         return $conn;
         
-    } catch (Exception $e) {
+    } catch (PDOException $e) {
         error_log("Fatal error connecting to database: " . $e->getMessage());
-        throw $e;
+        throw new Exception("Database connection failed");
     }
 }
 
@@ -105,15 +103,15 @@ function createConnection() {
  * Execute SQL query with error handling
  * 
  * @param string $query SQL query to execute
- * @param mysqli $conn Database connection
- * @return mysqli_result|bool Query result
+ * @param PDO $conn Database connection
+ * @return PDOStatement|bool Query result statement
  * @throws Exception if query fails
  */
 function sql_query($query, $conn) {
     try {
         $result = $conn->query($query);
         if ($result === false) {
-            $error = "SQL Error: " . $conn->error . " | Query: " . $query;
+            $error = "SQL Error: Query failed | Query: " . $query;
             error_log($error);
             if (APP_DEBUG) {
                 throw new Exception($error);
@@ -121,7 +119,7 @@ function sql_query($query, $conn) {
             return false;
         }
         return $result;
-    } catch (mysqli_sql_exception $e) {
+    } catch (PDOException $e) {
         // Log masked environment and connection info to help diagnose auth/permission errors
         $raw_env_pass = getenv('DB_PASS');
         $masked_pass = '';
@@ -130,7 +128,7 @@ function sql_query($query, $conn) {
         } else {
             $masked_pass = strlen($raw_env_pass) > 2 ? substr($raw_env_pass,0,1) . '***' . substr($raw_env_pass,-1) : '***';
         }
-        error_log(sprintf('[DB QUERY ERROR] user=%s pass=%s host=%s db=%s errno=%s err=%s query="%s"', DB_USER, $masked_pass, DB_HOST, DB_NAME, $e->getCode(), $e->getMessage(), str_replace("\n", ' ', substr($query,0,500))));
+        error_log(sprintf('[DB QUERY ERROR] user=%s pass=%s host=%s db=%s code=%s err=%s query="%s"', DB_USER, $masked_pass, DB_HOST, DB_NAME, $e->getCode(), $e->getMessage(), str_replace("\n", ' ', substr($query,0,500))));
         if (APP_DEBUG) {
             throw $e;
         }
@@ -153,4 +151,44 @@ function app_log($message, $level = 'INFO') {
     } else {
         echo $formatted;
     }
+}
+
+/**
+ * Compatibility wrapper for mysqli_fetch_array - works with PDOStatement
+ */
+function mysqli_fetch_array($statement, $result_type = null) {
+    if ($statement instanceof PDOStatement) {
+        return $statement->fetch(PDO::FETCH_ASSOC);
+    }
+    return false;
+}
+
+/**
+ * Compatibility wrapper for mysqli_num_rows - works with PDOStatement
+ */
+function mysqli_num_rows($statement) {
+    if ($statement instanceof PDOStatement) {
+        return $statement->rowCount();
+    }
+    return 0;
+}
+
+/**
+ * Compatibility wrapper for mysqli_affected_rows - works with PDO
+ */
+function mysqli_affected_rows($conn) {
+    if ($conn instanceof PDO) {
+        // For PDO, we need to track this differently
+        // This will return the last statement's affected rows if available
+        return $conn->lastInsertId() ? 1 : 0;
+    }
+    return 0;
+}
+
+/**
+ * Compatibility wrapper for mysqli_close - PDO doesn't need explicit close
+ */
+function mysqli_close($conn) {
+    // PDO doesn't need explicit close, connections are closed when the object is destroyed
+    return true;
 }

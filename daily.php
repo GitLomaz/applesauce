@@ -36,7 +36,7 @@ echo "<table border='1'>
 <th>ACTION COUNT</th>
 </tr>";
 
-$sql = "SELECT * FROM `dailyActions`";
+$sql = "SELECT * FROM dailyactions";
 $sql_rows = sql_query($sql, $conn);
 while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 	$day = $row["Day"];

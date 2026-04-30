@@ -6,20 +6,20 @@
 	$conn = sql_connect();
 	if(strlen($_SERVER['QUERY_STRING']) > 0){
 		app_log("====================================================================================================");
-		sql_query("update `character` set promptDaily = 1", $conn);
-		sql_query("update `character` set lastDailyComplete = 0 where lastDailyComplete != 0 and lastDailyTime < date(subdate(SYSDATE(), 1))", $conn);
-		sql_query("delete from inventory where itemID in (123,124,125)", $conn);
-		sql_query("delete from questPlayerStatus where questID in (27,28,29,30,31)", $conn);
+		sql_query("update \"character\" set promptdaily = 1", $conn);
+		sql_query("update \"character\" set lastdailycomplete = 0 where lastdailycomplete != 0 and lastdailytime < date(CURRENT_DATE - INTERVAL '1 day')", $conn);
+		sql_query("delete from inventory where itemid in (123,124,125)", $conn);
+		sql_query("delete from questplayerstatus where questid in (27,28,29,30,31)", $conn);
 		app_log("Daily Complete");
-		sql_query("delete from inventory where `count` = 0 and used = 0 and archived = 0 and stored = 0", $conn);
+		sql_query("delete from inventory where \"count\" = 0 and used = 0 and archived = 0 and stored = 0", $conn);
 		app_log("    ====> Number of inventory records purged: " . mysqli_affected_rows($conn));
-		sql_query("delete from equipmentInventory where name = 'unarmed' and archived = 1", $conn);
+		sql_query("delete from equipmentinventory where name = 'unarmed' and archived = 1", $conn);
 		app_log("    ====> Number of equipment records purged: " . mysqli_affected_rows($conn));
 		$day = date('Y-m-d', strtotime('-1 day', strtotime("now")));
-		sql_query("select * from `actions` where timestamp like '%$day%'", $conn);
+		sql_query("select * from actions where \"timestamp\" >= '$day' AND \"timestamp\" < '$day'::date + INTERVAL '1 day'", $conn);
 		$actions = mysqli_affected_rows($conn);
 		app_log("    ====> Number of actions yesterday: " . $actions);
-		sql_query("insert into dailyActions(day, total) values ('$day', $actions)", $conn);
+		sql_query("insert into dailyactions(day, total) values ('$day', $actions)", $conn);
 		app_log("====================================================================================================");
 	}
 ?>
