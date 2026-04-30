@@ -660,7 +660,7 @@
 				buyEquipment($conn, "17|", $playerId, false);  // Buy starting equipment
 				
 				// Create session (Type defaults to 'Session') and set expiry 1 year from now
-				$sql = "INSERT INTO sessions (Cookie, Account, SessionID, Type, lastActive, Expiry) VALUES (?, ?, ?, 'Session', NOW(), NOW() + INTERVAL 1 YEAR)";
+				$sql = "INSERT INTO sessions (Cookie, Account, SessionID, Type, lastActive, Expiry) VALUES (?, ?, ?, 'Session', NOW(), NOW() + INTERVAL '1 YEAR')";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_bind_param($stmt, 'sis', $cookie, $playerId, $sessionId);
 				

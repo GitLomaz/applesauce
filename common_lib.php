@@ -523,18 +523,19 @@
 			} else {
 				sql_query("UPDATE `character` set `silver`=`silver` - ".$cost." where `playerID`=".$acc, $conn);
 				$row['price'] = $row['price'] / 3;
+				// Use null coalescing operator to provide defaults for missing/NULL columns
 				$sql = "INSERT INTO `equipmentInventory` (`script`, `playerID`, `price`, `image`, `name`, `slot`, `class`, `baseDmgMin`, `baseDmgMax`, ";
 				$sql .= "`baseArmor`, `level`, `str`, `dex`, `spr`, `vit`, `minDmg`, `maxDmg`, `armor`, `fireRes`, `earthRes`, ";
 				$sql .= "`iceRes`, `arcaneRes`, `holyRes`, `maxHP`, `maxMP`, `regenHP`, `regenMP`, `evasion`, `itemDrop`, `silverDrop`, ";
-				$sql .= "`critChance`, `critDamage`, `blockChance`, template, statString, bonusPotHeal,  bonusPotMana, expDrop, healthPerc, manaPerc, strPerc, vitPerc, dexPerc, sprPerc, spellReduction) VALUES ('".$row['script']."', ".$acc.", ".$row['price'].", '".$row['image']."', '".$row['name']."', '".$row['slot']."', '".$row['class']."', ";
-				$sql .= $row['baseDmgMin'].", ".$row['baseDmgMax'].", ".$row['baseArmor'].", ".$row['level'].", ".$row['str'].", ".$row['dex'].", ".$row['spr'].", ";
-				$sql .= $row['vit'].", ".$row['minDmg'].", ".$row['maxDmg'].", ".$row['armor'].", ".$row['fireRes'].", ".$row['earthRes'].", ".$row['iceRes'].", ";
-				$sql .= $row['arcaneRes'].", ".$row['holyRes'].", ".$row['maxHP'].", ".$row['maxMP'].", ".$row['regenHP'].", ".$row['regenMP'].", ".$row['evasion'].", ";
-				$sql .= $row['itemDrop'].", ".$row['silverDrop'].", ".$row['critChance'].", ".$row['critDamage'].", ".$row['blockChance'].", ".$row['index']." ,'".$row['statString']."', ".$row['bonusPotHeal'].", ".$row['bonusPotMana'].", ".$row['expDrop'].", ".$row['healthPerc'].", ".$row['manaPerc'].", ".$row['strPerc'].", ".$row['vitPerc'].", ".$row['dexPerc'].", ".$row['sprPerc'].", ".$row['spellReduction'].")";
+				$sql .= "`critChance`, `critDamage`, `blockChance`, template, statString, bonusPotHeal,  bonusPotMana, expDrop, healthPerc, manaPerc, strPerc, vitPerc, dexPerc, sprPerc, spellReduction) VALUES ('".(($row['script'] ?? ''))."', ".$acc.", ".$row['price'].", '".(($row['image'] ?? ''))."', '".(($row['name'] ?? ''))."', '".(($row['slot'] ?? ''))."', '".(($row['class'] ?? ''))."', ";
+				$sql .= ($row['basedmgmin'] ?? 0).", ".($row['basedmgmax'] ?? 0).", ".($row['basearmor'] ?? 0).", ".($row['level'] ?? 0).", ".($row['str'] ?? 0).", ".($row['dex'] ?? 0).", ".($row['spr'] ?? 0).", ";
+				$sql .= ($row['vit'] ?? 0).", ".($row['mindmg'] ?? 0).", ".($row['maxdmg'] ?? 0).", ".($row['armor'] ?? 0).", ".($row['fireres'] ?? 0).", ".($row['earthres'] ?? 0).", ".($row['iceres'] ?? 0).", ";
+				$sql .= ($row['arcaneres'] ?? 0).", ".($row['holyres'] ?? 0).", ".($row['maxhp'] ?? 0).", ".($row['maxmp'] ?? 0).", ".($row['regenhp'] ?? 0).", ".($row['regenmp'] ?? 0).", ".($row['evasion'] ?? 0).", ";
+				$sql .= ($row['itemdrop'] ?? 0).", ".($row['silverdrop'] ?? 0).", ".($row['critchance'] ?? 0).", ".($row['critdamage'] ?? 0).", ".($row['blockchance'] ?? 0).", ".($row['index'] ?? 0)." ,'".($row['statstring'] ?? '')."', ".($row['bonuspotheal'] ?? 0).", ".($row['bonuspotmana'] ?? 0).", ".($row['expdrop'] ?? 0).", ".($row['healthperc'] ?? 0).", ".($row['manaperc'] ?? 0).", ".($row['strperc'] ?? 0).", ".($row['vitperc'] ?? 0).", ".($row['dexperc'] ?? 0).", ".($row['sprperc'] ?? 0).", ".($row['spellreduction'] ?? 0).")";
 				sql_query($sql, $conn);
 
-				if($row['script'] != "0"){
-					$row['name'] = "<font color=\'gold\'>".$row['name']."</font>" ;  //SKIP
+				if(($row['script'] ?? '0') != "0"){
+					$row['name'] = "<font color=\'gold\'>".(($row['name'] ?? ''))."</font>" ;  //SKIP
 				}
 
 				$counter++;
