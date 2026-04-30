@@ -1995,14 +1995,12 @@
 
 		if(getAttribute($conn, 'character', 'level', $acc) >= $row['requiredlevel']){
 
-					applyPassives($conn, $acc, $skillID, $level);
-					return true;
-				} else {
-					return false;
-				}
-
-			} else {
-				return false;
+			if($points <= $maxLevel && $points <= getAttribute($conn, 'character', 'skillPoints', $acc)){
+				$sql = "UPDATE `character` set `skillPoints` = `skillPoints` - ".$points." where playerID = ".$acc;
+				sql_query($sql, $conn);
+				$sql = "INSERT INTO `charSkills` (`level`, `playerID`, `skillID`) values (".$points.",".$acc.", ".$skillID.")";
+				sql_query($sql, $conn);
+				$level = $points;
 			}
 
 		}

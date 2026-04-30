@@ -448,7 +448,7 @@ function getEquippedItems($acc, $conn){
             $result = sql_query($sql, $conn);
             $output[] = mysqli_fetch_array($result,MYSQLI_ASSOC);
         }else{
-            $output[]]["itemid"] = -1;
+            $output[]["itemid"] = -1;
         }
         $counter++;
     }
