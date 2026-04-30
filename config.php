@@ -178,3 +178,73 @@ function app_log($message, $level = 'INFO') {
         echo $formatted;
     }
 }
+
+/**
+ * MySQLi compatibility functions for PDO
+ * Only define these if mysqli extension is NOT loaded
+ */
+
+if (!function_exists('mysqli_real_escape_string')) {
+    /**
+     * Escape string for SQL (PDO compatibility)
+     * 
+     * @param PDO $conn Database connection
+     * @param string $string String to escape
+     * @return string Escaped string
+     */
+    function mysqli_real_escape_string($conn, $string) {
+        // PDO::quote() adds quotes around the string, so we strip them
+        $quoted = $conn->quote($string);
+        return substr($quoted, 1, -1);
+    }
+}
+
+if (!function_exists('mysqli_fetch_array')) {
+    /**
+     * Fetch array from result (PDO compatibility)
+     * 
+     * @param PDOResultWrapper $result Query result
+     * @param int $mode Fetch mode (MYSQLI_ASSOC, MYSQLI_NUM, MYSQLI_BOTH)
+     * @return array|false Result row
+     */
+    function mysqli_fetch_array($result, $mode = MYSQLI_BOTH) {
+        if (!$result || !($result instanceof PDOResultWrapper)) {
+            return false;
+        }
+        
+        $pdo_mode = PDO::FETCH_BOTH;
+        if ($mode === MYSQLI_ASSOC) {
+            $pdo_mode = PDO::FETCH_ASSOC;
+        } elseif ($mode === MYSQLI_NUM) {
+            $pdo_mode = PDO::FETCH_NUM;
+        }
+        
+        return $result->fetch($pdo_mode);
+    }
+}
+
+if (!function_exists('mysqli_num_rows')) {
+    /**
+     * Get number of rows from result (PDO compatibility)
+     * 
+     * @param PDOResultWrapper $result Query result
+     * @return int Number of rows
+     */
+    function mysqli_num_rows($result) {
+        if (!$result || !($result instanceof PDOResultWrapper)) {
+            return 0;
+        }
+        return $result->rowCount();
+    }
+}
+
+// Define mysqli constants if not already defined
+if (!defined('MYSQLI_ASSOC')) {
+    define('MYSQLI_ASSOC', 1);
+}
+if (!defined('MYSQLI_NUM')) {
+    define('MYSQLI_NUM', 2);
+}
+if (!defined('MYSQLI_BOTH')) {
+    define('MYSQLI_BOTH', 3);
+}
