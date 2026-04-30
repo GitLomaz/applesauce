@@ -2001,11 +2001,19 @@
 				$sql = "INSERT INTO `charSkills` (`level`, `playerID`, `skillID`) values (".$points.",".$acc.", ".$skillID.")";
 				sql_query($sql, $conn);
 				$level = $points;
+				applyPassives($conn, $acc, $skillID, $level);
+				return true;
+			} else {
+				return false;
 			}
 
+		} else {
+			return false;
 		}
 
 	}
+
+}
 
 	// -- Function Name : applyPassives
 	// -- Params : $conn, $acc, $skillID, $level
