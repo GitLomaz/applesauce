@@ -468,7 +468,7 @@ function getEquippedSkills($acc, $conn){
     while($counter != 5){
         $skill = $row['skill_'.$counter];
         if($skill != -1){
-            $sql = "select c.skillID, c.level, s.name, s.image, s.type, l.cost, l.script from charSkills c inner join skills s on c.skillID = s.index inner join skillLevels l on c.skillID = l.skillID and c.level = l.level where playerID = $acc and c.skillID = $skill";
+            $sql = "select c.skillID, c.level, s.name, s.image, s.type, l.cost, l.script from charSkills c inner join skills s on c.skillID = s.\"index\" inner join skillLevels l on c.skillID = l.skillID and c.level = l.level where playerID = $acc and c.skillID = $skill";
             $result = sql_query($sql, $conn);
             $output[] = mysqli_fetch_array($result,MYSQLI_ASSOC);
         }else{

@@ -1787,8 +1787,8 @@
 			}
 
 			$desc = "<strong>Item Name: </strong>".$row['name']."<br/><br/><strong>Item Type: </strong>".str_replace('&gt;', '>', str_replace('&lt;', '<', $type.htmlspecialchars($row['description'])));
-			$string = $row['item_id'].'|'.$row['name'].'|'.$row['image'].'|'.$row['usable'].'|'.$row['combat'].'|'.$quest.'|'.$row['equipment'].'|'.$row['value'].'|'.$desc;
-			$output[$row['item_id'] - 1] = $string;
+			$string = $row['itemid'].'|'.$row['name'].'|'.$row['image'].'|'.$row['usable'].'|'.$row['combat'].'|'.$quest.'|'.$row['equipment'].'|'.$row['value'].'|'.$desc;
+			$output[$row['itemid'] - 1] = $string;
 		}
 
 		return $output;
@@ -1845,7 +1845,7 @@
 	// -- Purpose : Returns information about all skills  -- key: combat:1 non:2 combat/non:3 buff:4 passive:5
 	function getSkillInfo($conn){
 		$output = array();
-		$sql_get_skills = "SELECT * FROM `skills`";
+		$sql_get_skills = "SELECT \"index\" as skillindex, name, image, prereq, requiredlevel, maxlevel, type, prereq2, prereq3 FROM skills";
 		$sql_skills_result = sql_query($sql_get_skills, $conn);
 		while($row = mysqli_fetch_array($sql_skills_result,MYSQLI_ASSOC)){
 			$type = '';
@@ -1869,7 +1869,7 @@
 					$type = 6;
 					break;
 		}
-		$string = $row['index'].'|'.$row['name'].'|'.$row['image'].'|'.$row['prereq'].'|'.$row['requiredLevel'].'|'.$row['maxLevel'].'|'.$type.'|'.$row['prereq2'].'|'.$row['prereq3'];
+		$string = $row['skillindex'].'|'.$row['name'].'|'.$row['image'].'|'.$row['prereq'].'|'.$row['requiredlevel'].'|'.$row['maxlevel'].'|'.$type.'|'.$row['prereq2'].'|'.$row['prereq3'];
 		$output[] = $string;
 	}
 
@@ -1881,7 +1881,7 @@
 	// -- Purpose : Gets all levels of all skills
 	function getSkillLevels($conn){
 		$output = array();
-		$sql_get_skills = "SELECT * FROM `skillLevels` l inner join `skills` s on s.`index` = l.`skillID`";
+		$sql_get_skills = "SELECT l.*, s.name, s.type, s.\"index\" as skillindex FROM skilllevels l inner join skills s on s.\"index\" = l.skillid";
 		$sql_skills_result = sql_query($sql_get_skills, $conn);
 		while($row = mysqli_fetch_array($sql_skills_result,MYSQLI_ASSOC)){
 
@@ -1891,8 +1891,8 @@
 				$cost = $row['cost'];
 			}
 
-			$script = "<strong>Skill Name: </strong>".$row['name']."<br/><br/><strong>Skill Type: </strong>".$row['type']."<br/><br/><strong>Skill Level: </strong>".$row['level']."<br/><strong>Base Mana Cost: </strong><span id='manaCost-".$row['skillID']."'>$cost</span><br/><br/><strong>Skill Description: </strong>".$row['script'];
-			$string = $row['index'].'|skill-'.$row['skillID'].'|'.$row['element'].'|'.$row['cost'].'|'.$script.'|level-'.$row['level'].'|'.$row['skillID'];
+			$script = "<strong>Skill Name: </strong>".$row['name']."<br/><br/><strong>Skill Type: </strong>".$row['type']."<br/><br/><strong>Skill Level: </strong>".$row['level']."<br/><strong>Base Mana Cost: </strong><span id='manaCost-".$row['skillid']."'>$cost</span><br/><br/><strong>Skill Description: </strong>".$row['script'];
+			$string = $row['skillindex'].'|skill-'.$row['skillid'].'|'.$row['element'].'|'.$row['cost'].'|'.$script.'|level-'.$row['level'].'|'.$row['skillid'];
 			$output[] = $string;
 		}
 
@@ -1956,11 +1956,7 @@
 
 		}
 
-		$existingSQL = "SELECT * FROM charSkills c inner join skills s on s.index = c.skillID where c.playerID = ".$acc." AND c.skillID = ".$skillID;
-		$query = sql_query($existingSQL, $conn);
-
-		if(mysqli_num_rows($query) > 0){
-			$row = mysqli_fetch_array($query,MYSQLI_ASSOC);
+	$existingSQL = "SELECT * FROM charSkills c inner join skills s on s.\"index\" = c.skillID where c.playerID = ".$acc." AND c.skillID = ".$skillID;
 
 			if(getAttribute($conn, 'character', 'level', $acc) >= $row['requiredLevel']){
 				$maxLevel = $row['maxLevel'];
@@ -3178,8 +3174,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-			$sql = "SELECT * FROM kalrul.charSkills c inner join skills s on c.skillID = s.index where level = maxLevel and playerID = $acc";
-			$result = sql_query($sql, $conn);
+		$sql = "SELECT * FROM kalrul.charSkills c inner join skills s on c.skillID = s.\"index\" where level = maxLevel and playerID = $acc";
 
 			if(mysqli_num_rows($result) > 0){
 				sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, 16)", $conn);

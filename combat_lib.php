@@ -1511,7 +1511,7 @@
     		$sql = "select *, floor(l.cost -  l.cost * (cv.spellReduction / 100)) as mana, l.damage as skillDamage from `character` c ";
     		$sql.= "inner join charSkills cs on cs.playerID = c.playerID ";
     		$sql.= "inner join skillLevels l on l.skillID = cs.skillID ";
-    		$sql.= "inner join skills s on l.skillID = s.`index` ";
+    		$sql.= "inner join skills s on l.skillID = s.\"index\" ";
     		$sql.= "inner join calcValues cv on cv.playerID = cs.playerID ";
     		$sql.= "where c.playerID = $acc ";
     		$sql.= "and l.skillID = $skillID ";
@@ -1522,7 +1522,7 @@
     		$sql = "select *, l.cost as mana, l.damage as skillDamage from `character` c ";
     		$sql.= "inner join charSkills cs on cs.playerID = c.playerID ";
     		$sql.= "inner join skillLevels l on l.skillID = cs.skillID ";
-    		$sql.= "inner join skills s on l.skillID = s.`index` ";
+    		$sql.= "inner join skills s on l.skillID = s.\"index\" ";
     		$sql.= "where c.playerID = $acc and l.skillID = $skillID and c.mana >= l.cost and l.level = cs.level";
     	}
 
