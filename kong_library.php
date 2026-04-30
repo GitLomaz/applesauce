@@ -3,7 +3,6 @@
 	// Include centralized configuration
 	require_once(__DIR__ . '/config.php');
 	include_once('common_lib.php');
-	$conn = sql_connect();
 	function activateAccount($conn, $login, $token){
 	//  --------------------------------------------------------------------------------------------------
 	//                            Activates an account, so you can log onto it

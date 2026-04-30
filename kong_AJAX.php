@@ -41,7 +41,7 @@
 				if($account == ''){
 					$sqlGetAccount = sql_query("SELECT `Account` from `sessions` where `Cookie` = '$token'", $conn);
 					$row = mysqli_fetch_array($sqlGetAccount,MYSQLI_ASSOC);
-					$account = $row['Account'];
+					$account = $row['account'] ?? null;
 				}
 			
 			// Handle NULL account (sessions without character) - skip operations requiring account
@@ -468,7 +468,6 @@
 			print "error! Invalid Session";
 		}
 	}else{  //NO TOKEN CALLS
-		$conn = sql_connect();
 		switch ($call){
 			case "createAccount":
 				print createAccount($conn, mysqli_real_escape_string($conn, $_POST['account']), mysqli_real_escape_string($conn, $_POST['email']),

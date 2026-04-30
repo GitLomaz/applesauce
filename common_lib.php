@@ -4,8 +4,6 @@
 	require_once(__DIR__ . '/config.php');
 	include_once('combat_lib.php');
 
-	$conn = sql_connect();
-
 
 	function logAction($conn, $acc, $action, $param1, $param2){
 		$sql = 'select "timestamp" as "time" from actions ORDER BY actionID DESC LIMIT 1';
@@ -1508,6 +1506,10 @@
 	// -- Purpose : Returns full row of table at index in args
 	function getRow($conn, $table, $index){
 		if($table != "calcValues"){
+			// Validate index is not empty/null
+			if($index === null || $index === '' || $index === false){
+				return null;
+			}
 			$sql_q = "select * from `".$table."` where `".getKey($table)."` =".$index." LIMIT 1";
 			$sql = sql_query($sql_q, $conn);
 			return mysqli_fetch_array($sql,MYSQLI_ASSOC);
@@ -1716,7 +1718,7 @@
 		$row = getRow($conn, "equippedStuff", $acc);
 		$output = array();
 		
-		if($row !== null){
+		if($row && is_array($row)){
 			$counter = 0;
 			while($counter != 4){
 				$counter++;

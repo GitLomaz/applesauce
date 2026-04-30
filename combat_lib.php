@@ -3,8 +3,6 @@
     require_once(__DIR__ . '/config.php');
     include_once ('common_lib.php');
 
-    $conn = sql_connect();
-
     // -- Function Name : attack
     // -- Params : $acc, $conn
     // -- Purpose : Attacks current enemy
