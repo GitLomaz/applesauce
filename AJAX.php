@@ -34,7 +34,7 @@
 			break;
 	}
 
-	$sqlToken = "SELECT * FROM `sessions` where `Cookie` = '".$token."' AND Type = 'Session' AND `Expiry` > NOW()";
+	$sqlToken = "SELECT * FROM `sessions` where `cookie` = '".$token."' AND `type` = 'Session' AND `expiry` > NOW()";
 	$query = sql_query($sqlToken, $conn);
 	if(mysqli_num_rows($query) > 0 || $param7 == "override"){
 		if($param7 == "override"){
@@ -42,11 +42,11 @@
 		}
 		$output["session"] = 1;
 		if($account == ''){
-			$sqlGetAccount = sql_query("SELECT `Account` from `sessions` where `Cookie` = '$token'", $conn);
+			$sqlGetAccount = sql_query("SELECT `account` from `sessions` where `cookie` = '$token'", $conn);
 			$row = mysqli_fetch_array($sqlGetAccount,MYSQLI_ASSOC);
-			$acc = $row['Account'];
+			$acc = $row['account'];
 		}
-		$sql = "UPDATE `sessions` set `cookie` = '".$token."', Expiry = NOW() + INTERVAL 15 MINUTE WHERE Type = 'Session' AND Account = $acc";
+		$sql = "UPDATE `sessions` set `cookie` = '".$token."', `expiry` = NOW() + INTERVAL '15 MINUTE' WHERE `type` = 'Session' AND `account` = $acc";
 		sql_query($sql, $conn);
 		switch ($call){
 			case "initInfo":

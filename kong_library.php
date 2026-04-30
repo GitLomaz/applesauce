@@ -7,12 +7,12 @@
 	//  --------------------------------------------------------------------------------------------------
 	//                            Activates an account, so you can log onto it
 	//  --------------------------------------------------------------------------------------------------
-		$sqlToken = "SELECT * FROM `sessions` where `Cookie` = '".$token."' AND Type = 'Activation' AND `Expiry` > NOW()";
+		$sqlToken = "SELECT * FROM `sessions` where `cookie` = '".$token."' AND `type` = 'Activation' AND `expiry` > NOW()";
 		$query = sql_query($sqlToken, $conn);
 		if(mysqli_num_rows($query) > 0){
-			$sqlDelete = "DELETE FROM `sessions` where `Cookie` = '".$token."' AND Type = 'Activation'";
+			$sqlDelete = "DELETE FROM `sessions` where `cookie` = '".$token."' AND `type` = 'Activation'";
 			sql_query($sqlDelete, $conn);
-			$sqlActivate = "UPDATE `account` SET `confirmed` = 1 where `playerID` = ".$login;
+			$sqlActivate = "UPDATE `account` SET `confirmed` = 1 where `playerid` = ".$login;
 			sql_query($sqlActivate, $conn);
 			return 1;
 		}else{

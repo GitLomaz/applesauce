@@ -34,12 +34,12 @@
 		error_log("JS ERROR FOR $acc: " . $_POST['text']);
 	}
 	if(strLen($token)>5){
-		$sqlToken = "SELECT * FROM `sessions` where `Cookie` = '$token'";
+		$sqlToken = "SELECT * FROM `sessions` where `cookie` = '$token'";
 		$query = sql_query($sqlToken, $conn);
 		if(mysqli_num_rows($query) > 0){
 			if($call != 'getChat'){
 				if($account == ''){
-					$sqlGetAccount = sql_query("SELECT `Account` from `sessions` where `Cookie` = '$token'", $conn);
+					$sqlGetAccount = sql_query("SELECT `account` from `sessions` where `cookie` = '$token'", $conn);
 					$row = mysqli_fetch_array($sqlGetAccount,MYSQLI_ASSOC);
 					$account = $row['account'] ?? null;
 				}
@@ -50,7 +50,7 @@
 				// Don't update session expiry if no account exists
 			} else {
 				// Update session expiry by cookie
-				$sql = "UPDATE `sessions` SET `cookie` = '" . $token . "', Expiry = DATE_ADD(NOW(), INTERVAL '" . SESSION_TIMEOUT_MINUTES . " MINUTE') WHERE Type = 'Session' AND Cookie = '" . $token . "'";
+			$sql = "UPDATE `sessions` SET `cookie` = '" . $token . "', `expiry` = NOW() + INTERVAL '". SESSION_TIMEOUT_MINUTES ." MINUTE' WHERE `type` = 'Session' AND `cookie` = '" . $token . "'";
 				sql_query($sql, $conn);
 			}
 			}
@@ -608,7 +608,7 @@
 				}
 				
 				// Check if session already exists
-				$sql = "SELECT Cookie, Account FROM sessions WHERE SessionID = ?";
+				$sql = "SELECT `cookie`, `account` FROM `sessions` WHERE `sessionid` = ?";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_bind_param($stmt, 's', $sessionId);
 				mysqli_stmt_execute($stmt);
@@ -663,7 +663,7 @@
 				buyEquipment($conn, "17|", $playerId, false);  // Buy starting equipment
 				
 				// Create session (Type defaults to 'Session') and set expiry 1 year from now
-				$sql = "INSERT INTO sessions (Cookie, Account, SessionID, Type, lastActive, Expiry) VALUES (?, ?, ?, 'Session', NOW(), NOW() + INTERVAL '1 YEAR')";
+			$sql = "INSERT INTO `sessions` (`cookie`, `account`, `sessionid`, `type`, `lastactive`, `expiry`) VALUES (?, ?, ?, 'Session', NOW(), NOW() + INTERVAL '1 YEAR')";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_bind_param($stmt, 'sis', $cookie, $playerId, $sessionId);
 				
