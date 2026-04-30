@@ -180,71 +180,56 @@ function app_log($message, $level = 'INFO') {
 }
 
 /**
- * MySQLi compatibility functions for PDO
- * Only define these if mysqli extension is NOT loaded
+ * Database compatibility functions for PDO
+ * These provide mysqli-style function names that work with PDO
+ * NOTE: This requires mysqli extension to NOT be loaded
  */
 
-if (!function_exists('mysqli_real_escape_string')) {
-    /**
-     * Escape string for SQL (PDO compatibility)
-     * 
-     * @param PDO $conn Database connection
-     * @param string $string String to escape
-     * @return string Escaped string
-     */
-    function mysqli_real_escape_string($conn, $string) {
-        // PDO::quote() adds quotes around the string, so we strip them
+/**
+ * Escape string for SQL queries
+ * 
+ * @param PDO $conn Database connection
+ * @param string $string String to escape
+ * @return string Escaped string
+ */
+function mysqli_real_escape_string($conn, $string) {
+    if ($conn instanceof PDO) {
+        // PDO::quote() adds quotes, so strip them
         $quoted = $conn->quote($string);
         return substr($quoted, 1, -1);
     }
+    // Fallback if somehow mysqli object is passed
+    return addslashes($string);
 }
 
-if (!function_exists('mysqli_fetch_array')) {
-    /**
-     * Fetch array from result (PDO compatibility)
-     * 
-     * @param PDOResultWrapper $result Query result
-     * @param int $mode Fetch mode (MYSQLI_ASSOC, MYSQLI_NUM, MYSQLI_BOTH)
-     * @return array|false Result row
-     */
-    function mysqli_fetch_array($result, $mode = MYSQLI_BOTH) {
-        if (!$result || !($result instanceof PDOResultWrapper)) {
-            return false;
-        }
-        
-        $pdo_mode = PDO::FETCH_BOTH;
-        if ($mode === MYSQLI_ASSOC) {
-            $pdo_mode = PDO::FETCH_ASSOC;
-        } elseif ($mode === MYSQLI_NUM) {
-            $pdo_mode = PDO::FETCH_NUM;
-        }
-        
-        return $result->fetch($pdo_mode);
+/**
+ * Fetch array from query result
+ * 
+ * @param PDOResultWrapper $result Query result
+ * @param int $mode Fetch mode (ignored, always returns ASSOC)
+ * @return array|false Result row
+ */
+function mysqli_fetch_array($result, $mode = null) {
+    if (!$result || !($result instanceof PDOResultWrapper)) {
+        return false;
     }
+    return $result->fetch(PDO::FETCH_ASSOC);
 }
 
-if (!function_exists('mysqli_num_rows')) {
-    /**
-     * Get number of rows from result (PDO compatibility)
-     * 
-     * @param PDOResultWrapper $result Query result
-     * @return int Number of rows
-     */
-    function mysqli_num_rows($result) {
-        if (!$result || !($result instanceof PDOResultWrapper)) {
-            return 0;
-        }
-        return $result->rowCount();
+/**
+ * Get number of rows from query result
+ * 
+ * @param PDOResultWrapper $result Query result  
+ * @return int Number of rows
+ */
+function mysqli_num_rows($result) {
+    if (!$result || !($result instanceof PDOResultWrapper)) {
+        return 0;
     }
+    return $result->rowCount();
 }
 
-// Define mysqli constants if not already defined
+// Define constants
 if (!defined('MYSQLI_ASSOC')) {
     define('MYSQLI_ASSOC', 1);
-}
-if (!defined('MYSQLI_NUM')) {
-    define('MYSQLI_NUM', 2);
-}
-if (!defined('MYSQLI_BOTH')) {
-    define('MYSQLI_BOTH', 3);
 }

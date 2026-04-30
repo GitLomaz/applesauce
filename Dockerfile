@@ -11,6 +11,9 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Explicitly ensure mysqli is not enabled (it shouldn't be, but verify)
+RUN rm -f /usr/local/etc/php/conf.d/docker-php-ext-mysqli.ini || true
+
 # Enable Apache modules
 RUN a2enmod rewrite headers
 
