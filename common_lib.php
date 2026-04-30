@@ -1957,46 +1957,44 @@
 		}
 
 	$existingSQL = "SELECT * FROM charSkills c inner join skills s on s.\"index\" = c.skillID where c.playerID = ".$acc." AND c.skillID = ".$skillID;
+	$query = sql_query($existingSQL, $conn);
 
-			if(getAttribute($conn, 'character', 'level', $acc) >= $row['requiredLevel']){
-				$maxLevel = $row['maxLevel'];
-				$currentLevel = $row['level'];
+	if(mysqli_num_rows($query) > 0){
+		$row = mysqli_fetch_array($query,MYSQLI_ASSOC);
 
-				if($currentLevel + $points == $maxLevel){
-					setAchievement($conn, $acc, 16);
-				}
+		if(getAttribute($conn, 'character', 'level', $acc) >= $row['requiredlevel']){
+			$maxLevel = $row['maxlevel'];
+			$currentLevel = $row['level'];
+
+			if($currentLevel + $points == $maxLevel){
+				setAchievement($conn, $acc, 16);
+			}
 
 
-				if($currentLevel + $points <= $maxLevel && $points <= getAttribute($conn, 'character', 'skillPoints', $acc)){
-					$sql = "UPDATE `character` set `skillPoints` = `skillPoints` - ".$points." where playerID = ".$acc;
-					sql_query($sql, $conn);
-					$sql = "UPDATE `charSkills` set `level` = `level` + ".$points." where playerID = ".$acc." AND skillID = ".$skillID;
-					sql_query($sql, $conn);
-					$level = $currentLevel + $points;
-					applyPassives($conn, $acc, $skillID, $level);
-					return true;
-				} else {
-					return false;
-				}
-
+			if($currentLevel + $points <= $maxLevel && $points <= getAttribute($conn, 'character', 'skillPoints', $acc)){
+				$sql = "UPDATE `character` set `skillPoints` = `skillPoints` - ".$points." where playerID = ".$acc;
+				sql_query($sql, $conn);
+				$sql = "UPDATE `charSkills` set `level` = `level` + ".$points." where playerID = ".$acc." AND skillID = ".$skillID;
+				sql_query($sql, $conn);
+				$level = $currentLevel + $points;
+				applyPassives($conn, $acc, $skillID, $level);
+				return true;
 			} else {
 				return false;
 			}
 
 		} else {
-			$sql = "select * from skills where `index` = ".$skillID;
-			$query = sql_query($sql, $conn);
-			$row = mysqli_fetch_array($query,MYSQLI_ASSOC);
-			$maxLevel = $row['maxLevel'];
+			return false;
+		}
 
-			if(getAttribute($conn, 'character', 'level', $acc) >= $row['requiredLevel']){
+	} else {
+		$sql = "select * from skills where `index` = ".$skillID;
+		$query = sql_query($sql, $conn);
+		$row = mysqli_fetch_array($query,MYSQLI_ASSOC);
+		$maxLevel = $row['maxlevel'];
 
-				if($points <= $maxLevel && $points <= getAttribute($conn, 'character', 'skillPoints', $acc)){
-					$sql = "UPDATE `character` set `skillPoints` = `skillPoints` - ".$points." where playerID = ".$acc;
-					sql_query($sql, $conn);
-					$sql = "INSERT INTO `charSkills` (`level`, `playerID`, `skillID`) values (".$points.",".$acc.", ".$skillID.")";
-					sql_query($sql, $conn);
-					$level = $points;
+		if(getAttribute($conn, 'character', 'level', $acc) >= $row['requiredlevel']){
+
 					applyPassives($conn, $acc, $skillID, $level);
 					return true;
 				} else {
