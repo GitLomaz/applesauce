@@ -2102,52 +2102,52 @@
 	function getKey($table){
 		switch ($table){
 			case "account":
-				$table = "playerID";
+				$table = "playerid";
 				break;
 			case "character":
-				$table = "playerID";
+				$table = "playerid";
 				break;
 			case "calcValues":
-				$table = "playerID";
+				$table = "playerid";
 				break;
 			case "chat":
 				$table = "c_index";
 				break;
 			case "combat":
-				$table = "combatID";
+				$table = "combatid";
 				break;
 			case "combatEnemies":
-				$table = "combatEnemyID";
+				$table = "combatenemyid";
 				break;
 			case "drops":
-				$table = "dropID";
+				$table = "dropid";
 				break;
 			case "enemies":
-				$table = "enemyID";
+				$table = "enemyid";
 				break;
 			case "equippedStuff":
-				$table = "equipIndex";
+				$table = "equipindex";
 				break;
 			case "item":
-				$table = "item_ID";
+				$table = "item_id";
 				break;
 			case "news":
-				$table = "newsIndex";
+				$table = "newsindex";
 				break;
 			case "shops":
 				$table = "shop_index";
 				break;
 			case "quests":
-				$table = "questID";
+				$table = "questid";
 				break;
 			case "skills":
 				$table = "index";
 				break;
 			case "equipmentBonus":
-				$table = "playerID";
+				$table = "playerid";
 				break;
 			case "spawnPoints":
-				$table = "spawnID";
+				$table = "spawnid";
 				break;
 			default:
 				$table = "index";
