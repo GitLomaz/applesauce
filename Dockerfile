@@ -4,9 +4,10 @@ FROM php:8.2-apache
 # Install system dependencies and PHP extensions
 RUN apt-get update && apt-get install -y \
     libzip-dev \
+    libpq-dev \
     zip \
     unzip \
-    && docker-php-ext-install mysqli pdo pdo_mysql \
+    && docker-php-ext-install pdo pdo_pgsql \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
