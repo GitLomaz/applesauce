@@ -326,6 +326,19 @@ function mysqli_stmt_close($stmt) {
     return true;
 }
 
+/**
+ * Get last inserted ID (PDO compatibility)
+ * 
+ * @param PDO $conn Database connection
+ * @return int|string Last insert ID
+ */
+function mysqli_insert_id($conn) {
+    if ($conn instanceof PDO) {
+        return $conn->lastInsertId();
+    }
+    return 0;
+}
+
 // Define constants
 if (!defined('MYSQLI_ASSOC')) {
     define('MYSQLI_ASSOC', 1);

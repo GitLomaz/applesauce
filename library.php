@@ -447,7 +447,7 @@ function getEquippedItems($acc, $conn){
             $sql = "SELECT item_id as itemid, COALESCE(count,0) as count, COALESCE(used,0) as used, COALESCE(archived,0) as archived, name, image, value, usable, combat, quest, equipment, value, description, visible from item t inner join inventory i on t.item_id = i.itemid and playerID = $acc and i.itemid = $item";
             $result = sql_query($sql, $conn);
             $output[] = mysqli_fetch_array($result,MYSQLI_ASSOC);
-        }else{
+        } else {
             $output[]["itemid"] = -1;
         }
         $counter++;
