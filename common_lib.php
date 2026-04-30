@@ -1752,7 +1752,7 @@
 		//
 		//  --------------------------------------------------------------------------------------------------
 		$output = array();
-		$sql_get_items = "SELECT * FROM `item`";
+		$sql_get_items = "SELECT item_ID as itemID, name, image, usable, combat, quest, equipment, value, description, visible FROM item";
 		// where item_id = 78";
 		$sql_item_result = sql_query($sql_get_items, $conn);
 		while($row = mysqli_fetch_array($sql_item_result,MYSQLI_ASSOC)){
@@ -1787,8 +1787,8 @@
 			}
 
 			$desc = "<strong>Item Name: </strong>".$row['name']."<br/><br/><strong>Item Type: </strong>".str_replace('&gt;', '>', str_replace('&lt;', '<', $type.htmlspecialchars($row['description'])));
-			$string = $row['item_ID'].'|'.$row['name'].'|'.$row['image'].'|'.$row['usable'].'|'.$row['combat'].'|'.$quest.'|'.$row['equipment'].'|'.$row['value'].'|'.$desc;
-			$output[$row['item_ID'] - 1] = $string;
+			$string = $row['itemID'].'|'.$row['name'].'|'.$row['image'].'|'.$row['usable'].'|'.$row['combat'].'|'.$quest.'|'.$row['equipment'].'|'.$row['value'].'|'.$desc;
+			$output[$row['itemID'] - 1] = $string;
 		}
 
 		return $output;
@@ -2132,11 +2132,11 @@
 	// -- Purpose : Returns an object holding all news posts
 	function getNews($conn){
 		$output = array(); // Initialize output array
-		$sqlGetNews = 'SELECT * FROM news ORDER BY `newsIndex` DESC';
+		$sqlGetNews = 'SELECT * FROM news ORDER BY newsIndex DESC';
 		$sqlNewsResult = sql_query($sqlGetNews, $conn);
 		if ($sqlNewsResult) {
 			while(($row = mysqli_fetch_array($sqlNewsResult,MYSQLI_ASSOC))){
-				$output[] = $row['imageOffset'];
+				$output[] = $row['imageoffset'];
 				$output[] = $row['image'];
 				$output[] = $row['title'];
 				$output[] = $row['date'];

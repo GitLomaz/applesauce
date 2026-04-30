@@ -226,7 +226,7 @@ function getAttribute($conn, $table, $attribute, $index){
 // -- Purpose : Returns an object holding all news posts
 function getNews($conn){
     $output = array(); // Initialize output array
-    $sqlGetNews = 'SELECT `imageOffset`, `image`, `title`, `date`, `update` FROM news ORDER BY `newsIndex` DESC';
+    $sqlGetNews = 'SELECT imageOffset, image, title, "date", "update" FROM news ORDER BY newsIndex DESC';
     error_log("[getNews] Executing query: $sqlGetNews");
     $sqlNewsResult = sql_query($sqlGetNews, $conn);
     error_log("[getNews] Query executed, result: " . ($sqlNewsResult ? "success" : "failed"));
