@@ -1485,21 +1485,18 @@
 				`equipmentBonus`.`sprPerc` AS `sprPerc`,
 				`equipmentBonus`.`vitPerc` AS `vitPerc`,
 				`equipmentBonus`.`spellReduction` AS `spellReduction`,
-				IFNULL(`buffsBonus`.`weapElement`, 'physical') AS `weapElement`,
+				COALESCE(`buffsBonus`.`weapElement`, 'physical') AS `weapElement`,
 				`equipmentBonus`.`shapelessRes` AS `shapelessRes`,
 				`equipmentBonus`.`shapelessExpDrop` AS `shapelessExpDrop`,
-				`equipmentBonus`.`shapelessDmg` AS `shapelessDmg`
+				`equipmentBonus`.`shapelessDmg` AS `shapelessDmg`,
+				(SELECT class FROM equipmentInventory WHERE playerID = $index AND equipped = 1 AND (slot = 'weapon' OR slot = '2hweapon') LIMIT 1) AS weapon
 			FROM
-				`character`,`equipmentBonus`,`buffsBonus`,`equipmentInventory`
+				`character`,`equipmentBonus`,`buffsBonus`
 			WHERE
 				((`equipmentBonus`.`playerID` = $index)
 					AND (`buffsBonus`.`playerID` = $index)
-					AND (`equipmentInventory`.`playerID` = $index)
-					AND (`character`.`playerID` = $index)
-					AND ((`equipmentInventory`.`slot` = 'weapon')
-					OR (`equipmentInventory`.`slot` = '2hweapon'))
-					AND (`equipmentInventory`.`equipped` = 1))
-			GROUP BY `character`.`playerID`";
+					AND (`character`.`playerID` = $index))
+			GROUP BY `character`.`playerID`, `equipmentBonus`.`playerID`, `buffsBonus`.`playerID`";
 			$sql = sql_query($sql_q, $conn);
 			$row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
 			return $row[$attribute];
@@ -1863,7 +1860,7 @@
 	// -- Purpose : Returns information about all skills  -- key: combat:1 non:2 combat/non:3 buff:4 passive:5
 	function getSkillInfo($conn){
 		$output = array();
-		$sql_get_skills = "SELECT \"index\" as skillindex, name, image, prereq, requiredlevel, maxlevel, type, prereq2, prereq3 FROM skills";
+		$sql_get_skills = "SELECT `index` as skillindex, name, image, prereq, requiredlevel, maxlevel, type, prereq2, prereq3 FROM skills";
 		$sql_skills_result = sql_query($sql_get_skills, $conn);
 		while($row = mysqli_fetch_array($sql_skills_result,MYSQLI_ASSOC)){
 			$type = '';
@@ -3541,7 +3538,7 @@
 
 			$output[] = $row;
 		}
-		$sql = "SELECT `index` as itemID, 1 as `count`, template, null as `used`, script as `description`, archived, upgrade, `name`, `equipped`, image, price as `value`, 0 as usable, 0 as combat, 0 as quest, 1 as equipment, 1 as visible FROM kalrul.equipmentInventory where playerID = $acc and archived = 0 and name != 'unarmed' order by name;";
+		$sql = "SELECT `index` as itemID, 1 as `count`, template, null as `used`, script as `description`, archived, upgrade, `name`, `equipped`, image, price as `value`, 0 as usable, 0 as combat, 0 as quest, 1 as equipment, 1 as visible FROM equipmentInventory where playerID = $acc and archived = 0 and name != 'unarmed' order by name;";
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			if($row['upgrade'] > 0){
