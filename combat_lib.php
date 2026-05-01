@@ -54,7 +54,7 @@
     	$monsterName.= $enemyRow['name'];
     	$sql = "SELECT class, name, template FROM equipmentinventory WHERE name != 'unarmed' AND slot = 'weapon' AND equipped = 1 AND playerid = $acc LIMIT 1";
     	$row = sql_query($sql, $conn)->fetch();
-    	$itemClass = $row['class'];
+    	$itemClass = $row ? $row['class'] : null;
     	$text = getString($conn, "0", "melee", "left", $itemClass);
     	if ($itemClass != "") {
     		$text = str_replace('[weapon]', strtolower($row['name']) , $text);
@@ -62,7 +62,7 @@
     	$message = str_replace('[enemy]', $monsterName, $text);
     	$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyid . ",'LEFT','" . $message . "')";
     	sql_query($logMessege, $conn);
-    	if ($row['template'] == 53 || $row['template'] == 85) {
+    	if ($row && ($row['template'] == 53 || $row['template'] == 85)) {
     		if (in_array($enemyid, [147, 148, 149, 150])) {
 
     			// CANNOT BE SMASHED
