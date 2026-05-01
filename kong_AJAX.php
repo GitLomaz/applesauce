@@ -607,7 +607,6 @@
 					echo "Error: Invalid session ID";
 					exit;
 				}
-				print "CREATING A USER MAYBE!? $sessionId";
 				// Check if session already exists
 				$sql = "SELECT \"cookie\", \"account\" FROM \"sessions\" WHERE \"sessionid\" = ?";
 				$stmt = mysqli_prepare($conn, $sql);
@@ -629,7 +628,6 @@
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_execute($stmt);
 				$playerId = mysqli_insert_id($conn);
-				print 'USER CREATED WITH ID: ' . $playerId;
 				
 				// Create account row with random account name
 				$randomAccount = "player_" . $playerId . "_" . bin2hex(random_bytes(4));
