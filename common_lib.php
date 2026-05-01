@@ -3670,7 +3670,7 @@
 				$output["rateText"] = $row["rate"] . "%";
 				$output["recipeID"] = $row["recipeID"];
 				if($row["outcomeType"] == 0){
-					$sql = "select * from item where item_ID = ".$row[\"outcome\"];
+					$sql = "select * from item where item_ID = ".$row["outcome"];
 					$result = sql_query($sql, $conn);
 					$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
 					$output["itemID"] = $row["item_ID"];
@@ -3711,7 +3711,7 @@
 		if($recipe["cost"] > getAttribute($conn, "character", "silver", $acc)){
 			return "Crafting Failed, Not Enough Silver";
 		}else{
-			$sql = "update \"character\" set silver = silver - ".$recipe[\"cost\"]." where playerID = $acc";
+			$sql = "update \"character\" set silver = silver - ".$recipe["cost"]." where playerID = $acc";
 			$query = sql_query($sql, $conn);
 		}
 		if($recipe["equipment"]){
