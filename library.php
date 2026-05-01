@@ -169,7 +169,7 @@ DDDDDDDDDDDDD        MMMMMMMM               MMMMMMMMLLLLLLLLLLLLLLLLLLLLLLLL
 // -- Params : $conn, $acc, $quest
 // -- Purpose : Cancels a quest based on ID
 function cancelQuest($conn, $acc, $quest){
-    $sql = "DELETE FROM questPlayerStatus WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
+    $sql = "DELETE FROM questplayerstatus WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
     sql_query($sql, $conn);
     $questRow = getRow($conn, "quests", $quest);
     $sql = "DELETE FROM \"inventory\" WHERE \"playerid\" = ".$acc." AND \"itemid\" in (".$questRow['req1'].",".$questRow['req2'].",".$questRow['req3'].")";
@@ -180,7 +180,7 @@ function cancelQuest($conn, $acc, $quest){
 // -- Params : $conn, $acc, $quest
 // -- Purpose : Starts a quest based on ID
 function startQuest($conn, $acc, $quest){
-    $sql = "UPDATE questPlayerStatus set \"status\" = 'working' WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
+    $sql = "UPDATE questplayerstatus set \"status\" = 'working' WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
     sql_query($sql, $conn);
 
     if(mysqli_affected_rows($conn) == 0){

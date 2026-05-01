@@ -2614,7 +2614,7 @@
 			$quests = true;
 			//Cycles through each row tel one incomplete
 			$quest = $questList['questID'];
-			$sql = "SELECT * FROM \"questPlayerStatus\" WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
+			$sql = "SELECT * FROM \"questplayerstatus\" WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
 			//Grabs the quest status from table
 			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$questTitle = getAttribute($conn, "quests", "name", $quest);
@@ -2687,7 +2687,7 @@
 			if($quest == 32){
 				$quest = 27;
 			}
-			$sql = "SELECT * FROM \"questPlayerStatus\" WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
+			$sql = "SELECT * FROM \"questplayerstatus\" WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
 			//Grabs the quest status from table
 			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$questTitle = getAttribute($conn, "quests", "name", $quest);
@@ -2732,11 +2732,11 @@
 	// -- Params : $conn, $acc, $quest
 	// -- Purpose : Starts a quest based on ID
 	function startQuest($conn, $acc, $quest){
-		$sql = "UPDATE \"questPlayerStatus\" set \"status\" = 'working' WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
+		$sql = "UPDATE \"questplayerstatus\" set \"status\" = 'working' WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
 		sql_query($sql, $conn);
 
 		if(mysqli_affected_rows($conn) == 0){
-			$sql = "INSERT INTO \"questPlayerStatus\" (\"playerid\", \"questID\", \"status\") VALUES (".$acc.",".$quest.",'working')";
+			$sql = "INSERT INTO \"questplayerstatus\" (\"playerid\", \"questID\", \"status\") VALUES (".$acc.",".$quest.",'working')";
 			sql_query($sql, $conn);
 		}
 		$questName = getAttribute($conn, 'quests', 'name', $quest);
@@ -2747,7 +2747,7 @@
 	// -- Params : $conn, $acc, $quest
 	// -- Purpose : Cancels a quest based on ID
 	function cancelQuest($conn, $acc, $quest){
-		$sql = "DELETE FROM \"questPlayerStatus\" WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
+		$sql = "DELETE FROM \"questplayerstatus\" WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
 		sql_query($sql, $conn);
 		$questRow = getRow($conn, "quests", $quest);
 		$counter = 0;
@@ -2790,10 +2790,10 @@
 		$repeat = getAttribute($conn, "quests", "repeatable", $quest);
 
 		if($repeat == 1){
-			$sql = "DELETE FROM \"questPlayerStatus\" WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
+			$sql = "DELETE FROM \"questplayerstatus\" WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
 			sql_query($sql, $conn);
 		} else {
-			$sql = "UPDATE \"questPlayerStatus\" set \"status\" = 'complete' WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
+			$sql = "UPDATE \"questplayerstatus\" set \"status\" = 'complete' WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
 			sql_query($sql, $conn);
 		}
 
@@ -3278,7 +3278,7 @@
 	// -- Params : $conn, $acc
 	// -- Purpose : gets all incomplete quests for log
 	function getIncompleteQuests($conn, $acc){
-		$sql = "SELECT DISTINCT(q.questID) as questID, name FROM \"questPlayerStatus\" c inner join \"quests\" q on c.questID = q.questID where playerid = $acc and status = 'working'";
+		$sql = "SELECT DISTINCT(q.questID) as questID, name FROM \"questplayerstatus\" c inner join \"quests\" q on c.questID = q.questID where playerid = $acc and status = 'working'";
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$string = $row['questID'].'|'.$row['name'];
@@ -3298,7 +3298,7 @@
 		while($questList = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 			//Cycles through each row tel one incomplete
 			$quest = $questID;
-			$sql = "SELECT * FROM \"questPlayerStatus\" s inner join \"quests\" q on q.\"questID\" = s.\"questID\" WHERE \"playerid\" = ".$acc." AND q.\"questID\" = ".$quest;
+			$sql = "SELECT * FROM \"questplayerstatus\" s inner join \"quests\" q on q.\"questID\" = s.\"questID\" WHERE \"playerid\" = ".$acc." AND q.\"questID\" = ".$quest;
 			//Grabs the quest status from table
 			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			//if($Row['status'] == "" || $Row['status'] == "working"){

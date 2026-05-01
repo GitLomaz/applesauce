@@ -544,7 +544,7 @@
     					}
 
     					if ($row['quest'] > 0) {
-    						$sql_quest = 'SELECT * FROM \"enemies\" e, "questPlayerStatus" p, \"quests\" q WHERE (e.enemyID = ' . $row['enemyID'] . ' AND q.req1 = e.quest AND q.questID = p.questID AND p.status = \"working\" AND p.playerid =  ' . $acc . ')';
+    						$sql_quest = 'SELECT * FROM \"enemies\" e, "questplayerstatus" p, \"quests\" q WHERE (e.enemyID = ' . $row['enemyID'] . ' AND q.req1 = e.quest AND q.questID = p.questID AND p.status = \"working\" AND p.playerid =  ' . $acc . ')';
     						$sqlQuest = sql_query($sql_quest, $conn);
     						$rowQuest = mysqli_fetch_array($sqlQuest, MYSQLI_ASSOC);
     						sql_query($sql_quest, $conn);
@@ -678,7 +678,7 @@
     	while ($dropRow = mysqli_fetch_array($sql_drops, MYSQLI_ASSOC)) {
     		$quest = $dropRow['questID'];
     		$item = $dropRow['dropID'];
-    		$sql = "SELECT * FROM \"questPlayerStatus\" WHERE \"playerid\" = " . $acc . " AND \"questID\" = " . $quest;
+    		$sql = "SELECT * FROM \"questplayerstatus\" WHERE \"playerid\" = " . $acc . " AND \"questID\" = " . $quest;
     		$Row = mysqli_fetch_array(sql_query($sql, $conn) , MYSQLI_ASSOC);
     		$status = $Row['status'];
     		$reqAmnt = 0;
