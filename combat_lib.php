@@ -2594,7 +2594,7 @@
     		// RUN AWAY
 
     		logAction($conn, $acc, 'run', $m_name, NULL);
-    		sql_query("DELETE FROM "enemySkillCooldown" WHERE "playerid" = " . $acc, $conn);
+    		sql_query('DELETE FROM "enemySkillCooldown" WHERE "playerid" = ' . $acc, $conn);
     		return 2;
     	}
     	else {
