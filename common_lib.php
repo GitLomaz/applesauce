@@ -2107,7 +2107,7 @@
 			case "character":
 				$table = "playerid";
 				break;
-			case "calcValues":
+			case "calcvalues":
 				$table = "playerid";
 				break;
 			case "chat":
@@ -2116,7 +2116,7 @@
 			case "combat":
 				$table = "combatid";
 				break;
-			case "combatEnemies":
+			case "combatenemies":
 				$table = "combatenemyid";
 				break;
 			case "drops":
@@ -2125,7 +2125,7 @@
 			case "enemies":
 				$table = "enemyid";
 				break;
-			case "equippedStuff":
+			case "equippedstuff":
 				$table = "equipindex";
 				break;
 			case "item":
@@ -2143,10 +2143,10 @@
 			case "skills":
 				$table = "index";
 				break;
-			case "equipmentBonus":
+			case "equipmentbonus":
 				$table = "playerid";
 				break;
-			case "spawnPoints":
+			case "spawnpoints":
 				$table = "spawnid";
 				break;
 			default:
