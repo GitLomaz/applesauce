@@ -58,7 +58,7 @@ function get_db_connection() {
         } else {
             $masked_pass = strlen($raw_env_pass) > 2 ? substr($raw_env_pass,0,1) . '***' . substr($raw_env_pass,-1) : '***';
         }
-        error_log(sprintf('[DB DEBUG] host=%s user=%s pass=%s db=%s port=%s env_pass_present=%s', DB_HOST, DB_USER, $masked_pass, DB_NAME, DB_PORT, ($raw_env_pass !== false && $raw_env_pass !== '') ? 'true' : 'false'));
+        // error_log(sprintf('[DB DEBUG] host=%s user=%s pass=%s db=%s port=%s env_pass_present=%s', DB_HOST, DB_USER, $masked_pass, DB_NAME, DB_PORT, ($raw_env_pass !== false && $raw_env_pass !== '') ? 'true' : 'false'));
 
         // Build PostgreSQL DSN
         $dsn = sprintf(
@@ -77,7 +77,7 @@ function get_db_connection() {
             PDO::ATTR_TIMEOUT => 5, // 5 second connection timeout
         ]);
         
-        error_log("PostgreSQL connection established successfully");
+        // error_log("PostgreSQL connection established successfully");
         
         return $conn;
         
@@ -126,7 +126,7 @@ function close_db_connection() {
 register_shutdown_function(function() {
     global $conn;
     if ($conn !== null) {
-        error_log("Auto-closing database connection on shutdown");
+        // error_log("Auto-closing database connection on shutdown");
         $conn = null;
     }
 });
