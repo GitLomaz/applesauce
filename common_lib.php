@@ -1986,7 +1986,7 @@
 
 		}
 
-	$existingSQL = "SELECT * FROM charSkills c inner join skills s on s."id" = c.skillID where c.playerID = ".$acc." AND c.skillID = ".$skillID;
+	$existingSQL = "SELECT * FROM charSkills c inner join skills s on s.id = c.skillID where c.playerID = ".$acc." AND c.skillID = ".$skillID;
 	$query = sql_query($existingSQL, $conn);
 
 	if(mysqli_num_rows($query) > 0){
