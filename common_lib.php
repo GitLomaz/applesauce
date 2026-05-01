@@ -1934,7 +1934,7 @@
 	// -- Purpose : Returns current skill level of all skills
 	function getCharSkillLevels($conn, $acc){
 		$output = array();
-		$sql_get_skills = "SELECT * FROM "charSkills" where playerID = ".$acc;
+		$sql_get_skills = "SELECT * FROM \"charSkills\" where \"playerID\" = ".$acc;
 		$sql_skills_result = sql_query($sql_get_skills, $conn);
 		while($row = mysqli_fetch_array($sql_skills_result,MYSQLI_ASSOC)){
 			$string = $row['skillID'].'|'.$row['level'];
@@ -2002,9 +2002,9 @@
 
 
 			if($currentLevel + $points <= $maxLevel && $points <= getAttribute($conn, 'character', 'skillPoints', $acc)){
-				$sql = "UPDATE \"character\" set "skillPoints" = "skillPoints" - ".$points." where playerID = ".$acc;
+				$sql = "UPDATE \"character\" set \"skillPoints\" = \"skillPoints\" - ".$points." where \"playerID\" = ".$acc;
 				sql_query($sql, $conn);
-				$sql = "UPDATE "charSkills" set \"level\" = \"level\" + ".$points." where playerID = ".$acc." AND skillID = ".$skillID;
+				$sql = "UPDATE \"charSkills\" set \"level\" = \"level\" + ".$points." where \"playerID\" = ".$acc." AND \"skillID\" = ".$skillID;
 				sql_query($sql, $conn);
 				$level = $currentLevel + $points;
 				applyPassives($conn, $acc, $skillID, $level);
@@ -2026,7 +2026,7 @@
 		if(getAttribute($conn, 'character', 'level', $acc) >= $row['requiredlevel']){
 
 			if($points <= $maxLevel && $points <= getAttribute($conn, 'character', 'skillPoints', $acc)){
-				$sql = "UPDATE \"character\" set "skillPoints" = "skillPoints" - ".$points." where playerID = ".$acc;
+				$sql = "UPDATE \"character\" set \"skillPoints\" = \"skillPoints\" - ".$points." where \"playerID\" = ".$acc;
 				sql_query($sql, $conn);
 				$sql = "INSERT INTO \"charskills\" (\"level\", \"playerid\", \"skillid\") values (".$points.",".$acc.", ".$skillID.")";
 				sql_query($sql, $conn);
@@ -2180,7 +2180,7 @@
 	// -- Params : $conn, $shop
 	// -- Purpose : Returns shop info based on a shop name
 	function getShopInfo($conn, $shop){
-		$sql_shop_result = sql_query("SELECT * FROM "shops" WHERE shop_index = $shop", $conn);
+		$sql_shop_result = sql_query("SELECT * FROM \"shops\" WHERE \"shop_index\" = $shop", $conn);
 		while($row = mysqli_fetch_array($sql_shop_result,MYSQLI_ASSOC)){
 			$sql = "select item_id as itemid, name, image, usable, combat, quest, equipment, value, description, visible from item where item_id in (".
 				$row['item_1'].','.$row['item_2'].','.$row['item_3'].','.$row['item_4'].','.$row['item_5'].','.$row['item_6'].','.$row['item_7'].','.$row['item_8'].")";
