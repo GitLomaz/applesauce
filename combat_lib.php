@@ -2800,7 +2800,7 @@
 		$sql = "select * from enemies WHERE enemyid = ".$id;
 		$sql_rows = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
-			$sql = 'SELECT * from charkills WHERE \"playerid\" = '.$acc." AND \"enemyid\" = ".$row["enemyid"];
+			$sql = 'SELECT * from charkills WHERE "playerid" = '.$acc.' AND "enemyid" = '.$row["enemyid"];
 			$killRow =  mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$color = '';
 			$count = $killRow['count'];
