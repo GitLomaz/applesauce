@@ -3374,7 +3374,7 @@
 		$rows = sql_query($sql, $conn);
 		$row = mysqli_fetch_array($rows,MYSQLI_ASSOC);
 		$spawn = $row['spawn'];
-		sql_query("UPDATE "character" set respawn = $spawn where playerID = $acc", $conn);
+		sql_query("UPDATE \"character\" set respawn = $spawn where playerID = $acc", $conn);
 		return getSpawn($conn, $acc);
 	}
 
