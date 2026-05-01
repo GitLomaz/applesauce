@@ -254,17 +254,17 @@ function getStatusBar($acc, $conn){
     $output["headString"] = $userName.", The level ".$output["level"]." ".$output["class"];
 
     $output["mana"] = $charRow['mana'];
-    $output["manaString"] =  number_format($charRow['mana'])."/".number_format($calcRow["maxMana"]);
+    $output["manaString"] =  number_format($charRow['mana'])."/".number_format($calcRow["maxmana"]);
     if($charRow['mana'] > 0){
-        $output["manaOffset"] = (($calcRow["maxMana"] - $charRow['mana']) / $maxMana) * 234 + 24;
+        $output["manaOffset"] = (($calcRow["maxmana"] - $charRow['mana']) / $maxmana) * 234 + 24;
     }else{
         $output["manaOffset"] = "-265px";
     }
 
     $output["HP"] = $charRow['hitpoints'];
-    $output["HPString"] =  number_format($charRow['hitpoints'])."/".number_format($calcRow["maxHealth"]);
+    $output["HPString"] =  number_format($charRow['hitpoints'])."/".number_format($calcRow["maxhealth"]);
     if($charRow['hitpoints'] > 0){
-        $output["HPOffset"] = (($calcRow["maxHealth"] - $charRow['hitpoints']) / $maxMana) * 234 + 24;
+        $output["HPOffset"] = (($calcRow["maxhealth"] - $charRow['hitpoints']) / $maxmana) * 234 + 24;
     }else{
         $output["HPOffset"] = "-265px";
     }
@@ -272,7 +272,7 @@ function getStatusBar($acc, $conn){
     $output["experience"] = $charRow['exp'];
     $output["experienceString"] =  number_format($charRow['exp'])."/".number_format($calcRow["next"]);
     if($charRow['exp'] > 0){
-        $output["experienceOffset"] = (($calcRow["next"] - $charRow['exp']) / $maxMana) * 797 + 14;
+        $output["experienceOffset"] = (($calcRow["next"] - $charRow['exp']) / $maxmana) * 797 + 14;
     }else{
         $output["experienceOffset"] = "-815px";
     }
@@ -405,8 +405,8 @@ function getCalcStats($acc, $conn){
 
     unset($calcRow["playerid"]);
     unset($calcRow["damage"]);
-    unset($calcRow["maxMana"]);
-    unset($calcRow["maxHealth"]);
+    unset($calcRow["maxmana"]);
+    unset($calcRow["maxhealth"]);
     unset($calcRow["spr"]);
     unset($calcRow["str"]);
     unset($calcRow["vit"]);

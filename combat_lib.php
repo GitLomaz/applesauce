@@ -884,7 +884,7 @@
     		$vit = $row['vit'];
     		$armor = $row['armor'];
     		$flee = $row['flee'];
-    		$maxMana = $row['maxMana'];
+    		$maxmana = $row['maxmana'];
     		$equippedShield = getAttribute($conn, "equipmentbonus", "blockChance", $acc);
     		$blockRate = floor($row['block'] * 100);
     		if ($equippedShield != 0) {
@@ -985,7 +985,7 @@
     				$query = sql_query($sql, $conn);
     				if (mysqli_num_rows($query) > 0) {
     					$currentMana = getAttribute($conn, "character", "mana", $acc);
-    					if ($currentMana / $maxMana > .25) {
+    					if ($currentMana / $maxmana > .25) {
     						$text = getString($conn, "0", "combat", "right", "damp");
     						$damage = floor($damage * .75);
     						$message = "<span style=\"color:#A5A5A5\">" . str_replace('[damage]', number_format($damage) , $text) . "</span>";
@@ -1064,7 +1064,7 @@
     						$query = sql_query($sql, $conn);
     						if (mysqli_num_rows($query) > 0) {
     							$currentMana = getAttribute($conn, "character", "mana", $acc);
-    							if ($currentMana / $maxMana > .25) {
+    							if ($currentMana / $maxmana > .25) {
     								$text = getString($conn, "0", "combat", "right", "damp");
     								$damage = floor($damage * .75);
     								$message = "<span style=\"color:#A5A5A5\">" . str_replace('[damage]', number_format($damage) , $text) . "</span>";
@@ -1148,7 +1148,7 @@
     					$query = sql_query($sql, $conn);
     					if (mysqli_num_rows($query) > 0) {
     						$currentMana = getAttribute($conn, "character", "mana", $acc);
-    						if ($currentMana / $maxMana > .25) {
+    						if ($currentMana / $maxmana > .25) {
     							$text = getString($conn, "0", "combat", "right", "damp");
     							$damage = floor($damage * .75);
     							$message = "<span style=\"color:#A5A5A5\">" . str_replace('[damage]', number_format($damage) , $text) . "</span>";
@@ -2752,7 +2752,7 @@
     		if ($itemRow['combatType'] == 7) {
     			$charStats = $calcValues;
     			$amnt = rand($itemRow["useMin"], $itemRow["useMax"]) / 100;
-    			$mana = floor($charStats["maxMana"] * $amnt);
+    			$mana = floor($charStats["maxmana"] * $amnt);
     			$health = floor($charStats["maxhealth"] * $amnt);
     			heal($health, $acc, $conn);
     			mana($mana, $acc, $conn);

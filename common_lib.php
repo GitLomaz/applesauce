@@ -1198,8 +1198,8 @@
 							//RESTORE
 							$charStats = getRow($conn, "calcValues", $acc);
 							$rAmnt = rand($minVal1,$maxVal1) / 100;
-							floor($mana = ($charStats["maxMana"] * $rAmnt));
-							floor($health = ($charStats["maxHealth"] * $rAmnt));
+							floor($mana = ($charStats["maxmana"] * $rAmnt));
+							floor($health = ($charStats["maxhealth"] * $rAmnt));
 							heal($health, $acc, $conn);
 							mana($mana, $acc, $conn);
 							$used = true;
@@ -1450,8 +1450,8 @@
 			$sql_q = 'SELECT
 				"character"."playerid" AS "playerid",
 				(((((("character"."strength" + "equipmentbonus"."str") + "buffsbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) * 4) + ((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex")) + ("character"."level" / 2)) AS "damage",
-				FLOOR(((((((10 + "equipmentbonus"."maxMP") + "buffsbonus"."maxMP") + ("character"."level" * 10)) + (((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr") * 30)) + (((("character"."vitality" + "equipmentbonus"."vit") + FLOOR((("character"."vitality" * "equipmentbonus"."vitPerc") / 100))) + "buffsbonus"."vit") * 10)) * (1 + ("equipmentbonus"."manaPerc" / 100)))) AS "maxMana",
-				FLOOR(((((((150 + "equipmentbonus"."maxHP") + "buffsbonus"."maxHP") + ("character"."level" * 20)) + (((("character"."strength" + "equipmentbonus"."str") + "buffsbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) * 15)) + (((("character"."vitality" + "equipmentbonus"."vit") + FLOOR((("character"."vitality" * "equipmentbonus"."vitPerc") / 100))) + "buffsbonus"."vit") * 25)) * (1 + ("equipmentbonus"."healthPerc" / 100)))) AS "maxHealth",
+				FLOOR(((((((10 + "equipmentbonus"."maxMP") + "buffsbonus"."maxMP") + ("character"."level" * 10)) + (((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr") * 30)) + (((("character"."vitality" + "equipmentbonus"."vit") + FLOOR((("character"."vitality" * "equipmentbonus"."vitPerc") / 100))) + "buffsbonus"."vit") * 10)) * (1 + ("equipmentbonus"."manaPerc" / 100)))) AS "maxmana",
+				FLOOR(((((((150 + "equipmentbonus"."maxHP") + "buffsbonus"."maxHP") + ("character"."level" * 20)) + (((("character"."strength" + "equipmentbonus"."str") + "buffsbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) * 15)) + (((("character"."vitality" + "equipmentbonus"."vit") + FLOOR((("character"."vitality" * "equipmentbonus"."vitPerc") / 100))) + "buffsbonus"."vit") * 25)) * (1 + ("equipmentbonus"."healthPerc" / 100)))) AS "maxhealth",
 				((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr") AS "spr",
 				((("character"."strength" + "equipmentbonus"."str") + "buffsbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) AS "str",
 				((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex") AS "dex",
@@ -1520,8 +1520,8 @@
 			$sql_q = 'SELECT
 		        "character"."playerid" AS "playerid",
 		        (((((("character"."strength" + "equipmentbonus"."str") + "buffsbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) * 4) + ((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex")) + ("character"."level" / 2)) AS "damage",
-		        FLOOR(((((((10 + "equipmentbonus"."maxMP") + "buffsbonus"."maxMP") + ("character"."level" * 10)) + (((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr") * 30)) + (((("character"."vitality" + "equipmentbonus"."vit") + FLOOR((("character"."vitality" * "equipmentbonus"."vitPerc") / 100))) + "buffsbonus"."vit") * 10)) * (1 + ("equipmentbonus"."manaPerc" / 100)))) AS "maxMana",
-		        FLOOR(((((((150 + "equipmentbonus"."maxHP") + "buffsbonus"."maxHP") + ("character"."level" * 20)) + (((("character"."strength" + "equipmentbonus"."str") + "buffsbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) * 15)) + (((("character"."vitality" + "equipmentbonus"."vit") + FLOOR((("character"."vitality" * "equipmentbonus"."vitPerc") / 100))) + "buffsbonus"."vit") * 25)) * (1 + ("equipmentbonus"."healthPerc" / 100)))) AS "maxHealth",
+		        FLOOR(((((((10 + "equipmentbonus"."maxMP") + "buffsbonus"."maxMP") + ("character"."level" * 10)) + (((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr") * 30)) + (((("character"."vitality" + "equipmentbonus"."vit") + FLOOR((("character"."vitality" * "equipmentbonus"."vitPerc") / 100))) + "buffsbonus"."vit") * 10)) * (1 + ("equipmentbonus"."manaPerc" / 100)))) AS "maxmana",
+		        FLOOR(((((((150 + "equipmentbonus"."maxHP") + "buffsbonus"."maxHP") + ("character"."level" * 20)) + (((("character"."strength" + "equipmentbonus"."str") + "buffsbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) * 15)) + (((("character"."vitality" + "equipmentbonus"."vit") + FLOOR((("character"."vitality" * "equipmentbonus"."vitPerc") / 100))) + "buffsbonus"."vit") * 25)) * (1 + ("equipmentbonus"."healthPerc" / 100)))) AS "maxhealth",
 		        ((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr") AS "spr",
 		        ((("character"."strength" + "equipmentbonus"."str") + "buffsbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) AS "str",
 		        ((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex") AS "dex",
@@ -2256,13 +2256,13 @@
 		$user = $accRow['account'] ?? 'Unknown';
 		$output[] = "Level ".$level." ".$class;
 		$currentMana = $charRow['mana'] ?? 0;
-		$maxMana = $calcRow['maxmana'] ?? 50;
-		$output[] = number_format($currentMana)."/".number_format($maxMana);
+		$maxmana = $calcRow['maxmana'] ?? 50;
+		$output[] = number_format($currentMana)."/".number_format($maxmana);
 		$currentHP = $charRow['hitpoints'] ?? 0;
 		$maxHP = $calcRow['maxhealth'] ?? 100;
 		$output[] = number_format($currentHP)."/".number_format($maxHP);
-		$missingMana = $maxMana - $currentMana;
-		$offset = (($maxMana != 0) ? ($missingMana / $maxMana) : 0) * 234 + 24;
+		$missingMana = $maxmana - $currentMana;
+		$offset = (($maxmana != 0) ? ($missingMana / $maxmana) : 0) * 234 + 24;
 
 		if($currentMana == 0){
 			$output[] = "-265px";
@@ -2481,8 +2481,8 @@
 	// -- Params : $acc, $conn
 	// -- Purpose : Regenerates a player's health fully
 	function fullheal ($acc, $conn){
-		$maxHealth = getAttribute($conn, "calcValues", "maxHealth", $acc);
-		$sql_char_update = "UPDATE \"character\" set hitpoints = ".$maxHealth." where playerid=".$acc;
+		$maxhealth = getAttribute($conn, "calcValues", "maxhealth", $acc);
+		$sql_char_update = "UPDATE \"character\" set hitpoints = ".$maxhealth." where playerid=".$acc;
 		sql_query($sql_char_update, $conn);
 		return $sql_char_update;
 	}
@@ -2492,7 +2492,7 @@
 	// -- Purpose : Regenerates a player's health a spastic amount
 	function heal ($amount, $acc, $conn){
 		$HP = getAttribute($conn, 'character', 'hitpoints', $acc);
-		$max = getAttribute($conn, "calcValues", "maxHealth", $acc);
+		$max = getAttribute($conn, "calcValues", "maxhealth", $acc);
 		$HP = $HP + $amount;
 
 		if ($HP > $max){
@@ -2507,8 +2507,8 @@
 	// -- Params : $acc, $conn
 	// -- Purpose : Regenerates a player's mana fully
 	function fullmana ($acc, $conn){
-		$maxMana = getAttribute($conn, "calcValues", "maxMana", $acc);
-		$sql_char_update = "UPDATE \"character\" set mana = ".$maxMana." where playerid=".$acc;
+		$maxmana = getAttribute($conn, "calcValues", "maxmana", $acc);
+		$sql_char_update = "UPDATE \"character\" set mana = ".$maxmana." where playerid=".$acc;
 		sql_query($sql_char_update, $conn);
 	}
 
@@ -2517,7 +2517,7 @@
 	// -- Purpose : Regenerates a player's mana a spastic amount
 	function mana ($amount, $acc, $conn){
 		$MP = getAttribute($conn, 'character', 'mana', $acc);
-		$max = getAttribute($conn, "calcValues", "maxMana", $acc);
+		$max = getAttribute($conn, "calcValues", "maxmana", $acc);
 		$MP = $MP + $amount;
 
 		if ($MP > $max){
@@ -2886,7 +2886,7 @@
 			sql_query($sql, $conn);
 		}
 
-		$max = getAttribute($conn, "calcValues", "maxHealth", $acc);
+		$max = getAttribute($conn, "calcValues", "maxhealth", $acc);
 		$hp = getAttribute($conn, "character", "hitpoints", $acc);
 
 		if($hp > $max){
@@ -2922,7 +2922,7 @@
 			sql_query($sql, $conn);
 		}
 
-		$max = getAttribute($conn, "calcValues", "maxHealth", $acc);
+		$max = getAttribute($conn, "calcValues", "maxhealth", $acc);
 		$hp = getAttribute($conn, "character", "hitpoints", $acc);
 
 		if($hp > $max){

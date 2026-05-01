@@ -501,7 +501,7 @@
 				break;
 			case "test":
 				echo "testing..";
-				echo getAttribute($conn, "calcValues", "maxHealth", 437);
+				echo getAttribute($conn, "calcValues", "maxhealth", 437);
 				break;
 			case "sendErrorEmail":
 				sendBetaEmail($conn, 2);
@@ -631,7 +631,7 @@
 				
 				// Create account row with random account name
 				$randomAccount = "player_" . $playerId . "_" . bin2hex(random_bytes(4));
-				$sql = "INSERT INTO  \"account\" OVERRIDING SYSTEM VALUE (\"playerid\", \"account\", \"password\", \"salt\", \"email\") VALUES (?, ?, 'N/A', 'N/A', 'N/A')";
+				$sql = "INSERT INTO  \"account\"  (\"playerid\", \"account\", \"password\", \"salt\", \"email\") OVERRIDING SYSTEM VALUE VALUES (?, ?, 'N/A', 'N/A', 'N/A')";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_bind_param($stmt, "is", $playerId, $randomAccount);
 				mysqli_stmt_execute($stmt);
