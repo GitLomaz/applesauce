@@ -28,7 +28,7 @@ UU:::::U     U:::::UUT:::::TT:::::::TT:::::TII::::::IILL:::::::LL
 // -- Params : $conn, $table, $index
 // -- Purpose : Returns full row of table at index in args
 function getRow($conn, $table, $index){
-    $sql_q = "select * from "".$table."" where "".getKey($table)."" =".$index." LIMIT 1";
+    $sql_q = "select * from ".$table." where ".getKey($table)." =".$index." LIMIT 1";
     $sql = sql_query($sql_q, $conn);
     return mysqli_fetch_array($sql,MYSQLI_ASSOC);
 }
