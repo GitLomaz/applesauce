@@ -1566,7 +1566,7 @@
 		            AND ("character"."playerid" = '.$index.'))
 		    GROUP BY "character"."playerid", "equipmentbonus"."playerid", "buffsbonus"."playerid"';
 			$sql_q = strtolower($sql_q);
-			error.log($sql_q);
+			error_log($sql_q);
 			$sql = sql_query($sql_q, $conn);
 			return mysqli_fetch_array($sql,MYSQLI_ASSOC);
 		}
