@@ -2643,9 +2643,9 @@
 					$output["rAmnt-".$counter] = $questRow['reward'.$counter.'amnt'];
 				}
 
-				$output["expAmnt"] = $questRow['expAmnt'];
+				$output["expAmnt"] = $questRow['expamnt'];
 				//enter exp reward
-				$output["silverAmnt"] = $questRow['silverAmnt'];
+				$output["silverAmnt"] = $questRow['silveramnt'];
 				//enter silver reward															//quest ID
 				return json_encode($output);
 			} else if(($Row['status'] == "complete" && (mysqli_num_rows($sql_rows) == $counter))){
@@ -2713,9 +2713,9 @@
 					//enter all 3 rewards
 					$output["rAmnt-" .$counter] = $questRow['reward'.$counter.'amnt'];
 				}
-				$output["expAmnt"] = $questRow['expAmnt'];
+				$output["expAmnt"] = $questRow['expamnt'];
 				//enter exp reward
-				$output["silverAmnt"] = $questRow['silverAmnt'];
+				$output["silverAmnt"] = $questRow['silveramnt'];
 				//enter silver reward															//quest ID
 				return json_encode($output);
 			}
@@ -2817,7 +2817,7 @@
 		}
 
 		$exp = $questRow['expAmnt'];
-		$silver = $questRow['silverAmnt'];
+		$silver = $questRow['silveramnt'];
 		giveEXPnoncombat($acc, $exp, $conn);
 		$sql = "UPDATE \"character\" SET \"silver\" = \"silver\" + ".$silver." WHERE playerid = ".$acc;
 		sql_query($sql, $conn);
@@ -3328,7 +3328,7 @@
 
 			$output["expAmnt"] = $questRow['expAmnt'];
 			//enter exp reward
-			$output["silverAmnt"] = $questRow['silverAmnt'];
+			$output["silveramnt"] = $questRow['silveramnt'];
 			//enter silver reward
 
 			return json_encode($output);

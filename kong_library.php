@@ -21,7 +21,7 @@
 	}
 	function getEnemyList($conn, $acc){
 		$playerDiff = getAttribute($conn, "character", "diff", $acc);
-		$sql = "SELECT * from \"charkills\" c , \"enemies\" e inner join \"enemyspawns\" s on e.enemyID = s.enemyID WHERE (e.enemyID = c.enemyID) AND playerid = $acc";
+		$sql = "SELECT * from \"charkills\" c , \"enemies\" e inner join \"enemyspawns\" s on e.enemyid = s.enemyid WHERE (e.enemyid = c.enemyid) AND playerid = $acc";
 		$sql_rows = sql_query($sql, $conn);
 		$zones = '';
 		$enemies = '';
@@ -107,12 +107,12 @@
 			$outputString .= '<tr><td style="width:50%">'.$fireresists.'</td><td style="width:50%">'.$earthresists.'</td></tr>';
 			$outputString .= '<tr><td style="width:50%">'.$holyresists.'</td><td style="width:50%">'.$arcaneresists.'</td></tr>';
 			$outputString .= '</table><div style="padding-top: 5%;">Experience / <span style="color:#80919A">Silver:<br/></span> '.$exp.'<br/><br/>'.$killCount.'</div></div>';
-			$output[] = $name.'|'.$row["enemyID"].'|'.$image.'|'.$row['Chapter'].'|'.$row['Map'].'|'.$row['Zone'].'|'.$outputString.'|'.$row['count'].'|'.$color;
+			$output[] = $name.'|'.$row["enemyid"].'|'.$image.'|'.$row['Chapter'].'|'.$row['Map'].'|'.$row['Zone'].'|'.$outputString.'|'.$row['count'].'|'.$color;
 			$zones .= "'".$row['Zone']."'";
-			$enemies .= $row['enemyID'];
+			$enemies .= $row['enemyid'];
 		}
 		if ($zones != ''){
-			$sql = "select e.*, s.* from enemyspawns s inner join enemies e on e.enemyID = s.enemyID where zone in ($zones) and e.enemyID not in ($enemies)";
+			$sql = "select e.*, s.* from enemyspawns s inner join enemies e on e.enemyid = s.enemyid where zone in ($zones) and e.enemyid not in ($enemies)";
 			$sql_rows = sql_query($sql, $conn);
 			while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 				$name = $row['name'];
@@ -140,7 +140,7 @@
 				$outputString .= '<tr><td style="width:50%">'.$fireresists.'</td><td style="width:50%">'.$earthresists.'</td></tr>';
 				$outputString .= '<tr><td style="width:50%">'.$holyresists.'</td><td style="width:50%">'.$arcaneresists.'</td></tr>';
 				$outputString .= '</table><div style="padding-top: 5%;">Experience / <span style="color:#80919A">Silver:<br/></span> '.$exp.'<br/><br/>'.$killCount.'</div></div>';
-				$output[] = $name.'|_'.$row["enemyID"].'|'.$image.'|'.$row['Chapter'].'|'.$row['Map'].'|'.$row['Zone'].'|'.$outputString.'|0|'.$color;
+				$output[] = $name.'|_'.$row["enemyid"].'|'.$image.'|'.$row['Chapter'].'|'.$row['Map'].'|'.$row['Zone'].'|'.$outputString.'|0|'.$color;
 			}
 			sort($output);
 			foreach ($output as $row) {

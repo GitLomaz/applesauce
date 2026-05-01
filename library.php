@@ -53,7 +53,7 @@ function getKey($table){
             $table = "dropID";
             break;
         case "enemies":
-            $table = "enemyID";
+            $table = "enemyid";
             break;
         case "equippedstuff":
             $table = "equipIndex";
