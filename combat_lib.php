@@ -1759,9 +1759,9 @@
     				$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '')";
     				sql_query($logMessege, $conn);
     				$duration = (100 - $duration) / 100;
-    				$attack = "INSERT INTO "combatenemies" ("maxhealth", "enemyid", "playerid" , "prefix" , "name" , "attack", "mattack"  , "fireres" , "earthres" , "iceres" , "holyres" , "arcaneres" , "physicalres" , "softdef" , "softmdef" , "health" , "exp", "silver", "hit", "flee", "level", "stunresist")
-                                    SELECT "maxhealth", "enemyid", "playerid" , "prefix" , "name" , ("attack" * $duration), ("mattack" * $duration) , "fireres" , "earthres" , "iceres" , "holyres" , "arcaneres" , "physicalres" , "softdef" , "softmdef" , "health", "exp", "silver", "hit", "flee", "level", "stunresist"
-                                    FROM "combatEnemies" WHERE "enemyid" =" . $row['enemyID'] . " AND "playerid" = " . $acc . "
+    				$attack = "INSERT INTO \"combatenemies\" (\"maxhealth\", \"enemyid\", \"playerid\" , \"prefix\" , \"name\" , \"attack\", \"mattack\"  , \"fireres\" , \"earthres\" , \"iceres\" , \"holyres\" , \"arcaneres\" , \"physicalres\" , \"softdef\" , \"softmdef\" , \"health\" , \"exp\", \"silver\", \"hit\", \"flee\", \"level\", \"stunresist\")
+                                    SELECT \"maxhealth\", \"enemyid\", \"playerid\" , \"prefix\" , \"name\" , (\"attack\" * $duration), (\"mattack\" * $duration) , \"fireres\" , \"earthres\" , \"iceres\" , \"holyres\" , \"arcaneres\" , \"physicalres\" , \"softdef\" , \"softmdef\" , \"health\", \"exp\", \"silver\", \"hit\", \"flee\", \"level\", \"stunresist\"
+                                    FROM \"combatEnemies\" WHERE \"enemyid\" =" . $row['enemyID'] . " AND \"playerid\" = " . $acc . "
                                     ORDER BY \"combatEnemyID\" DESC
                                     LIMIT 1";
     				sql_query($attack, $conn);
