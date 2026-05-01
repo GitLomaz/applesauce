@@ -70,7 +70,7 @@ function getKey($table){
         case "quests":
             $table = "questID";
             break;
-        case "equipmentBonus":
+        case "equipmentbonus":
             $table = "playerID";
             break;
         case "spawnPoints":

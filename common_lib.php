@@ -1449,54 +1449,54 @@
 		}else{
 			$sql_q = 'SELECT
 				"character"."playerID" AS "playerID",
-				(((((("character"."strength" + "equipmentBonus"."str") + "buffsBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) * 4) + ((("character"."dexterity" + "equipmentBonus"."dex") + FLOOR((("character"."dexterity" * "equipmentBonus"."dexPerc") / 100))) + "buffsBonus"."dex")) + ("character"."level" / 2)) AS "damage",
-				FLOOR(((((((10 + "equipmentBonus"."maxMP") + "buffsBonus"."maxMP") + ("character"."level" * 10)) + (((("character"."spirit" + "equipmentBonus"."spr") + FLOOR((("character"."spirit" * "equipmentBonus"."sprPerc") / 100))) + "buffsBonus"."spr") * 30)) + (((("character"."vitality" + "equipmentBonus"."vit") + FLOOR((("character"."vitality" * "equipmentBonus"."vitPerc") / 100))) + "buffsBonus"."vit") * 10)) * (1 + ("equipmentBonus"."manaPerc" / 100)))) AS "maxMana",
-				FLOOR(((((((150 + "equipmentBonus"."maxHP") + "buffsBonus"."maxHP") + ("character"."level" * 20)) + (((("character"."strength" + "equipmentBonus"."str") + "buffsBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) * 15)) + (((("character"."vitality" + "equipmentBonus"."vit") + FLOOR((("character"."vitality" * "equipmentBonus"."vitPerc") / 100))) + "buffsBonus"."vit") * 25)) * (1 + ("equipmentBonus"."healthPerc" / 100)))) AS "maxHealth",
-				((("character"."spirit" + "equipmentBonus"."spr") + FLOOR((("character"."spirit" * "equipmentBonus"."sprPerc") / 100))) + "buffsBonus"."spr") AS "spr",
-				((("character"."strength" + "equipmentBonus"."str") + "buffsBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) AS "str",
-				((("character"."dexterity" + "equipmentBonus"."dex") + FLOOR((("character"."dexterity" * "equipmentBonus"."dexPerc") / 100))) + "buffsBonus"."dex") AS "dex",
-				((("character"."vitality" + "equipmentBonus"."vit") + FLOOR((("character"."vitality" * "equipmentBonus"."vitPerc") / 100))) + "buffsBonus"."vit") AS "vit",
-				(("equipmentBonus"."baseDmgMin" + "equipmentBonus"."minDmg") + "buffsBonus"."minDmg") AS "minDmg",
-				(("equipmentBonus"."baseDmgMax" + "equipmentBonus"."maxDmg") + "buffsBonus"."maxDmg") AS "maxDmg",
-				(((((("character"."dexterity" + "equipmentBonus"."dex") + FLOOR((("character"."dexterity" * "equipmentBonus"."dexPerc") / 100))) + "buffsBonus"."dex") * 1.5) + "character"."level") + "buffsBonus"."evasion") AS "flee",
-				((((((("character"."dexterity" + "equipmentBonus"."dex") + FLOOR((("character"."dexterity" * "equipmentBonus"."dexPerc") / 100))) + "buffsBonus"."dex") * 1.5) + (((("character"."strength" + "equipmentBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) + "buffsBonus"."str") * 0.75)) + "character"."level") + 100) AS "hit",
-				((1 / ((1 / (((("character"."spirit" + "equipmentBonus"."spr") + FLOOR((("character"."spirit" * "equipmentBonus"."sprPerc") / 100))) + "buffsBonus"."spr") / 150)) + 0.9)) + (("equipmentBonus"."critChance" + "buffsBonus"."critChance") / 100)) AS "critRate",
-				(((1 / ((1 / (((("character"."strength" + "equipmentBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) + "buffsBonus"."str") / 150)) + 0.9)) + 0.1) + (("equipmentBonus"."critDamage" + "buffsBonus"."critDamage") / 100)) AS "critMulti",
-				((1 / ((1 / (((("character"."strength" + "equipmentBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) + "buffsBonus"."str") / 750)) + 0.5)) + ("equipmentBonus"."blockChance" / 100)) AS "block",
-				("equipmentBonus"."armor" + "buffsBonus"."armor") AS "armor",
-				("equipmentBonus"."fireRes" + "buffsBonus"."fireRes") AS "fireRes",
-				("equipmentBonus"."iceRes" + "buffsBonus"."iceRes") AS "iceRes",
-				("equipmentBonus"."earthRes" + "buffsBonus"."earthRes") AS "earthRes",
-				("equipmentBonus"."arcaneRes" + "buffsBonus"."arcaneRes") AS "arcaneRes",
-				("equipmentBonus"."holyRes" + "buffsBonus"."holyRes") AS "holyRes",
+				(((((("character"."strength" + "equipmentbonus"."str") + "buffsbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) * 4) + ((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex")) + ("character"."level" / 2)) AS "damage",
+				FLOOR(((((((10 + "equipmentbonus"."maxMP") + "buffsbonus"."maxMP") + ("character"."level" * 10)) + (((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr") * 30)) + (((("character"."vitality" + "equipmentbonus"."vit") + FLOOR((("character"."vitality" * "equipmentbonus"."vitPerc") / 100))) + "buffsbonus"."vit") * 10)) * (1 + ("equipmentbonus"."manaPerc" / 100)))) AS "maxMana",
+				FLOOR(((((((150 + "equipmentbonus"."maxHP") + "buffsbonus"."maxHP") + ("character"."level" * 20)) + (((("character"."strength" + "equipmentbonus"."str") + "buffsbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) * 15)) + (((("character"."vitality" + "equipmentbonus"."vit") + FLOOR((("character"."vitality" * "equipmentbonus"."vitPerc") / 100))) + "buffsbonus"."vit") * 25)) * (1 + ("equipmentbonus"."healthPerc" / 100)))) AS "maxHealth",
+				((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr") AS "spr",
+				((("character"."strength" + "equipmentbonus"."str") + "buffsbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) AS "str",
+				((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex") AS "dex",
+				((("character"."vitality" + "equipmentbonus"."vit") + FLOOR((("character"."vitality" * "equipmentbonus"."vitPerc") / 100))) + "buffsbonus"."vit") AS "vit",
+				(("equipmentbonus"."baseDmgMin" + "equipmentbonus"."minDmg") + "buffsbonus"."minDmg") AS "minDmg",
+				(("equipmentbonus"."baseDmgMax" + "equipmentbonus"."maxDmg") + "buffsbonus"."maxDmg") AS "maxDmg",
+				(((((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex") * 1.5) + "character"."level") + "buffsbonus"."evasion") AS "flee",
+				((((((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex") * 1.5) + (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") * 0.75)) + "character"."level") + 100) AS "hit",
+				((1 / ((1 / (((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr") / 150)) + 0.9)) + (("equipmentbonus"."critChance" + "buffsbonus"."critChance") / 100)) AS "critRate",
+				(((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 150)) + 0.9)) + 0.1) + (("equipmentbonus"."critDamage" + "buffsbonus"."critDamage") / 100)) AS "critMulti",
+				((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 750)) + 0.5)) + ("equipmentbonus"."blockChance" / 100)) AS "block",
+				("equipmentbonus"."armor" + "buffsbonus"."armor") AS "armor",
+				("equipmentbonus"."fireRes" + "buffsbonus"."fireRes") AS "fireRes",
+				("equipmentbonus"."iceRes" + "buffsbonus"."iceRes") AS "iceRes",
+				("equipmentbonus"."earthRes" + "buffsbonus"."earthRes") AS "earthRes",
+				("equipmentbonus"."arcaneRes" + "buffsbonus"."arcaneRes") AS "arcaneRes",
+				("equipmentbonus"."holyRes" + "buffsbonus"."holyRes") AS "holyRes",
 				"equipmentInventory"."class" AS "weapon",
 				"character"."exp" AS "exp",
 				"character"."next" AS "next",
 				"character"."level" AS "level",
-				"equipmentBonus"."itemDrop" AS "itemDrop",
-				"equipmentBonus"."silverDrop" AS "silverDrop",
-				("equipmentBonus"."bonusPotHeal" + ((("character"."vitality" + "equipmentBonus"."vit") + FLOOR((("character"."vitality" * "equipmentBonus"."vitPerc") / 100))) + "buffsBonus"."vit")) AS "bonusPotHeal",
-				("equipmentBonus"."bonusPotMana" + ((("character"."spirit" + "equipmentBonus"."spr") + FLOOR((("character"."spirit" * "equipmentBonus"."sprPerc") / 100))) + "buffsBonus"."spr")) AS "bonusPotMana",
-				("equipmentBonus"."expDrop" + "buffsBonus"."expDrop") AS "expDrop",
-				"equipmentBonus"."healthPerc" AS "healthPerc",
-				"equipmentBonus"."manaPerc" AS "manaPerc",
-				"equipmentBonus"."strPerc" AS "strPerc",
-				"equipmentBonus"."dexPerc" AS "dexPerc",
-				"equipmentBonus"."sprPerc" AS "sprPerc",
-				"equipmentBonus"."vitPerc" AS "vitPerc",
-				"equipmentBonus"."spellReduction" AS "spellReduction",
-				COALESCE("buffsBonus"."weapElement", "physical") AS "weapElement",
-				"equipmentBonus"."shapelessRes" AS "shapelessRes",
-				"equipmentBonus"."shapelessExpDrop" AS "shapelessExpDrop",
-				"equipmentBonus"."shapelessDmg" AS "shapelessDmg",
+				"equipmentbonus"."itemDrop" AS "itemDrop",
+				"equipmentbonus"."silverDrop" AS "silverDrop",
+				("equipmentbonus"."bonusPotHeal" + ((("character"."vitality" + "equipmentbonus"."vit") + FLOOR((("character"."vitality" * "equipmentbonus"."vitPerc") / 100))) + "buffsbonus"."vit")) AS "bonusPotHeal",
+				("equipmentbonus"."bonusPotMana" + ((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr")) AS "bonusPotMana",
+				("equipmentbonus"."expDrop" + "buffsbonus"."expDrop") AS "expDrop",
+				"equipmentbonus"."healthPerc" AS "healthPerc",
+				"equipmentbonus"."manaPerc" AS "manaPerc",
+				"equipmentbonus"."strPerc" AS "strPerc",
+				"equipmentbonus"."dexPerc" AS "dexPerc",
+				"equipmentbonus"."sprPerc" AS "sprPerc",
+				"equipmentbonus"."vitPerc" AS "vitPerc",
+				"equipmentbonus"."spellReduction" AS "spellReduction",
+				COALESCE("buffsbonus"."weapElement", "physical") AS "weapElement",
+				"equipmentbonus"."shapelessRes" AS "shapelessRes",
+				"equipmentbonus"."shapelessExpDrop" AS "shapelessExpDrop",
+				"equipmentbonus"."shapelessDmg" AS "shapelessDmg",
 				(SELECT class FROM "equipmentInventory" WHERE "playerID" = '.$index.' AND "equipped" = 1 AND ("slot" = "weapon" OR "slot" = "2hweapon") LIMIT 1) AS "weapon"
 			FROM
-				"character","equipmentBonus","buffsBonus"
+				"character","equipmentbonus","buffsbonus"
 			WHERE
-				(("equipmentBonus"."playerID" = '.$index.')
-					AND ("buffsBonus"."playerID" = '.$index.')
+				(("equipmentbonus"."playerID" = '.$index.')
+					AND ("buffsbonus"."playerID" = '.$index.')
 					AND ("character"."playerID" = '.$index.'))
-			GROUP BY "character"."playerID", "equipmentBonus"."playerID", "buffsBonus"."playerID"';
+			GROUP BY "character"."playerID", "equipmentbonus"."playerID", "buffsbonus"."playerID"';
 			$sql = sql_query($sql_q, $conn);
 			$row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
 			return $row[$attribute];
@@ -1518,53 +1518,53 @@
 		}else{
 			$sql_q = 'SELECT
 		        "character"."playerID" AS "playerID",
-		        (((((("character"."strength" + "equipmentBonus"."str") + "buffsBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) * 4) + ((("character"."dexterity" + "equipmentBonus"."dex") + FLOOR((("character"."dexterity" * "equipmentBonus"."dexPerc") / 100))) + "buffsBonus"."dex")) + ("character"."level" / 2)) AS "damage",
-		        FLOOR(((((((10 + "equipmentBonus"."maxMP") + "buffsBonus"."maxMP") + ("character"."level" * 10)) + (((("character"."spirit" + "equipmentBonus"."spr") + FLOOR((("character"."spirit" * "equipmentBonus"."sprPerc") / 100))) + "buffsBonus"."spr") * 30)) + (((("character"."vitality" + "equipmentBonus"."vit") + FLOOR((("character"."vitality" * "equipmentBonus"."vitPerc") / 100))) + "buffsBonus"."vit") * 10)) * (1 + ("equipmentBonus"."manaPerc" / 100)))) AS "maxMana",
-		        FLOOR(((((((150 + "equipmentBonus"."maxHP") + "buffsBonus"."maxHP") + ("character"."level" * 20)) + (((("character"."strength" + "equipmentBonus"."str") + "buffsBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) * 15)) + (((("character"."vitality" + "equipmentBonus"."vit") + FLOOR((("character"."vitality" * "equipmentBonus"."vitPerc") / 100))) + "buffsBonus"."vit") * 25)) * (1 + ("equipmentBonus"."healthPerc" / 100)))) AS "maxHealth",
-		        ((("character"."spirit" + "equipmentBonus"."spr") + FLOOR((("character"."spirit" * "equipmentBonus"."sprPerc") / 100))) + "buffsBonus"."spr") AS "spr",
-		        ((("character"."strength" + "equipmentBonus"."str") + "buffsBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) AS "str",
-		        ((("character"."dexterity" + "equipmentBonus"."dex") + FLOOR((("character"."dexterity" * "equipmentBonus"."dexPerc") / 100))) + "buffsBonus"."dex") AS "dex",
-		        ((("character"."vitality" + "equipmentBonus"."vit") + FLOOR((("character"."vitality" * "equipmentBonus"."vitPerc") / 100))) + "buffsBonus"."vit") AS "vit",
-		        (("equipmentBonus"."baseDmgMin" + "equipmentBonus"."minDmg") + "buffsBonus"."minDmg") AS "minDmg",
-		        (("equipmentBonus"."baseDmgMax" + "equipmentBonus"."maxDmg") + "buffsBonus"."maxDmg") AS "maxDmg",
-		        (((((("character"."dexterity" + "equipmentBonus"."dex") + FLOOR((("character"."dexterity" * "equipmentBonus"."dexPerc") / 100))) + "buffsBonus"."dex") * 1.5) + "character"."level") + "buffsBonus"."evasion") AS "flee",
-		        ((((((("character"."dexterity" + "equipmentBonus"."dex") + FLOOR((("character"."dexterity" * "equipmentBonus"."dexPerc") / 100))) + "buffsBonus"."dex") * 1.5) + (((("character"."strength" + "equipmentBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) + "buffsBonus"."str") * 0.75)) + "character"."level") + 100) AS "hit",
-		        ((1 / ((1 / (((("character"."spirit" + "equipmentBonus"."spr") + FLOOR((("character"."spirit" * "equipmentBonus"."sprPerc") / 100))) + "buffsBonus"."spr") / 150)) + 0.9)) + (("equipmentBonus"."critChance" + "buffsBonus"."critChance") / 100)) AS "critRate",
-		        (((1 / ((1 / (((("character"."strength" + "equipmentBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) + "buffsBonus"."str") / 150)) + 0.9)) + 0.1) + (("equipmentBonus"."critDamage" + "buffsBonus"."critDamage") / 100)) AS "critMulti",
-		        ((1 / ((1 / (((("character"."strength" + "equipmentBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) + "buffsBonus"."str") / 750)) + 0.5)) + ("equipmentBonus"."blockChance" / 100)) AS "block",
-		        ("equipmentBonus"."armor" + "buffsBonus"."armor") AS "armor",
-		        ("equipmentBonus"."fireRes" + "buffsBonus"."fireRes") AS "fireRes",
-		        ("equipmentBonus"."iceRes" + "buffsBonus"."iceRes") AS "iceRes",
-		        ("equipmentBonus"."earthRes" + "buffsBonus"."earthRes") AS "earthRes",
-		        ("equipmentBonus"."arcaneRes" + "buffsBonus"."arcaneRes") AS "arcaneRes",
-		        ("equipmentBonus"."holyRes" + "buffsBonus"."holyRes") AS "holyRes",
+		        (((((("character"."strength" + "equipmentbonus"."str") + "buffsbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) * 4) + ((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex")) + ("character"."level" / 2)) AS "damage",
+		        FLOOR(((((((10 + "equipmentbonus"."maxMP") + "buffsbonus"."maxMP") + ("character"."level" * 10)) + (((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr") * 30)) + (((("character"."vitality" + "equipmentbonus"."vit") + FLOOR((("character"."vitality" * "equipmentbonus"."vitPerc") / 100))) + "buffsbonus"."vit") * 10)) * (1 + ("equipmentbonus"."manaPerc" / 100)))) AS "maxMana",
+		        FLOOR(((((((150 + "equipmentbonus"."maxHP") + "buffsbonus"."maxHP") + ("character"."level" * 20)) + (((("character"."strength" + "equipmentbonus"."str") + "buffsbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) * 15)) + (((("character"."vitality" + "equipmentbonus"."vit") + FLOOR((("character"."vitality" * "equipmentbonus"."vitPerc") / 100))) + "buffsbonus"."vit") * 25)) * (1 + ("equipmentbonus"."healthPerc" / 100)))) AS "maxHealth",
+		        ((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr") AS "spr",
+		        ((("character"."strength" + "equipmentbonus"."str") + "buffsbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) AS "str",
+		        ((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex") AS "dex",
+		        ((("character"."vitality" + "equipmentbonus"."vit") + FLOOR((("character"."vitality" * "equipmentbonus"."vitPerc") / 100))) + "buffsbonus"."vit") AS "vit",
+		        (("equipmentbonus"."baseDmgMin" + "equipmentbonus"."minDmg") + "buffsbonus"."minDmg") AS "minDmg",
+		        (("equipmentbonus"."baseDmgMax" + "equipmentbonus"."maxDmg") + "buffsbonus"."maxDmg") AS "maxDmg",
+		        (((((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex") * 1.5) + "character"."level") + "buffsbonus"."evasion") AS "flee",
+		        ((((((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex") * 1.5) + (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") * 0.75)) + "character"."level") + 100) AS "hit",
+		        ((1 / ((1 / (((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr") / 150)) + 0.9)) + (("equipmentbonus"."critChance" + "buffsbonus"."critChance") / 100)) AS "critRate",
+		        (((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 150)) + 0.9)) + 0.1) + (("equipmentbonus"."critDamage" + "buffsbonus"."critDamage") / 100)) AS "critMulti",
+		        ((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 750)) + 0.5)) + ("equipmentbonus"."blockChance" / 100)) AS "block",
+		        ("equipmentbonus"."armor" + "buffsbonus"."armor") AS "armor",
+		        ("equipmentbonus"."fireRes" + "buffsbonus"."fireRes") AS "fireRes",
+		        ("equipmentbonus"."iceRes" + "buffsbonus"."iceRes") AS "iceRes",
+		        ("equipmentbonus"."earthRes" + "buffsbonus"."earthRes") AS "earthRes",
+		        ("equipmentbonus"."arcaneRes" + "buffsbonus"."arcaneRes") AS "arcaneRes",
+		        ("equipmentbonus"."holyRes" + "buffsbonus"."holyRes") AS "holyRes",
 		        (SELECT class FROM "equipmentInventory" WHERE "playerID" = '.$index.' AND "equipped" = 1 AND ("slot" = "weapon" OR "slot" = "2hweapon") LIMIT 1) AS "weapon",
 		        "character"."exp" AS "exp",
 		        "character"."next" AS "next",
 		        "character"."level" AS "level",
-		        "equipmentBonus"."itemDrop" AS "itemDrop",
-		        "equipmentBonus"."silverDrop" AS "silverDrop",
-		        ("equipmentBonus"."bonusPotHeal" + ((("character"."vitality" + "equipmentBonus"."vit") + FLOOR((("character"."vitality" * "equipmentBonus"."vitPerc") / 100))) + "buffsBonus"."vit")) AS "bonusPotHeal",
-		        ("equipmentBonus"."bonusPotMana" + ((("character"."spirit" + "equipmentBonus"."spr") + FLOOR((("character"."spirit" * "equipmentBonus"."sprPerc") / 100))) + "buffsBonus"."spr")) AS "bonusPotMana",
-		        ("equipmentBonus"."expDrop" + "buffsBonus"."expDrop") AS "expDrop",
-		        "equipmentBonus"."healthPerc" AS "healthPerc",
-		        "equipmentBonus"."manaPerc" AS "manaPerc",
-		        "equipmentBonus"."strPerc" AS "strPerc",
-		        "equipmentBonus"."dexPerc" AS "dexPerc",
-		        "equipmentBonus"."sprPerc" AS "sprPerc",
-		        "equipmentBonus"."vitPerc" AS "vitPerc",
-		        "equipmentBonus"."spellReduction" AS "spellReduction",
-		        COALESCE("buffsBonus"."weapElement", "physical") AS "weapElement",
-		        "equipmentBonus"."shapelessRes" AS "shapelessRes",
-		        "equipmentBonus"."shapelessExpDrop" AS "shapelessExpDrop",
-		        "equipmentBonus"."shapelessDmg" AS "shapelessDmg"
+		        "equipmentbonus"."itemDrop" AS "itemDrop",
+		        "equipmentbonus"."silverDrop" AS "silverDrop",
+		        ("equipmentbonus"."bonusPotHeal" + ((("character"."vitality" + "equipmentbonus"."vit") + FLOOR((("character"."vitality" * "equipmentbonus"."vitPerc") / 100))) + "buffsbonus"."vit")) AS "bonusPotHeal",
+		        ("equipmentbonus"."bonusPotMana" + ((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr")) AS "bonusPotMana",
+		        ("equipmentbonus"."expDrop" + "buffsbonus"."expDrop") AS "expDrop",
+		        "equipmentbonus"."healthPerc" AS "healthPerc",
+		        "equipmentbonus"."manaPerc" AS "manaPerc",
+		        "equipmentbonus"."strPerc" AS "strPerc",
+		        "equipmentbonus"."dexPerc" AS "dexPerc",
+		        "equipmentbonus"."sprPerc" AS "sprPerc",
+		        "equipmentbonus"."vitPerc" AS "vitPerc",
+		        "equipmentbonus"."spellReduction" AS "spellReduction",
+		        COALESCE("buffsbonus"."weapElement", "physical") AS "weapElement",
+		        "equipmentbonus"."shapelessRes" AS "shapelessRes",
+		        "equipmentbonus"."shapelessExpDrop" AS "shapelessExpDrop",
+		        "equipmentbonus"."shapelessDmg" AS "shapelessDmg"
 		    FROM
-		        "character","equipmentBonus","buffsBonus"
+		        "character","equipmentbonus","buffsbonus"
 		    WHERE
-		        (("equipmentBonus"."playerID" = '.$index.')
-		            AND ("buffsBonus"."playerID" = '.$index.')
+		        (("equipmentbonus"."playerID" = '.$index.')
+		            AND ("buffsbonus"."playerID" = '.$index.')
 		            AND ("character"."playerID" = '.$index.'))
-		    GROUP BY "character"."playerID", "equipmentBonus"."playerID", "buffsBonus"."playerID"';
+		    GROUP BY "character"."playerID", "equipmentbonus"."playerID", "buffsbonus"."playerID"';
 			$sql = sql_query($sql_q, $conn);
 			return mysqli_fetch_array($sql,MYSQLI_ASSOC);
 		}
@@ -1630,7 +1630,7 @@
 		$atk = $calcStats["damage"] ?? 1;
 		$hit = floor($calcStats['hit'] ?? 0);
 		$dodge = floor($calcStats['flee'] ?? 0);
-		$equippedShield = getAttribute($conn, "equipmentBonus", "blockChance", $acc);
+		$equippedShield = getAttribute($conn, "equipmentbonus", "blockChance", $acc);
 		$block = $calcStats["block"];
 
 		if($equippedShield != 0){
