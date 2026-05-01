@@ -1497,7 +1497,7 @@
 					AND ("buffsbonus"."playerid" = '.$index.')
 					AND ("character"."playerid" = '.$index.'))
 			GROUP BY "character"."playerid", "equipmentbonus"."playerid", "buffsbonus"."playerid"';
-			$sql = sql_query(toLowercase($sql_q), $conn);
+			$sql = sql_query(strtolower($sql_q), $conn);
 			$row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
 			return $row[$attribute];
 		}
@@ -1565,7 +1565,7 @@
 		            AND ("buffsbonus"."playerid" = '.$index.')
 		            AND ("character"."playerid" = '.$index.'))
 		    GROUP BY "character"."playerid", "equipmentbonus"."playerid", "buffsbonus"."playerid"';
-			$sql_q = toLowerCase($sql_q);
+			$sql_q = strtolower($sql_q);
 			error.log($sql_q);
 			$sql = sql_query($sql_q, $conn);
 			return mysqli_fetch_array($sql,MYSQLI_ASSOC);
