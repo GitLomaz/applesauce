@@ -1489,7 +1489,7 @@
 				"equipmentBonus"."shapelessRes" AS "shapelessRes",
 				"equipmentBonus"."shapelessExpDrop" AS "shapelessExpDrop",
 				"equipmentBonus"."shapelessDmg" AS "shapelessDmg",
-				(SELECT class FROM equipmentInventory WHERE playerID = $index AND equipped = 1 AND (slot = 'weapon' OR slot = '2hweapon') LIMIT 1) AS weapon
+				(SELECT class FROM "equipmentInventory" WHERE "playerID" = $index AND "equipped" = 1 AND ("slot" = "weapon" OR "slot" = "2hweapon") LIMIT 1) AS "weapon"
 			FROM
 				"character","equipmentBonus","buffsBonus"
 			WHERE
@@ -1538,7 +1538,7 @@
 		        ("equipmentBonus"."earthRes" + "buffsBonus"."earthRes") AS "earthRes",
 		        ("equipmentBonus"."arcaneRes" + "buffsBonus"."arcaneRes") AS "arcaneRes",
 		        ("equipmentBonus"."holyRes" + "buffsBonus"."holyRes") AS "holyRes",
-		        (SELECT class FROM equipmentInventory WHERE playerID = $index AND equipped = 1 AND (slot = 'weapon' OR slot = '2hweapon') LIMIT 1) AS weapon,
+		        (SELECT class FROM "equipmentInventory" WHERE "playerID" = $index AND "equipped" = 1 AND ("slot" = "weapon" OR "slot" = "2hweapon") LIMIT 1) AS "weapon",
 		        "character"."exp" AS "exp",
 		        "character"."next" AS "next",
 		        "character"."level" AS "level",
@@ -1705,12 +1705,12 @@
 		$stats[] = $resetString;
 		$stats[] = $promptDaily;
 		if($logged == 1){
-			$sql = "UPDATE \"character\" set "neverLogged" = 2 WHERE "playerID" = ".$acc;
+			$sql = "UPDATE \"character\" set \"neverLogged\" = 2 WHERE \"playerID\" = ".$acc;
 		}
 
 
 		if($logged == 2){
-			$sql = "UPDATE \"character\" set "neverLogged" = 0 WHERE "playerID" = ".$acc;
+			$sql = "UPDATE \"character\" set \"neverLogged\" = 0 WHERE \"playerID\" = ".$acc;
 		}
 
 		sql_query($sql, $conn);
