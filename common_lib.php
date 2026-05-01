@@ -3395,7 +3395,7 @@
 				$distence = $distence * 15;
 				$distence = floor($distence /100) * 100;
 				$index = $waypoints['spawnID'];
-				$sql = "UPDATE \"character\" set \"map\" = '".$waypoints["mapName"]."', "locationX" = ".$waypoints["telestoneX"].", locationY = ".$waypoints["telestoneY"].", silver = silver - $distence WHERE "playerID" = $acc and \"silver\" + 1 > $distence LIMIT 1";
+				$sql = "UPDATE \"character\" set \"map\" = '".$waypoints["mapName"]."', \"locationX\" = ".$waypoints["telestoneX"].", \"locationY\" = ".$waypoints["telestoneY"].", \"silver\" = \"silver\" - $distence WHERE \"playerID\" = $acc and \"silver\" + 1 > $distence LIMIT 1";
 				sql_query($sql, $conn);
 				return "0";
 			}
