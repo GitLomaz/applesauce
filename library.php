@@ -281,7 +281,7 @@ function getStatusBar($acc, $conn){
     $output["silver"] = $charRow["silver"];
     $output["expString"] = $charRow['exp'].' / '.$charRow['next'];
 
-    $sql = "select script, \"image\", remaining from playerBuffs where name != 'empty' and playerid in ($acc, -1) order by itemID";
+    $sql = "select script, \"image\", remaining from playerbuffs where name != 'empty' and playerid in ($acc, -1) order by itemID";
     $rowset = sql_query($sql, $conn);
     $output["buffs"] = null;
 

@@ -139,7 +139,7 @@
 
     function dblAttack($acc, $conn, $damage, $enemyRow, $elementText, $enemyid, $hit, $flee, $itemClass)
     {
-    	$sql = "select sl.damage as damage, sl.chance as chance from playerBuffs pb
+    	$sql = "select sl.damage as damage, sl.chance as chance from playerbuffs pb
                 inner join skillLevels sl on pb.buffID = sl.skillID
                 inner join charSkills cs on cs.playerid = pb.playerid
                 where pb.playerid = $acc and sl.level = cs.level and cs.skillID = 29 and sl.skillID = 29";
@@ -186,7 +186,7 @@
 
     function cripple($acc, $conn, $enemyRow, $enemyID)
     {
-    	$sql = "select sl.damage as damage, sl.chance as chance from playerBuffs pb
+    	$sql = "select sl.damage as damage, sl.chance as chance from playerbuffs pb
                 inner join skillLevels sl on pb.buffID = sl.skillID
                 inner join charSkills cs on cs.playerid = pb.playerid
                 where pb.playerid = $acc and sl.level = cs.level and cs.skillID = 30 and sl.skillID = 30";
@@ -231,7 +231,7 @@
 
     function darkAssault($acc, $conn, $enemyRow, $enemyID)
     {
-    	$sql = "select sl.damage as damage, sl.chance as chance from playerBuffs pb
+    	$sql = "select sl.damage as damage, sl.chance as chance from playerbuffs pb
                 inner join skillLevels sl on pb.buffID = sl.skillID
                 inner join charSkills cs on cs.playerid = pb.playerid
                 where pb.playerid = $acc and sl.level = cs.level and cs.skillID = 31 and sl.skillID = 31";
@@ -275,7 +275,7 @@
 
     function condem($acc, $conn, $enemyRow, $enemyID)
     {
-    	$sql = "select sl.damage as damage, sl.chance as chance from playerBuffs pb
+    	$sql = "select sl.damage as damage, sl.chance as chance from playerbuffs pb
                 inner join skillLevels sl on pb.buffID = sl.skillID
                 inner join charSkills cs on cs.playerid = pb.playerid
                 where pb.playerid = $acc and sl.level = cs.level and cs.skillID = 32 and sl.skillID = 32";
@@ -320,7 +320,7 @@
     {
     	$buffmod = 10;
     	$buffmulti = 1;
-    	$sql = "select sum(test) as active from (SELECT count(*) as test FROM \"playerBuffs\" a where playerid = $acc and itemID in (86,87,88,93,102,87) union SELECT count(*) as test FROM \"equipmentInventory\" b where playerid = $acc and template in (56, 63, 72) and equipped = 1) as t";
+    	$sql = "select sum(test) as active from (SELECT count(*) as test FROM \"playerbuffs\" a where playerid = $acc and itemID in (86,87,88,93,102,87) union SELECT count(*) as test FROM \"equipmentInventory\" b where playerid = $acc and template in (56, 63, 72) and equipped = 1) as t";
     	$query = sql_query($sql, $conn);
     	$row = mysqli_fetch_array($query, MYSQLI_ASSOC);
     	if ($row["active"] > 0) {
@@ -347,7 +347,7 @@
     			$flee = (pow($e_level, 2) + 0.3 * $e_level + 4.55) / 9 + 30;
     			$health = $charRow['diff'] * (pow($e_level, 2) + 0.3 * $e_level + 4.55) * 1.5;
     			$exp = (0.0019 * pow($e_level + 35, 4) - 0.065 * pow($e_level + 35, 3) + 1.12 * pow($e_level + 35, 2) + 4 * $e_level + 35) / 2;
-    			$sql = "UPDATE \"character\" SET \"combatModifier\" = 0 WHERE playerid = " . $acc;
+    			$sql = "UPDATE \"character\" SET \"combatmodifier\" = 0 WHERE playerid = " . $acc;
     			sql_query($sql, $conn);
     			$combatRow = sql_query("SELECT * FROM \"combat\" WHERE \"playerid\" = " . $acc, $conn);
     			if (mysqli_num_rows($combatRow) > 0) {
@@ -372,11 +372,11 @@
 
     			}
 
-    			if ($charRow['combatModifier'] < $buffmod) {
-    				return 'modifier: ' . $charRow['combatModifier'];
+    			if ($charRow['combatmodifier'] < $buffmod) {
+    				return 'modifier: ' . $charRow['combatmodifier'];
     			}
 
-    			$combatCoeff = $charRow['combatModifier'] / 15;
+    			$combatCoeff = $charRow['combatmodifier'] / 15;
     			$combatCoeff = $combatCoeff * $buffmulti;
     			$level = $charRow['level'];
     			$levelDiff = $level - $e_level;
@@ -404,7 +404,7 @@
     			$freq = $steps * ($diffFactor / 100) * $combatCoeff;
     			$roll = rand(0, 100);
     			if ($roll < $freq) {
-    				$sql = "UPDATE \"character\" SET \"combatModifier\" = 0 WHERE playerid = " . $acc;
+    				$sql = "UPDATE \"character\" SET \"combatmodifier\" = 0 WHERE playerid = " . $acc;
     				sql_query($sql, $conn);
     				$combatRow = sql_query("SELECT * FROM \"combat\" WHERE \"playerid\" = " . $acc, $conn);
     				if (mysqli_num_rows($combatRow) > 0) {
@@ -443,7 +443,7 @@
     				}
 
     				$exp = (0.0019 * pow($e_level + 30, 4) - 0.065 * pow($e_level + 30, 3) + 1.12 * pow($e_level + 30, 2) + 4 * $e_level + 30) / 2;
-    				$sql = "UPDATE \"character\" SET \"combatModifier\" = 0 WHERE playerid = " . $acc;
+    				$sql = "UPDATE \"character\" SET \"combatmodifier\" = 0 WHERE playerid = " . $acc;
     				sql_query($sql, $conn);
     				$combatRow = sql_query("SELECT * FROM \"combat\" WHERE \"playerid\" = " . $acc, $conn);
     				if (mysqli_num_rows($combatRow) > 0) {
@@ -483,7 +483,7 @@
     		}
     	}
     	else {
-    		$sql_get_level = "SELECT MIN(e.level) as level, c.map, c.diff FROM \"character\" c Inner join \"enemySpawns\" s on c.zone = s.zone	inner join \"enemies\" e on s.enemyID = e.enemyID where c.playerid = $acc AND s.startDate < NOW() AND s.endDate > NOW()";
+    		$sql_get_level = "SELECT MIN(e.level) as level, c.map, c.diff FROM \"character\" c Inner join \"enemyspawns\" s on c.zone = s.zone	inner join \"enemies\" e on s.enemyID = e.enemyID where c.playerid = $acc AND s.startDate < NOW() AND s.endDate > NOW() GROUP BY c.map, c.diff;";
     		$sql_result = sql_query($sql_get_level, $conn);
     		$row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC);
     		$map = $row['map'];
@@ -494,11 +494,11 @@
     		}
 
     		$row = getRow($conn, "character", $acc);
-    		if ($row['combatModifier'] < $buffmod) {
-    			return 'modifier: ' . $row['combatModifier'];
+    		if ($row['combatmodifier'] < $buffmod) {
+    			return 'modifier: ' . $row['combatmodifier'];
     		}
 
-    		$combatCoeff = $row['combatModifier'] / 15;
+    		$combatCoeff = $row['combatmodifier'] / 15;
     		$combatCoeff = $combatCoeff * $buffmulti;
     		$level = $row['level'];
     		$levelDiff = $level - $e_level;
@@ -526,13 +526,13 @@
     		$freq = $steps * ($diffFactor / 100) * $combatCoeff;
     		$roll = rand(0, 100);
     		if ($roll < $freq) {
-    			$sql = "UPDATE \"character\" SET \"combatModifier\" = 0 WHERE \"playerid\" = " . $acc;
+    			$sql = "UPDATE \"character\" SET \"combatmodifier\" = 0 WHERE \"playerid\" = " . $acc;
     			sql_query($sql, $conn);
     			$totalWeight = 0;
-    			$maxSQL = "SELECT SUM(weight) as total FROM \"character\" c Inner join \"enemySpawns\" s on c.zone = s.zone or s.zone = 'all' where c.playerid = $acc AND s.startDate < NOW() AND s.endDate > NOW()";
+    			$maxSQL = "SELECT SUM(weight) as total FROM \"character\" c Inner join \"enemyspawns\" s on c.zone = s.zone or s.zone = 'all' where c.playerid = $acc AND s.startDate < NOW() AND s.endDate > NOW()";
     			$max = mysqli_fetch_array(sql_query($maxSQL, $conn) , MYSQLI_ASSOC) ['total'];
     			$roll = rand(0, $max);
-    			$sql_get_enemies = "SELECT e.enemyid, e.name, s.weight, e.prefix, e.quest, weight FROM \"character\" c Inner join \"enemySpawns\" s on c.zone = s.zone or s.zone = 'all' inner join \"enemies\" e on s.enemyID = e.enemyID where c.playerid = $acc AND s.startDate < NOW() AND s.endDate > NOW()";
+    			$sql_get_enemies = "SELECT e.enemyid, e.name, s.weight, e.prefix, e.quest, weight FROM \"character\" c Inner join \"enemyspawns\" s on c.zone = s.zone or s.zone = 'all' inner join \"enemies\" e on s.enemyID = e.enemyID where c.playerid = $acc AND s.startDate < NOW() AND s.endDate > NOW()";
     			$sql_result = sql_query($sql_get_enemies, $conn);
     			while ($row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC)) {
     				$totalWeight = $totalWeight + intval($row['weight']);
@@ -810,7 +810,7 @@
     		}
     	}
 
-    	$sql = "select sl.chance as chance from playerBuffs pb
+    	$sql = "select sl.chance as chance from playerbuffs pb
             inner join skillLevels sl on pb.buffID = sl.skillID
             inner join charSkills cs on cs.playerid = pb.playerid
             where pb.playerid = $acc and sl.level = cs.level and cs.skillID = 34 and sl.skillID = 34";
@@ -832,7 +832,7 @@
     		}
     	}
 
-    	$sql = "UPDATE \"character\" SET \"silver\" = \"silver\" + $silver, \"combatModifier\" = 0 WHERE playerid = $acc";
+    	$sql = "UPDATE \"character\" SET \"silver\" = \"silver\" + $silver, \"combatmodifier\" = 0 WHERE playerid = $acc";
     	sql_query($sql, $conn);
     	sql_query("DELETE FROM \"enemySkillCooldown\" WHERE \"playerid\" = " . $acc, $conn);
     }
@@ -978,7 +978,7 @@
     				}
 
 
-    				$sql = "select * from playerBuffs where playerid = $acc and buffID = 22";
+    				$sql = "select * from playerbuffs where playerid = $acc and buffID = 22";
     				$query = sql_query($sql, $conn);
     				if (mysqli_num_rows($query) > 0) {
     					$currentMana = getAttribute($conn, "character", "mana", $acc);
@@ -1057,7 +1057,7 @@
     						sql_query($logMessege, $conn);
     					}
     					else {
-    						$sql = "select * from playerBuffs where playerid = $acc and buffID = 22";
+    						$sql = "select * from playerbuffs where playerid = $acc and buffID = 22";
     						$query = sql_query($sql, $conn);
     						if (mysqli_num_rows($query) > 0) {
     							$currentMana = getAttribute($conn, "character", "mana", $acc);
@@ -1141,7 +1141,7 @@
     					sql_query($logMessege, $conn);
     				}
     				else {
-    					$sql = "select * from playerBuffs where playerid = $acc and buffID = 22";
+    					$sql = "select * from playerbuffs where playerid = $acc and buffID = 22";
     					$query = sql_query($sql, $conn);
     					if (mysqli_num_rows($query) > 0) {
     						$currentMana = getAttribute($conn, "character", "mana", $acc);
@@ -1366,7 +1366,7 @@
 
     function blazingAura($conn, $acc)
     {
-    	$sql = "select damage from \"character\" c inner join playerBuffs b on c.playerid = b.playerid inner join charSkills s on s.playerid = b.playerid inner join skillLevels l on l.\"level\" = s.\"level\" where c.playerid = $acc and l.skillID = 20 and s.skillID = 20 and b.buffID = 20";
+    	$sql = "select damage from \"character\" c inner join playerbuffs b on c.playerid = b.playerid inner join charSkills s on s.playerid = b.playerid inner join skillLevels l on l.\"level\" = s.\"level\" where c.playerid = $acc and l.skillID = 20 and s.skillID = 20 and b.buffID = 20";
     	$sql_rows = sql_query($sql, $conn);
     	if (mysqli_num_rows($sql_rows) > 0) {
     		$row = mysqli_fetch_array($sql_rows, MYSQLI_ASSOC);
@@ -1392,7 +1392,7 @@
     		sql_query($logMessege, $conn);
     	}
 
-    	$sql = "select * from playerBuffs where playerid = $acc and buffID = -20";
+    	$sql = "select * from playerbuffs where playerid = $acc and buffID = -20";
     	$sql_rows = sql_query($sql, $conn);
     	if (mysqli_num_rows($sql_rows) > 0) {
     		$row = mysqli_fetch_array($sql_rows, MYSQLI_ASSOC);
@@ -1432,11 +1432,11 @@
     	$sql = 'UPDATE "character" set currentTowerLevel = 1 WHERE "playerid" = ' . $acc;
     	sql_query($sql, $conn);
     	$HP = (getAttribute($conn, "calcValues", "maxhealth", $acc) / 2);
-    	$sql = 'SELECT * FROM "playerBuffs" where itemID = 116 AND playerid = ' . $acc;
+    	$sql = 'SELECT * FROM "playerbuffs" where itemID = 116 AND playerid = ' . $acc;
     	$query = sql_query($sql, $conn);
     	logAction($conn, $acc, 'death', NULL, NULL);
     	if (mysqli_num_rows($query) > 0) {
-    		$sql = 'DELETE FROM "playerBuffs" where itemID = 116 AND playerid = ' . $acc;
+    		$sql = 'DELETE FROM "playerbuffs" where itemID = 116 AND playerid = ' . $acc;
     		$query = sql_query($sql, $conn);
     		sql_query('UPDATE "character" set "hitpoints" = ' . $HP . ' WHERE "playerid" = ' . $acc, $conn);
     		sql_query('UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = ' . $acc, $conn);
@@ -1449,7 +1449,7 @@
 
                 sql_query('UPDATE "character" set "hitpoints" = ' . $HP . ' WHERE "playerid" = ' . $acc, $conn);
     			sql_query('UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = ' . $acc, $conn);
-    			sql_query('DELETE FROM "playerBuffs" where "remaining" > 0 AND "playerid" = ' . $acc . ' and itemID != -2', $conn);
+    			sql_query('DELETE FROM "playerbuffs" where "remaining" > 0 AND "playerid" = ' . $acc . ' and itemID != -2', $conn);
 
             }else{
 
@@ -1466,7 +1466,7 @@
 
                     sql_query('UPDATE "character" set "hitpoints" = ' . $HP . ', exp = ' . $XP . ' WHERE "playerid" = ' . $acc, $conn);
                     sql_query('UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = ' . $acc, $conn);
-                    sql_query('DELETE FROM "playerBuffs" where "remaining" > 0 AND "playerid" = ' . $acc . ' and itemID != -2', $conn);
+                    sql_query('DELETE FROM "playerbuffs" where "remaining" > 0 AND "playerid" = ' . $acc . ' and itemID != -2', $conn);
 
                 } else {
 
@@ -1480,7 +1480,7 @@
 
         			sql_query('UPDATE "character" set "hitpoints" = ' . $HP . ', exp = ' . $XP . ' WHERE "playerid" = ' . $acc, $conn);
         			sql_query('UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = ' . $acc, $conn);
-        			sql_query('DELETE FROM "playerBuffs" where "remaining" > 0 AND "playerid" = ' . $acc . ' and itemID != -2', $conn);
+        			sql_query('DELETE FROM "playerbuffs" where "remaining" > 0 AND "playerid" = ' . $acc . ' and itemID != -2', $conn);
 
                 }
             }
@@ -2235,50 +2235,50 @@
 
     		if ($skillRow['type'] == 'Buff') {
     			setAchievement($conn, $acc, 8);
-    			$sql = "SELECT * FROM playerBuffs where buffID = $skillID and playerid = $acc";
+    			$sql = "SELECT * FROM playerbuffs where buffID = $skillID and playerid = $acc";
     			$query = sql_query($sql, $conn);
     			if (mysqli_num_rows($query) == 0) {
     				if ($skillID == 7) {
-    					$sql = "INSERT INTO playerBuffs (buffID, playerid, name, remaining, armor, image, script) values ($skillID, $acc, 'Holy Armor', 5 * $times, $effect, '" . $image . "', '" . $skillRow['script'] . "')";
+    					$sql = "INSERT INTO playerbuffs (buffID, playerid, name, remaining, armor, image, script) values ($skillID, $acc, 'Holy Armor', 5 * $times, $effect, '" . $image . "', '" . $skillRow['script'] . "')";
     					sql_query($sql, $conn);
     					return "<span style='color:green;'>Holy Armor Used! Armor enchanted for " . 5 * $times . " encounters.</span>";
     				}
 
     				if ($skillID == 24) {
-    					$sql = "INSERT INTO playerBuffs (buffID, playerid, name, remaining, armor, iceres, image, script) values ($skillID, $acc, 'Arctic Armor', $duration * $times , $effect, $chance, '" . $image . "', '" . $skillRow['script'] . "')";
+    					$sql = "INSERT INTO playerbuffs (buffID, playerid, name, remaining, armor, iceres, image, script) values ($skillID, $acc, 'Arctic Armor', $duration * $times , $effect, $chance, '" . $image . "', '" . $skillRow['script'] . "')";
     					sql_query($sql, $conn);
     					return "<span style='color:green;'>Arctic Armor Used! Armor augmented for " . $duration * $times . " encounters.</span>";
     				}
 
     				if ($skillID == 11) {
-    					$sql = "INSERT INTO playerBuffs (buffID, playerid, name, remaining, fireres, iceres, arcaneres, holyres, earthres, image, script) values ($skillID, $acc, 'Divine Protection', 5 * $times, $effect, $effect, $effect, $effect, $effect, '" . $image . "', '" . $skillRow['script'] . "')";
+    					$sql = "INSERT INTO playerbuffs (buffID, playerid, name, remaining, fireres, iceres, arcaneres, holyres, earthres, image, script) values ($skillID, $acc, 'Divine Protection', 5 * $times, $effect, $effect, $effect, $effect, $effect, '" . $image . "', '" . $skillRow['script'] . "')";
     					sql_query($sql, $conn);
     					return "<span style='color:green;'>Divine Protection Used! All resistences boosted for " . 5 * $times . " encounters.</span>";
     				}
 
     				if ($skillID == 14 || $skillID == 15 || $skillID == 16 || $skillID == 35) {
-    					$sql = "DELETE FROM playerBuffs where buffID in (14,15,16,35) and playerid = $acc";
+    					$sql = "DELETE FROM playerbuffs where buffID in (14,15,16,35) and playerid = $acc";
     					sql_query($sql, $conn);
-    					$sql = "INSERT INTO playerBuffs (buffID, playerid, name, remaining, weapElement, image, script) values ($skillID, $acc, '$element Enchantment', $duration * $times, '$spellElement', '" . $image . "', '" . $skillRow['script'] . "')";
+    					$sql = "INSERT INTO playerbuffs (buffID, playerid, name, remaining, weapElement, image, script) values ($skillID, $acc, '$element Enchantment', $duration * $times, '$spellElement', '" . $image . "', '" . $skillRow['script'] . "')";
     					sql_query($sql, $conn);
     					return "<span style='color:green;'>$element Enchantment Used! Weapon enchanted for " . $duration * $times . " encounters.</span>";
     				}
 
     				if ($skillID == 20) {
-    					$sql = "INSERT INTO playerBuffs (buffID, playerid, name, remaining, image, script) values ($skillID, $acc, 'Burning Aura', $duration * $times, '$image', '" . $skillRow['script'] . "')";
+    					$sql = "INSERT INTO playerbuffs (buffID, playerid, name, remaining, image, script) values ($skillID, $acc, 'Burning Aura', $duration * $times, '$image', '" . $skillRow['script'] . "')";
     					sql_query($sql, $conn);
     					return "<span style='color:green;'>Burning Aura Used! Armor ablaze for " . $duration * $times . " encounters!</span>";
     				}
 
     				if ($skillID == 34) {
-    					$sql = "INSERT INTO playerBuffs (buffID, playerid, name, remaining, image, script) values ($skillID, $acc, 'Find Potion', $duration * $times, '$image', '" . $skillRow['script'] . "')";
+    					$sql = "INSERT INTO playerbuffs (buffID, playerid, name, remaining, image, script) values ($skillID, $acc, 'Find Potion', $duration * $times, '$image', '" . $skillRow['script'] . "')";
     					sql_query($sql, $conn);
     					return "<span style='color:green;'>Find Potion Used! You have enhanced potion finding abilities for " . $duration * $times . " encounters!</span>";
     				}
     			}
     			else {
     				if ($skillID == 7 || $skillID == 11 || $skillID == 14 || $skillID == 15 || $skillID == 16 || $skillID == 20 || $skillID == 24 || $skillID == 34 || $skillID == 35) {
-    					$sql = "UPDATE playerBuffs set remaining = remaining + " . $skillRow['duration'] * $times . " where playerid = $acc AND buffID = $skillID";
+    					$sql = "UPDATE playerbuffs set remaining = remaining + " . $skillRow['duration'] * $times . " where playerid = $acc AND buffID = $skillID";
     					sql_query($sql, $conn);
     					if ($skillID == 7) {
     						return "<span style='color:green;'>Holy Armor Used! Armor enchanted for " . 5 * $times . " encounters.</span>";
@@ -2785,9 +2785,9 @@
 
     function decreaseBuff($conn, $acc)
     {
-    	$sql = 'delete from "playerBuffs" where "remaining" = 1 and playerid = ' . $acc;
+    	$sql = 'delete from "playerbuffs" where "remaining" = 1 and playerid = ' . $acc;
     	sql_query($sql, $conn);
-    	$sql = 'update "playerBuffs" set \"remaining\" = \"remaining\" - 1 where \"remaining\" > 0 and \"playerid\" = ' . $acc;
+    	$sql = 'update "playerbuffs" set \"remaining\" = \"remaining\" - 1 where \"remaining\" > 0 and \"playerid\" = ' . $acc;
     	sql_query($sql, $conn);
     }
 

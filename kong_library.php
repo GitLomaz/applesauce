@@ -21,7 +21,7 @@
 	}
 	function getEnemyList($conn, $acc){
 		$playerDiff = getAttribute($conn, "character", "diff", $acc);
-		$sql = "SELECT * from \"charKills\" c , \"enemies\" e inner join \"enemySpawns\" s on e.enemyID = s.enemyID WHERE (e.enemyID = c.enemyID) AND playerid = $acc";
+		$sql = "SELECT * from \"charKills\" c , \"enemies\" e inner join \"enemyspawns\" s on e.enemyID = s.enemyID WHERE (e.enemyID = c.enemyID) AND playerid = $acc";
 		$sql_rows = sql_query($sql, $conn);
 		$zones = '';
 		$enemies = '';
@@ -112,7 +112,7 @@
 			$enemies .= $row['enemyID'];
 		}
 		if ($zones != ''){
-			$sql = "select e.*, s.* from enemySpawns s inner join enemies e on e.enemyID = s.enemyID where zone in ($zones) and e.enemyID not in ($enemies)";
+			$sql = "select e.*, s.* from enemyspawns s inner join enemies e on e.enemyID = s.enemyID where zone in ($zones) and e.enemyID not in ($enemies)";
 			$sql_rows = sql_query($sql, $conn);
 			while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 				$name = $row['name'];
@@ -211,7 +211,7 @@
 		}
 	}
 	function kongBuff($conn, $acc){
-		$sql = "DELETE from \"playerBuffs\" where itemID = -1 AND playerid = $acc";
+		$sql = "DELETE from \"playerbuffs\" where itemID = -1 AND playerid = $acc";
 		sql_query($sql, $conn);
 		$level = getAttribute($conn, "character", "level", $acc);
 		if($level < 8){
@@ -219,7 +219,7 @@
 		}
 		$bonus = floor($level/3);
 		$string = "<strong>Kongregate Ad Support</strong><br/><br/>Thanks for your ad support! here is a bonus!<br/><br/><strong>Primary Stats: </strong>$bonus";
-		$sql = "insert into \"playerBuffs\" (str, vit, dex, spr, itemID, playerid, name, image, remaining, script) values ($bonus,$bonus,$bonus,$bonus,-1,$acc,'Kongregate Premium Buff','kongBuff',50,'$string')";
+		$sql = "insert into \"playerbuffs\" (str, vit, dex, spr, itemID, playerid, name, image, remaining, script) values ($bonus,$bonus,$bonus,$bonus,-1,$acc,'Kongregate Premium Buff','kongBuff',50,'$string')";
 		sql_query($sql, $conn);
 	}
 	function kongSubmitInitStats($conn, $acc){
@@ -235,7 +235,7 @@
 		$sql = "SELECT COALESCE(sum(count), 0) as kills FROM charKills where playerid = $acc;";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 		$kills = $row['kills'];
-		$steps = getAttribute($conn, "account", "stepsTaken", $acc);
+		$steps = getAttribute($conn, "account", "stepstaken", $acc);
 		$quests = count(getCompleteQuests($conn, $acc));
 		$myvars = "user_id=$userID&api_key=df4d3c9f-3665-4e4c-9d66-0d039b7314ad&enemiesKilled=$kills&initialized=1&QuestsCompleted=$quests&StepsTaken=$steps&totalResets=$resets&highestLevel=$level&towerLevel=$tower&totalDeaths=$deaths";
 		error_log($myvars);

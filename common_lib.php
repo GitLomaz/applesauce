@@ -1143,7 +1143,7 @@
 								$newItem = $item;
 							}
 
-							$sql = 'select * from playerBuffs where itemID = '.$newItem.' and playerid = '.$acc;
+							$sql = 'select * from playerbuffs where itemID = '.$newItem.' and playerid = '.$acc;
 							$rowset = sql_query($sql, $conn);
 
 							if(mysqli_num_rows($rowset) == 0){
@@ -1620,7 +1620,7 @@
 		if($vit != $calcStats['vit']){
 			$vit .= "  (" . $calcStats['vit'] . ")";
 		}
-		$steps = getAttribute($conn, "account", "stepsTaken", $acc) ?? 0;
+		$steps = getAttribute($conn, "account", "stepstaken", $acc) ?? 0;
 		$gold = $row['silver'] ?? 0;
 		$class = $row['class'] ?? 'Paladin';
 		$level = $row['level'] ?? 1;
@@ -2058,7 +2058,7 @@
 			$query = sql_query($sql, $conn);
 			$row = mysqli_fetch_array($query,MYSQLI_ASSOC);
 			$effect = $row["damage"];
-			$sql = "SELECT * FROM playerBuffs where passiveID = $skillID and playerid = $acc";
+			$sql = "SELECT * FROM playerbuffs where passiveID = $skillID and playerid = $acc";
 			$query = sql_query($sql, $conn);
 
 			if(mysqli_num_rows($query) == 0){
@@ -2080,15 +2080,15 @@
 			} else {
 
 				if($skillID == 6){
-					$sql = "UPDATE playerBuffs set maxHP = $effect where playerid = $acc AND passiveID = $skillID";
+					$sql = "UPDATE playerbuffs set maxHP = $effect where playerid = $acc AND passiveID = $skillID";
 					sql_query($sql, $conn);
 				}
 				if($skillID == 40){
-					$sql = "UPDATE playerBuffs set evasion = $effect where playerid = $acc AND passiveID = $skillID";
+					$sql = "UPDATE playerbuffs set evasion = $effect where playerid = $acc AND passiveID = $skillID";
 					sql_query($sql, $conn);
 				}
 				if($skillID == 41){
-					$sql = "UPDATE playerBuffs set critChance = $effect, critDamage = $effect * 2 where playerid = $acc AND passiveID = $skillID";
+					$sql = "UPDATE playerbuffs set critChance = $effect, critDamage = $effect * 2 where playerid = $acc AND passiveID = $skillID";
 					sql_query($sql, $conn);
 				}
 
@@ -2286,7 +2286,7 @@
 
 		$output[] = "Silver: ".$charRow["silver"];
 		$output[] = $currentEXP.' / '.$maxEXP;
-		$sql = "select * from playerBuffs where name != 'empty' and playerid in ($acc, -1) order by itemID";
+		$sql = "select * from playerbuffs where name != 'empty' and playerid in ($acc, -1) order by itemID";
 		$rowset = sql_query($sql, $conn);
 		$statsRow = '';
 
@@ -2335,7 +2335,7 @@
 							sql_query($sql, $conn);
 						}
 					}
-					$sql = "UPDATE \"character\" SET locationX = ".$x.", locationY = ".$y.", map = '".$map."', \"combatModifier\" = 0 WHERE playerid = $acc LIMIT 1";
+					$sql = "UPDATE \"character\" SET locationX = ".$x.", locationY = ".$y.", map = '".$map."', \"combatmodifier\" = 0 WHERE playerid = $acc LIMIT 1";
 				} else {
 					$oldX = isset($_SESSION['oldX']) ? floatval($_SESSION['oldX']) : null;
 					$oldY = isset($_SESSION['oldY']) ? floatval($_SESSION['oldY']) : null;
@@ -2363,9 +2363,9 @@
 					$debug[] = "raw_steps=" . $steps . " floored_steps=" . floor($steps);
 					$_SESSION['oldX'] = $x;
 					$_SESSION['oldY'] = $y;
-					$sql = "UPDATE \"account\" set \"stepsTaken\" = \"stepsTaken\" + ".floor($steps)." where \"playerid\" = $acc";
+					$sql = "UPDATE \"account\" set \"stepstaken\" = \"stepstaken\" + ".floor($steps)." where \"playerid\" = $acc";
 					sql_query($sql, $conn);
-					$sql = "UPDATE \"character\" SET locationX = ".$x.", locationY = ".$y.", \"combatModifier\" = \"combatModifier\" + 1 WHERE map = '".$map."' AND playerid = ".$acc;
+					$sql = "UPDATE \"character\" SET locationX = ".$x.", locationY = ".$y.", \"combatmodifier\" = \"combatmodifier\" + 1 WHERE map = '".$map."' AND playerid = ".$acc;
 				}
 
 				sql_query($sql, $conn);
@@ -2453,7 +2453,7 @@
 		$skillRow = getRow($conn, "skills", $skill);
 		$type = $skillRow['type'];
 		if($type == 'Aura'){
-			$sql = "delete from playerBuffs where buffID = $skill and playerid = $acc";
+			$sql = "delete from playerbuffs where buffID = $skill and playerid = $acc";
 			$query = sql_query($sql, $conn);
 		}
 		sql_query('UPDATE equippedStuff SET "skill_'.$slot.'"= -1 WHERE equipIndex='.$acc, $conn);
@@ -2891,14 +2891,14 @@
 		$sql = "SELECT * FROM equipmentInventory where equipped = 1 and template in (67, 97) and playerid = $acc";
 		$sql_rows = sql_query($sql, $conn);
 		if(mysqli_num_rows($sql_rows) > 0){
-			$sql = "select * from playerBuffs where buffID = -20 and playerid = $acc";
+			$sql = "select * from playerbuffs where buffID = -20 and playerid = $acc";
 			$query = sql_query($sql, $conn);
 			if(mysqli_num_rows($query) == 0){
 				$sql = "INSERT INTO playerbuffs (buffid, playerid, remaining, image, name, script) values (-20, $acc, 0, 'burningAura', 'Tome of the Elements', 'Surrounds you with a flaming aura that damage all that come near you, burns for 8-11 <strong> fire</strong> damage')";
 				sql_query($sql, $conn);
 			}
 		}else{
-			$sql = "DELETE FROM playerBuffs where buffID = -20 and playerid = $acc";
+			$sql = "DELETE FROM playerbuffs where buffID = -20 and playerid = $acc";
 			sql_query($sql, $conn);
 		}
 
@@ -2927,14 +2927,14 @@
 		$sql = "SELECT * FROM equipmentInventory where equipped = 1 and template in (67, 97) and playerid = $acc";
 		$sql_rows = sql_query($sql, $conn);
 		if(mysqli_num_rows($sql_rows) > 0){
-			$sql = "select * from playerBuffs where buffID = -20 and playerid = $acc";
+			$sql = "select * from playerbuffs where buffID = -20 and playerid = $acc";
 			$query = sql_query($sql, $conn);
 			if(mysqli_num_rows($query) == 0){
 				$sql = "INSERT INTO playerbuffs (buffid, playerid, remaining, image, name, script) values (-20, $acc, 0, 'burningAura', 'Tome of the Elements', 'Surrounds you with a flaming aura that damage all that come near you, burns for 8-11 <strong> fire</strong> damage')";
 				sql_query($sql, $conn);
 			}
 		}else{
-			$sql = "DELETE FROM playerBuffs where buffID = -20 and playerid = $acc";
+			$sql = "DELETE FROM playerbuffs where buffID = -20 and playerid = $acc";
 			sql_query($sql, $conn);
 		}
 
@@ -2967,7 +2967,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-			$steps = getAttribute($conn, "account", "stepsTaken", $acc);
+			$steps = getAttribute($conn, "account", "stepstaken", $acc);
 
 			if($steps > 49000){
 				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 1)", $conn);
@@ -2980,7 +2980,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-			$steps = getAttribute($conn, "account", "stepsTaken", $acc);
+			$steps = getAttribute($conn, "account", "stepstaken", $acc);
 
 			if($steps > 999999){
 				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 2)", $conn);

@@ -648,7 +648,7 @@
 				mysqli_stmt_bind_param($stmt, "i", $playerId);
 				mysqli_stmt_execute($stmt);
 				
-				// Create playerBuffs entry
+				// Create playerbuffs entry
 				$sql = "INSERT INTO \"playerbuffs\" (playerid) VALUES (?)";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_bind_param($stmt, "i", $playerId);
