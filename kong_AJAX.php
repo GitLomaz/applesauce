@@ -576,7 +576,7 @@
 				break;
 			case "getUsername":
 				//print $param1;
-				$sql = sql_query("SELECT * FROM "account" where salt = '$param1'", $conn);
+				$sql = sql_query("SELECT * FROM \"account\" where salt = '$param1'", $conn);
 				$Row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
 				print	 $Row['account'];
 				break;
@@ -676,84 +676,6 @@
 				}
 				}
 				break;
-			// DEPRECATED: Old Kongregate authentication - keeping for reference
-			// case "kongLoginCreate":
-			// 	$account = mysqli_real_escape_string($conn, $_POST['login']);
-			// 	$pass = mysqli_real_escape_string($conn, $_POST['pass']);
-			// 	$token = mysqli_real_escape_string($conn, $_POST['kongToken']);
-			// 	if($token != "BETA"){
-			// 		$url = "https://api.kongregate.com/api/authenticate.json?user_id=$pass&game_auth_token=$token&api_key=df4d3c9f-3665-4e4c-9d66-0d039b7314ad";
-			// 		$ch = curl_init();
-			// 		curl_setopt($ch, CURLOPT_URL, $url);
-			// 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			// 		curl_setopt($ch, CURLOPT_TIMEOUT, '3');
-			// 		$content = trim(curl_exec($ch));
-			// 		curl_close($ch);
-			// 	}else{
-			// 		$content = '!true!';
-			// 	}
-			// 	if(strpos($content, 'true') > 0){
-			// 		print trim(kongLogin($conn, $account, $pass));
-			// 	}else{
-			// 		print "oops!";
-			// 	}
-			// 	break;
-			case "mazeLoginCreate":
-				$account = mysqli_real_escape_string($conn, $_POST['login']);
-				$pass = mysqli_real_escape_string($conn, $_POST['pass']);
-				$token = mysqli_real_escape_string($conn, $_POST['kongToken']);
-				$url = "https://api.kongregate.com/api/authenticate.json?user_id=$pass&game_auth_token=$token&api_key=6c6b49ce-800b-4d04-8237-12cb1941a9b8";
-				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_URL, $url);
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-				curl_setopt($ch, CURLOPT_TIMEOUT, '3');
-				$content = trim(curl_exec($ch));
-				curl_close($ch);
-				//$content = JSON_DECODE($content);
-				if(strpos($content, 'true') > 0){
-					print trim(mazeLogin($conn, $account, $pass));
-				}else{
-					print -1;
-				}
-				break;
-			case "mazeLevel":
-				$account = mysqli_real_escape_string($conn, $_POST['login']);
-				$level = mysqli_real_escape_string($conn, $_POST['level']);
-				$sql = "update maze_account set level = $level where account_number = '$account'";
-				sql_query($sql, $conn);
-				$level = $level - 1;
-				$url = 'https://api.kongregate.com/api/submit_statistics.json';
-				$myvars = "user_id=$account&api_key=6c6b49ce-800b-4d04-8237-12cb1941a9b8&cleared=$level";
-				$ch = curl_init( $url );
-				curl_setopt( $ch, CURLOPT_POST, 1);
-				curl_setopt( $ch, CURLOPT_POSTFIELDS, $myvars);
-				curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 1);
-				curl_setopt( $ch, CURLOPT_HEADER, 0);
-				curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1);
-				curl_exec( $ch );
-				break;
-			case "spacediiLevel":
-				$account = mysqli_real_escape_string($conn, $_POST['login']);
-				$level = mysqli_real_escape_string($conn, $_POST['level']);
-				$sql = "insert into spacedii_account (level, account) values ($level, '$account')";
-				sql_query($sql, $conn);
-				break;
-			case "mazeReset":
-				$account = mysqli_real_escape_string($conn, $_POST['login']);
-				$sql = "update maze_account set level = 1 where account_number = '$account'";
-				sql_query($sql, $conn);
-				break;
-			// DEPRECATED: Kongregate store inventory (MTX) system
-			// case "updateStoreInv":
-			// 	$ID = mysqli_real_escape_string($conn, $_POST['userID']);
-			// 	$token = mysqli_real_escape_string($conn, $_POST['userToken']);
-			// 	$sql = "select * from \"account\" where password = $ID";
-			// 	$sql_rows = sql_query($sql, $conn);
-			// 	while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
-			// 		$account = $row['playerID'];
-			// 		print updateStoreInv($account, $conn, $ID, $token);
-			// 	}
-			// 	break;
 			case "leader":
 					print json_encode(craft(437, json_decode('["59288","1","150","0","150","0"]'), $conn));
 				break;
