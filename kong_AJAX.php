@@ -39,7 +39,7 @@
 		if(mysqli_num_rows($query) > 0){
 			if($call != 'getChat'){
 				if($account == ''){
-					$sqlGetAccount = sql_query("SELECT "account" from "sessions" where "cookie" = '$token'", $conn);
+					$sqlGetAccount = sql_query("SELECT \"account\" from \"sessions\" where \"cookie\" = '$token'", $conn);
 					$row = mysqli_fetch_array($sqlGetAccount,MYSQLI_ASSOC);
 					$account = $row['account'] ?? null;
 				}
@@ -60,7 +60,7 @@
 			switch ($call){
 				case "createLight":
 					if($account == 437){
-						sql_query("insert into lightSources (map, radius, x, y) select map, $param1, $param2, $param3 FROM "character" where playerID = 437", $conn);
+						sql_query("insert into lightSources (map, radius, x, y) select map, $param1, $param2, $param3 FROM \"character\" where \"playerID\" = 437", $conn);
 					}
 					break;
 				case "checkCombat":
@@ -110,13 +110,13 @@
 					print json_encode($output);
 					if($output["combatStatus2"] == 1 || $output["combatStatus1"] == 2){
 						decreaseBuff($conn, $account);
-						sql_query("DELETE FROM "combat" WHERE "playerID" = ".$account, $conn);
-						sql_query("DELETE FROM "combatEnemies" WHERE "playerID" = ".$account, $conn);
-						sql_query("DELETE FROM "enemyEffects" WHERE "playerID" = ".$account, $conn);
+						sql_query("DELETE FROM \"combat\" WHERE \"playerID\" = ".$account, $conn);
+						sql_query("DELETE FROM \"combatEnemies\" WHERE \"playerID\" = ".$account, $conn);
+						sql_query("DELETE FROM \"enemyEffects\" WHERE \"playerID\" = ".$account, $conn);
 					}else if($output["combatStatus2"] == 3){
-						sql_query("DELETE FROM "combat" WHERE "playerID" = ".$account, $conn);
-						sql_query("DELETE FROM "combatEnemies" WHERE "playerID" = ".$account, $conn);
-						sql_query("DELETE FROM "enemyEffects" WHERE "playerID" = ".$account, $conn);
+						sql_query("DELETE FROM \"combat\" WHERE \"playerID\" = ".$account, $conn);
+						sql_query("DELETE FROM \"combatEnemies\" WHERE \"playerID\" = ".$account, $conn);
+						sql_query("DELETE FROM \"enemyEffects\" WHERE \"playerID\" = ".$account, $conn);
 						combatDeath($conn, $account);
 					}
 					$output["timer"][] = (11 . " --- " . (microtime(true) - $time_start));
@@ -200,7 +200,7 @@
 					break;
 				case "getEndlessTopFloor":
 					$output["floor"] = getAttribute($conn, "character", "towerLevel", $account);
-					$sql = "select \"count\" from inventory where itemID = 235 and playerID = $account";
+					$sql = "select \"count\" from \"inventory\" where \"itemID\" = 235 and \"playerID\" = $account";
 					$blag = sql_query($sql, $conn);
 					$stones = 0;
 					while($row = mysqli_fetch_array($blag,MYSQLI_ASSOC)){
@@ -351,15 +351,15 @@
 					print $message.'~'.json_encode(getCalcStats($account, $conn, $calcValues)).'~'.getStatus($account, $conn, $calcValues);
 					break;
 				case "stashEquipment":
-					$sql = "UPDATE "equipmentInventory" set stored = $param2 where \"index\" = $param1 and playerID = $account";
+					$sql = "UPDATE \"equipmentInventory\" set stored = $param2 where \"index\" = $param1 and \"playerID\" = $account";
 					sql_query($sql, $conn);
 					break;
 				case "stashItem":
-					$sql = "UPDATE \"inventory\" set stored = count + stored, count = 0 where "itemID" = $param1 and playerID = $account";
+					$sql = "UPDATE \"inventory\" set stored = count + stored, count = 0 where \"itemID\" = $param1 and \"playerID\" = $account";
 					sql_query($sql, $conn);
 					break;
 				case "unstashItem":
-					$sql = "UPDATE \"inventory\" set count = count + stored, stored = 0 where "itemID" = $param1 and playerID = $account";
+					$sql = "UPDATE \"inventory\" set count = count + stored, stored = 0 where \"itemID\" = $param1 and \"playerID\" = $account";
 					print $sql;
 					sql_query($sql, $conn);
 					break;
@@ -415,7 +415,7 @@
 						$dex = $dex + 1;
 						$vit = $vit + 3;
 						$respawn = 100;
-						$unlockSQL = "UPDATE equipmentInventory set "archived" = 0 where playerID = $account and template in (60,61,62,63,64,65,66,67,90,91,92,93,94,95,96,97)";
+						$unlockSQL = "UPDATE \"equipmentInventory\" set \"archived\" = 0 where \"playerID\" = $account and \"template\" in (60,61,62,63,64,65,66,67,90,91,92,93,94,95,96,97)";
 						$skillPoints = $warlock;
 					}
 					if($param1 == 'Paladin'){
@@ -424,7 +424,7 @@
 						$dex = $dex + 2;
 						$vit = $vit + 3;
 						$respawn = 100;
-						$unlockSQL = "UPDATE equipmentInventory set "archived" = 0 where playerID = $account and template in (51,52,53,54,55,56,57,58,83,84,85,86,87,88,89)";
+						$unlockSQL = "UPDATE \"equipmentInventory\" set \"archived\" = 0 where \"playerID\" = $account and \"template\" in (51,52,53,54,55,56,57,58,83,84,85,86,87,88,89)";
 						$skillPoints = $pala;
 					}
 					if($param1 == 'Assassin'){
@@ -433,7 +433,7 @@
 						$dex = $dex + 3;
 						$vit = $vit + 3;
 						$respawn = 202;
-						$unlockSQL = "UPDATE equipmentInventory set "archived" = 0 where playerID = $account and template in (68,69,70,71,72,73,74,98,99,100,101,102,103,104)";
+						$unlockSQL = "UPDATE \"equipmentInventory\" set \"archived\" = 0 where \"playerID\" = $account and \"template\" in (68,69,70,71,72,73,74,98,99,100,101,102,103,104)";
 						$skillPoints = $sin;
 					}
 					$total = $pala + $sin + $warlock;
