@@ -381,6 +381,7 @@
 				case "charExist":
 					$sql = "SELECT * FROM \"character\" where playerid = $account";
 					$query = sql_query($sql, $conn);
+					error_log('NUM ROWS: ' . mysqli_num_rows($query));
 					print mysqli_num_rows($query);
 					break;
 				case "rebirth":

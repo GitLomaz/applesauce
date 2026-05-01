@@ -260,7 +260,6 @@ function mysqli_fetch_assoc($result) {
  * @return int Number of rows
  */
 function mysqli_num_rows($result) {
-    var_dump($result);
     if (!$result || !($result instanceof PDOResultWrapper)) {
         return 0;
     }
