@@ -2340,7 +2340,6 @@
 					if ($oldX === null || $oldY === null) {
 						// Session missing previous coords — fallback to DB-stored character location
 						$charRow = getRow($conn, "character", $acc);
-						error_log(print_r($charRow, true));
 						$oldX = isset($charRow['locationx']) ? floatval($charRow['locationx']) : null;
 						$oldY = isset($charRow['locationy']) ? floatval($charRow['locationy']) : null;
 						$debug[] = "fallback_old_from_db: oldX=" . var_export($oldX, true) . " oldY=" . var_export($oldY, true);
@@ -2374,9 +2373,7 @@
 				if (isset($steps)){
 					$debug[] = "steps=".floor($steps);
 				}
-				error_log("[locationPing] Location updated successfully for acc $acc. Steps taken: " . (isset($steps) ? floor($steps) : 'N/A'));
 				if ($affected == 1 && $async != 'no'){
-					error_log("[locationPing] Checking enemy for acc $acc");
 					return chooseEnemy($acc, $steps, $conn);
 				}
 
