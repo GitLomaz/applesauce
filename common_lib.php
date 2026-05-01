@@ -2466,7 +2466,7 @@
 	// -- Params : $conn, $item, $c1, $c2, $c3
 	// -- Purpose : Returns a custom string based on passed conditions
 	function getString($conn, $item, $c1, $c2, $c3){
-		$sql = 'SELECT * FROM "strings" WHERE (forKey = '.$item.') AND c1 = "'.$c1.'" AND c2 = "'.$c2.'" AND c3 = "'.$c3.'" ORDER BY RAND() LIMIT 1;';
+		$sql = 'SELECT * FROM "strings" WHERE (forKey = '.$item.') AND c1 = \''.$c1.'\' AND c2 = \''.$c2.'\' AND c3 = \''.$c3.'\' ORDER BY RANDOM() LIMIT 1;';
 		$res = sql_query($sql, $conn);
 		$row = mysqli_fetch_array($res, MYSQLI_ASSOC);
 		return isset($row['text']) ? $row['text'] : "";
@@ -2610,7 +2610,7 @@
 	// -- Purpose : Grabs current quest from NPC
 	function getQuest($conn, $acc, $npc){
 
-		$sql = "SELECT * FROM \"quests\" WHERE  \"npcid\" = $npc AND \"startdate\" < NOW() AND \"endDate\" > NOW()";
+		$sql = "SELECT * FROM \"quests\" WHERE  \"npcid\" = $npc AND \"startdate\" < NOW() AND \"enddate\" > NOW()";
 		$sql_rows = sql_query($sql, $conn);
 		$counter = 1;
 		$quests = false;

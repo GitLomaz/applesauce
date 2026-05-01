@@ -483,7 +483,7 @@
     		}
     	}
     	else {
-    		$sql_get_level = "SELECT MIN(e.level) as level, c.map, c.diff FROM \"character\" c Inner join \"enemyspawns\" s on c.zone = s.zone inner join \"enemies\" e on s.enemyID = e.enemyID where c.playerid = $acc AND s.startdate < NOW() AND s.endDate > NOW() GROUP BY c.map, c.diff;";
+    		$sql_get_level = "SELECT MIN(e.level) as level, c.map, c.diff FROM \"character\" c Inner join \"enemyspawns\" s on c.zone = s.zone inner join \"enemies\" e on s.enemyID = e.enemyID where c.playerid = $acc AND s.startdate < NOW() AND s.enddate > NOW() GROUP BY c.map, c.diff;";
 				$sql_result = sql_query($sql_get_level, $conn);
     		$row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC);
 				if ($row == null) {
@@ -532,10 +532,10 @@
     			$sql = "UPDATE \"character\" SET \"combatmodifier\" = 0 WHERE \"playerid\" = " . $acc;
     			sql_query($sql, $conn);
     			$totalWeight = 0;
-    			$maxSQL = "SELECT SUM(weight) as total FROM \"character\" c Inner join \"enemyspawns\" s on c.zone = s.zone or s.zone = 'all' where c.playerid = $acc AND s.startdate < NOW() AND s.endDate > NOW()";
+    			$maxSQL = "SELECT SUM(weight) as total FROM \"character\" c Inner join \"enemyspawns\" s on c.zone = s.zone or s.zone = 'all' where c.playerid = $acc AND s.startdate < NOW() AND s.enddate > NOW()";
     			$max = mysqli_fetch_array(sql_query($maxSQL, $conn) , MYSQLI_ASSOC) ['total'];
     			$roll = rand(0, $max);
-    			$sql_get_enemies = "SELECT e.enemyid, e.name, s.weight, e.prefix, e.quest, weight FROM \"character\" c Inner join \"enemyspawns\" s on c.zone = s.zone or s.zone = 'all' inner join \"enemies\" e on s.enemyID = e.enemyID where c.playerid = $acc AND s.startdate < NOW() AND s.endDate > NOW()";
+    			$sql_get_enemies = "SELECT e.enemyid, e.name, s.weight, e.prefix, e.quest, weight FROM \"character\" c Inner join \"enemyspawns\" s on c.zone = s.zone or s.zone = 'all' inner join \"enemies\" e on s.enemyID = e.enemyID where c.playerid = $acc AND s.startdate < NOW() AND s.enddate > NOW()";
     			$sql_result = sql_query($sql_get_enemies, $conn);
     			while ($row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC)) {
     				$totalWeight = $totalWeight + intval($row['weight']);
