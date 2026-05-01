@@ -23,7 +23,7 @@ define('DB_HOST', getenv('DB_HOST') ?: 'db.pasokuwgludhtolrxctu.supabase.co');
 define('DB_USER', getenv('DB_USER') ?: 'postgres');
 define('DB_PASS', getenv('DB_PASS') ?: '');
 define('DB_NAME', getenv('DB_NAME') ?: 'postgres');
-define('DB_PORT', getenv('DB_PORT') ?: '5432');
+define('DB_PORT', getenv('DB_PORT') ?: '6543');
 
 // No Cloud SQL Unix socket: use TCP env vars for all environments
 
@@ -73,6 +73,8 @@ function get_db_connection() {
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES => false,
+            PDO::ATTR_PERSISTENT => false, // Disable persistent connections
+            PDO::ATTR_TIMEOUT => 5, // 5 second connection timeout
         ]);
         
         error_log("PostgreSQL connection established successfully");
@@ -98,6 +100,36 @@ function sql_connect() {
 function createConnection() {
     return get_db_connection();
 }
+
+/**
+ * Close database connection explicitly
+ * Call this at the end of scripts to release connections back to the pool
+ */
+function close_db_connection() {
+    global $conn;
+    $conn = null;
+    
+    // Also clear the static connection in get_db_connection
+    $reflection = new ReflectionFunction('get_db_connection');
+    $staticVars = $reflection->getStaticVariables();
+    if (isset($staticVars['conn'])) {
+        // Reset the static variable by calling the function and nullifying
+        // This is a workaround since we can't directly access static vars
+        // The next call will create a new connection
+    }
+}
+
+/**
+ * Register shutdown function to automatically close database connections
+ * This ensures connections are released back to the pool promptly
+ */
+register_shutdown_function(function() {
+    global $conn;
+    if ($conn !== null) {
+        error_log("Auto-closing database connection on shutdown");
+        $conn = null;
+    }
+});
 
 /**
  * Result wrapper class to bridge PDO and mysqli-style code

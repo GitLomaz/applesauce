@@ -59,8 +59,12 @@ try {
             
             $conn = get_db_connection();
             
-            if ($conn && $conn->ping()) {
+            // Test connection with a simple query (PDO doesn't have ping())
+            $stmt = $conn->query('SELECT 1');
+            if ($stmt && $stmt->fetchColumn() === 1) {
                 $response['checks']['database'] = ['status' => 'ok'];
+                // Close connection immediately after health check
+                $conn = null;
             } else {
                 $response['checks']['database'] = [
                     'status' => 'error',
@@ -68,6 +72,7 @@ try {
                 ];
                 $response['status'] = 'unhealthy';
                 $httpCode = 503;
+                $conn = null;
             }
         } catch (Exception $e) {
             $response['checks']['database'] = [
