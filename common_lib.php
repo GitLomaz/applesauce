@@ -1217,11 +1217,11 @@
 							break;
 						case 101:
 							//SKILL RESET
-							$sql = "update \"character\" set skillPoints = skillPoints + (select sum(level) from charSkills where playerid = $acc) where playerid = $acc";
+							$sql = "update \"character\" set skillPoints = skillPoints + (select sum(level) from charskills where playerid = $acc) where playerid = $acc";
 							sql_query($sql, $conn);
-							$sql = "delete from charSkills where playerid = $acc";
+							$sql = "delete from charskills where playerid = $acc";
 							sql_query($sql, $conn);
-							sql_query('UPDATE equippedStuff SET "skill_1"= -1, "skill_2"= -1, "skill_3"= -1, "skill_4"= -1 WHERE equipIndex='.$acc, $conn);
+							sql_query('UPDATE equippedstuff SET "skill_1"= -1, "skill_2"= -1, "skill_3"= -1, "skill_4"= -1 WHERE equipIndex='.$acc, $conn);
 							$used = true;
 							$return .= "All skill points have now been reset";
 							break;
@@ -1232,11 +1232,11 @@
 							$points = ($row["strength"] - (5 + $resets * 2)) + ($row["dexterity"] - 3) + ($row["vitality"] - 3)+ ($row["spirit"] - 1);
 							$sql = "update \"character\" set \"strength\" = (5 + $resets * 2), \"dexterity\" = 3, \"vitality\" = 3, \"spirit\" = 1, statPoints = statPoints + $points where playerid = $acc";
 							sql_query($sql, $conn);
-							$sql = "update \"character\" set skillPoints = skillPoints + (select sum(level) from charSkills where playerid = $acc) where playerid = $acc";
+							$sql = "update \"character\" set skillPoints = skillPoints + (select sum(level) from charskills where playerid = $acc) where playerid = $acc";
 							sql_query($sql, $conn);
-							$sql = "delete from charSkills where playerid = $acc";
+							$sql = "delete from charskills where playerid = $acc";
 							sql_query($sql, $conn);
-							sql_query('UPDATE equippedStuff SET "skill_1"= -1, "skill_2"= -1, "skill_3"= -1, "skill_4"= -1 WHERE equipIndex='.$acc, $conn);
+							sql_query('UPDATE equippedstuff SET "skill_1"= -1, "skill_2"= -1, "skill_3"= -1, "skill_4"= -1 WHERE equipIndex='.$acc, $conn);
 							$used = true;
 							$return .= "All stat and skill points have now been reset";
 							break;
@@ -1376,7 +1376,7 @@
 			$equipTo = array_search("-1", $equipped);
 
 			if($equipTo > -1){
-				sql_query('UPDATE equippedStuff SET "item_'.($equipTo + 1).'"= '.$item.' WHERE equipIndex='.$acc, $conn);
+				sql_query('UPDATE equippedstuff SET "item_'.($equipTo + 1).'"= '.$item.' WHERE equipIndex='.$acc, $conn);
 				return '<span style="color:green;">Item added to battle ready list!</span>';
 			}
 
@@ -1498,8 +1498,6 @@
 					AND ("character"."playerid" = '.$index.'))';
 			$sql = sql_query(strtolower($sql_q), $conn);
 			$row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
-			error_log(print_r($row, true));
-			error_log(print_r($attribute, true));
 			return $row[$attribute];
 		}
 	}
@@ -1569,8 +1567,6 @@
 			$sql = sql_query($sql_q, $conn);
 			
 			$row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
-			error_log(print_r($row, true));
-			error_log(print_r($attribute, true));
 			return $row;
 		}
 
@@ -1732,7 +1728,7 @@
 		//
 		//  --------------------------------------------------------------------------------------------------
 		$output = array();
-		$row = getRow($conn, "equippedStuff", $acc);
+		$row = getRow($conn, "equippedstuff", $acc);
 		$counter = 0;
 		while($counter != 4){
 			$counter++;
@@ -1750,7 +1746,7 @@
 		//
 		//  --------------------------------------------------------------------------------------------------
 		$output = array();
-		$row = getRow($conn, "equippedStuff", $acc);
+		$row = getRow($conn, "equippedstuff", $acc);
 		$counter = 0;
 		while($counter != 4){
 			$counter++;
@@ -1936,7 +1932,7 @@
 	// -- Purpose : Returns current skill level of all skills
 	function getCharSkillLevels($conn, $acc){
 		$output = array();
-		$sql_get_skills = "SELECT * FROM \"charSkills\" where \"playerid\" = ".$acc;
+		$sql_get_skills = "SELECT * FROM \"charskills\" where \"playerid\" = ".$acc;
 		$sql_skills_result = sql_query($sql_get_skills, $conn);
 		while($row = mysqli_fetch_array($sql_skills_result,MYSQLI_ASSOC)){
 			$string = $row['skillID'].'|'.$row['level'];
@@ -1979,7 +1975,7 @@
 		$prereq = getAttribute($conn, 'skills', 'prereq', $skillID);
 
 		if($prereq != 0){
-			$sql = "select * from charSkills where playerid = ".$acc." AND skillID = ".$prereq;
+			$sql = "select * from charskills where playerid = ".$acc." AND skillID = ".$prereq;
 			$query = sql_query($sql, $conn);
 
 			if(mysqli_num_rows($query) == 0){
@@ -1988,7 +1984,7 @@
 
 		}
 
-	$existingSQL = "SELECT * FROM charSkills c inner join skills s on s.id = c.skillID where c.playerid = ".$acc." AND c.skillID = ".$skillID;
+	$existingSQL = "SELECT * FROM charskills c inner join skills s on s.id = c.skillID where c.playerid = ".$acc." AND c.skillID = ".$skillID;
 	$query = sql_query($existingSQL, $conn);
 
 	if(mysqli_num_rows($query) > 0){
@@ -2006,7 +2002,7 @@
 			if($currentLevel + $points <= $maxLevel && $points <= getAttribute($conn, 'character', 'skillPoints', $acc)){
 				$sql = "UPDATE \"character\" set \"skillPoints\" = \"skillPoints\" - ".$points." where \"playerid\" = ".$acc;
 				sql_query($sql, $conn);
-				$sql = "UPDATE \"charSkills\" set \"level\" = \"level\" + ".$points." where \"playerid\" = ".$acc." AND \"skillID\" = ".$skillID;
+				$sql = "UPDATE \"charskills\" set \"level\" = \"level\" + ".$points." where \"playerid\" = ".$acc." AND \"skillID\" = ".$skillID;
 				sql_query($sql, $conn);
 				$level = $currentLevel + $points;
 				applyPassives($conn, $acc, $skillID, $level);
@@ -2443,7 +2439,7 @@
 	// -- Params : $acc, $slot, $conn
 	// -- Purpose : Removed item from slot provided on account provided in args
 	function unequipItem($acc, $slot, $conn){
-		sql_query('UPDATE equippedStuff SET "item_'.$slot.'"= -1 WHERE equipIndex='.$acc, $conn);
+		sql_query('UPDATE equippedstuff SET "item_'.$slot.'"= -1 WHERE equipIndex='.$acc, $conn);
 		return '<span style="color:green;">Item removed from battle ready list!</span>';
 	}
 
@@ -2451,7 +2447,7 @@
 	// -- Params : $acc, $slot, $conn
 	// -- Purpose : Removed skill from slot provided on account provided in args
 	function unequipSkill($acc, $slot, $conn){
-		$sql = "select skill_".$slot." as skill from equippedStuff WHERE equipIndex=$acc";
+		$sql = "select skill_".$slot." as skill from equippedstuff WHERE equipIndex=$acc";
 		$result = sql_query($sql, $conn);
 		$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
 		$skill = $row["skill"];
@@ -2461,7 +2457,7 @@
 			$sql = "delete from playerbuffs where buffID = $skill and playerid = $acc";
 			$query = sql_query($sql, $conn);
 		}
-		sql_query('UPDATE equippedStuff SET "skill_'.$slot.'"= -1 WHERE equipIndex='.$acc, $conn);
+		sql_query('UPDATE equippedstuff SET "skill_'.$slot.'"= -1 WHERE equipIndex='.$acc, $conn);
 		return '<span style="color:green;">Skill removed from battle ready list!</span>';
 	}
 
@@ -2952,7 +2948,7 @@
 	// -- Purpose : Gets all achievements
 	function getAchievementList($conn){
 		$output = array();
-		$sql = 'SELECT * FROM \"achievements\" order by \"order\"';
+		$sql = 'SELECT * FROM "achievements" order by "order"';
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$script = "<strong>".($row['name'] ?? '')." </strong><br><br>".($row['description'] ?? '')."<br><br>[complete]";
@@ -3219,7 +3215,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-		$sql = "SELECT * FROM charSkills c inner join skills s on c.skillID = s.\"id\" where level = maxLevel and playerid = $acc";
+		$sql = "SELECT * FROM charskills c inner join skills s on c.skillID = s.\"id\" where level = maxLevel and playerid = $acc";
 
 			if(mysqli_num_rows($result) > 0){
 				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 16)", $conn);
@@ -3354,7 +3350,7 @@
 		$x = $row['posX'];
 		$y = $row['posY'];
 		$z = $row['posZ'];
-		$sql = "SELECT * FROM playerwaypoints p inner join spawnpoints s on s.spawnID = p.spawnID where p.playerid = $acc or p.playerid = -1 order by p.index desc";
+		$sql = "SELECT * FROM playerwaypoints p inner join spawnpoints s on s.spawnID = p.spawnID where p.playerid = $acc or p.playerid = -1 order by p.id desc";
 		$sql_rows = sql_query($sql, $conn);
 		while($waypoints = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 			$distence = sqrt((($x - $waypoints['posX'])*($x - $waypoints['posX'])) + (($y - $waypoints['posY']) * ($y - $waypoints['posY'])) + (($z - $waypoints['posZ'])*($z - $waypoints['posZ'])));
@@ -3395,7 +3391,7 @@
 			$x = $row['posX'];
 			$y = $row['posY'];
 			$z = $row['posZ'];
-			$sql = "SELECT * FROM playerwaypoints p inner join spawnpoints s on s.spawnID = p.spawnID where (p.playerid = $acc or p.playerid = -1) and s.spawnID = $loc order by p.index desc";
+			$sql = "SELECT * FROM playerwaypoints p inner join spawnpoints s on s.spawnID = p.spawnID where (p.playerid = $acc or p.playerid = -1) and s.spawnID = $loc order by p.id desc";
 			$sql_rows = sql_query($sql, $conn);
 			while($waypoints = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 				$distence = sqrt((($x - $waypoints['posX'])*($x - $waypoints['posX'])) + (($y - $waypoints['posY']) * ($y - $waypoints['posY'])) + (($z - $waypoints['posZ'])*($z - $waypoints['posZ'])));
@@ -3446,7 +3442,7 @@
 	// -- Purpose : updates zone info
 	function updateZone($conn, $acc, $loc){
 		sql_query("UPDATE \"character\" SET \"zone\" = '$loc' WHERE \"playerid\" = ".$acc, $conn);
-		$sql = "SELECT * FROM playerwaypoints p inner join spawnpoints s on s.spawnID = p.spawnID where p.playerid = $acc and s.displayName = '$loc' order by p.index desc";
+		$sql = "SELECT * FROM playerwaypoints p inner join spawnpoints s on s.spawnID = p.spawnID where p.playerid = $acc and s.displayName = '$loc' order by p.id desc";
 		$query = sql_query($sql, $conn);
 
 		if(mysqli_num_rows($query) == 0){

@@ -636,7 +636,7 @@
 				mysqli_stmt_bind_param($stmt, "is", $playerId, $randomAccount);
 				mysqli_stmt_execute($stmt);
 				
-				// Create equippedStuff entry
+				// Create equippedstuff entry
 				$sql = "INSERT INTO \"equippedstuff\" (\"equipindex\") VALUES (?)";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_bind_param($stmt, "i", $playerId);

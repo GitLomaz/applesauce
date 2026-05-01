@@ -141,7 +141,7 @@
     {
     	$sql = "select sl.damage as damage, sl.chance as chance from playerbuffs pb
                 inner join skillLevels sl on pb.buffID = sl.skillID
-                inner join charSkills cs on cs.playerid = pb.playerid
+                inner join charskills cs on cs.playerid = pb.playerid
                 where pb.playerid = $acc and sl.level = cs.level and cs.skillID = 29 and sl.skillID = 29";
     	$query = sql_query($sql, $conn);
     	if (mysqli_num_rows($query) == 0) {
@@ -188,7 +188,7 @@
     {
     	$sql = "select sl.damage as damage, sl.chance as chance from playerbuffs pb
                 inner join skillLevels sl on pb.buffID = sl.skillID
-                inner join charSkills cs on cs.playerid = pb.playerid
+                inner join charskills cs on cs.playerid = pb.playerid
                 where pb.playerid = $acc and sl.level = cs.level and cs.skillID = 30 and sl.skillID = 30";
     	$query = sql_query($sql, $conn);
     	if (mysqli_num_rows($query) == 0) {
@@ -233,7 +233,7 @@
     {
     	$sql = "select sl.damage as damage, sl.chance as chance from playerbuffs pb
                 inner join skillLevels sl on pb.buffID = sl.skillID
-                inner join charSkills cs on cs.playerid = pb.playerid
+                inner join charskills cs on cs.playerid = pb.playerid
                 where pb.playerid = $acc and sl.level = cs.level and cs.skillID = 31 and sl.skillID = 31";
     	$query = sql_query($sql, $conn);
     	if (mysqli_num_rows($query) == 0) {
@@ -277,7 +277,7 @@
     {
     	$sql = "select sl.damage as damage, sl.chance as chance from playerbuffs pb
                 inner join skillLevels sl on pb.buffID = sl.skillID
-                inner join charSkills cs on cs.playerid = pb.playerid
+                inner join charskills cs on cs.playerid = pb.playerid
                 where pb.playerid = $acc and sl.level = cs.level and cs.skillID = 32 and sl.skillID = 32";
     	$query = sql_query($sql, $conn);
     	if (mysqli_num_rows($query) == 0) {
@@ -815,7 +815,7 @@
 
     	$sql = "select sl.chance as chance from playerbuffs pb
             inner join skillLevels sl on pb.buffID = sl.skillID
-            inner join charSkills cs on cs.playerid = pb.playerid
+            inner join charskills cs on cs.playerid = pb.playerid
             where pb.playerid = $acc and sl.level = cs.level and cs.skillID = 34 and sl.skillID = 34";
     	$query = sql_query($sql, $conn);
     	while ($skillRow = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
@@ -888,7 +888,7 @@
     		$equippedShield = getAttribute($conn, "equipmentbonus", "blockChance", $acc);
     		$blockRate = floor($row['block'] * 100);
     		if ($equippedShield != 0) {
-    			$sql = "SELECT * FROM charSkills s inner join skillLevels l on s.skillID = l.skillID where playerid = $acc and l.level = s.level and s.skillID = 9";
+    			$sql = "SELECT * FROM charskills s inner join skillLevels l on s.skillID = l.skillID where playerid = $acc and l.level = s.level and s.skillID = 9";
     			$result = sql_query($sql, $conn);
     			$row2 = mysqli_fetch_array($result, MYSQLI_ASSOC);
     			$blockRate = $blockRate + $row2['damage'];
@@ -1253,7 +1253,7 @@
     		}
     	}
 
-    	$sql = "select sl.chance as chance from skillLevels sl inner join charSkills cs on cs.skillID = sl.skillID where cs.playerid = $acc and sl.level = cs.level and sl.skillID = 38";
+    	$sql = "select sl.chance as chance from skillLevels sl inner join charskills cs on cs.skillID = sl.skillID where cs.playerid = $acc and sl.level = cs.level and sl.skillID = 38";
     	$sql_rows = sql_query($sql, $conn);
     	if (mysqli_num_rows($sql_rows) > 0) {
     		$chanceRow = mysqli_fetch_array($sql_rows, MYSQLI_ASSOC);
@@ -1369,7 +1369,7 @@
 
     function blazingAura($conn, $acc)
     {
-    	$sql = "select damage from \"character\" c inner join playerbuffs b on c.playerid = b.playerid inner join charSkills s on s.playerid = b.playerid inner join skillLevels l on l.\"level\" = s.\"level\" where c.playerid = $acc and l.skillID = 20 and s.skillID = 20 and b.buffID = 20";
+    	$sql = "select damage from \"character\" c inner join playerbuffs b on c.playerid = b.playerid inner join charskills s on s.playerid = b.playerid inner join skillLevels l on l.\"level\" = s.\"level\" where c.playerid = $acc and l.skillID = 20 and s.skillID = 20 and b.buffID = 20";
     	$sql_rows = sql_query($sql, $conn);
     	if (mysqli_num_rows($sql_rows) > 0) {
     		$row = mysqli_fetch_array($sql_rows, MYSQLI_ASSOC);
@@ -1510,7 +1510,7 @@
     	); //spells.. for mana/damage bonus stuff
     	if (in_array($skillID, $spells)) {
     		$sql = "select *, floor(l.cost -  l.cost * (cv.spellReduction / 100)) as mana, l.damage as skillDamage from \"character\" c ";
-    		$sql.= "inner join charSkills cs on cs.playerid = c.playerid ";
+    		$sql.= "inner join charskills cs on cs.playerid = c.playerid ";
     		$sql.= "inner join skillLevels l on l.skillID = cs.skillID ";
     		$sql.= "inner join skills s on l.skillID = s.\"id\" ";
     		$sql.= "inner join calcValues cv on cv.playerid = cs.playerid ";
@@ -1521,7 +1521,7 @@
     	}
     	else {
     		$sql = "select *, l.cost as mana, l.damage as skillDamage from \"character\" c ";
-    		$sql.= "inner join charSkills cs on cs.playerid = c.playerid ";
+    		$sql.= "inner join charskills cs on cs.playerid = c.playerid ";
     		$sql.= "inner join skillLevels l on l.skillID = cs.skillID ";
     		$sql.= "inner join skills s on l.skillID = s.\"id\" ";
     		$sql.= "where c.playerid = $acc and l.skillID = $skillID and c.mana >= l.cost and l.level = cs.level";
@@ -2433,7 +2433,7 @@
 
             // MACE MASTERY
 
-            $sql = "SELECT * FROM charSkills s inner join skillLevels l on s.skillID = l.skillID where playerid = $acc and l.level = s.level and s.skillID = 13 LIMIT 1";
+            $sql = "SELECT * FROM charskills s inner join skillLevels l on s.skillID = l.skillID where playerid = $acc and l.level = s.level and s.skillID = 13 LIMIT 1";
             $result = sql_query($sql, $conn);
             $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
             if ($row['damage'] > 0) {
@@ -2445,7 +2445,7 @@
 
             // SWORD MASTERY
 
-            $sql = "SELECT * FROM charSkills s inner join skillLevels l on s.skillID = l.skillID where playerid = $acc and l.level = s.level and s.skillID = 12 LIMIT 1";
+            $sql = "SELECT * FROM charskills s inner join skillLevels l on s.skillID = l.skillID where playerid = $acc and l.level = s.level and s.skillID = 12 LIMIT 1";
             $result = sql_query($sql, $conn);
             $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
             if ($row['damage'] > 0) {
@@ -2457,7 +2457,7 @@
 
             // KATAR MASTERY
 
-            $sql = "SELECT * FROM charSkills s inner join skillLevels l on s.skillID = l.skillID where playerid = $acc and l.level = s.level and s.skillID = 39	 LIMIT 1";
+            $sql = "SELECT * FROM charskills s inner join skillLevels l on s.skillID = l.skillID where playerid = $acc and l.level = s.level and s.skillID = 39	 LIMIT 1";
             $result = sql_query($sql, $conn);
             $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
             if ($row['damage'] > 0) {
@@ -2483,7 +2483,7 @@
 
     		// MACE MASTERY
 
-    		$sql = "SELECT * FROM charSkills s inner join skillLevels l on s.skillID = l.skillID where playerid = $acc and l.level = s.level and s.skillID = 13 LIMIT 1";
+    		$sql = "SELECT * FROM charskills s inner join skillLevels l on s.skillID = l.skillID where playerid = $acc and l.level = s.level and s.skillID = 13 LIMIT 1";
     		$result = sql_query($sql, $conn);
     		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
     		if ($row['damage'] > 0) {
@@ -2495,7 +2495,7 @@
 
     		// SWORD MASTERY
 
-    		$sql = "SELECT * FROM charSkills s inner join skillLevels l on s.skillID = l.skillID where playerid = $acc and l.level = s.level and s.skillID = 12 LIMIT 1";
+    		$sql = "SELECT * FROM charskills s inner join skillLevels l on s.skillID = l.skillID where playerid = $acc and l.level = s.level and s.skillID = 12 LIMIT 1";
     		$result = sql_query($sql, $conn);
     		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
     		if ($row['damage'] > 0) {
@@ -2507,7 +2507,7 @@
 
     		// KATAR MASTERY
 
-    		$sql = "SELECT * FROM charSkills s inner join skillLevels l on s.skillID = l.skillID where playerid = $acc and l.level = s.level and s.skillID = 39	 LIMIT 1";
+    		$sql = "SELECT * FROM charskills s inner join skillLevels l on s.skillID = l.skillID where playerid = $acc and l.level = s.level and s.skillID = 39	 LIMIT 1";
     		$result = sql_query($sql, $conn);
     		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
     		if ($row['damage'] > 0) {
