@@ -2315,24 +2315,24 @@
 				if ($async == 'no'){
 					if(getAttribute($conn, "character", "map", $acc) == "endless.php?"){
 						if($map == "endless.php?"){
-							$level = getAttribute($conn, "character", "currentTowerLevel", $acc);
+							$level = getAttribute($conn, "character", "currenttowerlevel", $acc);
 							$level++;
 							$_SESSION['towerLevel'] = $level;
 							$sql = "UPDATE \"character\" SET towerLevel = towerLevel + 1 WHERE playerid = $acc and towerLevel < $level LIMIT 1";
 							sql_query($sql, $conn);
-							$sql = "UPDATE \"character\" SET currentTowerLevel = $level WHERE playerid = $acc LIMIT 1";
+							$sql = "UPDATE \"character\" SET currenttowerlevel = $level WHERE playerid = $acc LIMIT 1";
 							sql_query($sql, $conn);
 						}else{
-							$sql = "UPDATE \"character\" SET currentTowerLevel = 1 WHERE playerid = $acc LIMIT 1";
+							$sql = "UPDATE \"character\" SET currenttowerlevel = 1 WHERE playerid = $acc LIMIT 1";
 							sql_query($sql, $conn);
 						}
 					}else{
 						if($map == "endless.php?"){
-							$sql = "UPDATE \"character\" SET currentTowerLevel = 1 WHERE playerid = $acc LIMIT 1";
+							$sql = "UPDATE \"character\" SET currenttowerlevel = 1 WHERE playerid = $acc LIMIT 1";
 							sql_query($sql, $conn);
 						}
 					}
-					$sql = "UPDATE \"character\" SET locationX = ".$x.", locationY = ".$y.", map = '".$map."', \"combatmodifier\" = 0 WHERE playerid = $acc LIMIT 1";
+					$sql = "UPDATE \"character\" SET locationx = ".$x.", locationy = ".$y.", map = '".$map."', \"combatmodifier\" = 0 WHERE playerid = $acc LIMIT 1";
 				} else {
 					$oldX = isset($_SESSION['oldX']) ? floatval($_SESSION['oldX']) : null;
 					$oldY = isset($_SESSION['oldY']) ? floatval($_SESSION['oldY']) : null;
@@ -2341,8 +2341,8 @@
 						// Session missing previous coords — fallback to DB-stored character location
 						$charRow = getRow($conn, "character", $acc);
 						error_log(print_r($charRow, true));
-						$oldX = isset($charRow['locationX']) ? floatval($charRow['locationX']) : null;
-						$oldY = isset($charRow['locationY']) ? floatval($charRow['locationY']) : null;
+						$oldX = isset($charRow['locationx']) ? floatval($charRow['locationx']) : null;
+						$oldY = isset($charRow['locationy']) ? floatval($charRow['locationy']) : null;
 						$debug[] = "fallback_old_from_db: oldX=" . var_export($oldX, true) . " oldY=" . var_export($oldY, true);
 					}
 
@@ -2363,7 +2363,7 @@
 					$_SESSION['oldY'] = $y;
 					$sql = "UPDATE \"account\" set \"stepstaken\" = \"stepstaken\" + ".floor($steps)." where \"playerid\" = $acc";
 					sql_query($sql, $conn);
-					$sql = "UPDATE \"character\" SET locationX = ".$x.", locationY = ".$y.", \"combatmodifier\" = \"combatmodifier\" + 1 WHERE map = '".$map."' AND playerid = ".$acc;
+					$sql = "UPDATE \"character\" SET locationx = ".$x.", locationy = ".$y.", \"combatmodifier\" = \"combatmodifier\" + 1 WHERE map = '".$map."' AND playerid = ".$acc;
 				}
 
 				sql_query($sql, $conn);
@@ -2426,9 +2426,9 @@
 	function toSpawn($acc, $conn){
 		$row = getRow($conn, "spawnpoints", getAttribute($conn, "character", "respawn", $acc));
 		//if($row["mapName"] == "endless.php?"){
-			$sql = "UPDATE \"character\" set currentTowerLevel = 1, \"map\" = '".$row["mapName"]."', \"locationX\" = ".$row["telestoneX"].", \"locationY\" = ".$row["telestoneY"]." WHERE \"playerid\" = ".$acc;
+			$sql = "UPDATE \"character\" set currenttowerlevel = 1, \"map\" = '".$row["mapName"]."', \"locationx\" = ".$row["telestoneX"].", \"locationy\" = ".$row["telestoneY"]." WHERE \"playerid\" = ".$acc;
 		//}else{
-			//$sql = "UPDATE \"character\" set currentTowerLevel = 0, \"map\" = '".$row["mapName"]."', \"locationX\" = ".$row["telestoneX"].", \"locationY\" = ".$row["telestoneY"]." WHERE \"playerid\" = ".$acc;
+			//$sql = "UPDATE \"character\" set currenttowerlevel = 0, \"map\" = '".$row["mapName"]."', \"locationx\" = ".$row["telestoneX"].", \"locationy\" = ".$row["telestoneY"]." WHERE \"playerid\" = ".$acc;
 		//}
 		sql_query($sql, $conn);
 	}
@@ -3396,7 +3396,7 @@
 				$distence = $distence * 15;
 				$distence = floor($distence /100) * 100;
 				$index = $waypoints['spawnID'];
-				$sql = "UPDATE \"character\" set \"map\" = '".$waypoints["mapName"]."', \"locationX\" = ".$waypoints["telestoneX"].", \"locationY\" = ".$waypoints["telestoneY"].", \"silver\" = \"silver\" - $distence WHERE \"playerid\" = $acc and \"silver\" + 1 > $distence LIMIT 1";
+				$sql = "UPDATE \"character\" set \"map\" = '".$waypoints["mapName"]."', \"locationx\" = ".$waypoints["telestoneX"].", \"locationy\" = ".$waypoints["telestoneY"].", \"silver\" = \"silver\" - $distence WHERE \"playerid\" = $acc and \"silver\" + 1 > $distence LIMIT 1";
 				sql_query($sql, $conn);
 				return "0";
 			}
@@ -3427,7 +3427,7 @@
 		while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 			$sql = "update inventory set \"count\" = \"count\" - " . $costs[$floor] . " where itemid = 235 and playerid = $acc";
 			sql_query($sql, $conn);
-			$sql = "update \"character\" set currentTowerLevel = $floor where playerid = $acc";
+			$sql = "update \"character\" set currenttowerlevel = $floor where playerid = $acc";
 			sql_query($sql, $conn);
 			return "0";
 		}
@@ -3465,7 +3465,7 @@
 		if($map != 'endless.php?'){
 			$sql = "SELECT l.* FROM \"character\" c INNER JOIN \"lightsources\" l on c.map = l.map inner join \"account\" a on a.playerid = c.playerid where c.playerid = $acc and a.light != 0";
 		}else{  //endless tower lights
-			$floor = getAttribute($conn, "character", "currentTowerLevel", $acc);
+			$floor = getAttribute($conn, "character", "currenttowerlevel", $acc);
 			if($floor == 1){
 				$sql = "SELECT l.* FROM \"character\" c INNER JOIN \"lightsources\" l on 'endless.php?1' = l.map inner join \"account\" a on a.playerid = c.playerid where c.playerid = $acc and a.light != 0";
 			}else if (($floor - 1) % 10 == 0){

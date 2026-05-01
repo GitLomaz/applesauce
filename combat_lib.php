@@ -334,12 +334,12 @@
 			error_log(2);
     	if (strpos($zone, 'Kal-Rul Tower') !== false) {
 
-    		if (($charRow['currentTowerLevel'] - 1) % 10 == 0) {
+    		if (($charRow['currenttowerlevel'] - 1) % 10 == 0) {
     			return;
     		}
 
-    		$bossDead = $charRow['towerBoss'];
-    		if (strpos($zone, 'BOSS') !== false && $charRow['towerBoss'] < $charRow['currentTowerLevel']) {
+    		$bossDead = $charRow['towerboss'];
+    		if (strpos($zone, 'BOSS') !== false && $charRow['towerboss'] < $charRow['currenttowerlevel']) {
     			$buffmod = 3;
     			$buffmulti = 100;
     			$e_level = $_SESSION['towerLevel'] + 63;
@@ -366,7 +366,7 @@
     			return 5;
     		}
     		else {
-    			$e_level = $charRow['currentTowerLevel'] + 60;
+    			$e_level = $charRow['currenttowerlevel'] + 60;
     			if ($e_level == null) {
     				return 'wat?';
 
@@ -622,7 +622,7 @@
     	$calcValues = getRow($conn, "calcValues", $acc);
     	$enemyID = $row['enemyID'];
     	if ($enemyID == 150) {
-    		$sql = "update \"character\" set towerBoss = currentTowerLevel where playerid = $acc";
+    		$sql = "update \"character\" set towerboss = currenttowerlevel where playerid = $acc";
     		sql_query($sql, $conn);
     	}
 
@@ -1440,7 +1440,7 @@
     	sql_query('DELETE FROM "enemyEffects" WHERE "playerid" = ' . $acc, $conn);
     	sql_query('DELETE FROM "combatEnemies" WHERE "playerid" = ' . $acc, $conn);
     	sql_query('DELETE FROM "enemySkillCooldown" WHERE "playerid" = ' . $acc, $conn);
-    	$sql = 'UPDATE "character" set currentTowerLevel = 1 WHERE "playerid" = ' . $acc;
+    	$sql = 'UPDATE "character" set currenttowerlevel = 1 WHERE "playerid" = ' . $acc;
     	sql_query($sql, $conn);
     	$HP = (getAttribute($conn, "calcValues", "maxhealth", $acc) / 2);
     	$sql = 'SELECT * FROM "playerbuffs" where itemid = 116 AND playerid = ' . $acc;

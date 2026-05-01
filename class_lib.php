@@ -4,8 +4,8 @@
 
 	class player{
 		var $playerid;
-		var $locationX;
-		var $locationY;
+		var $locationx;
+		var $locationy;
 		var $conn;
 		var $name;
 		var $type;
