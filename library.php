@@ -215,7 +215,7 @@ RRRRRRRR     RRRRRRREEEEEEEEEEEEEEEEEEEEEEAAAAAAA                   AAAAAAADDDDD
 // -- Params : $conn, $table, $attribute, $index
 // -- Purpose : Returns arg from row of table at index in args
 function getAttribute($conn, $table, $attribute, $index){
-    $sql_q = "select "".$attribute."" from "".$table."" where "".getKey($table)."" =".$index." LIMIT 1";
+    $sql_q = "select ".$attribute." from ".$table." where ".getKey($table)." =".$index." LIMIT 1";
     $sql = sql_query($sql_q, $conn);
     $row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
     return $row[$attribute];
@@ -281,7 +281,7 @@ function getStatusBar($acc, $conn){
     $output["silver"] = $charRow["silver"];
     $output["expString"] = $charRow['exp'].' / '.$charRow['next'];
 
-    $sql = "select script, image, remaining from playerBuffs where name != 'empty' and playerID in ($acc, -1) order by itemID";
+    $sql = "select script, \"image\", remaining from playerBuffs where name != 'empty' and playerID in ($acc, -1) order by itemID";
     $rowset = sql_query($sql, $conn);
     $output["buffs"] = null;
 
@@ -296,7 +296,7 @@ function getStatusBar($acc, $conn){
 // -- Purpose : Returns a json object containing all inventory items for a char
 function getInventory($acc, $conn){
     $output = array();
-    $sql = "SELECT item_id as itemid, COALESCE(count,0) as count, COALESCE(used,0) as used, COALESCE(archived,0) as archived, name, image, value, usable, combat, quest, equipment, value, description, visible from item t inner join inventory i on t.item_id = i.itemid and playerID = $acc order by name";
+    $sql = "SELECT item_id as itemid, COALESCE(count,0) as count, COALESCE(used,0) as used, COALESCE(archived,0) as archived, name, \"image\", value, usable, combat, quest, equipment, value, description, visible from item t inner join inventory i on t.item_id = i.itemid and playerID = $acc order by name";
     $result = sql_query($sql, $conn);
     while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
         $output[] = $row;
@@ -331,7 +331,7 @@ function getEquipment($acc, $conn){
     $keys['critDamage'] = "Bonus Crit Modifier: ";
     $keys['blockChance'] = "Block Chance: ";
 
-    $sql = "SELECT * FROM equipmentInventory where playerID = $acc and archived = 0 and name != 'unarmed' order by name;";
+    $sql = "SELECT * FROM equipmentinventory where playerid = $acc and archived = 0 and name != 'unarmed' order by name;";
     $result = sql_query($sql, $conn);
     while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
         $script = "<strong>Item Name: </strong>".$row['name']."<br/><br/><strong>Item Class: </strong>";
@@ -373,7 +373,7 @@ function getEquipment($acc, $conn){
 function getCalcStats($acc, $conn){
     $user = getAttribute($conn, "account", "account", $acc);
     $charRow = getRow($conn, "character", $acc);
-    $calcRow = getRow($conn, "calcValues", $acc);
+    $calcRow = getRow($conn, "calcvalues", $acc);
 
     $calcRow["strength"] = $charRow["strength"];
     $calcRow["vitality"] = $charRow["vitality"];
