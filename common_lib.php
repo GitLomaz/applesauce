@@ -1325,7 +1325,7 @@
 	// -- Params : $conn, $acc, $stat
 	// -- Purpose : Allocates a single stat point
 	function allocateStat($conn, $acc, $stat){
-		$sql = "UPDATE \"character\" SET "".$stat."" = "".$stat."" + 1, "statPoints" = "statPoints" - 1 WHERE "statPoints" > 0 AND playerID = ".$acc;
+		$sql = "UPDATE \"character\" SET ".$stat." = ".$stat." + 1, \"statPoints\" = \"statPoints\" - 1 WHERE \"statPoints\" > 0 AND \"playerID\" = ".$acc;
 		sql_query($sql, $conn);
 	}
 
