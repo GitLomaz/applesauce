@@ -905,7 +905,7 @@
     		$levelMod = ((pow($levelMod, 2) / 100) + 1);
     		$damage = (rand($min, $max)) * $levelMod;
     		$mDamage = (rand($mmin, $mmax)) * $levelMod;
-    		$skillSQL = "select skillName, mskillID as skillid, damageType, text, damageModifier, s.cooldown as cooldown, element
+    		$skillSQL = "select skillName, mskillID as skillid, damagetype, text, damageModifier, s.cooldown as cooldown, element
         				from enemySkill s
         				inner join combatenemies e on e.enemyid = s.enemyid
         				inner join monsterSkills m on mskillID = s.eSkillID
@@ -927,7 +927,7 @@
     			$message = "<span style=\"color:#A5A5A5\">" . str_replace('[enemy]', $monsterName, $text) . "</span>";
     			$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyid . ",'RIGHT','" . $message . "')";
     			sql_query($logMessege, $conn);
-    			if ($enemySkill['damageType'] == 'power up') {
+    			if ($enemySkill['damagetype'] == 'power up') {
     				$mod = $enemySkill['damageModifier'];
     				$sql = "update combatenemies set attack = attack * $mod, hit = hit * $mod where playerid = $acc";
     				sql_query($sql, $conn);
@@ -935,7 +935,7 @@
     				sql_query($logMessege, $conn);
     			}
     			else
-    			if ($enemySkill['damageType'] == 'heal') {
+    			if ($enemySkill['damagetype'] == 'heal') {
     				$damage = floor($mDamage * $enemySkill['damageModifier']);
     				$sql = "update combatenemies set health = health + $damage where playerid = $acc";
     				sql_query($sql, $conn);
@@ -945,7 +945,7 @@
     				sql_query($logMessege, $conn);
     			}
     			else
-    			if ($enemySkill['damageType'] == 'mattack') {
+    			if ($enemySkill['damagetype'] == 'mattack') {
     				$damage = floor($mDamage * $enemySkill['damageModifier']);
     				$element = $enemySkill['element'];
     				$elementText = "";
@@ -1013,7 +1013,7 @@
     				}
     			}
     			else
-    			if ($enemySkill['damageType'] == 'attack') {
+    			if ($enemySkill['damagetype'] == 'attack') {
     				$damage = $damage * $enemySkill['damageModifier'];
     				$hard = ((100 - $armor) / 100);
     				$damage = $damage * $hard;
@@ -2545,7 +2545,7 @@
     	$sql_enemy = sql_query("SELECT * FROM combatenemies WHERE playerid = " . $acc . " ORDER BY \"combatenemyid\" DESC LIMIT 1", $conn);
     	$row = mysqli_fetch_array($sql_enemy, MYSQLI_ASSOC);
     	if (isset($element) && $element != "") {
-    		$mod = (100 - $row[strtolower($element) . 'Res']) / 100;
+    		$mod = (100 - $row[strtolower($element) . 'res']) / 100;
     	}
     	else {
     		$mod = 1;
@@ -2884,7 +2884,7 @@
 			$outputString .= '<tr><td style="width:50%">'.$fireresists.'</td><td style="width:50%">'.$earthresists.'</td></tr>';
 			$outputString .= '<tr><td style="width:50%">'.$holyresists.'</td><td style="width:50%">'.$arcaneresists.'</td></tr>';
 			$outputString .= '</table><div style="padding-top: 5%;">Experience / <span style="color:#80919A">Silver:<br/></span> '.$exp.'<br/><br/>'.$killCount.'</div></div>';
-			if (isset($row['chapter'])){
+			if ($row && isset($row['chapter'])){
 				return $name.'|_'.$row["enemyid"].'|'.$image.'|'.$row['chapter'].'|'.$row['map'].'|'.$row['zones'].'|'.$outputString.'|'.$row['count'].'|'.$color;
 			}else{
 				return $name.'|_'.$row["enemyid"].'|'.$image.'||||'.$outputString.'||'.$color;
