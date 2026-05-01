@@ -1489,7 +1489,7 @@
 				"equipmentbonus"."shapelessRes" AS "shapelessRes",
 				"equipmentbonus"."shapelessExpDrop" AS "shapelessExpDrop",
 				"equipmentbonus"."shapelessDmg" AS "shapelessDmg",
-				(SELECT class FROM "equipmentInventory" WHERE "playerid" = '.$index.' AND "equipped" = 1 AND ("slot" = "weapon" OR "slot" = "2hweapon") LIMIT 1) AS "weapon"
+				(SELECT class FROM "equipmentInventory" WHERE "playerid" = '.$index.' AND "equipped" = 1 AND ("slot" = \'weapon\' OR "slot" = \'2hweapon\') LIMIT 1) AS "weapon"
 			FROM
 				"character","equipmentbonus","buffsbonus"
 			WHERE
@@ -1538,7 +1538,7 @@
 		        ("equipmentbonus"."earthRes" + "buffsbonus"."earthRes") AS "earthRes",
 		        ("equipmentbonus"."arcaneRes" + "buffsbonus"."arcaneRes") AS "arcaneRes",
 		        ("equipmentbonus"."holyRes" + "buffsbonus"."holyRes") AS "holyRes",
-		        (SELECT class FROM "equipmentInventory" WHERE "playerid" = '.$index.' AND "equipped" = 1 AND ("slot" = "weapon" OR "slot" = "2hweapon") LIMIT 1) AS "weapon",
+		        (SELECT class FROM "equipmentInventory" WHERE "playerid" = '.$index.' AND "equipped" = 1 AND ("slot" = \'weapon\' OR "slot" = \'2hweapon\') LIMIT 1) AS "weapon",
 		        "character"."exp" AS "exp",
 		        "character"."next" AS "next",
 		        "character"."level" AS "level",
