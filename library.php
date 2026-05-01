@@ -227,16 +227,13 @@ function getAttribute($conn, $table, $attribute, $index){
 function getNews($conn){
     $output = array(); // Initialize output array
     $sqlGetNews = 'SELECT imageOffset, image, title, "date", "update" FROM news ORDER BY newsIndex DESC';
-    error_log("[getNews] Executing query: $sqlGetNews");
     $sqlNewsResult = sql_query($sqlGetNews, $conn);
-    error_log("[getNews] Query executed, result: " . ($sqlNewsResult ? "success" : "failed"));
     if ($sqlNewsResult) {
         $count = 0;
         while(($row = mysqli_fetch_array($sqlNewsResult,MYSQLI_ASSOC))){
             $output[] = $row;
             $count++;
         }
-        error_log("[getNews] Fetched $count news items");
     }
     return $output;
 }

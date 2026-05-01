@@ -2243,10 +2243,6 @@
 			return json_encode(array());
 		}
 
-		error_log(print_r($charRow, true));
-		error_log(print_r($accRow, true));
-		error_log(print_r($calcRow, true));
-
 		$level = $charRow['level'] ?? 1;
 		$class = $charRow['class'] ?? 'Paladin';
 		$user = $accRow['account'] ?? 'Unknown';
