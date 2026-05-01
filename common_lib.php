@@ -1495,8 +1495,7 @@
 			WHERE
 				(("equipmentbonus"."playerid" = '.$index.')
 					AND ("buffsbonus"."playerid" = '.$index.')
-					AND ("character"."playerid" = '.$index.'))
-			GROUP BY "character"."playerid", "equipmentbonus"."playerid", "buffsbonus"."playerid"';
+					AND ("character"."playerid" = '.$index.'))';
 			$sql = sql_query(strtolower($sql_q), $conn);
 			$row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
 			return $row[$attribute];
@@ -1563,8 +1562,7 @@
 		    WHERE
 		        (("equipmentbonus"."playerid" = '.$index.')
 		            AND ("buffsbonus"."playerid" = '.$index.')
-		            AND ("character"."playerid" = '.$index.'))
-		    GROUP BY "character"."playerid", "equipmentbonus"."playerid", "buffsbonus"."playerid"';
+		            AND ("character"."playerid" = '.$index.'))';
 			$sql_q = strtolower($sql_q);
 			error_log($sql_q);
 			$sql = sql_query($sql_q, $conn);
@@ -3268,7 +3266,7 @@
 	// -- Params : $conn, $acc
 	// -- Purpose : gets all complete quests for log
 	function getCompleteQuests($conn, $acc){
-		$sql = "SELECT DISTINCT(q.questID) as questID, count(*) as 'count', repeatable, name FROM \"completeQuests\" c inner join \"quests\" q on c.questID = q.questID where playerid = $acc group by questID";
+		$sql = "SELECT DISTINCT(q.questID) as questID, count(*) as 'count', repeatable, name FROM \"completeQuests\" c inner join \"quests\" q on c.questID = q.questID where playerid = $acc group by q.questID, repeatable, name";
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$string = $row['questID']."|".$row['repeatable']."|".$row['count']."|".$row['name'];
