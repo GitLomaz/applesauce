@@ -73,7 +73,7 @@ function getKey($table){
         case "equipmentbonus":
             $table = "playerid";
             break;
-        case "spawnPoints":
+        case "spawnpoints":
             $table = "spawnID";
             break;
         default:

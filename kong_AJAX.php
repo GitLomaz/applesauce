@@ -350,7 +350,7 @@
 					print $message.'~'.json_encode(getCalcStats($account, $conn, $calcValues)).'~'.getStatus($account, $conn, $calcValues);
 					break;
 				case "stashEquipment":
-					$sql = "UPDATE \"equipmentInventory\" set stored = $param2 where \"index\" = $param1 and \"playerid\" = $account";
+					$sql = "UPDATE \"equipmentinventory\" set stored = $param2 where \"index\" = $param1 and \"playerid\" = $account";
 					sql_query($sql, $conn);
 					break;
 				case "stashItem":
@@ -415,7 +415,7 @@
 						$dex = $dex + 1;
 						$vit = $vit + 3;
 						$respawn = 100;
-						$unlockSQL = "UPDATE \"equipmentInventory\" set \"archived\" = 0 where \"playerid\" = $account and \"template\" in (60,61,62,63,64,65,66,67,90,91,92,93,94,95,96,97)";
+						$unlockSQL = "UPDATE \"equipmentinventory\" set \"archived\" = 0 where \"playerid\" = $account and \"template\" in (60,61,62,63,64,65,66,67,90,91,92,93,94,95,96,97)";
 						$skillPoints = $warlock;
 					}
 					if($param1 == 'Paladin'){
@@ -424,7 +424,7 @@
 						$dex = $dex + 2;
 						$vit = $vit + 3;
 						$respawn = 100;
-						$unlockSQL = "UPDATE \"equipmentInventory\" set \"archived\" = 0 where \"playerid\" = $account and \"template\" in (51,52,53,54,55,56,57,58,83,84,85,86,87,88,89)";
+						$unlockSQL = "UPDATE \"equipmentinventory\" set \"archived\" = 0 where \"playerid\" = $account and \"template\" in (51,52,53,54,55,56,57,58,83,84,85,86,87,88,89)";
 						$skillPoints = $pala;
 					}
 					if($param1 == 'Assassin'){
@@ -433,7 +433,7 @@
 						$dex = $dex + 3;
 						$vit = $vit + 3;
 						$respawn = 202;
-						$unlockSQL = "UPDATE \"equipmentInventory\" set \"archived\" = 0 where \"playerid\" = $account and \"template\" in (68,69,70,71,72,73,74,98,99,100,101,102,103,104)";
+						$unlockSQL = "UPDATE \"equipmentinventory\" set \"archived\" = 0 where \"playerid\" = $account and \"template\" in (68,69,70,71,72,73,74,98,99,100,101,102,103,104)";
 						$skillPoints = $sin;
 					}
 					$total = $pala + $sin + $warlock;
@@ -463,7 +463,7 @@
 					if($param2 == .5){
 						$sql = "UPDATE inventory SET \"count\" = \"archived\", \"archived\" = 0 where playerid = $account";
 						sql_query($sql, $conn);
-						$sql = "UPDATE equipmentInventory  SET \"archived\" = 0 where playerid = $account";
+						$sql = "UPDATE equipmentinventory  SET \"archived\" = 0 where playerid = $account";
 						sql_query($sql, $conn);
 					}
 					print 1;

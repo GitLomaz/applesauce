@@ -52,7 +52,7 @@
     	$levelMod = pow($levelMod, 2) / 2;
     	$flee = $flee + $levelMod;
     	$monsterName.= $enemyRow['name'];
-    	$sql = "SELECT class, name, template FROM equipmentInventory WHERE name != 'unarmed' AND slot = 'weapon' AND equipped = 1 AND playerid = $acc LIMIT 1";
+    	$sql = "SELECT class, name, template FROM equipmentinventory WHERE name != 'unarmed' AND slot = 'weapon' AND equipped = 1 AND playerid = $acc LIMIT 1";
     	$row = sql_query($sql, $conn)->fetch();
     	$itemClass = $row['class'];
     	$text = getString($conn, "0", "melee", "left", $itemClass);
@@ -151,7 +151,7 @@
     	$row = mysqli_fetch_array($query, MYSQLI_ASSOC);
     	$chance = $row['chance'];
     	$mod = $row['damage'];
-    	$sql = "SELECT * FROM \"equipmentInventory\" where \"template\" = 74 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
+    	$sql = "SELECT * FROM \"equipmentinventory\" where \"template\" = 74 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
     	$query = sql_query($sql, $conn);
     	if (mysqli_num_rows($query) == 1) {
     		$chance = $chance + 5;
@@ -198,7 +198,7 @@
     	$row = mysqli_fetch_array($query, MYSQLI_ASSOC);
     	$chance = $row['chance'];
     	$mod = $row['damage'];
-    	$sql = "SELECT * FROM \"equipmentInventory\" where \"template\" = 74 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
+    	$sql = "SELECT * FROM \"equipmentinventory\" where \"template\" = 74 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
     	$query = sql_query($sql, $conn);
     	if (mysqli_num_rows($query) == 1) {
     		$chance = $chance + 5;
@@ -243,7 +243,7 @@
     	$row = mysqli_fetch_array($query, MYSQLI_ASSOC);
     	$chance = $row['chance'];
     	$mod = $row['damage'];
-    	$sql = "SELECT * FROM \"equipmentInventory\" where \"template\" = 74 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
+    	$sql = "SELECT * FROM \"equipmentinventory\" where \"template\" = 74 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
     	$query = sql_query($sql, $conn);
     	if (mysqli_num_rows($query) == 1) {
     		$chance = $chance + 5;
@@ -286,7 +286,7 @@
 
     	$row = mysqli_fetch_array($query, MYSQLI_ASSOC);
     	$chance = $row['chance'];
-    	$sql = "SELECT * FROM \"equipmentInventory\" where \"template\" = 74 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
+    	$sql = "SELECT * FROM \"equipmentinventory\" where \"template\" = 74 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
     	$query = sql_query($sql, $conn);
     	if (mysqli_num_rows($query) == 1) {
     		$chance = $chance + 5;
@@ -320,7 +320,7 @@
     {
     	$buffmod = 10;
     	$buffmulti = 1;
-    	$sql = "select sum(test) as active from (SELECT count(*) as test FROM \"playerbuffs\" a where playerid = $acc and itemID in (86,87,88,93,102,87) union SELECT count(*) as test FROM \"equipmentInventory\" b where playerid = $acc and template in (56, 63, 72) and equipped = 1) as t";
+    	$sql = "select sum(test) as active from (SELECT count(*) as test FROM \"playerbuffs\" a where playerid = $acc and itemID in (86,87,88,93,102,87) union SELECT count(*) as test FROM \"equipmentinventory\" b where playerid = $acc and template in (56, 63, 72) and equipped = 1) as t";
     	$query = sql_query($sql, $conn);
     	$row = mysqli_fetch_array($query, MYSQLI_ASSOC);
     	if ($row["active"] > 0) {
@@ -656,7 +656,7 @@
     	$diff = $current + $exp - $levelup;
     	if ($current + $exp + 1 > $levelup) {
     		if ($level == 50) {
-    			$sql = "UPDATE \"equipmentInventory\" SET \"archived\" = 0 WHERE playerid = $acc";
+    			$sql = "UPDATE \"equipmentinventory\" SET \"archived\" = 0 WHERE playerid = $acc";
     			sql_query($sql, $conn);
     			$sql = "UPDATE \"inventory\" SET \"count\" = \"count\" + \"archived\" WHERE playerid = $acc";
     			sql_query($sql, $conn);
@@ -1043,7 +1043,7 @@
     						$text = getString($conn, "0", "combat", "left", "block");
     						$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#E00101', '<strong></strong>')";
     						sql_query($logMessege, $conn);
-    						$sql = "SELECT * FROM equipmentInventory where playerid = $acc AND equipped = 1 AND template = 54";
+    						$sql = "SELECT * FROM equipmentinventory where playerid = $acc AND equipped = 1 AND template = 54";
     						$query = sql_query($sql, $conn);
     						if (mysqli_num_rows($query) > 0) {
     							$health = floor($calcValues["maxhealth"]) / 20;
@@ -1127,7 +1127,7 @@
     					$text = getString($conn, "0", "combat", "left", "block");
     					$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#E00101', '<strong></strong>')";
     					sql_query($logMessege, $conn);
-    					$sql = "SELECT * FROM equipmentInventory where playerid = $acc AND equipped = 1 AND template = 54";
+    					$sql = "SELECT * FROM equipmentinventory where playerid = $acc AND equipped = 1 AND template = 54";
     					$query = sql_query($sql, $conn);
     					if (mysqli_num_rows($query) > 0) {
     						$health = floor($calcValues["maxhealth"]) / 20;
@@ -1301,7 +1301,7 @@
     			$levelMod = pow($levelMod, 2) / 2;
     			$flee = $flee + $levelMod;
     			$monsterName.= $enemyRow['name'];
-    			$sql = "SELECT \"class\", \"name\", \"template\" FROM \"equipmentInventory\" WHERE \"name\" != 'unarmed' AND \"slot\" = 'weapon' AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
+    			$sql = "SELECT \"class\", \"name\", \"template\" FROM \"equipmentinventory\" WHERE \"name\" != 'unarmed' AND \"slot\" = 'weapon' AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
     			$row = mysqli_fetch_array(sql_query($sql, $conn) , MYSQLI_ASSOC);
     			$itemClass = $row['class'];
     			$text = getString($conn, "0", "counter", "left", $itemClass);
@@ -1442,7 +1442,7 @@
     		sql_query('UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = ' . $acc, $conn);
     	}
     	else {
-    		$sql = 'SELECT * FROM "equipmentInventory" where "template" in (93, 102, 87) AND "equipped" = 1 AND "playerid" = ' . $acc . ' LIMIT 1';
+    		$sql = 'SELECT * FROM "equipmentinventory" where "template" in (93, 102, 87) AND "equipped" = 1 AND "playerid" = ' . $acc . ' LIMIT 1';
     		$query = sql_query($sql, $conn);
     		if (mysqli_num_rows($query) == 1) {
 
@@ -1453,7 +1453,7 @@
 
             }else{
 
-                $sql = "SELECT * FROM \"equipmentInventory\" where \"template\" in (56, 63, 72) AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
+                $sql = "SELECT * FROM \"equipmentinventory\" where \"template\" in (56, 63, 72) AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
                 $query = sql_query($sql, $conn);
                 if (mysqli_num_rows($query) == 1) {
                     $maxXP = getAttribute($conn, "character", "next", $acc);
@@ -1604,13 +1604,13 @@
     			}
     			else {
     				$damage = ceil(resistDamage($conn, $acc, floor(getDamage($conn, $acc, $calcValues) * $skillRow['damage']) , isset($element) ? $element : 'physical'));
-    				$sql = "SELECT * FROM \"equipmentInventory\" where \"template\" = 51 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
+    				$sql = "SELECT * FROM \"equipmentinventory\" where \"template\" = 51 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
     				$query = sql_query($sql, $conn);
     				if (mysqli_num_rows($query) == 1) {
     					$damage = floor($damage * 1.75);
     				}
     				else {
-    					$sql = "SELECT * FROM \"equipmentInventory\" where \"template\" = 83 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
+    					$sql = "SELECT * FROM \"equipmentinventory\" where \"template\" = 83 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
     					$query = sql_query($sql, $conn);
     					if (mysqli_num_rows($query) == 1) {
     						$damage = floor($damage * 2.25);
@@ -1695,7 +1695,7 @@
                     $damage = floor($damage * (($calcValues['shapelessDmg'] / 100) + 1));
                 }
     			if ($skillID == 3 || $skillID == 18) {
-    				$sql = "SELECT * FROM \"equipmentInventory\" where \"template\" = 64 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
+    				$sql = "SELECT * FROM \"equipmentinventory\" where \"template\" = 64 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
     				$query = sql_query($sql, $conn);
     				if (mysqli_num_rows($query) > 0) {
     					$damage = floor($damage * 1.5);
@@ -1873,13 +1873,13 @@
                 if(in_array($enemyid, [147,148,149,150])){
                     $damage = floor($damage * (($calcValues['shapelessDmg'] / 100) + 1));
                 }
-    			$sql = "SELECT * FROM equipmentInventory where playerid = $acc AND equipped = 1 AND template = 58";
+    			$sql = "SELECT * FROM equipmentinventory where playerid = $acc AND equipped = 1 AND template = 58";
     			$query = sql_query($sql, $conn);
     			if (mysqli_num_rows($query) > 0) {
     				$damage = $damage * (mysqli_num_rows($query) * 1.35);
     			}
     			else {
-    				$sql = "SELECT * FROM equipmentInventory where playerid = $acc AND equipped = 1 AND template = 89";
+    				$sql = "SELECT * FROM equipmentinventory where playerid = $acc AND equipped = 1 AND template = 89";
     				$query = sql_query($sql, $conn);
     				if (mysqli_num_rows($query) > 0) {
     					$damage = $damage * (mysqli_num_rows($query) * 1.75);
@@ -1983,14 +1983,14 @@
     				$health = getAttribute($conn, "character", "hitpoints", $acc);
     				$health = floor($health / 10);
     				$damage = floor(resistDamage($conn, $acc, ($damage + (($skillRow['damage'] / 2) * $health)) , isset($element) ? $element : 'physical'));
-    				$sql = "SELECT * FROM \"equipmentInventory\" where \"template\" = 51 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
+    				$sql = "SELECT * FROM \"equipmentinventory\" where \"template\" = 51 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
     				$query = sql_query($sql, $conn);
     				if (mysqli_num_rows($query) == 1) {
     					$damage = floor($damage * 1.75);
     					$health = floor($health / 2);
     				}
     				else {
-    					$sql = "SELECT * FROM \"equipmentInventory\" where \"template\" = 83 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
+    					$sql = "SELECT * FROM \"equipmentinventory\" where \"template\" = 83 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
     					$query = sql_query($sql, $conn);
     					if (mysqli_num_rows($query) == 1) {
     						$damage = floor($damage * 2.25);
@@ -2055,7 +2055,7 @@
     				$sql = "select * from enemyEffects where playerid = $acc and effectType = 2";
     				$query = sql_query($sql, $conn);
     				if (mysqli_num_rows($query) == 0) {
-    					$sql = "SELECT * FROM \"equipmentInventory\" where \"template\" = 73 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
+    					$sql = "SELECT * FROM \"equipmentinventory\" where \"template\" = 73 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
     					$query = sql_query($sql, $conn);
     					if (mysqli_num_rows($query) == 1) {
     						$chance = $chance + 20;
@@ -2130,7 +2130,7 @@
     				$sql = "select * from enemyEffects where playerid = $acc and effectType = 2";
     				$query = sql_query($sql, $conn);
     				if (mysqli_num_rows($query) == 0) {
-    					$sql = "SELECT * FROM \"equipmentInventory\" where \"template\" = 73 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
+    					$sql = "SELECT * FROM \"equipmentinventory\" where \"template\" = 73 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
     					$query = sql_query($sql, $conn);
     					if (mysqli_num_rows($query) == 1) {
     						$chance = $chance + 20;
