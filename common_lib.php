@@ -2650,8 +2650,7 @@
 				$output["silverAmnt"] = $questRow['silverAmnt'];
 				//enter silver reward															//quest ID
 				return json_encode($output);
-			} else
-			if(($Row['status'] == \"complete\" && (mysqli_num_rows($sql_rows) == $counter))){
+			} else if(($Row['status'] == "complete" && (mysqli_num_rows($sql_rows) == $counter))){
 				$output["questID"] = $quest;
 				$output["status"] = $Row['status'];
 				$output["completeText"] = "<div class='questTitle'>$questTitle</div>".getString($conn, $quest, "quest", "complete", "");
