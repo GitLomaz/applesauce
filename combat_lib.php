@@ -14,7 +14,7 @@
     	if ($row['hitpoints'] < 1) {
     		return 3;
     	}
-    	$sql = "SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY combatEnemyID DESC LIMIT 1";
+    	$sql = "SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY combatEnemyID DESC LIMIT 1";
     	$sql_get_enemy = sql_query($sql, $conn);
     	$enemyRow = $sql_get_enemy->fetch();
         if(!isset($enemyRow)){
@@ -52,7 +52,7 @@
     	$levelMod = pow($levelMod, 2) / 2;
     	$flee = $flee + $levelMod;
     	$monsterName.= $enemyRow['name'];
-    	$sql = "SELECT class, name, template FROM equipmentInventory WHERE name != 'unarmed' AND slot = 'weapon' AND equipped = 1 AND playerID = $acc LIMIT 1";
+    	$sql = "SELECT class, name, template FROM equipmentInventory WHERE name != 'unarmed' AND slot = 'weapon' AND equipped = 1 AND playerid = $acc LIMIT 1";
     	$row = sql_query($sql, $conn)->fetch();
     	$itemClass = $row['class'];
     	$text = getString($conn, "0", "melee", "left", $itemClass);
@@ -87,7 +87,7 @@
     		// CRITICAL HIT
 
     		$damage = getCrit($conn, $acc);
-    		$sql_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY combatEnemyID DESC LIMIT 1", $conn);
+    		$sql_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY combatEnemyID DESC LIMIT 1", $conn);
     		$row = $sql_enemy->fetch();
     		if (isset($element) && $element != "") {
     			$mod = 1;
@@ -141,8 +141,8 @@
     {
     	$sql = "select sl.damage as damage, sl.chance as chance from playerBuffs pb
                 inner join skillLevels sl on pb.buffID = sl.skillID
-                inner join charSkills cs on cs.playerID = pb.playerID
-                where pb.playerID = $acc and sl.level = cs.level and cs.skillID = 29 and sl.skillID = 29";
+                inner join charSkills cs on cs.playerid = pb.playerid
+                where pb.playerid = $acc and sl.level = cs.level and cs.skillID = 29 and sl.skillID = 29";
     	$query = sql_query($sql, $conn);
     	if (mysqli_num_rows($query) == 0) {
     		return;
@@ -188,8 +188,8 @@
     {
     	$sql = "select sl.damage as damage, sl.chance as chance from playerBuffs pb
                 inner join skillLevels sl on pb.buffID = sl.skillID
-                inner join charSkills cs on cs.playerID = pb.playerID
-                where pb.playerID = $acc and sl.level = cs.level and cs.skillID = 30 and sl.skillID = 30";
+                inner join charSkills cs on cs.playerid = pb.playerid
+                where pb.playerid = $acc and sl.level = cs.level and cs.skillID = 30 and sl.skillID = 30";
     	$query = sql_query($sql, $conn);
     	if (mysqli_num_rows($query) == 0) {
     		return;
@@ -233,8 +233,8 @@
     {
     	$sql = "select sl.damage as damage, sl.chance as chance from playerBuffs pb
                 inner join skillLevels sl on pb.buffID = sl.skillID
-                inner join charSkills cs on cs.playerID = pb.playerID
-                where pb.playerID = $acc and sl.level = cs.level and cs.skillID = 31 and sl.skillID = 31";
+                inner join charSkills cs on cs.playerid = pb.playerid
+                where pb.playerid = $acc and sl.level = cs.level and cs.skillID = 31 and sl.skillID = 31";
     	$query = sql_query($sql, $conn);
     	if (mysqli_num_rows($query) == 0) {
     		return;
@@ -277,8 +277,8 @@
     {
     	$sql = "select sl.damage as damage, sl.chance as chance from playerBuffs pb
                 inner join skillLevels sl on pb.buffID = sl.skillID
-                inner join charSkills cs on cs.playerID = pb.playerID
-                where pb.playerID = $acc and sl.level = cs.level and cs.skillID = 32 and sl.skillID = 32";
+                inner join charSkills cs on cs.playerid = pb.playerid
+                where pb.playerid = $acc and sl.level = cs.level and cs.skillID = 32 and sl.skillID = 32";
     	$query = sql_query($sql, $conn);
     	if (mysqli_num_rows($query) == 0) {
     		return;
@@ -347,7 +347,7 @@
     			$flee = (pow($e_level, 2) + 0.3 * $e_level + 4.55) / 9 + 30;
     			$health = $charRow['diff'] * (pow($e_level, 2) + 0.3 * $e_level + 4.55) * 1.5;
     			$exp = (0.0019 * pow($e_level + 35, 4) - 0.065 * pow($e_level + 35, 3) + 1.12 * pow($e_level + 35, 2) + 4 * $e_level + 35) / 2;
-    			$sql = "UPDATE \"character\" SET \"combatModifier\" = 0 WHERE playerID = " . $acc;
+    			$sql = "UPDATE \"character\" SET \"combatModifier\" = 0 WHERE playerid = " . $acc;
     			sql_query($sql, $conn);
     			$combatRow = sql_query("SELECT * FROM \"combat\" WHERE \"playerid\" = " . $acc, $conn);
     			if (mysqli_num_rows($combatRow) > 0) {
@@ -404,7 +404,7 @@
     			$freq = $steps * ($diffFactor / 100) * $combatCoeff;
     			$roll = rand(0, 100);
     			if ($roll < $freq) {
-    				$sql = "UPDATE \"character\" SET \"combatModifier\" = 0 WHERE playerID = " . $acc;
+    				$sql = "UPDATE \"character\" SET \"combatModifier\" = 0 WHERE playerid = " . $acc;
     				sql_query($sql, $conn);
     				$combatRow = sql_query("SELECT * FROM \"combat\" WHERE \"playerid\" = " . $acc, $conn);
     				if (mysqli_num_rows($combatRow) > 0) {
@@ -443,7 +443,7 @@
     				}
 
     				$exp = (0.0019 * pow($e_level + 30, 4) - 0.065 * pow($e_level + 30, 3) + 1.12 * pow($e_level + 30, 2) + 4 * $e_level + 30) / 2;
-    				$sql = "UPDATE \"character\" SET \"combatModifier\" = 0 WHERE playerID = " . $acc;
+    				$sql = "UPDATE \"character\" SET \"combatModifier\" = 0 WHERE playerid = " . $acc;
     				sql_query($sql, $conn);
     				$combatRow = sql_query("SELECT * FROM \"combat\" WHERE \"playerid\" = " . $acc, $conn);
     				if (mysqli_num_rows($combatRow) > 0) {
@@ -483,7 +483,7 @@
     		}
     	}
     	else {
-    		$sql_get_level = "SELECT MIN(e.level) as level, c.map, c.diff FROM \"character\" c Inner join \"enemySpawns\" s on c.zone = s.zone	inner join \"enemies\" e on s.enemyID = e.enemyID where c.playerID = $acc AND s.startDate < NOW() AND s.endDate > NOW()";
+    		$sql_get_level = "SELECT MIN(e.level) as level, c.map, c.diff FROM \"character\" c Inner join \"enemySpawns\" s on c.zone = s.zone	inner join \"enemies\" e on s.enemyID = e.enemyID where c.playerid = $acc AND s.startDate < NOW() AND s.endDate > NOW()";
     		$sql_result = sql_query($sql_get_level, $conn);
     		$row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC);
     		$map = $row['map'];
@@ -526,13 +526,13 @@
     		$freq = $steps * ($diffFactor / 100) * $combatCoeff;
     		$roll = rand(0, 100);
     		if ($roll < $freq) {
-    			$sql = "UPDATE \"character\" SET \"combatModifier\" = 0 WHERE \"playerID\" = " . $acc;
+    			$sql = "UPDATE \"character\" SET \"combatModifier\" = 0 WHERE \"playerid\" = " . $acc;
     			sql_query($sql, $conn);
     			$totalWeight = 0;
-    			$maxSQL = "SELECT SUM(weight) as total FROM \"character\" c Inner join \"enemySpawns\" s on c.zone = s.zone or s.zone = 'all' where c.playerID = $acc AND s.startDate < NOW() AND s.endDate > NOW()";
+    			$maxSQL = "SELECT SUM(weight) as total FROM \"character\" c Inner join \"enemySpawns\" s on c.zone = s.zone or s.zone = 'all' where c.playerid = $acc AND s.startDate < NOW() AND s.endDate > NOW()";
     			$max = mysqli_fetch_array(sql_query($maxSQL, $conn) , MYSQLI_ASSOC) ['total'];
     			$roll = rand(0, $max);
-    			$sql_get_enemies = "SELECT e.enemyid, e.name, s.weight, e.prefix, e.quest, weight FROM \"character\" c Inner join \"enemySpawns\" s on c.zone = s.zone or s.zone = 'all' inner join \"enemies\" e on s.enemyID = e.enemyID where c.playerID = $acc AND s.startDate < NOW() AND s.endDate > NOW()";
+    			$sql_get_enemies = "SELECT e.enemyid, e.name, s.weight, e.prefix, e.quest, weight FROM \"character\" c Inner join \"enemySpawns\" s on c.zone = s.zone or s.zone = 'all' inner join \"enemies\" e on s.enemyID = e.enemyID where c.playerid = $acc AND s.startDate < NOW() AND s.endDate > NOW()";
     			$sql_result = sql_query($sql_get_enemies, $conn);
     			while ($row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC)) {
     				$totalWeight = $totalWeight + intval($row['weight']);
@@ -543,7 +543,7 @@
     					}
 
     					if ($row['quest'] > 0) {
-    						$sql_quest = 'SELECT * FROM \"enemies\" e, "questPlayerStatus" p, \"quests\" q WHERE (e.enemyID = ' . $row['enemyID'] . ' AND q.req1 = e.quest AND q.questID = p.questID AND p.status = \"working\" AND p.playerID =  ' . $acc . ')';
+    						$sql_quest = 'SELECT * FROM \"enemies\" e, "questPlayerStatus" p, \"quests\" q WHERE (e.enemyID = ' . $row['enemyID'] . ' AND q.req1 = e.quest AND q.questID = p.questID AND p.status = \"working\" AND p.playerid =  ' . $acc . ')';
     						$sqlQuest = sql_query($sql_quest, $conn);
     						$rowQuest = mysqli_fetch_array($sqlQuest, MYSQLI_ASSOC);
     						sql_query($sql_quest, $conn);
@@ -624,13 +624,13 @@
         if(in_array($enemyid, [147,148,149,150])){
             $exp = floor($exp * (($calcValues['shapelessExpDrop'] / 100) + 1));
         }
-    	sql_query("UPDATE \"charKills\" set \"count\" = \"count\" + 1 WHERE \"playerID\" = $acc AND \"enemyID\" = $enemyID", $conn);
+    	sql_query("UPDATE \"charKills\" set \"count\" = \"count\" + 1 WHERE \"playerid\" = $acc AND \"enemyID\" = $enemyID", $conn);
     	if (mysqli_affected_rows($conn) == 0) {
-    		$sql = 'INSERT INTO charkills (playerID, enemyID) VALUES (' . $acc . ', ' . $enemyID . ')';
+    		$sql = 'INSERT INTO charkills (playerid, enemyID) VALUES (' . $acc . ', ' . $enemyID . ')';
     		sql_query($sql, $conn);
     	}
 
-    	$sql = "select count from charKills where enemyID = $enemyID and playerID = $acc";
+    	$sql = "select count from charKills where enemyID = $enemyID and playerid = $acc";
     	$sql_result = sql_query($sql, $conn);
     	$killsRow = mysqli_fetch_array($sql_result, MYSQLI_ASSOC);
     	$kills = $killsRow["count"];
@@ -656,18 +656,18 @@
     	$diff = $current + $exp - $levelup;
     	if ($current + $exp + 1 > $levelup) {
     		if ($level == 50) {
-    			$sql = "UPDATE \"equipmentInventory\" SET \"archived\" = 0 WHERE playerID = $acc";
+    			$sql = "UPDATE \"equipmentInventory\" SET \"archived\" = 0 WHERE playerid = $acc";
     			sql_query($sql, $conn);
-    			$sql = "UPDATE \"inventory\" SET \"count\" = \"count\" + \"archived\" WHERE playerID = $acc";
+    			$sql = "UPDATE \"inventory\" SET \"count\" = \"count\" + \"archived\" WHERE playerid = $acc";
     			sql_query($sql, $conn);
-    			$sql = "UPDATE \"inventory\" SET \"archived\" = 0 WHERE playerID = $acc";
+    			$sql = "UPDATE \"inventory\" SET \"archived\" = 0 WHERE playerid = $acc";
     			sql_query($sql, $conn);
     		}
 
     		levelUp($acc, $diff, $conn, $enemyid, $level);
     	}
     	else {
-    		sql_query("UPDATE \"character\" SET \"exp\" = \"exp\" + $exp WHERE playerID = $acc", $conn);
+    		sql_query("UPDATE \"character\" SET \"exp\" = \"exp\" + $exp WHERE playerid = $acc", $conn);
     	}
 
     	// quest drops
@@ -812,8 +812,8 @@
 
     	$sql = "select sl.chance as chance from playerBuffs pb
             inner join skillLevels sl on pb.buffID = sl.skillID
-            inner join charSkills cs on cs.playerID = pb.playerID
-            where pb.playerID = $acc and sl.level = cs.level and cs.skillID = 34 and sl.skillID = 34";
+            inner join charSkills cs on cs.playerid = pb.playerid
+            where pb.playerid = $acc and sl.level = cs.level and cs.skillID = 34 and sl.skillID = 34";
     	$query = sql_query($sql, $conn);
     	while ($skillRow = mysqli_fetch_array($query, MYSQLI_ASSOC)) {
     		if (intval(rand(0, 100)) < intval(isset($skillRow['chance']) ? $skillRow['chance'] : 0)) {
@@ -832,7 +832,7 @@
     		}
     	}
 
-    	$sql = "UPDATE \"character\" SET \"silver\" = \"silver\" + $silver, \"combatModifier\" = 0 WHERE playerID = $acc";
+    	$sql = "UPDATE \"character\" SET \"silver\" = \"silver\" + $silver, \"combatModifier\" = 0 WHERE playerid = $acc";
     	sql_query($sql, $conn);
     	sql_query("DELETE FROM \"enemySkillCooldown\" WHERE \"playerid\" = " . $acc, $conn);
     }
@@ -843,7 +843,7 @@
 
     function enemyAttack($acc, $conn, $calcValues)
     {
-    	$sql_char_result = sql_query("SELECT * FROM combatEnemies c where c.playerID = $acc ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    	$sql_char_result = sql_query("SELECT * FROM combatEnemies c where c.playerid = $acc ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     	$row = mysqli_fetch_array($sql_char_result, MYSQLI_ASSOC);
     	$HP = $row['health'];
     	$enemyID = $row['enemyID'];
@@ -914,14 +914,14 @@
         					and chance > FLOOR(RAND()*(100))
         					and maxHP >= CEIL($HP / maxhealth * 100)
         					and st.c1 ='enemySkill'
-        					and e.playerID = $acc
+        					and e.playerid = $acc
         				order by rand() limit 1";
     		$skillRow = sql_query($skillSQL, $conn);
     		if (mysqli_num_rows($skillRow) > 0) {
     			$enemySkill = mysqli_fetch_array($skillRow, MYSQLI_ASSOC);
     			$enemySkillID = $enemySkill['skillid'];
     			$cooldown = $enemySkill['cooldown'];
-    			sql_query("insert into enemySkillCooldown (enemyid, skillID, cooldown, playerID) values ($enemyid, $enemySkillID, $cooldown, $acc)", $conn);
+    			sql_query("insert into enemySkillCooldown (enemyid, skillID, cooldown, playerid) values ($enemyid, $enemySkillID, $cooldown, $acc)", $conn);
     			$text = $enemySkill['text'];
     			$message = "<span style=\"color:#A5A5A5\">" . str_replace('[enemy]', $monsterName, $text) . "</span>";
     			$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "')";
@@ -1179,7 +1179,7 @@
     	}
 
     	if (enemyAfterEffects($conn, $acc, $monsterName, $enemyid, $calcValues) == - 1) {
-    		$sql_char_result = sql_query("SELECT * FROM combatEnemies c where c.playerID = $acc ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    		$sql_char_result = sql_query("SELECT * FROM combatEnemies c where c.playerid = $acc ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     		$row = mysqli_fetch_array($sql_char_result, MYSQLI_ASSOC);
     		combatLoot($conn, $acc, $row);
     		return 1;
@@ -1240,7 +1240,7 @@
     			$getHP = sql_query("select FLOOR(health * .15) as health from combatenemies where playerid = $acc order by combatEnemyID desc limit 1", $conn);
     			$HPRow = mysqli_fetch_array($getHP, MYSQLI_ASSOC);
     			$damage = $HPRow["health"];
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     			$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			doDamage($conn, $acc, $damage, $row);
     			$message = "<span style=\"color:#A5A5A5\">$monsterName takes $damage poison damage.</span>";
@@ -1250,7 +1250,7 @@
     		}
     	}
 
-    	$sql = "select sl.chance as chance from skillLevels sl inner join charSkills cs on cs.skillID = sl.skillID where cs.playerID = $acc and sl.level = cs.level and sl.skillID = 38";
+    	$sql = "select sl.chance as chance from skillLevels sl inner join charSkills cs on cs.skillID = sl.skillID where cs.playerid = $acc and sl.level = cs.level and sl.skillID = 38";
     	$sql_rows = sql_query($sql, $conn);
     	if (mysqli_num_rows($sql_rows) > 0) {
     		$chanceRow = mysqli_fetch_array($sql_rows, MYSQLI_ASSOC);
@@ -1264,7 +1264,7 @@
     				return 3;
     			}
 
-    			$sql = "SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1";
+    			$sql = "SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1";
     			$sql_get_enemy = sql_query($sql, $conn);
     			$enemyRow = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $enemyRow['enemyID'];
@@ -1351,7 +1351,7 @@
     				}
     			}
 
-    			$sql_char_result = sql_query("SELECT * FROM combatEnemies c where c.playerID = $acc ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    			$sql_char_result = sql_query("SELECT * FROM combatEnemies c where c.playerid = $acc ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     			$row = mysqli_fetch_array($sql_char_result, MYSQLI_ASSOC);
     			$HP = $row['health'];
     			if ($HP < 1) {
@@ -1366,7 +1366,7 @@
 
     function blazingAura($conn, $acc)
     {
-    	$sql = "select damage from \"character\" c inner join playerBuffs b on c.playerID = b.playerID inner join charSkills s on s.playerID = b.playerID inner join skillLevels l on l.\"level\" = s.\"level\" where c.playerID = $acc and l.skillID = 20 and s.skillID = 20 and b.buffID = 20";
+    	$sql = "select damage from \"character\" c inner join playerBuffs b on c.playerid = b.playerid inner join charSkills s on s.playerid = b.playerid inner join skillLevels l on l.\"level\" = s.\"level\" where c.playerid = $acc and l.skillID = 20 and s.skillID = 20 and b.buffID = 20";
     	$sql_rows = sql_query($sql, $conn);
     	if (mysqli_num_rows($sql_rows) > 0) {
     		$row = mysqli_fetch_array($sql_rows, MYSQLI_ASSOC);
@@ -1375,7 +1375,7 @@
     		$max = explode('-', $effect) [1];
     		$damage = ceil(rand($min, $max) * (getAttribute($conn, "calcValues", "spr", $acc) / 100 + 1));
     		$damage = ceil(resistDamage($conn, $acc, $damage, isset($element) ? $element : 'physical'));
-    		$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    		$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     		$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     		$enemyID = $row['enemyID'];
     		doDamage($conn, $acc, $damage, $row);
@@ -1400,7 +1400,7 @@
     		$max = 11;
     		$damage = ceil(rand($min, $max) * (getAttribute($conn, "calcValues", "spr", $acc) / 100 + 1));
     		$damage = ceil(resistDamage($conn, $acc, $damage, isset($element) ? $element : 'physical'));
-    		$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    		$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     		$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     		$enemyID = $row['enemyID'];
     		doDamage($conn, $acc, $damage, $row);
@@ -1432,11 +1432,11 @@
     	$sql = 'UPDATE "character" set currentTowerLevel = 1 WHERE "playerid" = ' . $acc;
     	sql_query($sql, $conn);
     	$HP = (getAttribute($conn, "calcValues", "maxhealth", $acc) / 2);
-    	$sql = 'SELECT * FROM "playerBuffs" where itemID = 116 AND playerID = ' . $acc;
+    	$sql = 'SELECT * FROM "playerBuffs" where itemID = 116 AND playerid = ' . $acc;
     	$query = sql_query($sql, $conn);
     	logAction($conn, $acc, 'death', NULL, NULL);
     	if (mysqli_num_rows($query) > 0) {
-    		$sql = 'DELETE FROM "playerBuffs" where itemID = 116 AND playerID = ' . $acc;
+    		$sql = 'DELETE FROM "playerBuffs" where itemID = 116 AND playerid = ' . $acc;
     		$query = sql_query($sql, $conn);
     		sql_query('UPDATE "character" set "hitpoints" = ' . $HP . ' WHERE "playerid" = ' . $acc, $conn);
     		sql_query('UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = ' . $acc, $conn);
@@ -1507,21 +1507,21 @@
     	); //spells.. for mana/damage bonus stuff
     	if (in_array($skillID, $spells)) {
     		$sql = "select *, floor(l.cost -  l.cost * (cv.spellReduction / 100)) as mana, l.damage as skillDamage from \"character\" c ";
-    		$sql.= "inner join charSkills cs on cs.playerID = c.playerID ";
+    		$sql.= "inner join charSkills cs on cs.playerid = c.playerid ";
     		$sql.= "inner join skillLevels l on l.skillID = cs.skillID ";
     		$sql.= "inner join skills s on l.skillID = s.\"id\" ";
-    		$sql.= "inner join calcValues cv on cv.playerID = cs.playerID ";
-    		$sql.= "where c.playerID = $acc ";
+    		$sql.= "inner join calcValues cv on cv.playerid = cs.playerid ";
+    		$sql.= "where c.playerid = $acc ";
     		$sql.= "and l.skillID = $skillID ";
     		$sql.= "and c.mana >= floor( l.cost * cv.spellReduction / 100) ";
     		$sql.= "and l.level = cs.level";
     	}
     	else {
     		$sql = "select *, l.cost as mana, l.damage as skillDamage from \"character\" c ";
-    		$sql.= "inner join charSkills cs on cs.playerID = c.playerID ";
+    		$sql.= "inner join charSkills cs on cs.playerid = c.playerid ";
     		$sql.= "inner join skillLevels l on l.skillID = cs.skillID ";
     		$sql.= "inner join skills s on l.skillID = s.\"id\" ";
-    		$sql.= "where c.playerID = $acc and l.skillID = $skillID and c.mana >= l.cost and l.level = cs.level";
+    		$sql.= "where c.playerid = $acc and l.skillID = $skillID and c.mana >= l.cost and l.level = cs.level";
     	}
 
     	$rowset = sql_query($sql, $conn);
@@ -1552,7 +1552,7 @@
     	$sql = "UPDATE \"character\" set \"mana\" = \"mana\" - " . ($skillRow['mana'] * $times) . " where playerid = " . $acc;
     	sql_query($sql, $conn);
     	if (isInCombat($conn, $acc)) {
-    		$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = $acc ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    		$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = $acc ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     		$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     		$enemyID = $row['enemyID'];
     		$enemyHP = $row['health'];
@@ -1581,7 +1581,7 @@
     			$charStats = $calcValues;
     			$hit = $charStats['hit'];
     			$element = $charStats['weapElement'];
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     			$enemyRow = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $enemyRow['enemyID'];
     			$monsterName = $enemyRow['prefix'];
@@ -1639,7 +1639,7 @@
 
     			$charStats = $calcValues;
     			$hit = $charStats['hit'];
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     			$enemyRow = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $enemyRow['enemyID'];
     			$monsterName = $enemyRow['prefix'];
@@ -1703,7 +1703,7 @@
     			}
 
     			$damage = ceil(resistDamage($conn, $acc, $damage, isset($element) ? $element : 'physical'));
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     			$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $row['enemyID'];
     			doDamage($conn, $acc, $damage, $row);
@@ -1737,7 +1737,7 @@
                     $damage = floor($damage * (($calcValues['shapelessDmg'] / 100) + 1));
                 }
     			mana($damage, $acc, $conn);
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     			$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $row['enemyID'];
     			$text = getString($conn, $skillID, "skill", "left", "cast");
@@ -1780,7 +1780,7 @@
 
     			// Entangle
 
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     			$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $row['enemyID'];
     			$stunBlock = $row['stunresist'];
@@ -1802,7 +1802,7 @@
 
     				$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#5B00FF', '')";
     				sql_query($logMessege, $conn);
-    				$sql = "INSERT INTO enemyEffects (effectName, effectRenew, effectType, playerID) values ('Entangle', $chance, 1, $acc)";
+    				$sql = "INSERT INTO enemyEffects (effectName, effectRenew, effectType, playerid) values ('Entangle', $chance, 1, $acc)";
     				sql_query($sql, $conn);
     				$attack = "INSERT INTO \"combatenemies\" ( \"enemyid\" , \"playerid\" , \"prefix\" , \"name\" , \"attack\" , \"fireres\" , \"earthres\" , \"iceres\" , \"holyres\" , \"arcaneres\" , \"physicalres\" , \"softdef\" , \"softmdef\" , \"health\" , \"exp\", \"silver\", \"hit\", \"flee\", \"level\", \"stunresist\", \"maxhealth\", \"mattack\")
                                     SELECT \"enemyid\" , \"playerid\" , \"prefix\" , \"name\" , \"attack\" , \"fireres\" , \"earthres\" , \"iceres\" , \"holyres\" , \"arcaneres\" , \"physicalres\" , \"softdef\" , \"softmdef\" , \"health\", \"exp\", \"silver\", \"hit\", \"flee\", \"level\", \"stunresist\" + 50, \"maxhealth\", \"mattack\"
@@ -1837,7 +1837,7 @@
     			$totalDmg = $damage;
     			$fireDmg = ceil(resistDamage($conn, $acc, $fireDmg, 'fire'));
     			$earthDmg = ceil(resistDamage($conn, $acc, $earthDmg, 'earth'));
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     			$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $row['enemyID'];
     			doDamage($conn, $acc, $fireDmg, $row);
@@ -1887,7 +1887,7 @@
     			}
 
     			$damage = ceil(resistDamage($conn, $acc, $damage, 'holy'));
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     			$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $row['enemyID'];
     			doDamage($conn, $acc, $damage, $row);
@@ -1936,7 +1936,7 @@
     			}
 
     			$damage = floor($effect * $enemyHP);
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     			$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $row['enemyID'];
     			doDamage($conn, $acc, $damage, $row);
@@ -1956,7 +1956,7 @@
     			$charStats = getRow($conn, "calcValues", $acc);
     			$hit = $charStats['hit'];
     			$element = $charStats['weapElement'];
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     			$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $row['enemyID'];
     			$flee = $row['flee'];
@@ -2023,7 +2023,7 @@
     			$charStats = getRow($conn, "calcValues", $acc);
     			$hit = $charStats['hit'];
     			$element = $charStats['weapElement'];
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     			$enemyRow = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $enemyRow['enemyID'];
     			$monsterName = $enemyRow['prefix'];
@@ -2068,7 +2068,7 @@
     						sql_query($logMessege, $conn);
     						$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     						sql_query($logMessege, $conn);
-    						$sql = "insert into enemyEffects (effectRenew, effectDecay, effectType, playerID) values (9900, 85, 2, $acc)";
+    						$sql = "insert into enemyEffects (effectRenew, effectDecay, effectType, playerid) values (9900, 85, 2, $acc)";
     						sql_query($sql, $conn);
     					}
     					else {
@@ -2098,7 +2098,7 @@
     			$charStats = getRow($conn, "calcValues", $acc);
     			$hit = $charStats['hit'];
     			$element = $charStats['weapElement'];
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     			$enemyRow = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $enemyRow['enemyID'];
     			$monsterName = $enemyRow['prefix'];
@@ -2143,7 +2143,7 @@
     						sql_query($logMessege, $conn);
     						$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     						sql_query($logMessege, $conn);
-    						$sql = "insert into enemyEffects (effectRenew, effectDecay, effectType, playerID) values ($duration, 5, 3, $acc)";
+    						$sql = "insert into enemyEffects (effectRenew, effectDecay, effectType, playerid) values ($duration, 5, 3, $acc)";
     						sql_query($sql, $conn);
     					}
     					else {
@@ -2180,7 +2180,7 @@
                     $damage = floor($damage * (($calcValues['shapelessDmg'] / 100) + 1));
                 }
     			$damage = resistDamage($conn, $acc, $damage, 'physical');
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     			$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $row['enemyID'];
     			doDamage($conn, $acc, $damage, $row);
@@ -2235,43 +2235,43 @@
 
     		if ($skillRow['type'] == 'Buff') {
     			setAchievement($conn, $acc, 8);
-    			$sql = "SELECT * FROM playerBuffs where buffID = $skillID and playerID = $acc";
+    			$sql = "SELECT * FROM playerBuffs where buffID = $skillID and playerid = $acc";
     			$query = sql_query($sql, $conn);
     			if (mysqli_num_rows($query) == 0) {
     				if ($skillID == 7) {
-    					$sql = "INSERT INTO playerBuffs (buffID, playerID, name, remaining, armor, image, script) values ($skillID, $acc, 'Holy Armor', 5 * $times, $effect, '" . $image . "', '" . $skillRow['script'] . "')";
+    					$sql = "INSERT INTO playerBuffs (buffID, playerid, name, remaining, armor, image, script) values ($skillID, $acc, 'Holy Armor', 5 * $times, $effect, '" . $image . "', '" . $skillRow['script'] . "')";
     					sql_query($sql, $conn);
     					return "<span style='color:green;'>Holy Armor Used! Armor enchanted for " . 5 * $times . " encounters.</span>";
     				}
 
     				if ($skillID == 24) {
-    					$sql = "INSERT INTO playerBuffs (buffID, playerID, name, remaining, armor, iceres, image, script) values ($skillID, $acc, 'Arctic Armor', $duration * $times , $effect, $chance, '" . $image . "', '" . $skillRow['script'] . "')";
+    					$sql = "INSERT INTO playerBuffs (buffID, playerid, name, remaining, armor, iceres, image, script) values ($skillID, $acc, 'Arctic Armor', $duration * $times , $effect, $chance, '" . $image . "', '" . $skillRow['script'] . "')";
     					sql_query($sql, $conn);
     					return "<span style='color:green;'>Arctic Armor Used! Armor augmented for " . $duration * $times . " encounters.</span>";
     				}
 
     				if ($skillID == 11) {
-    					$sql = "INSERT INTO playerBuffs (buffID, playerID, name, remaining, fireres, iceres, arcaneres, holyres, earthres, image, script) values ($skillID, $acc, 'Divine Protection', 5 * $times, $effect, $effect, $effect, $effect, $effect, '" . $image . "', '" . $skillRow['script'] . "')";
+    					$sql = "INSERT INTO playerBuffs (buffID, playerid, name, remaining, fireres, iceres, arcaneres, holyres, earthres, image, script) values ($skillID, $acc, 'Divine Protection', 5 * $times, $effect, $effect, $effect, $effect, $effect, '" . $image . "', '" . $skillRow['script'] . "')";
     					sql_query($sql, $conn);
     					return "<span style='color:green;'>Divine Protection Used! All resistences boosted for " . 5 * $times . " encounters.</span>";
     				}
 
     				if ($skillID == 14 || $skillID == 15 || $skillID == 16 || $skillID == 35) {
-    					$sql = "DELETE FROM playerBuffs where buffID in (14,15,16,35) and playerID = $acc";
+    					$sql = "DELETE FROM playerBuffs where buffID in (14,15,16,35) and playerid = $acc";
     					sql_query($sql, $conn);
-    					$sql = "INSERT INTO playerBuffs (buffID, playerID, name, remaining, weapElement, image, script) values ($skillID, $acc, '$element Enchantment', $duration * $times, '$spellElement', '" . $image . "', '" . $skillRow['script'] . "')";
+    					$sql = "INSERT INTO playerBuffs (buffID, playerid, name, remaining, weapElement, image, script) values ($skillID, $acc, '$element Enchantment', $duration * $times, '$spellElement', '" . $image . "', '" . $skillRow['script'] . "')";
     					sql_query($sql, $conn);
     					return "<span style='color:green;'>$element Enchantment Used! Weapon enchanted for " . $duration * $times . " encounters.</span>";
     				}
 
     				if ($skillID == 20) {
-    					$sql = "INSERT INTO playerBuffs (buffID, playerID, name, remaining, image, script) values ($skillID, $acc, 'Burning Aura', $duration * $times, '$image', '" . $skillRow['script'] . "')";
+    					$sql = "INSERT INTO playerBuffs (buffID, playerid, name, remaining, image, script) values ($skillID, $acc, 'Burning Aura', $duration * $times, '$image', '" . $skillRow['script'] . "')";
     					sql_query($sql, $conn);
     					return "<span style='color:green;'>Burning Aura Used! Armor ablaze for " . $duration * $times . " encounters!</span>";
     				}
 
     				if ($skillID == 34) {
-    					$sql = "INSERT INTO playerBuffs (buffID, playerID, name, remaining, image, script) values ($skillID, $acc, 'Find Potion', $duration * $times, '$image', '" . $skillRow['script'] . "')";
+    					$sql = "INSERT INTO playerBuffs (buffID, playerid, name, remaining, image, script) values ($skillID, $acc, 'Find Potion', $duration * $times, '$image', '" . $skillRow['script'] . "')";
     					sql_query($sql, $conn);
     					return "<span style='color:green;'>Find Potion Used! You have enhanced potion finding abilities for " . $duration * $times . " encounters!</span>";
     				}
@@ -2323,7 +2323,7 @@
     		levelUp($acc, $diff, $conn, $enemyid, $level);
     	}
     	else {
-    		$sql = "UPDATE \"character\" SET \"exp\" = \"exp\" + " . $amnt . " WHERE playerID = '" . $acc . "'";
+    		$sql = "UPDATE \"character\" SET \"exp\" = \"exp\" + " . $amnt . " WHERE playerid = '" . $acc . "'";
     		sql_query($sql, $conn);
     	}
     }
@@ -2384,7 +2384,7 @@
     	$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','', 'rgb(242,130,31)', '')";
     	sql_query($logMessege, $conn);
     	$sql = "UPDATE \"character\" SET \"level\" = \"level\" + 1, \"exp\" = " . $diff . ", \"next\" = " . $nextLevel . ", \"statPoints\" = \"statPoints\" + 4, \"skillPoints\" = \"skillPoints\" + 1, ";
-    	$sql.= " \"strength\" = \"strength\" + " . $str . ", \"dexterity\" = \"dexterity\" + " . $dex . ", \"spirit\" = \"spirit\" + " . $spr . " WHERE playerID = " . $acc;
+    	$sql.= " \"strength\" = \"strength\" + " . $str . ", \"dexterity\" = \"dexterity\" + " . $dex . ", \"spirit\" = \"spirit\" + " . $spr . " WHERE playerid = " . $acc;
     	sql_query($sql, $conn);
     	fullheal($acc, $conn);
     	fullmana($acc, $conn);
@@ -2461,7 +2461,7 @@
                 $atk = $atk * $row['damage'];
             }
         }
-    	$sql_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    	$sql_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     	$row = mysqli_fetch_array($sql_enemy, MYSQLI_ASSOC);
     	$mod = (100 - $row[strtolower($element) . 'Res']) / 100;
     	$max = ceil($max * (($atk + 10) / 80 + 1));
@@ -2526,7 +2526,7 @@
     	$x = $x / 300;
     	$minPostDex = $min + $x;
     	$damage = rand($minPostDex, $max);
-        $sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = $acc ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+        $sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = $acc ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
         $row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
         $enemyID = $row['enemyID'];
         if(in_array($enemyid, [147,148,149,150])){
@@ -2541,7 +2541,7 @@
 
     function resistDamage($conn, $acc, $damage, $element)
     {
-    	$sql_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    	$sql_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     	$row = mysqli_fetch_array($sql_enemy, MYSQLI_ASSOC);
     	if (isset($element) && $element != "") {
     		$mod = (100 - $row[strtolower($element) . 'Res']) / 100;
@@ -2572,7 +2572,7 @@
     function run($acc, $conn)
     {
     	$level = getAttribute($conn, "character", "level", $acc);
-    	$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    	$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     	$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     	$m_level = $row['level'];
     	$m_health = $row['health'];
@@ -2674,7 +2674,7 @@
     	$itemRow = getRow($conn, "item", $item);
     	if (getInventoryItem($conn, $acc, $item) > 0) {
     		removeItemAmount($conn, $acc, $item, 1, true);
-    		$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+    		$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = " . $acc . " ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
     		$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     		$enemyID = $row['enemyID'];
     		if ($itemRow['combatType'] == 3) {
@@ -2785,7 +2785,7 @@
 
     function decreaseBuff($conn, $acc)
     {
-    	$sql = 'delete from "playerBuffs" where "remaining" = 1 and playerID = ' . $acc;
+    	$sql = 'delete from "playerBuffs" where "remaining" = 1 and playerid = ' . $acc;
     	sql_query($sql, $conn);
     	$sql = 'update "playerBuffs" set \"remaining\" = \"remaining\" - 1 where \"remaining\" > 0 and \"playerid\" = ' . $acc;
     	sql_query($sql, $conn);
@@ -2793,7 +2793,7 @@
 
     function populateCombatCard($conn, $acc){
 		$playerDiff = getAttribute($conn, "character", "diff", $acc);
-		$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = ".$acc." ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
+		$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerid = ".$acc." ORDER BY \"combatEnemyID\" DESC LIMIT 1", $conn);
 		$row2 = mysqli_fetch_array($sql_get_enemy,MYSQLI_ASSOC);
 		$id= $row2['enemyID'];
 		$sql = "select * from enemies WHERE enemyID = ".$id;

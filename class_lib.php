@@ -3,7 +3,7 @@
 	require_once(__DIR__ . '/config.php');
 
 	class player{
-		var $playerID;
+		var $playerid;
 		var $locationX;
 		var $locationY;
 		var $conn;
@@ -20,19 +20,19 @@
 		function __construct($acc, $itemID) {
 
 			$this->itemID = $itemID;
-			$this->playerID = $acc;
+			$this->playerid = $acc;
 
 			$mysqli = get_db_connection();
 			$items = array();
 
-			if ($result = $mysqli->query("SELECT * from account a inner join `character` c on c.playerID = a.playerID where a.playerID = 437")) {
+			if ($result = $mysqli->query("SELECT * from account a inner join `character` c on c.playerid = a.playerid where a.playerid = 437")) {
 				while ($row = $result->fetch_object()){
 					//$this = $row;
 				}
 			}
 
 			/*
-			if ($result = $mysqli->query("SELECT i.itemID, i.count, i.used, i.archived, i.stored, name, image, value, `description`, usable, combat, quest, visible FROM inventory i inner join item t on i.itemID = t.item_ID where playerID = $acc")) {
+			if ($result = $mysqli->query("SELECT i.itemID, i.count, i.used, i.archived, i.stored, name, image, value, `description`, usable, combat, quest, visible FROM inventory i inner join item t on i.itemID = t.item_ID where playerid = $acc")) {
 				while ($row = $result->fetch_object()){
 					$items[] = $row;
 				}

@@ -41,7 +41,7 @@ function getKey($table){
         case "account":
         case "character":
         case "calcValues":
-            $table = "playerID";
+            $table = "playerid";
             break;
         case "combat":
             $table = "combatID";
@@ -71,7 +71,7 @@ function getKey($table){
             $table = "questID";
             break;
         case "equipmentbonus":
-            $table = "playerID";
+            $table = "playerid";
             break;
         case "spawnPoints":
             $table = "spawnID";
@@ -169,10 +169,10 @@ DDDDDDDDDDDDD        MMMMMMMM               MMMMMMMMLLLLLLLLLLLLLLLLLLLLLLLL
 // -- Params : $conn, $acc, $quest
 // -- Purpose : Cancels a quest based on ID
 function cancelQuest($conn, $acc, $quest){
-    $sql = "DELETE FROM questPlayerStatus WHERE \"playerID\" = ".$acc." AND \"questID\" = ".$quest;
+    $sql = "DELETE FROM questPlayerStatus WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
     sql_query($sql, $conn);
     $questRow = getRow($conn, "quests", $quest);
-    $sql = "DELETE FROM \"inventory\" WHERE \"playerID\" = ".$acc." AND \"itemID\" in (".$questRow['req1'].",".$questRow['req2'].",".$questRow['req3'].")";
+    $sql = "DELETE FROM \"inventory\" WHERE \"playerid\" = ".$acc." AND \"itemID\" in (".$questRow['req1'].",".$questRow['req2'].",".$questRow['req3'].")";
     sql_query($sql, $conn);
 }
 
@@ -180,7 +180,7 @@ function cancelQuest($conn, $acc, $quest){
 // -- Params : $conn, $acc, $quest
 // -- Purpose : Starts a quest based on ID
 function startQuest($conn, $acc, $quest){
-    $sql = "UPDATE questPlayerStatus set \"status\" = 'working' WHERE \"playerID\" = ".$acc." AND \"questID\" = ".$quest;
+    $sql = "UPDATE questPlayerStatus set \"status\" = 'working' WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
     sql_query($sql, $conn);
 
     if(mysqli_affected_rows($conn) == 0){
@@ -281,7 +281,7 @@ function getStatusBar($acc, $conn){
     $output["silver"] = $charRow["silver"];
     $output["expString"] = $charRow['exp'].' / '.$charRow['next'];
 
-    $sql = "select script, \"image\", remaining from playerBuffs where name != 'empty' and playerID in ($acc, -1) order by itemID";
+    $sql = "select script, \"image\", remaining from playerBuffs where name != 'empty' and playerid in ($acc, -1) order by itemID";
     $rowset = sql_query($sql, $conn);
     $output["buffs"] = null;
 
@@ -296,7 +296,7 @@ function getStatusBar($acc, $conn){
 // -- Purpose : Returns a json object containing all inventory items for a char
 function getInventory($acc, $conn){
     $output = array();
-    $sql = "SELECT item_id as itemid, COALESCE(count,0) as count, COALESCE(used,0) as used, COALESCE(archived,0) as archived, name, \"image\", value, usable, combat, quest, equipment, value, description, visible from item t inner join inventory i on t.item_id = i.itemid and playerID = $acc order by name";
+    $sql = "SELECT item_id as itemid, COALESCE(count,0) as count, COALESCE(used,0) as used, COALESCE(archived,0) as archived, name, \"image\", value, usable, combat, quest, equipment, value, description, visible from item t inner join inventory i on t.item_id = i.itemid and playerid = $acc order by name";
     $result = sql_query($sql, $conn);
     while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
         $output[] = $row;
@@ -391,7 +391,7 @@ function getCalcStats($acc, $conn){
 
     $block = floor($calcRow["block"]) * 100;
     if($equippedShield != 0){
-        $sql = "SELECT * FROM charSkills s inner join skillLevels l on s.skillID = l.skillID where playerID = $acc and l.level = s.level and s.skillID = 9";
+        $sql = "SELECT * FROM charSkills s inner join skillLevels l on s.skillID = l.skillID where playerid = $acc and l.level = s.level and s.skillID = 9";
         $result = sql_query($sql, $conn);
         $row = mysqli_fetch_array($result,MYSQLI_ASSOC);
         $block = $block + ($row['damage']);
@@ -403,7 +403,7 @@ function getCalcStats($acc, $conn){
 
     $calcRow['combatItems'] = getEquippedItems($acc, $conn);
 
-    unset($calcRow["playerID"]);
+    unset($calcRow["playerid"]);
     unset($calcRow["damage"]);
     unset($calcRow["maxMana"]);
     unset($calcRow["maxHealth"]);
@@ -444,7 +444,7 @@ function getEquippedItems($acc, $conn){
     while($counter != 5){
         $item = $row['item_'.$counter];
         if($item != -1){
-            $sql = "SELECT item_id as itemid, COALESCE(count,0) as count, COALESCE(used,0) as used, COALESCE(archived,0) as archived, name, image, value, usable, combat, quest, equipment, value, description, visible from item t inner join inventory i on t.item_id = i.itemid and playerID = $acc and i.itemid = $item";
+            $sql = "SELECT item_id as itemid, COALESCE(count,0) as count, COALESCE(used,0) as used, COALESCE(archived,0) as archived, name, image, value, usable, combat, quest, equipment, value, description, visible from item t inner join inventory i on t.item_id = i.itemid and playerid = $acc and i.itemid = $item";
             $result = sql_query($sql, $conn);
             $output[] = mysqli_fetch_array($result,MYSQLI_ASSOC);
         } else {
@@ -468,7 +468,7 @@ function getEquippedSkills($acc, $conn){
     while($counter != 5){
         $skill = $row['skill_'.$counter];
         if($skill != -1){
-            $sql = "select c.skillID, c.level, s.name, s.image, s.type, l.cost, l.script from charSkills c inner join skills s on c.skillID = s.\"id\" inner join skillLevels l on c.skillID = l.skillID and c.level = l.level where playerID = $acc and c.skillID = $skill";
+            $sql = "select c.skillID, c.level, s.name, s.image, s.type, l.cost, l.script from charSkills c inner join skills s on c.skillID = s.\"id\" inner join skillLevels l on c.skillID = l.skillID and c.level = l.level where playerid = $acc and c.skillID = $skill";
             $result = sql_query($sql, $conn);
             $output[] = mysqli_fetch_array($result,MYSQLI_ASSOC);
         }else{
