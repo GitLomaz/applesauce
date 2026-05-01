@@ -321,7 +321,6 @@
     	$buffmod = 10;
     	$buffmulti = 1;
     	$sql = "select sum(test) as active from (SELECT count(*) as test FROM \"playerbuffs\" a where playerid = $acc and itemID in (86,87,88,93,102,87) union SELECT count(*) as test FROM \"equipmentinventory\" b where playerid = $acc and template in (56, 63, 72) and equipped = 1) as t";
-    	error_log($sql);
 			$query = sql_query($sql, $conn);
     	$row = mysqli_fetch_array($query, MYSQLI_ASSOC);
     	if ($row["active"] > 0) {
@@ -487,6 +486,9 @@
     		$sql_get_level = "SELECT MIN(e.level) as level, c.map, c.diff FROM \"character\" c Inner join \"enemyspawns\" s on c.zone = s.zone inner join \"enemies\" e on s.enemyID = e.enemyID where c.playerid = $acc AND s.startDate < NOW() AND s.endDate > NOW() GROUP BY c.map, c.diff;";
 				$sql_result = sql_query($sql_get_level, $conn);
     		$row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC);
+				if ($row == null) {
+					return;
+				}
     		$map = $row['map'];
     		$diffMod = $row['diff'];
     		$e_level = $row['level'];
