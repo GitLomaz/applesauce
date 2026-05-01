@@ -1498,6 +1498,8 @@
 					AND ("character"."playerid" = '.$index.'))';
 			$sql = sql_query(strtolower($sql_q), $conn);
 			$row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
+			error_log(print_r($row, true));
+			error_log(print_r($attribute, true));
 			return $row[$attribute];
 		}
 	}
