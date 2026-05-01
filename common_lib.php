@@ -1489,13 +1489,13 @@
 				"equipmentBonus"."shapelessRes" AS "shapelessRes",
 				"equipmentBonus"."shapelessExpDrop" AS "shapelessExpDrop",
 				"equipmentBonus"."shapelessDmg" AS "shapelessDmg",
-				(SELECT class FROM "equipmentInventory" WHERE "playerID" = $index AND "equipped" = 1 AND ("slot" = "weapon" OR "slot" = "2hweapon") LIMIT 1) AS "weapon"
+				(SELECT class FROM "equipmentInventory" WHERE "playerID" = '.$index.' AND "equipped" = 1 AND ("slot" = "weapon" OR "slot" = "2hweapon") LIMIT 1) AS "weapon"
 			FROM
 				"character","equipmentBonus","buffsBonus"
 			WHERE
-				(("equipmentBonus"."playerID" = $index)
-					AND ("buffsBonus"."playerID" = $index)
-					AND ("character"."playerID" = $index))
+				(("equipmentBonus"."playerID" = '.$index.')
+					AND ("buffsBonus"."playerID" = '.$index.')
+					AND ("character"."playerID" = '.$index.'))
 			GROUP BY "character"."playerID", "equipmentBonus"."playerID", "buffsBonus"."playerID"';
 			$sql = sql_query($sql_q, $conn);
 			$row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
@@ -1538,7 +1538,7 @@
 		        ("equipmentBonus"."earthRes" + "buffsBonus"."earthRes") AS "earthRes",
 		        ("equipmentBonus"."arcaneRes" + "buffsBonus"."arcaneRes") AS "arcaneRes",
 		        ("equipmentBonus"."holyRes" + "buffsBonus"."holyRes") AS "holyRes",
-		        (SELECT class FROM "equipmentInventory" WHERE "playerID" = $index AND "equipped" = 1 AND ("slot" = "weapon" OR "slot" = "2hweapon") LIMIT 1) AS "weapon",
+		        (SELECT class FROM "equipmentInventory" WHERE "playerID" = '.$index.' AND "equipped" = 1 AND ("slot" = "weapon" OR "slot" = "2hweapon") LIMIT 1) AS "weapon",
 		        "character"."exp" AS "exp",
 		        "character"."next" AS "next",
 		        "character"."level" AS "level",
@@ -1561,9 +1561,9 @@
 		    FROM
 		        "character","equipmentBonus","buffsBonus"
 		    WHERE
-		        (("equipmentBonus"."playerID" = $index)
-		            AND ("buffsBonus"."playerID" = $index)
-		            AND ("character"."playerID" = $index))
+		        (("equipmentBonus"."playerID" = '.$index.')
+		            AND ("buffsBonus"."playerID" = '.$index.')
+		            AND ("character"."playerID" = '.$index.'))
 		    GROUP BY "character"."playerID", "equipmentBonus"."playerID", "buffsBonus"."playerID"';
 			$sql = sql_query($sql_q, $conn);
 			return mysqli_fetch_array($sql,MYSQLI_ASSOC);
