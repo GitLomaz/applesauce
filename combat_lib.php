@@ -484,7 +484,8 @@
     	}
     	else {
     		$sql_get_level = "SELECT MIN(e.level) as level, c.map, c.diff FROM \"character\" c Inner join \"enemyspawns\" s on c.zone = s.zone	inner join \"enemies\" e on s.enemyID = e.enemyID where c.playerid = $acc AND s.startDate < NOW() AND s.endDate > NOW() GROUP BY c.map, c.diff;";
-    		$sql_result = sql_query($sql_get_level, $conn);
+    		error_log($sql_get_level);
+				$sql_result = sql_query($sql_get_level, $conn);
     		$row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC);
     		$map = $row['map'];
     		$diffMod = $row['diff'];
