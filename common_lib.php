@@ -1731,15 +1731,12 @@
 		//  --------------------------------------------------------------------------------------------------
 		//
 		//  --------------------------------------------------------------------------------------------------
-		$row = getRow($conn, "equippedStuff", $acc);
 		$output = array();
-		
-		if($row && is_array($row)){
-			$counter = 0;
-			while($counter != 4){
-				$counter++;
-				$output[] = $row['item_'.$counter];
-			}
+		$row = getRow($conn, "equippedStuff", $acc);
+		$counter = 0;
+		while($counter != 4){
+			$counter++;
+			$output[] = $row['skill_'.$counter];
 		}
 
 		return json_encode($output);
