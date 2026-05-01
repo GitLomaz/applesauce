@@ -1271,7 +1271,7 @@
 			levelUpNoncombat($acc, $diff, $conn, $level);
 
 				if($level == 50){
-					$sql = "UPDATE "equipmentInventory" SET \"archived\" = 0 WHERE playerID = $acc";
+					$sql = "UPDATE \"equipmentInventory\" SET \"archived\" = 0 WHERE playerID = $acc";
 					sql_query($sql, $conn);
 					$sql = "UPDATE \"inventory\" SET \"count\" = \"count\" + \"archived\" WHERE playerID = $acc";
 					sql_query($sql, $conn);
@@ -1340,7 +1340,7 @@
 			return '<span style="color:red;">Transaction Failed</span>';
 		} else {
 			addItemAmount($conn, $acc, $item, $quan);
-			sql_query("UPDATE "character" set "silver"="silver" - ".$cost." where "playerID"=".$acc, $conn);
+			sql_query("UPDATE \"character\" set \"silver\"=\"silver\" - ".$cost." where \"playerID\"=".$acc, $conn);
 			return '<span style="color:green;">Transaction Successful</span>';
 		}
 
@@ -1437,7 +1437,7 @@
 	// -- Purpose : Returns arg from row of table at index in args
 	function getAttribute($conn, $table, $attribute, $index){
 		if($table != 'calcValues'){
-			$sql_q = "select "".$attribute."" from "".$table."" where "".getKey($table)."" =".$index." LIMIT 1";
+			$sql_q = "select \"".$attribute."\" from \"".$table."\" where \"".getKey($table)."\" =".$index." LIMIT 1";
 			$sql = sql_query($sql_q, $conn);
 			$row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
 			if(!$row || !is_array($row)){
@@ -1447,7 +1447,7 @@
 			$attr_lower = strtolower($attribute);
 			return $row[$attr_lower] ?? $row[$attribute] ?? null;
 		}else{
-			$sql_q = "SELECT
+			$sql_q = 'SELECT
 				"character"."playerID" AS "playerID",
 				(((((("character"."strength" + "equipmentBonus"."str") + "buffsBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) * 4) + ((("character"."dexterity" + "equipmentBonus"."dex") + FLOOR((("character"."dexterity" * "equipmentBonus"."dexPerc") / 100))) + "buffsBonus"."dex")) + ("character"."level" / 2)) AS "damage",
 				FLOOR(((((((10 + "equipmentBonus"."maxMP") + "buffsBonus"."maxMP") + ("character"."level" * 10)) + (((("character"."spirit" + "equipmentBonus"."spr") + FLOOR((("character"."spirit" * "equipmentBonus"."sprPerc") / 100))) + "buffsBonus"."spr") * 30)) + (((("character"."vitality" + "equipmentBonus"."vit") + FLOOR((("character"."vitality" * "equipmentBonus"."vitPerc") / 100))) + "buffsBonus"."vit") * 10)) * (1 + ("equipmentBonus"."manaPerc" / 100)))) AS "maxMana",
@@ -1496,7 +1496,7 @@
 				(("equipmentBonus"."playerID" = $index)
 					AND ("buffsBonus"."playerID" = $index)
 					AND ("character"."playerID" = $index))
-			GROUP BY "character"."playerID", "equipmentBonus"."playerID", "buffsBonus"."playerID"";
+			GROUP BY "character"."playerID", "equipmentBonus"."playerID", "buffsBonus"."playerID"';
 			$sql = sql_query($sql_q, $conn);
 			$row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
 			return $row[$attribute];
@@ -1512,11 +1512,11 @@
 			if($index === null || $index === '' || $index === false){
 				return null;
 			}
-			$sql_q = "select * from "".$table."" where "".getKey($table)."" =".$index." LIMIT 1";
+			$sql_q = "select * from \"".$table."\" where \"".getKey($table)."\" =".$index." LIMIT 1";
 			$sql = sql_query($sql_q, $conn);
 			return mysqli_fetch_array($sql,MYSQLI_ASSOC);
 		}else{
-			$sql_q = "SELECT
+			$sql_q = 'SELECT
 		        "character"."playerID" AS "playerID",
 		        (((((("character"."strength" + "equipmentBonus"."str") + "buffsBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) * 4) + ((("character"."dexterity" + "equipmentBonus"."dex") + FLOOR((("character"."dexterity" * "equipmentBonus"."dexPerc") / 100))) + "buffsBonus"."dex")) + ("character"."level" / 2)) AS "damage",
 		        FLOOR(((((((10 + "equipmentBonus"."maxMP") + "buffsBonus"."maxMP") + ("character"."level" * 10)) + (((("character"."spirit" + "equipmentBonus"."spr") + FLOOR((("character"."spirit" * "equipmentBonus"."sprPerc") / 100))) + "buffsBonus"."spr") * 30)) + (((("character"."vitality" + "equipmentBonus"."vit") + FLOOR((("character"."vitality" * "equipmentBonus"."vitPerc") / 100))) + "buffsBonus"."vit") * 10)) * (1 + ("equipmentBonus"."manaPerc" / 100)))) AS "maxMana",
@@ -1564,7 +1564,7 @@
 		        (("equipmentBonus"."playerID" = $index)
 		            AND ("buffsBonus"."playerID" = $index)
 		            AND ("character"."playerID" = $index))
-		    GROUP BY "character"."playerID", "equipmentBonus"."playerID", "buffsBonus"."playerID"";
+		    GROUP BY "character"."playerID", "equipmentBonus"."playerID", "buffsBonus"."playerID"';
 			$sql = sql_query($sql_q, $conn);
 			return mysqli_fetch_array($sql,MYSQLI_ASSOC);
 		}
