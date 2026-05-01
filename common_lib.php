@@ -2333,7 +2333,7 @@
 							sql_query($sql, $conn);
 						}
 					}
-					$sql = "UPDATE \"character\" SET locationX = ".$x.", locationY = ".$y.", map = '".$map."', "combatModifier" = 0 WHERE playerID = $acc LIMIT 1";
+					$sql = "UPDATE \"character\" SET locationX = ".$x.", locationY = ".$y.", map = '".$map."', \"combatModifier\" = 0 WHERE playerID = $acc LIMIT 1";
 				} else {
 					$oldX = isset($_SESSION['oldX']) ? floatval($_SESSION['oldX']) : null;
 					$oldY = isset($_SESSION['oldY']) ? floatval($_SESSION['oldY']) : null;
@@ -2361,9 +2361,9 @@
 					$debug[] = "raw_steps=" . $steps . " floored_steps=" . floor($steps);
 					$_SESSION['oldX'] = $x;
 					$_SESSION['oldY'] = $y;
-					$sql = "UPDATE \"account\" set "stepsTaken" = "stepsTaken" + ".floor($steps)." where playerID = $acc";
+					$sql = "UPDATE \"account\" set \"stepsTaken\" = \"stepsTaken\" + ".floor($steps)." where \"playerID\" = $acc";
 					sql_query($sql, $conn);
-					$sql = "UPDATE \"character\" SET locationX = ".$x.", locationY = ".$y.", "combatModifier" = "combatModifier" + 1 WHERE map = '".$map."' AND playerID = ".$acc;
+					$sql = "UPDATE \"character\" SET locationX = ".$x.", locationY = ".$y.", \"combatModifier\" = \"combatModifier\" + 1 WHERE map = '".$map."' AND playerID = ".$acc;
 				}
 
 				sql_query($sql, $conn);
@@ -2398,7 +2398,7 @@
 		if(getInventoryItem($conn, $acc, $item) > ($quan - 1)){
 			$total = $quan * floor(getAttribute($conn, "item", "value", $item)/3);
 			removeItemAmount($conn, $acc, $item, $quan, false);
-			sql_query("UPDATE "character" set "silver"="silver" + ".$total." where "playerID"=".$acc, $conn);
+			sql_query("UPDATE \"character\" set \"silver\"=\"silver\" + ".$total." where \"playerID\"=".$acc, $conn);
 			return '<span style="color:green;">Transaction Successful</span>';
 		}
 
@@ -2425,9 +2425,9 @@
 	function toSpawn($acc, $conn){
 		$row = getRow($conn, "spawnPoints", getAttribute($conn, "character", "respawn", $acc));
 		//if($row["mapName"] == "endless.php?"){
-			$sql = "UPDATE \"character\" set currentTowerLevel = 1, \"map\" = '".$row["mapName"]."', "locationX" = ".$row["telestoneX"].", locationY = ".$row["telestoneY"]." WHERE "playerID" = ".$acc;
+			$sql = "UPDATE \"character\" set currentTowerLevel = 1, \"map\" = '".$row["mapName"]."', \"locationX\" = ".$row["telestoneX"].", \"locationY\" = ".$row["telestoneY"]." WHERE \"playerID\" = ".$acc;
 		//}else{
-			//$sql = "UPDATE \"character\" set currentTowerLevel = 0, \"map\" = '".$row["mapName"]."', "locationX" = ".$row["telestoneX"].", locationY = ".$row["telestoneY"]." WHERE "playerID" = ".$acc;
+			//$sql = "UPDATE \"character\" set currentTowerLevel = 0, \"map\" = '".$row["mapName"]."', \"locationX\" = ".$row["telestoneX"].", \"locationY\" = ".$row["telestoneY"]." WHERE \"playerID\" = ".$acc;
 		//}
 		sql_query($sql, $conn);
 	}
