@@ -136,6 +136,10 @@ function convert_mysql_to_postgres($query) {
     // (handles reserved words like "index", "order", "date" etc.)
     $query = str_replace('`', '"', $query);
     
+    // PostgreSQL is case-sensitive with quoted identifiers, case-insensitive without
+    // Since all our identifiers are lowercase, we can leave them unquoted
+    // and PostgreSQL will handle them correctly
+    
     // Convert IFNULL to COALESCE
     $query = preg_replace('/IFNULL\s*\(/i', 'COALESCE(', $query);
     

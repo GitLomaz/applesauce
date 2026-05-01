@@ -113,7 +113,7 @@ function getSingleShopEquipment($conn, $id){
     $keys['critDamage'] = "Bonus Crit Modifier: ";
     $keys['blockChance'] = "Block Chance: ";
 
-    $sql = "SELECT * FROM "equipmentTemplate" WHERE "index" = ".$id;
+    $sql = "SELECT * FROM "equipmentTemplate" WHERE \"index\" = ".$id;
     $sql_rows = sql_query($sql, $conn);
     while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
         $script = "<strong>Item Name: </strong>".$row['name']."<br/><br/><strong>Item Class: </strong>";
@@ -172,7 +172,7 @@ function cancelQuest($conn, $acc, $quest){
     $sql = "DELETE FROM "questPlayerStatus" WHERE "playerID" = ".$acc." AND "questID" = ".$quest;
     sql_query($sql, $conn);
     $questRow = getRow($conn, "quests", $quest);
-    $sql = "DELETE FROM "inventory" WHERE "playerID" = ".$acc." AND "itemID" in (".$questRow['req1'].",".$questRow['req2'].",".$questRow['req3'].")";
+    $sql = "DELETE FROM \"inventory\" WHERE "playerID" = ".$acc." AND "itemID" in (".$questRow['req1'].",".$questRow['req2'].",".$questRow['req3'].")";
     sql_query($sql, $conn);
 }
 
@@ -180,11 +180,11 @@ function cancelQuest($conn, $acc, $quest){
 // -- Params : $conn, $acc, $quest
 // -- Purpose : Starts a quest based on ID
 function startQuest($conn, $acc, $quest){
-    $sql = "UPDATE "questPlayerStatus" set "status" = 'working' WHERE "playerID" = ".$acc." AND "questID" = ".$quest;
+    $sql = "UPDATE "questPlayerStatus" set \"status\" = 'working' WHERE "playerID" = ".$acc." AND "questID" = ".$quest;
     sql_query($sql, $conn);
 
     if(mysqli_affected_rows($conn) == 0){
-        $sql = "INSERT INTO "questplayerstatus" ("playerid", "questid", "status") VALUES (".$acc.",".$quest.",'working')";
+        $sql = "INSERT INTO \"questplayerstatus\" (\"playerid\", \"questid\", \"status\") VALUES (".$acc.",".$quest.",'working')";
         sql_query($sql, $conn);
     }
     $questName = getAttribute($conn, 'quests', 'name', $quest);
@@ -468,7 +468,7 @@ function getEquippedSkills($acc, $conn){
     while($counter != 5){
         $skill = $row['skill_'.$counter];
         if($skill != -1){
-            $sql = "select c.skillID, c.level, s.name, s.image, s.type, l.cost, l.script from charSkills c inner join skills s on c.skillID = s."id" inner join skillLevels l on c.skillID = l.skillID and c.level = l.level where playerID = $acc and c.skillID = $skill";
+            $sql = "select c.skillID, c.level, s.name, s.image, s.type, l.cost, l.script from charSkills c inner join skills s on c.skillID = s.\"id\" inner join skillLevels l on c.skillID = l.skillID and c.level = l.level where playerID = $acc and c.skillID = $skill";
             $result = sql_query($sql, $conn);
             $output[] = mysqli_fetch_array($result,MYSQLI_ASSOC);
         }else{
