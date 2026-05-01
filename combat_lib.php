@@ -2786,9 +2786,9 @@
 
     function decreaseBuff($conn, $acc)
     {
-    	$sql = 'delete from "playerbuffs" where "remaining" = 1 and playerid = ' . $acc;
+    	$sql = 'delete from "playerbuffs" where "remaining" = 1 and "playerid" = ' . $acc;
     	sql_query($sql, $conn);
-    	$sql = 'update "playerbuffs" set \"remaining\" = \"remaining\" - 1 where \"remaining\" > 0 and \"playerid\" = ' . $acc;
+    	$sql = 'update "playerbuffs" set "remaining" = "remaining" - 1 where "remaining" > 0 and "playerid" = ' . $acc;
     	sql_query($sql, $conn);
     }
 
