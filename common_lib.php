@@ -1485,7 +1485,7 @@
 				"equipmentBonus"."sprPerc" AS "sprPerc",
 				"equipmentBonus"."vitPerc" AS "vitPerc",
 				"equipmentBonus"."spellReduction" AS "spellReduction",
-				COALESCE("buffsBonus"."weapElement", 'physical') AS "weapElement",
+				COALESCE("buffsBonus"."weapElement", "physical") AS "weapElement",
 				"equipmentBonus"."shapelessRes" AS "shapelessRes",
 				"equipmentBonus"."shapelessExpDrop" AS "shapelessExpDrop",
 				"equipmentBonus"."shapelessDmg" AS "shapelessDmg",
@@ -1554,7 +1554,7 @@
 		        "equipmentBonus"."sprPerc" AS "sprPerc",
 		        "equipmentBonus"."vitPerc" AS "vitPerc",
 		        "equipmentBonus"."spellReduction" AS "spellReduction",
-		        COALESCE("buffsBonus"."weapElement", 'physical') AS "weapElement",
+		        COALESCE("buffsBonus"."weapElement", "physical") AS "weapElement",
 		        "equipmentBonus"."shapelessRes" AS "shapelessRes",
 		        "equipmentBonus"."shapelessExpDrop" AS "shapelessExpDrop",
 		        "equipmentBonus"."shapelessDmg" AS "shapelessDmg"
