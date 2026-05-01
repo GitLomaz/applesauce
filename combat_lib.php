@@ -529,6 +529,7 @@
     		$freq = $steps * ($diffFactor / 100) * $combatCoeff;
     		$roll = rand(0, 100);
     		if ($roll < $freq) {
+					error_log("[combat] Rolling an enemy for acc $acc. Roll: $roll, Frequency: $freq");
     			$sql = "UPDATE \"character\" SET \"combatmodifier\" = 0 WHERE \"playerid\" = " . $acc;
     			sql_query($sql, $conn);
     			$totalWeight = 0;
@@ -537,6 +538,8 @@
     			$roll = rand(0, $max);
     			$sql_get_enemies = "SELECT e.enemyid, e.name, s.weight, e.prefix, e.quest, weight FROM \"character\" c Inner join \"enemyspawns\" s on c.zone = s.zone or s.zone = 'all' inner join \"enemies\" e on s.enemyID = e.enemyID where c.playerid = $acc AND s.startdate < NOW() AND s.enddate > NOW()";
     			$sql_result = sql_query($sql_get_enemies, $conn);
+					error_log("[combat] Retrieved enemy list for acc $acc");
+					error_log(print_r(mysqli_fetch_all($sql_result, MYSQLI_ASSOC), true));
     			while ($row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC)) {
     				$totalWeight = $totalWeight + intval($row['weight']);
     				if ($totalWeight > $roll) {
@@ -627,13 +630,13 @@
         if(in_array($enemyid, [147,148,149,150])){
             $exp = floor($exp * (($calcValues['shapelessExpDrop'] / 100) + 1));
         }
-    	sql_query("UPDATE \"charKills\" set \"count\" = \"count\" + 1 WHERE \"playerid\" = $acc AND \"enemyID\" = $enemyID", $conn);
+    	sql_query("UPDATE \"charkills\" set \"count\" = \"count\" + 1 WHERE \"playerid\" = $acc AND \"enemyID\" = $enemyID", $conn);
     	if (mysqli_affected_rows($conn) == 0) {
     		$sql = 'INSERT INTO charkills (playerid, enemyID) VALUES (' . $acc . ', ' . $enemyID . ')';
     		sql_query($sql, $conn);
     	}
 
-    	$sql = "select count from charKills where enemyID = $enemyID and playerid = $acc";
+    	$sql = "select count from charkills where enemyID = $enemyID and playerid = $acc";
     	$sql_result = sql_query($sql, $conn);
     	$killsRow = mysqli_fetch_array($sql_result, MYSQLI_ASSOC);
     	$kills = $killsRow["count"];
@@ -2802,7 +2805,7 @@
 		$sql = "select * from enemies WHERE enemyID = ".$id;
 		$sql_rows = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
-			$sql = 'SELECT * from charKills WHERE \"playerid\" = '.$acc." AND \"enemyid\" = ".$row["enemyID"];
+			$sql = 'SELECT * from charkills WHERE \"playerid\" = '.$acc." AND \"enemyid\" = ".$row["enemyID"];
 			$killRow =  mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$color = '';
 			$count = $killRow['count'];

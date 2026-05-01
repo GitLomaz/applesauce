@@ -1592,7 +1592,7 @@
 			error_log("[getCalcStats] Failed to get calcValues for account $acc");
 			return json_encode(array());
 		}
-		$sql = "SELECT COALESCE(SUM(\"count\"), 0) AS count FROM charKills WHERE playerid = ".$acc;
+		$sql = "SELECT COALESCE(SUM(\"count\"), 0) AS count FROM charkills WHERE playerid = ".$acc;
 		$sql_row = sql_query($sql, $conn);
 		if($sql_row && $killRow = $sql_row->fetch()){
 			$kills = $killRow['count'] ?? 0;
@@ -2373,8 +2373,9 @@
 				if (isset($steps)){
 					$debug[] = "steps=".floor($steps);
 				}
-
+				error_log("[locationPing] Location updated successfully for acc $acc. Steps taken: " . (isset($steps) ? floor($steps) : 'N/A'));
 				if ($affected == 1 && $async != 'no'){
+					error_log("[locationPing] Checking enemy for acc $acc");
 					return chooseEnemy($acc, $steps, $conn);
 				}
 
@@ -2990,7 +2991,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-			$sql = "SELECT COALESCE(sum(count), 0) as kills FROM charKills where playerid = $acc;";
+			$sql = "SELECT COALESCE(sum(count), 0) as kills FROM charkills where playerid = $acc;";
 			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$kills = $row['kills'];
 
@@ -3005,7 +3006,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-			$sql = "SELECT COALESCE(sum(count), 0) as kills FROM charKills where playerid = $acc;";
+			$sql = "SELECT COALESCE(sum(count), 0) as kills FROM charkills where playerid = $acc;";
 			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$kills = $row['kills'];
 
@@ -3125,7 +3126,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-			$sql = "SELECT COALESCE(sum(count), 0) as kills FROM charKills where playerid = $acc;";
+			$sql = "SELECT COALESCE(sum(count), 0) as kills FROM charkills where playerid = $acc;";
 			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$kills = $row['kills'];
 

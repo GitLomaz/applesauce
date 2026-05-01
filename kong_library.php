@@ -21,7 +21,7 @@
 	}
 	function getEnemyList($conn, $acc){
 		$playerDiff = getAttribute($conn, "character", "diff", $acc);
-		$sql = "SELECT * from \"charKills\" c , \"enemies\" e inner join \"enemyspawns\" s on e.enemyID = s.enemyID WHERE (e.enemyID = c.enemyID) AND playerid = $acc";
+		$sql = "SELECT * from \"charkills\" c , \"enemies\" e inner join \"enemyspawns\" s on e.enemyID = s.enemyID WHERE (e.enemyID = c.enemyID) AND playerid = $acc";
 		$sql_rows = sql_query($sql, $conn);
 		$zones = '';
 		$enemies = '';
@@ -232,7 +232,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 		$resets = $row['count'];
 		$level = getAttribute($conn, "character", "level", $acc);
-		$sql = "SELECT COALESCE(sum(count), 0) as kills FROM charKills where playerid = $acc;";
+		$sql = "SELECT COALESCE(sum(count), 0) as kills FROM charkills where playerid = $acc;";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 		$kills = $row['kills'];
 		$steps = getAttribute($conn, "account", "stepstaken", $acc);
