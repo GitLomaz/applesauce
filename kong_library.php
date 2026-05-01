@@ -21,7 +21,7 @@
 	}
 	function getEnemyList($conn, $acc){
 		$playerDiff = getAttribute($conn, "character", "diff", $acc);
-		$sql = "SELECT * from "charKills" c , \"enemies\" e inner join "enemySpawns" s on e.enemyID = s.enemyID WHERE (e.enemyID = c.enemyID) AND playerID = $acc";
+		$sql = "SELECT * from \"charKills\" c , \"enemies\" e inner join \"enemySpawns\" s on e.enemyID = s.enemyID WHERE (e.enemyID = c.enemyID) AND playerID = $acc";
 		$sql_rows = sql_query($sql, $conn);
 		$zones = '';
 		$enemies = '';
@@ -153,19 +153,6 @@
 			}
 		}
 		return isset($output2) ? $output2 : null;
-	}
-	function mazeLogin($conn, $login, $pass){
-		$sqlLookUp = "SELECT * FROM maze_account WHERE account_number = '".strtolower($pass)."'";
-		$sqlAccount = sql_query($sqlLookUp, $conn);
-		if(mysqli_num_rows($sqlAccount) == 0){
-			$sqlCreateAccount = "INSERT INTO maze_account(account, account_number) VALUES ('".$login."','".$pass."')";
-			sql_query($sqlCreateAccount, $conn);
-			return 1;
-		}else{
-			while($row = mysqli_fetch_array($sqlAccount,MYSQLI_ASSOC)){
-				return $row['level'];
-			}
-		}
 	}
 	function kongLogin($conn, $login, $pass){
 		$sqlLookUp = "SELECT * FROM account WHERE password = '".strtolower($pass)."'";
