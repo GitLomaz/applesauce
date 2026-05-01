@@ -443,9 +443,9 @@
     				}
 
     				$exp = (0.0019 * pow($e_level + 30, 4) - 0.065 * pow($e_level + 30, 3) + 1.12 * pow($e_level + 30, 2) + 4 * $e_level + 30) / 2;
-    				$sql = "UPDATE \"character\" SET "combatModifier" = 0 WHERE playerID = " . $acc;
+    				$sql = "UPDATE \"character\" SET \"combatModifier\" = 0 WHERE playerID = " . $acc;
     				sql_query($sql, $conn);
-    				$combatRow = sql_query("SELECT * FROM "combat" WHERE "playerid" = " . $acc, $conn);
+    				$combatRow = sql_query("SELECT * FROM \"combat\" WHERE \"playerid\" = " . $acc, $conn);
     				if (mysqli_num_rows($combatRow) > 0) {
     					return;
     				}
@@ -526,7 +526,7 @@
     		$freq = $steps * ($diffFactor / 100) * $combatCoeff;
     		$roll = rand(0, 100);
     		if ($roll < $freq) {
-    			$sql = "UPDATE \"character\" SET "combatModifier" = 0 WHERE playerID = " . $acc;
+    			$sql = "UPDATE \"character\" SET \"combatModifier\" = 0 WHERE \"playerID\" = " . $acc;
     			sql_query($sql, $conn);
     			$totalWeight = 0;
     			$maxSQL = "SELECT SUM(weight) as total FROM \"character\" c Inner join \"enemySpawns\" s on c.zone = s.zone or s.zone = 'all' where c.playerID = $acc AND s.startDate < NOW() AND s.endDate > NOW()";
@@ -624,7 +624,7 @@
         if(in_array($enemyid, [147,148,149,150])){
             $exp = floor($exp * (($calcValues['shapelessExpDrop'] / 100) + 1));
         }
-    	sql_query("UPDATE charKills set "count" = "count" + 1 WHERE playerID = $acc AND enemyID = $enemyID", $conn);
+    	sql_query("UPDATE \"charKills\" set \"count\" = \"count\" + 1 WHERE \"playerID\" = $acc AND \"enemyID\" = $enemyID", $conn);
     	if (mysqli_affected_rows($conn) == 0) {
     		$sql = 'INSERT INTO charkills (playerID, enemyID) VALUES (' . $acc . ', ' . $enemyID . ')';
     		sql_query($sql, $conn);
