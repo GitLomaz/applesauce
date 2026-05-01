@@ -113,7 +113,7 @@ function getSingleShopEquipment($conn, $id){
     $keys['critDamage'] = "Bonus Crit Modifier: ";
     $keys['blockChance'] = "Block Chance: ";
 
-    $sql = "SELECT * FROM "equipmentTemplate" WHERE \"index\" = ".$id;
+    $sql = "SELECT * FROM equipmentTemplate WHERE \"index\" = ".$id;
     $sql_rows = sql_query($sql, $conn);
     while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
         $script = "<strong>Item Name: </strong>".$row['name']."<br/><br/><strong>Item Class: </strong>";
