@@ -408,7 +408,7 @@
 			$sql = "INSERT INTO \"equipmentinventory\" (\"script\", \"playerid\", \"price\", \"image\", \"name\", \"slot\", \"class\", \"basedmgmin\", \"basedmgmax\", ";
 			$sql .= "\"basearmor\", \"level\", \"str\", \"dex\", \"spr\", \"vit\", \"mindmg\", \"maxdmg\", \"armor\", \"fireres\", \"earthres\", ";
 			$sql .= "\"iceres\", \"arcaneres\", \"holyres\", \"maxhp\", \"maxmp\", \"regenhp\", \"regenmp\", \"evasion\", \"itemdrop\", \"silverdrop\", ";
-			$sql .= ""critChance", "critDamage", "blockChance", template, statString, bonusPotHeal, bonusPotMana, expDrop, healthPerc, manaPerc, strPerc, vitPerc, dexPerc, sprPerc, spellReduction) VALUES ('".$row['script']."', ".$acc.", ".$row['price'].", '".$row['image']."', '".$row['name']."', '".$row['slot']."', '".$row['class']."', ";
+			$sql .= "\"critChance\", \"critDamage\", \"blockChance\", \"template\", \"statString\", \"bonusPotHeal\", \"bonusPotMana\", \"expDrop\", \"healthPerc\", \"manaPerc\", \"strPerc\", \"vitPerc\", \"dexPerc\", \"sprPerc\", \"spellReduction\") VALUES ('".$row['script']."', ".$acc.", ".$row['price'].", '".$row['image']."', '".$row['name']."', '".$row['slot']."', '".$row['class']."', ";
 			$sql .= $row['baseDmgMin'].", ".$row['baseDmgMax'].", ".$row['baseArmor'].", ".$row['level'].", ".$row['str'].", ".$row['dex'].", ".$row['spr'].", ";
 			$sql .= $row['vit'].", ".$row['minDmg'].", ".$row['maxDmg'].", ".$row['armor'].", ".$row['fireRes'].", ".$row['earthRes'].", ".$row['iceRes'].", ";
 			$sql .= $row['arcaneRes'].", ".$row['holyRes'].", ".$row['maxHP'].", ".$row['maxMP'].", ".$row['regenHP'].", ".$row['regenMP'].", ".$row['evasion'].", ";
