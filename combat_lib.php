@@ -1425,31 +1425,31 @@
     function combatDeath($conn, $acc)
     {
     	toSpawn($acc, $conn);
-    	sql_query("DELETE FROM "combat" WHERE "playerid" = " . $acc, $conn);
-    	sql_query("DELETE FROM "enemyEffects" WHERE "playerid" = " . $acc, $conn);
-    	sql_query("DELETE FROM "combatEnemies" WHERE "playerid" = " . $acc, $conn);
-    	sql_query("DELETE FROM "enemySkillCooldown" WHERE "playerid" = " . $acc, $conn);
-    	$sql = "UPDATE \"character\" set currentTowerLevel = 1 WHERE \"playerid\" = " . $acc;
+    	sql_query('DELETE FROM "combat" WHERE "playerid" = ' . $acc, $conn);
+    	sql_query('DELETE FROM "enemyEffects" WHERE "playerid" = ' . $acc, $conn);
+    	sql_query('DELETE FROM "combatEnemies" WHERE "playerid" = ' . $acc, $conn);
+    	sql_query('DELETE FROM "enemySkillCooldown" WHERE "playerid" = ' . $acc, $conn);
+    	$sql = 'UPDATE "character" set currentTowerLevel = 1 WHERE "playerid" = ' . $acc;
     	sql_query($sql, $conn);
     	$HP = (getAttribute($conn, "calcValues", "maxhealth", $acc) / 2);
-    	$sql = "SELECT * FROM "playerBuffs" where itemID = 116 AND playerID = $acc";
+    	$sql = 'SELECT * FROM "playerBuffs" where itemID = 116 AND playerID = ' . $acc;
     	$query = sql_query($sql, $conn);
     	logAction($conn, $acc, 'death', NULL, NULL);
     	if (mysqli_num_rows($query) > 0) {
-    		$sql = "DELETE FROM "playerBuffs" where itemID = 116 AND playerID = $acc";
+    		$sql = 'DELETE FROM "playerBuffs" where itemID = 116 AND playerID = ' . $acc;
     		$query = sql_query($sql, $conn);
-    		sql_query("UPDATE "character" set "hitpoints" = " . $HP . " WHERE "playerid" = " . $acc, $conn);
-    		sql_query("UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = " . $acc, $conn);
+    		sql_query('UPDATE "character" set "hitpoints" = ' . $HP . ' WHERE "playerid" = ' . $acc, $conn);
+    		sql_query('UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = ' . $acc, $conn);
     	}
     	else {
-    		$sql = "SELECT * FROM \"equipmentInventory\" where \"template\" in (93, 102, 87) AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
+    		$sql = 'SELECT * FROM "equipmentInventory" where "template" in (93, 102, 87) AND "equipped" = 1 AND "playerid" = ' . $acc . ' LIMIT 1';
     		$query = sql_query($sql, $conn);
     		if (mysqli_num_rows($query) == 1) {
 
 
-                sql_query("UPDATE "character" set "hitpoints" = " . $HP . " WHERE "playerid" = " . $acc, $conn);
-    			sql_query("UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = " . $acc, $conn);
-    			sql_query("DELETE FROM "playerBuffs" where "remaining" > 0 AND "playerid" = $acc and itemID != -2", $conn);
+                sql_query('UPDATE "character" set "hitpoints" = ' . $HP . ' WHERE "playerid" = ' . $acc, $conn);
+    			sql_query('UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = ' . $acc, $conn);
+    			sql_query('DELETE FROM "playerBuffs" where "remaining" > 0 AND "playerid" = ' . $acc . ' and itemID != -2', $conn);
 
             }else{
 
@@ -1464,9 +1464,9 @@
                         $XP = 0;
                     }
 
-                    sql_query("UPDATE "character" set "hitpoints" = " . $HP . ", exp = $XP WHERE "playerid" = " . $acc, $conn);
-                    sql_query("UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = " . $acc, $conn);
-                    sql_query("DELETE FROM "playerBuffs" where "remaining" > 0 AND "playerid" = $acc and itemID != -2", $conn);
+                    sql_query('UPDATE "character" set "hitpoints" = ' . $HP . ', exp = ' . $XP . ' WHERE "playerid" = ' . $acc, $conn);
+                    sql_query('UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = ' . $acc, $conn);
+                    sql_query('DELETE FROM "playerBuffs" where "remaining" > 0 AND "playerid" = ' . $acc . ' and itemID != -2', $conn);
 
                 } else {
 
@@ -1478,9 +1478,9 @@
         				$XP = 0;
         			}
 
-        			sql_query("UPDATE "character" set "hitpoints" = " . $HP . ", exp = $XP WHERE "playerid" = " . $acc, $conn);
-        			sql_query("UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = " . $acc, $conn);
-        			sql_query("DELETE FROM "playerBuffs" where "remaining" > 0 AND "playerid" = $acc and itemID != -2", $conn);
+        			sql_query('UPDATE "character" set "hitpoints" = ' . $HP . ', exp = ' . $XP . ' WHERE "playerid" = ' . $acc, $conn);
+        			sql_query('UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = ' . $acc, $conn);
+        			sql_query('DELETE FROM "playerBuffs" where "remaining" > 0 AND "playerid" = ' . $acc . ' and itemID != -2', $conn);
 
                 }
             }
