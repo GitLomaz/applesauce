@@ -456,7 +456,7 @@
     				sql_query($initCombat, $conn);
     				$roll = rand(0, 10000);
     				if ($roll < 200) {
-    					$sql = "SELECT * FROM monsterModLookup where enemyid = $enemyid and chance = 1 ORDER BY RAND() LIMIT 1";
+    					$sql = "SELECT * FROM monsterModLookup where enemyid = $enemyid and chance = 1 ORDER BY random() LIMIT 1";
     					$sql_result = sql_query($sql, $conn);
     					while ($row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC)) {
     						$sql = "update combatenemies c, monsterMods m set c.prefix = '', c.name = concat_ws(' ', m.openTag, m.prefix, c.name, m.suffix, m.closeTag)";
@@ -466,7 +466,7 @@
     				}
     				else
     				if ($roll < 1500) {
-    					$sql = "SELECT * FROM monsterModLookup where enemyid = $enemyid and chance = 15 ORDER BY RAND() LIMIT 1";
+    					$sql = "SELECT * FROM monsterModLookup where enemyid = $enemyid and chance = 15 ORDER BY random() LIMIT 1";
     					$sql_result = sql_query($sql, $conn);
     					while ($row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC)) {
     						$sql = "update combatenemies c, monsterMods m set c.name = concat_ws(' ', m.openTag, m.prefix, c.name, m.suffix, m.closeTag)";
@@ -569,7 +569,7 @@
     						sql_query($initCombat, $conn);
     						$roll = rand(0, 10000);
     						if ($roll < 200) {
-    							$sql = "SELECT * FROM monsterModLookup where enemyid = " . $row['enemyid'] . " and chance = 1 ORDER BY RAND() LIMIT 1";
+    							$sql = "SELECT * FROM monsterModLookup where enemyid = " . $row['enemyid'] . " and chance = 1 ORDER BY random() LIMIT 1";
     							$sql_result = sql_query($sql, $conn);
     							while ($row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC)) {
     								$sql = "update combatenemies c, monsterMods m set c.prefix = '', c.name = concat_ws(' ', m.openTag, m.prefix, c.name, m.suffix, m.closeTag)";
@@ -579,7 +579,7 @@
     						}
     						else
     						if ($roll < 1500) {
-    							$sql = "SELECT * FROM monsterModLookup where enemyid in (-1 , " . $row['enemyid'] . ") and chance = 15 ORDER BY RAND() LIMIT 1";
+    							$sql = "SELECT * FROM monsterModLookup where enemyid in (-1 , " . $row['enemyid'] . ") and chance = 15 ORDER BY random() LIMIT 1";
     							$sql_result = sql_query($sql, $conn);
     							while ($row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC)) {
     								$sql = "update combatenemies c, monsterMods m set c.name = concat_ws(' ', m.openTag, m.prefix, c.name, m.suffix, m.closeTag)";
@@ -823,7 +823,7 @@
     				$enemyLevel = 62;
     			}
 
-    			$sql = "select itemid, name from findPotion fp inner join item i on fp.itemid = i.item_id where fp.enemyLevel = $enemyLevel ORDER BY RAND()";
+    			$sql = "select itemid, name from findPotion fp inner join item i on fp.itemid = i.item_id where fp.enemyLevel = $enemyLevel ORDER BY random()";
     			$query = sql_query($sql, $conn);
     			$itemRow = mysqli_fetch_array($query, MYSQLI_ASSOC);
     			$message = "You found 1 " . $itemRow['name'] . " on the ground!";
@@ -912,11 +912,11 @@
         				inner join strings st on st.forKey = mSkillID
         				where e.enemyid = $enemyid
         					and eSkillID not in (select distinct skillID from enemySkillCooldown where playerid = $acc)
-        					and chance > FLOOR(RAND()*(100))
+        					and chance > FLOOR(random()*(100))
         					and maxHP >= CEIL($HP / maxhealth * 100)
         					and st.c1 ='enemySkill'
         					and e.playerid = $acc
-        				order by rand() limit 1";
+        				order by random() limit 1";
     		$skillRow = sql_query($skillSQL, $conn);
     		if (mysqli_num_rows($skillRow) > 0) {
     			$enemySkill = mysqli_fetch_array($skillRow, MYSQLI_ASSOC);
