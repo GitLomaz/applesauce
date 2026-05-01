@@ -323,15 +323,12 @@
     	$sql = "select sum(test) as active from (SELECT count(*) as test FROM \"playerbuffs\" a where playerid = $acc and itemid in (86,87,88,93,102,87) union SELECT count(*) as test FROM \"equipmentinventory\" b where playerid = $acc and template in (56, 63, 72) and equipped = 1) as t";
 			$query = sql_query($sql, $conn);
     	$row = mysqli_fetch_array($query, MYSQLI_ASSOC);
-			error_log(print_r($row, true));
     	if ($row["active"] > 0) {
     		$buffmod = 3;
     		$buffmulti = 100;
     	}
-			error_log(1);
 			$charRow = getRow($conn, "character", $acc);
     	$zone = $charRow['zone'];
-			error_log(2);
     	if (strpos($zone, 'Kal-Rul Tower') !== false) {
 
     		if (($charRow['currenttowerlevel'] - 1) % 10 == 0) {
@@ -486,11 +483,9 @@
     	}
     	else {
     		$sql_get_level = "SELECT MIN(e.level) as level, c.map, c.diff FROM \"character\" c Inner join \"enemyspawns\" s on c.zone = s.zone inner join \"enemies\" e on s.enemyID = e.enemyID where c.playerid = $acc AND s.startdate < NOW() AND s.enddate > NOW() GROUP BY c.map, c.diff;";
-				error_log($sql_get_level);
 				$sql_result = sql_query($sql_get_level, $conn);
     		$row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC);
 				if ($row == null) {
-					error_log("No enemy spawns found for acc $acc with query: $sql_get_level");
 					return;
 				}
     		$map = $row['map'];
@@ -504,7 +499,6 @@
     		if ($row['combatmodifier'] < $buffmod) {
     			return 'modifier: ' . $row['combatmodifier'];
     		}
-				error_log("Combat modifier for acc $acc: " . $row['combatmodifier']);
     		$combatCoeff = $row['combatmodifier'] / 15;
     		$combatCoeff = $combatCoeff * $buffmulti;
     		$level = $row['level'];
@@ -532,9 +526,7 @@
     		$steps = $steps * 2.5;
     		$freq = $steps * ($diffFactor / 100) * $combatCoeff;
     		$roll = rand(0, 100);
-				error_log("Rolling for enemy encounter for acc $acc. Steps: $steps, DiffFactor: $diffFactor, CombatCoeff: $combatCoeff, Frequency: $freq, Roll: $roll");
     		if ($roll < $freq) {
-					error_log("[combat] Rolling an enemy for acc $acc. Roll: $roll, Frequency: $freq");
     			$sql = "UPDATE \"character\" SET \"combatmodifier\" = 0 WHERE \"playerid\" = " . $acc;
     			sql_query($sql, $conn);
     			$totalWeight = 0;
@@ -543,8 +535,6 @@
     			$roll = rand(0, $max);
     			$sql_get_enemies = "SELECT e.enemyid, e.name, s.weight, e.prefix, e.quest, weight FROM \"character\" c Inner join \"enemyspawns\" s on c.zone = s.zone or s.zone = 'all' inner join \"enemies\" e on s.enemyID = e.enemyID where c.playerid = $acc AND s.startdate < NOW() AND s.enddate > NOW()";
     			$sql_result = sql_query($sql_get_enemies, $conn);
-					error_log("[combat] Retrieved enemy list for acc $acc");
-					error_log(print_r(mysqli_fetch_all($sql_result, MYSQLI_ASSOC), true));
     			while ($row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC)) {
     				$totalWeight = $totalWeight + intval($row['weight']);
     				if ($totalWeight > $roll) {
