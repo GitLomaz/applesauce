@@ -482,8 +482,8 @@
 		$sql = "INSERT INTO \"equipmentinventory\" (\"script\", \"playerid\", \"price\", \"image\", \"name\", \"slot\", \"class\", \"basedmgmin\", \"basedmgmax\", ";
 		$sql .= "\"basearmor\", \"level\", \"str\", \"dex\", \"spr\", \"vit\", \"mindmg\", \"maxdmg\", \"armor\", \"fireres\", \"earthres\", ";
 		$sql .= "\"iceres\", \"arcaneres\", \"holyres\", \"maxhp\", \"maxmp\", \"regenhp\", \"regenmp\", \"evasion\", \"itemdrop\", \"silverdrop\", ";
-		$sql .= ""critChance", "critDamage", "blockChance", template, statString, bonusPotHeal, bonusPotMana, expDrop, healthPerc, ";
-		$sql .= "manaPerc, strPerc, vitPerc, dexPerc, sprPerc, spellReduction, shapelessRes, shapelessExpDrop, shapelessDmg) VALUES ('";
+		$sql .= "\"critChance\", \"critDamage\", \"blockChance\", \"template\", \"statString\", \"bonusPotHeal\", \"bonusPotMana\", \"expDrop\", \"healthPerc\", ";
+		$sql .= "\"manaPerc\", \"strPerc\", \"vitPerc\", \"dexPerc\", \"sprPerc\", \"spellReduction\", \"shapelessRes\", \"shapelessExpDrop\", \"shapelessDmg\") VALUES ('";
 		$sql .= $row['script']."', ".$acc.", ".$row['price'].", '".$row['image']."', '".$row['name']."', '".$row['slot']."', '".$row['class']."', ";
 		$sql .= $row['baseDmgMin'].", ".$row['baseDmgMax'].", ".$row['baseArmor'].", ".$row['level'].", ".$row['str'].", ".$row['dex'].", ".$row['spr'].", ";
 		$sql .= $row['vit'].", ".$row['minDmg'].", ".$row['maxDmg'].", ".$row['armor'].", ".$row['fireRes'].", ".$row['earthRes'].", ".$row['iceRes'].", ";
@@ -519,13 +519,13 @@
 			if($cost > $silver && $payReqd){
 				return '<span style="color:red;">Transaction Failed</span>';
 			} else {
-				sql_query("UPDATE "character" set "silver"="silver" - ".$cost." where "playerID"=".$acc, $conn);
+				sql_query("UPDATE \"character\" set \"silver\"=\"silver\" - ".$cost." where \"playerID\"=".$acc, $conn);
 				$row['price'] = $row['price'] / 3;
 				// Use null coalescing operator to provide defaults for missing/NULL columns
 				$sql = "INSERT INTO \"equipmentinventory\" (\"script\", \"playerid\", \"price\", \"image\", \"name\", \"slot\", \"class\", \"basedmgmin\", \"basedmgmax\", ";
 				$sql .= "\"basearmor\", \"level\", \"str\", \"dex\", \"spr\", \"vit\", \"mindmg\", \"maxdmg\", \"armor\", \"fireres\", \"earthres\", ";
 				$sql .= "\"iceres\", \"arcaneres\", \"holyres\", \"maxhp\", \"maxmp\", \"regenhp\", \"regenmp\", \"evasion\", \"itemdrop\", \"silverdrop\", ";
-				$sql .= ""critChance", "critDamage", "blockChance", template, statString, bonusPotHeal,  bonusPotMana, expDrop, healthPerc, manaPerc, strPerc, vitPerc, dexPerc, sprPerc, spellReduction) VALUES ('".(($row['script'] ?? ''))."', ".$acc.", ".$row['price'].", '".(($row['image'] ?? ''))."', '".(($row['name'] ?? ''))."', '".(($row['slot'] ?? ''))."', '".(($row['class'] ?? ''))."', ";
+				$sql .= "\"critChance\", \"critDamage\", \"blockChance\", \"template\", \"statString\", \"bonusPotHeal\",  \"bonusPotMana\", \"expDrop\", \"healthPerc\", \"manaPerc\", \"strPerc\", \"vitPerc\", \"dexPerc\", \"sprPerc\", \"spellReduction\") VALUES ('".(($row['script'] ?? ''))."', ".$acc.", ".$row['price'].", '".(($row['image'] ?? ''))."', '".(($row['name'] ?? ''))."', '".(($row['slot'] ?? ''))."', '".(($row['class'] ?? ''))."', ";
 				$sql .= ($row['basedmgmin'] ?? 0).", ".($row['basedmgmax'] ?? 0).", ".($row['basearmor'] ?? 0).", ".($row['level'] ?? 0).", ".($row['str'] ?? 0).", ".($row['dex'] ?? 0).", ".($row['spr'] ?? 0).", ";
 				$sql .= ($row['vit'] ?? 0).", ".($row['mindmg'] ?? 0).", ".($row['maxdmg'] ?? 0).", ".($row['armor'] ?? 0).", ".($row['fireres'] ?? 0).", ".($row['earthres'] ?? 0).", ".($row['iceres'] ?? 0).", ";
 				$sql .= ($row['arcaneres'] ?? 0).", ".($row['holyres'] ?? 0).", ".($row['maxhp'] ?? 0).", ".($row['maxmp'] ?? 0).", ".($row['regenhp'] ?? 0).", ".($row['regenmp'] ?? 0).", ".($row['evasion'] ?? 0).", ";
@@ -556,9 +556,9 @@
 			$cost = $row['price'];
 
 			if(($acc ==  $row['playerID']) && ($row['equipped'] == 0)){
-				$sql = "DELETE FROM "equipmentInventory" WHERE \"index\" = ".$item;
+				$sql = "DELETE FROM \"equipmentInventory\" WHERE \"index\" = ".$item;
 				sql_query($sql, $conn);
-				sql_query("UPDATE "character" set "silver"="silver" + ".$cost." where "playerID"=".$acc, $conn);
+				sql_query("UPDATE \"character\" set \"silver\"=\"silver\" + ".$cost." where \"playerID\"=".$acc, $conn);
 			}
 
 			$counter++;
