@@ -835,7 +835,7 @@
 
     	$sql = "UPDATE \"character\" SET \"silver\" = \"silver\" + $silver, \"combatmodifier\" = 0 WHERE playerid = $acc";
     	sql_query($sql, $conn);
-    	sql_query("DELETE FROM \"enemySkillCooldown\" WHERE \"playerid\" = " . $acc, $conn);
+    	sql_query("DELETE FROM \"enemyskillcooldown\" WHERE \"playerid\" = " . $acc, $conn);
     }
 
     // -- Function Name : enemyAttack
@@ -865,7 +865,7 @@
     		$monsterName = "The ";
     	}
 
-    	$sql_eff_result = sql_query("SELECT effectDecay FROM enemyEffects where playerid = $acc and effectType = 2", $conn);
+    	$sql_eff_result = sql_query("SELECT effectDecay FROM enemyeffects where playerid = $acc and effectType = 2", $conn);
     	if (mysqli_num_rows($sql_eff_result) > 0) {
     		$effrow = mysqli_fetch_array($sql_eff_result, MYSQLI_ASSOC);
     		$hit = $hit * (isset($effrow['effectDecay']) ? $effrow['effectDecay'] : 100) / 100;
@@ -877,7 +877,7 @@
     		return 1;
     	}
 
-    	if (enemyEffects($conn, $acc, $monsterName, $enemyid) == 0) {
+    	if (enemyeffects($conn, $acc, $monsterName, $enemyid) == 0) {
     		$row = $calcValues;
     		$vit = $row['vit'];
     		$armor = $row['armor'];
@@ -911,7 +911,7 @@
         				inner join monsterSkills m on mskillID = s.eSkillID
         				inner join strings st on st.forKey = mSkillID
         				where e.enemyid = $enemyid
-        					and eSkillID not in (select distinct skillID from enemySkillCooldown where playerid = $acc)
+        					and eSkillID not in (select distinct skillID from enemyskillcooldown where playerid = $acc)
         					and chance > FLOOR(random()*(100))
         					and maxHP >= CEIL($HP / maxhealth * 100)
         					and st.c1 ='enemySkill'
@@ -922,7 +922,7 @@
     			$enemySkill = mysqli_fetch_array($skillRow, MYSQLI_ASSOC);
     			$enemySkillID = $enemySkill['skillid'];
     			$cooldown = $enemySkill['cooldown'];
-    			sql_query("insert into enemySkillCooldown (enemyid, skillID, cooldown, playerid) values ($enemyid, $enemySkillID, $cooldown, $acc)", $conn);
+    			sql_query("insert into enemyskillcooldown (enemyid, skillID, cooldown, playerid) values ($enemyid, $enemySkillID, $cooldown, $acc)", $conn);
     			$text = $enemySkill['text'];
     			$message = "<span style=\"color:#A5A5A5\">" . str_replace('[enemy]', $monsterName, $text) . "</span>";
     			$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyid . ",'RIGHT','" . $message . "')";
@@ -1190,20 +1190,20 @@
     	sql_query($logMessege, $conn);
     }
 
-    function enemyEffects($conn, $acc, $monsterName, $enemyid)
+    function enemyeffects($conn, $acc, $monsterName, $enemyid)
     {
     	$return = 0;
-    	$getEffect = sql_query("SELECT * FROM enemyEffects where playerid = $acc", $conn);
+    	$getEffect = sql_query("SELECT * FROM enemyeffects where playerid = $acc", $conn);
     	while ($row = mysqli_fetch_array($getEffect, MYSQLI_ASSOC)) {
     		$renew = $row["effectRenew"] - 100;
     		$expire = false;
     		$ID = $row["effectID"];
     		if ($renew < 1) {
-    			$sql = "DELETE FROM enemyEffects where effectID = $ID";
+    			$sql = "DELETE FROM enemyeffects where effectID = $ID";
     			$expire = true;
     		}
     		else {
-    			$sql = "UPDATE enemyEffects SET effectRenew = effectRenew - 100 where effectID = $ID";
+    			$sql = "UPDATE enemyeffects SET effectRenew = effectRenew - 100 where effectID = $ID";
     		}
 
     		sql_query($sql, $conn);
@@ -1232,10 +1232,10 @@
 
     function enemyAfterEffects($conn, $acc, $monsterName, $enemyid, $calcValues)
     {
-    	sql_query("update enemySkillCooldown set cooldown = cooldown - 1 where playerid = $acc", $conn);
-    	sql_query("delete from enemySkillCooldown where cooldown = 0", $conn);
+    	sql_query("update enemyskillcooldown set cooldown = cooldown - 1 where playerid = $acc", $conn);
+    	sql_query("delete from enemyskillcooldown where cooldown = 0", $conn);
     	$return = 0;
-    	$getEffect = sql_query("SELECT * FROM enemyEffects where playerid = $acc", $conn);
+    	$getEffect = sql_query("SELECT * FROM enemyeffects where playerid = $acc", $conn);
     	while ($row = mysqli_fetch_array($getEffect, MYSQLI_ASSOC)) {
     		if ($row["effectType"] == 3) {
     			$getHP = sql_query("select FLOOR(health * .15) as health from combatenemies where playerid = $acc order by combatenemyid desc limit 1", $conn);
@@ -1427,9 +1427,9 @@
     {
     	toSpawn($acc, $conn);
     	sql_query('DELETE FROM "combat" WHERE "playerid" = ' . $acc, $conn);
-    	sql_query('DELETE FROM "enemyEffects" WHERE "playerid" = ' . $acc, $conn);
+    	sql_query('DELETE FROM "enemyeffects" WHERE "playerid" = ' . $acc, $conn);
     	sql_query('DELETE FROM "combatenemies" WHERE "playerid" = ' . $acc, $conn);
-    	sql_query('DELETE FROM "enemySkillCooldown" WHERE "playerid" = ' . $acc, $conn);
+    	sql_query('DELETE FROM "enemyskillcooldown" WHERE "playerid" = ' . $acc, $conn);
     	$sql = 'UPDATE "character" set currenttowerlevel = 1 WHERE "playerid" = ' . $acc;
     	sql_query($sql, $conn);
     	$HP = (getAttribute($conn, "calcValues", "maxhealth", $acc) / 2);
@@ -1803,7 +1803,7 @@
 
     				$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyid . ",'RIGHT','" . $text . "', '#5B00FF', '')";
     				sql_query($logMessege, $conn);
-    				$sql = "INSERT INTO enemyEffects (effectName, effectRenew, effectType, playerid) values ('Entangle', $chance, 1, $acc)";
+    				$sql = "INSERT INTO enemyeffects (effectName, effectRenew, effectType, playerid) values ('Entangle', $chance, 1, $acc)";
     				sql_query($sql, $conn);
     				$attack = "INSERT INTO \"combatenemies\" ( \"enemyid\" , \"playerid\" , \"prefix\" , \"name\" , \"attack\" , \"fireres\" , \"earthres\" , \"iceres\" , \"holyres\" , \"arcaneres\" , \"physicalres\" , \"softdef\" , \"softmdef\" , \"health\" , \"exp\", \"silver\", \"hit\", \"flee\", \"level\", \"stunresist\", \"maxhealth\", \"mattack\")
                                     SELECT \"enemyid\" , \"playerid\" , \"prefix\" , \"name\" , \"attack\" , \"fireres\" , \"earthres\" , \"iceres\" , \"holyres\" , \"arcaneres\" , \"physicalres\" , \"softdef\" , \"softmdef\" , \"health\", \"exp\", \"silver\", \"hit\", \"flee\", \"level\", \"stunresist\" + 50, \"maxhealth\", \"mattack\"
@@ -2053,7 +2053,7 @@
     				$text = str_replace('[enemy]', $monsterName, $text);
     				$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyid . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
     				sql_query($logMessege, $conn);
-    				$sql = "select * from enemyEffects where playerid = $acc and effectType = 2";
+    				$sql = "select * from enemyeffects where playerid = $acc and effectType = 2";
     				$query = sql_query($sql, $conn);
     				if (mysqli_num_rows($query) == 0) {
     					$sql = "SELECT * FROM \"equipmentinventory\" where \"template\" = 73 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
@@ -2069,7 +2069,7 @@
     						sql_query($logMessege, $conn);
     						$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyid . ",'LEFT','<br/>', '#E00101', ' ')";
     						sql_query($logMessege, $conn);
-    						$sql = "insert into enemyEffects (effectRenew, effectDecay, effectType, playerid) values (9900, 85, 2, $acc)";
+    						$sql = "insert into enemyeffects (effectRenew, effectDecay, effectType, playerid) values (9900, 85, 2, $acc)";
     						sql_query($sql, $conn);
     					}
     					else {
@@ -2128,7 +2128,7 @@
     				$text = str_replace('[enemy]', $monsterName, $text);
     				$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyid . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
     				sql_query($logMessege, $conn);
-    				$sql = "select * from enemyEffects where playerid = $acc and effectType = 2";
+    				$sql = "select * from enemyeffects where playerid = $acc and effectType = 2";
     				$query = sql_query($sql, $conn);
     				if (mysqli_num_rows($query) == 0) {
     					$sql = "SELECT * FROM \"equipmentinventory\" where \"template\" = 73 AND \"equipped\" = 1 AND \"playerid\" = $acc LIMIT 1";
@@ -2144,7 +2144,7 @@
     						sql_query($logMessege, $conn);
     						$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyid . ",'LEFT','<br/>', '#E00101', ' ')";
     						sql_query($logMessege, $conn);
-    						$sql = "insert into enemyEffects (effectRenew, effectDecay, effectType, playerid) values ($duration, 5, 3, $acc)";
+    						$sql = "insert into enemyeffects (effectRenew, effectDecay, effectType, playerid) values ($duration, 5, 3, $acc)";
     						sql_query($sql, $conn);
     					}
     					else {
@@ -2595,7 +2595,7 @@
     		// RUN AWAY
 
     		logAction($conn, $acc, 'run', $m_name, NULL);
-    		sql_query('DELETE FROM "enemySkillCooldown" WHERE "playerid" = ' . $acc, $conn);
+    		sql_query('DELETE FROM "enemyskillcooldown" WHERE "playerid" = ' . $acc, $conn);
     		return 2;
     	}
     	else {

@@ -112,11 +112,11 @@
 						decreaseBuff($conn, $account);
 						sql_query("DELETE FROM \"combat\" WHERE \"playerid\" = ".$account, $conn);
 						sql_query("DELETE FROM \"combatenemies\" WHERE \"playerid\" = ".$account, $conn);
-						sql_query("DELETE FROM \"enemyEffects\" WHERE \"playerid\" = ".$account, $conn);
+						sql_query("DELETE FROM \"enemyeffects\" WHERE \"playerid\" = ".$account, $conn);
 					}else if($output["combatStatus2"] == 3){
 						sql_query("DELETE FROM \"combat\" WHERE \"playerid\" = ".$account, $conn);
 						sql_query("DELETE FROM \"combatenemies\" WHERE \"playerid\" = ".$account, $conn);
-						sql_query("DELETE FROM \"enemyEffects\" WHERE \"playerid\" = ".$account, $conn);
+						sql_query("DELETE FROM \"enemyeffects\" WHERE \"playerid\" = ".$account, $conn);
 						combatDeath($conn, $account);
 					}
 					$output["timer"][] = (11 . " --- " . (microtime(true) - $time_start));
