@@ -3295,7 +3295,7 @@
 	// -- Purpose : gets quest details for log
 	function getQuestForLog($conn, $acc, $questID, $complete){
 
-		$sql = "SELECT * FROM \"quests\" WHERE  "questID" = ".$questID;
+		$sql = "SELECT * FROM \"quests\" WHERE  \"questID\" = ".$questID;
 		$sql_rows = sql_query($sql, $conn);
 		while($questList = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 			//Cycles through each row tel one incomplete
