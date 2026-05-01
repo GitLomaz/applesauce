@@ -3554,7 +3554,7 @@
 
 			$output[] = $row;
 		}
-		$sql = "SELECT \"index\" as itemID, 1 as \"count\", \"template\", null as \"used\", \"script\" as \"description\", \"archived\", \"upgrade\", \"name\", \"equipped\", \"image\", \"price\" as \"value\", 0 as usable, 0 as combat, 0 as quest, 1 as equipment, 1 as visible FROM "equipmentInventory" where "playerID" = $acc and \"archived\" = 0 and \"name\" != 'unarmed' order by \"name\";";
+		$sql = "SELECT \"index\" as itemID, 1 as \"count\", \"template\", null as \"used\", \"script\" as \"description\", \"archived\", \"upgrade\", \"name\", \"equipped\", \"image\", \"price\" as \"value\", 0 as usable, 0 as combat, 0 as quest, 1 as equipment, 1 as visible FROM \"equipmentInventory\" where \"playerID\" = $acc and \"archived\" = 0 and \"name\" != 'unarmed' order by \"name\";";
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			if($row['upgrade'] > 0){
@@ -3734,7 +3734,7 @@
 					logAction($conn, $acc, "Crafting (Failure)", $itemName, null);
 					return "Crafting Failed: Item Destroyed!";
 				}else{
-					$sql = "update equipmentInventory set minDmg = minDmg + 1, maxDmg = maxDmg+ 2, upgrade = upgrade + 1, price = ". $recipe[\"cost\"] ." where \"index\" = " . $ing[0];
+					$sql = "update equipmentInventory set minDmg = minDmg + 1, maxDmg = maxDmg+ 2, upgrade = upgrade + 1, price = ". $recipe["cost"] ." where \"index\" = " . $ing[0];
 					sql_query($sql, $conn);
 					$itemName = $recipe["name"];
 					logAction($conn, $acc, "Crafting (Success)", $itemName, null);
@@ -3749,7 +3749,7 @@
 					logAction($conn, $acc, "Crafting (Failure)", $itemName, null);
 					return "Crafting Failed: Item Destroyed!";
 				}else{
-					$sql = "update equipmentInventory set armor = armor + 1, upgrade = upgrade + 1, price = ". $recipe[\"cost\"] ." where \"index\" = " . $ing[0];
+					$sql = "update equipmentInventory set armor = armor + 1, upgrade = upgrade + 1, price = ". $recipe["cost"] ." where \"index\" = " . $ing[0];
 					sql_query($sql, $conn);
 					$itemName = $recipe["name"];
 					logAction($conn, $acc, "Crafting (Success)", $itemName, null);
