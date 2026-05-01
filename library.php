@@ -103,7 +103,7 @@ function getSingleShopEquipment($conn, $id){
     $keys['iceRes'] = "Ice Resistance: ";
     $keys['arcaneRes'] = "Arcane Resistance: ";
     $keys['earthRes'] = "Earth Resistance: ";
-    $keys['holyRes'] = "Holy Resistance: ";
+    $keys['holyres'] = "Holy Resistance: ";
     $keys['maxHP'] = "Maximum HP: ";
     $keys['maxMP'] = "Maximum MP: ";
     $keys['evasion'] = "Evasion: ";
@@ -111,7 +111,7 @@ function getSingleShopEquipment($conn, $id){
     $keys['silverDrop'] = "Silver Drop Increase: ";
     $keys['critchance'] = "Increased Critical Rate ";
     $keys['critDamage'] = "Bonus Crit Modifier: ";
-    $keys['blockChance'] = "Block Chance: ";
+    $keys['blockchance'] = "Block Chance: ";
 
     $sql = "SELECT * FROM equipmenttemplate WHERE \"index\" = ".$id;
     $sql_rows = sql_query($sql, $conn);
@@ -133,8 +133,8 @@ function getSingleShopEquipment($conn, $id){
         foreach ($keys as $key => $value) {
             if($row[$key] > 0){
                 $script .= "<strong>" . $value . "</strong>".$row[$key];
-                if(in_array($key, ['fireRes', 'iceRes', 'arcaneRes', 'earthRes', 'holyRes',
-                    'itemDrop', 'silverDrop', 'critchance', 'critDamage', 'blockChance'])){
+                if(in_array($key, ['fireRes', 'iceRes', 'arcaneRes', 'earthRes', 'holyres',
+                    'itemDrop', 'silverDrop', 'critchance', 'critDamage', 'blockchance'])){
                         $script .= "%";
                     }
                 $script .= "<br/>";
@@ -321,7 +321,7 @@ function getEquipment($acc, $conn){
     $keys['iceRes'] = "Ice Resistance: ";
     $keys['arcaneRes'] = "Arcane Resistance: ";
     $keys['earthRes'] = "Earth Resistance: ";
-    $keys['holyRes'] = "Holy Resistance: ";
+    $keys['holyres'] = "Holy Resistance: ";
     $keys['maxHP'] = "Maximum HP: ";
     $keys['maxMP'] = "Maximum MP: ";
     $keys['evasion'] = "Evasion: ";
@@ -329,7 +329,7 @@ function getEquipment($acc, $conn){
     $keys['silverDrop'] = "Silver Drop Increase: ";
     $keys['critchance'] = "Increased Critical Rate ";
     $keys['critDamage'] = "Bonus Crit Modifier: ";
-    $keys['blockChance'] = "Block Chance: ";
+    $keys['blockchance'] = "Block Chance: ";
 
     $sql = "SELECT * FROM equipmentinventory where playerid = $acc and archived = 0 and name != 'unarmed' order by name;";
     $result = sql_query($sql, $conn);
@@ -351,8 +351,8 @@ function getEquipment($acc, $conn){
 
             if($row[$key] != "0"){
                 $script .= "<strong>" . $value . "</strong>".$row[$key];
-                if(in_array($key, ['fireRes', 'iceRes', 'arcaneRes', 'earthRes', 'holyRes',
-                    'itemDrop', 'silverDrop', 'critchance', 'critDamage', 'blockChance'])){
+                if(in_array($key, ['fireRes', 'iceRes', 'arcaneRes', 'earthRes', 'holyres',
+                    'itemDrop', 'silverDrop', 'critchance', 'critDamage', 'blockchance'])){
                         $script .= "%";
                     }
                 $script .= "<br/>";

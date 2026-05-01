@@ -885,7 +885,7 @@
     		$armor = $row['armor'];
     		$flee = $row['flee'];
     		$maxmana = $row['maxmana'];
-    		$equippedShield = getAttribute($conn, "equipmentbonus", "blockChance", $acc);
+    		$equippedShield = getAttribute($conn, "equipmentbonus", "blockchance", $acc);
     		$blockRate = floor($row['block'] * 100);
     		if ($equippedShield != 0) {
     			$sql = "SELECT * FROM charskills s inner join skillLevels l on s.skillID = l.skillID where playerid = $acc and l.level = s.level and s.skillID = 9";
@@ -2173,7 +2173,7 @@
 
     			// Smite
 
-    			$damage = getAttribute($conn, "equipmentbonus", "blockChance", $acc);
+    			$damage = getAttribute($conn, "equipmentbonus", "blockchance", $acc);
     			if ($damage == 0) {
     				return;
     			}

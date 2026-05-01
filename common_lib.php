@@ -287,12 +287,12 @@
 				$array[] = "iceRes|".(rand(ceil(($row['level'] + 20) / 8 ),ceil(($row['level'] + 20) / 4 )));
 				$array[] = "earthRes|".(rand(ceil(($row['level'] + 20) / 8 ),ceil(($row['level'] + 20) / 4 )));
 				$array[] = "arcaneRes|".(rand(ceil(($row['level'] + 20) / 16 ),ceil(($row['level'] + 20) / 8 )));
-				$array[] = "holyRes|".(rand(ceil(($row['level'] + 20) / 16 ),ceil(($row['level'] + 20) / 8 )));
+				$array[] = "holyres|".(rand(ceil(($row['level'] + 20) / 16 ),ceil(($row['level'] + 20) / 8 )));
 				$array[] = "fireRes|".(rand(ceil(($row['level'] + 20) / 8 ),ceil(($row['level'] + 20) / 4 )));
 				$array[] = "iceRes|".(rand(ceil(($row['level'] + 20) / 8 ),ceil(($row['level'] + 20) / 4 )));
 				$array[] = "earthRes|".(rand(ceil(($row['level'] + 20) / 8 ),ceil(($row['level'] + 20) / 4 )));
 				$array[] = "arcaneRes|".(rand(ceil(($row['level'] + 20) / 16 ),ceil(($row['level'] + 20) / 8 )));
-				$array[] = "holyRes|".(rand(ceil(($row['level'] + 20) / 16 ),ceil(($row['level'] + 20) / 8 )));
+				$array[] = "holyres|".(rand(ceil(($row['level'] + 20) / 16 ),ceil(($row['level'] + 20) / 8 )));
 			}
 
 
@@ -322,12 +322,12 @@
 				$array[] = "iceRes|".(rand(ceil(($row['level'] + 20) / 8 ),ceil(($row['level'] + 20) / 4 )));
 				$array[] = "earthRes|".(rand(ceil(($row['level'] + 20) / 8 ),ceil(($row['level'] + 20) / 4 )));
 				$array[] = "arcaneRes|".(rand(ceil(($row['level'] + 20) / 16 ),ceil(($row['level'] + 20) / 8 )));
-				$array[] = "holyRes|".(rand(ceil(($row['level'] + 20) / 16 ),ceil(($row['level'] + 20) / 8 )));
+				$array[] = "holyres|".(rand(ceil(($row['level'] + 20) / 16 ),ceil(($row['level'] + 20) / 8 )));
 				$array[] = "fireRes|".(rand(ceil(($row['level'] + 20) / 8 ),ceil(($row['level'] + 20) / 4 )));
 				$array[] = "iceRes|".(rand(ceil(($row['level'] + 20) / 8 ),ceil(($row['level'] + 20) / 4 )));
 				$array[] = "earthRes|".(rand(ceil(($row['level'] + 20) / 8 ),ceil(($row['level'] + 20) / 4 )));
 				$array[] = "arcaneRes|".(rand(ceil(($row['level'] + 20) / 16 ),ceil(($row['level'] + 20) / 8 )));
-				$array[] = "holyRes|".(rand(ceil(($row['level'] + 20) / 16 ),ceil(($row['level'] + 20) / 8 )));
+				$array[] = "holyres|".(rand(ceil(($row['level'] + 20) / 16 ),ceil(($row['level'] + 20) / 8 )));
 			}
 
 
@@ -356,7 +356,7 @@
 				$array[] = "iceRes|".(rand(ceil(($row['level'] + 20) / 8 ),ceil(($row['level'] + 20) / 4 )));
 				$array[] = "earthRes|".(rand(ceil(($row['level'] + 20) / 8 ),ceil(($row['level'] + 20) / 4 )));
 				$array[] = "arcaneRes|".(rand(ceil(($row['level'] + 20) / 16 ),ceil(($row['level'] + 20) / 8 )));
-				$array[] = "holyRes|".(rand(ceil(($row['level'] + 20) / 16 ),ceil(($row['level'] + 20) / 8 )));
+				$array[] = "holyres|".(rand(ceil(($row['level'] + 20) / 16 ),ceil(($row['level'] + 20) / 8 )));
 			}
 
 			$chance = 50;
@@ -408,11 +408,11 @@
 			$sql = "INSERT INTO \"equipmentinventory\" (\"script\", \"playerid\", \"price\", \"image\", \"name\", \"slot\", \"class\", \"basedmgmin\", \"basedmgmax\", ";
 			$sql .= "\"basearmor\", \"level\", \"str\", \"dex\", \"spr\", \"vit\", \"mindmg\", \"maxdmg\", \"armor\", \"fireres\", \"earthres\", ";
 			$sql .= "\"iceres\", \"arcaneres\", \"holyres\", \"maxhp\", \"maxmp\", \"regenhp\", \"regenmp\", \"evasion\", \"itemdrop\", \"silverdrop\", ";
-			$sql .= "\"critchance\", \"critDamage\", \"blockChance\", \"template\", \"statString\", \"bonusPotHeal\", \"bonusPotMana\", \"expDrop\", \"healthPerc\", \"manaPerc\", \"strPerc\", \"vitPerc\", \"dexPerc\", \"sprPerc\", \"spellReduction\") VALUES ('".$row['script']."', ".$acc.", ".$row['price'].", '".$row['image']."', '".$row['name']."', '".$row['slot']."', '".$row['class']."', ";
+			$sql .= "\"critchance\", \"critDamage\", \"blockchance\", \"template\", \"statString\", \"bonusPotHeal\", \"bonusPotMana\", \"expDrop\", \"healthPerc\", \"manaPerc\", \"strPerc\", \"vitPerc\", \"dexPerc\", \"sprPerc\", \"spellReduction\") VALUES ('".$row['script']."', ".$acc.", ".$row['price'].", '".$row['image']."', '".$row['name']."', '".$row['slot']."', '".$row['class']."', ";
 			$sql .= $row['baseDmgMin'].", ".$row['baseDmgMax'].", ".$row['baseArmor'].", ".$row['level'].", ".$row['str'].", ".$row['dex'].", ".$row['spr'].", ";
 			$sql .= $row['vit'].", ".$row['minDmg'].", ".$row['maxDmg'].", ".$row['armor'].", ".$row['fireRes'].", ".$row['earthRes'].", ".$row['iceRes'].", ";
-			$sql .= $row['arcaneRes'].", ".$row['holyRes'].", ".$row['maxHP'].", ".$row['maxMP'].", ".$row['regenHP'].", ".$row['regenMP'].", ".$row['evasion'].", ";
-			$sql .= $row['itemDrop'].", ".$row['silverDrop'].", ".$row['critchance'].", ".$row['critDamage'].", ".$row['blockChance'].", $id, '".$row['statString']."', ".$row['bonusPotHeal'].", ".$row['bonusPotMana'].", ".$row['expDrop'].", ".$row['healthPerc'].", ".$row['manaPerc'].", ".$row['strPerc'].", ".$row['vitPerc'].", ".$row['dexPerc'].", ".$row['sprPerc'].", ".$row['spellReduction'].")";
+			$sql .= $row['arcaneRes'].", ".$row['holyres'].", ".$row['maxHP'].", ".$row['maxMP'].", ".$row['regenHP'].", ".$row['regenMP'].", ".$row['evasion'].", ";
+			$sql .= $row['itemDrop'].", ".$row['silverDrop'].", ".$row['critchance'].", ".$row['critDamage'].", ".$row['blockchance'].", $id, '".$row['statString']."', ".$row['bonusPotHeal'].", ".$row['bonusPotMana'].", ".$row['expDrop'].", ".$row['healthPerc'].", ".$row['manaPerc'].", ".$row['strPerc'].", ".$row['vitPerc'].", ".$row['dexPerc'].", ".$row['sprPerc'].", ".$row['spellReduction'].")";
 			sql_query($sql, $conn);
 
 			if($row['script'] != "0"){
@@ -482,13 +482,13 @@
 		$sql = "INSERT INTO \"equipmentinventory\" (\"script\", \"playerid\", \"price\", \"image\", \"name\", \"slot\", \"class\", \"basedmgmin\", \"basedmgmax\", ";
 		$sql .= "\"basearmor\", \"level\", \"str\", \"dex\", \"spr\", \"vit\", \"mindmg\", \"maxdmg\", \"armor\", \"fireres\", \"earthres\", ";
 		$sql .= "\"iceres\", \"arcaneres\", \"holyres\", \"maxhp\", \"maxmp\", \"regenhp\", \"regenmp\", \"evasion\", \"itemdrop\", \"silverdrop\", ";
-		$sql .= "\"critchance\", \"critDamage\", \"blockChance\", \"template\", \"statString\", \"bonusPotHeal\", \"bonusPotMana\", \"expDrop\", \"healthPerc\", ";
+		$sql .= "\"critchance\", \"critDamage\", \"blockchance\", \"template\", \"statString\", \"bonusPotHeal\", \"bonusPotMana\", \"expDrop\", \"healthPerc\", ";
 		$sql .= "\"manaPerc\", \"strPerc\", \"vitPerc\", \"dexPerc\", \"sprPerc\", \"spellReduction\", \"shapelessRes\", \"shapelessExpDrop\", \"shapelessDmg\") VALUES ('";
 		$sql .= $row['script']."', ".$acc.", ".$row['price'].", '".$row['image']."', '".$row['name']."', '".$row['slot']."', '".$row['class']."', ";
 		$sql .= $row['baseDmgMin'].", ".$row['baseDmgMax'].", ".$row['baseArmor'].", ".$row['level'].", ".$row['str'].", ".$row['dex'].", ".$row['spr'].", ";
 		$sql .= $row['vit'].", ".$row['minDmg'].", ".$row['maxDmg'].", ".$row['armor'].", ".$row['fireRes'].", ".$row['earthRes'].", ".$row['iceRes'].", ";
-		$sql .= $row['arcaneRes'].", ".$row['holyRes'].", ".$row['maxHP'].", ".$row['maxMP'].", ".$row['regenHP'].", ".$row['regenMP'].", ".$row['evasion'].", ";
-		$sql .= $row['itemDrop'].", ".$row['silverDrop'].", ".$row['critchance'].", ".$row['critDamage'].", ".$row['blockChance'].", $id, '".$row['statString']."', ";
+		$sql .= $row['arcaneRes'].", ".$row['holyres'].", ".$row['maxHP'].", ".$row['maxMP'].", ".$row['regenHP'].", ".$row['regenMP'].", ".$row['evasion'].", ";
+		$sql .= $row['itemDrop'].", ".$row['silverDrop'].", ".$row['critchance'].", ".$row['critDamage'].", ".$row['blockchance'].", $id, '".$row['statString']."', ";
 		$sql .= $row['bonusPotHeal'].", ".$row['bonusPotMana'].", ".$row['expDrop'].", ".$row['healthPerc'].", ".$row['manaPerc'].", ".$row['strPerc'].", ";
 		$sql .= $row['vitPerc'].", ".$row['dexPerc'].", ".$row['sprPerc'].", ".$row['spellReduction'].", ".$row['shapelessRes'].", ".$row['shapelessExpDrop'].", ".$row['shapelessDmg'].")";
 		sql_query($sql, $conn);
@@ -525,7 +525,7 @@
 				$sql = "INSERT INTO \"equipmentinventory\" (\"script\", \"playerid\", \"price\", \"image\", \"name\", \"slot\", \"class\", \"basedmgmin\", \"basedmgmax\", ";
 				$sql .= "\"basearmor\", \"level\", \"str\", \"dex\", \"spr\", \"vit\", \"mindmg\", \"maxdmg\", \"armor\", \"fireres\", \"earthres\", ";
 				$sql .= "\"iceres\", \"arcaneres\", \"holyres\", \"maxhp\", \"maxmp\", \"regenhp\", \"regenmp\", \"evasion\", \"itemdrop\", \"silverdrop\", ";
-				$sql .= "\"critchance\", \"critDamage\", \"blockChance\", \"template\", \"statString\", \"bonusPotHeal\",  \"bonusPotMana\", \"expDrop\", \"healthPerc\", \"manaPerc\", \"strPerc\", \"vitPerc\", \"dexPerc\", \"sprPerc\", \"spellReduction\") VALUES ('".(($row['script'] ?? ''))."', ".$acc.", ".$row['price'].", '".(($row['image'] ?? ''))."', '".(($row['name'] ?? ''))."', '".(($row['slot'] ?? ''))."', '".(($row['class'] ?? ''))."', ";
+				$sql .= "\"critchance\", \"critDamage\", \"blockchance\", \"template\", \"statString\", \"bonusPotHeal\",  \"bonusPotMana\", \"expDrop\", \"healthPerc\", \"manaPerc\", \"strPerc\", \"vitPerc\", \"dexPerc\", \"sprPerc\", \"spellReduction\") VALUES ('".(($row['script'] ?? ''))."', ".$acc.", ".$row['price'].", '".(($row['image'] ?? ''))."', '".(($row['name'] ?? ''))."', '".(($row['slot'] ?? ''))."', '".(($row['class'] ?? ''))."', ";
 				$sql .= ($row['basedmgmin'] ?? 0).", ".($row['basedmgmax'] ?? 0).", ".($row['basearmor'] ?? 0).", ".($row['level'] ?? 0).", ".($row['str'] ?? 0).", ".($row['dex'] ?? 0).", ".($row['spr'] ?? 0).", ";
 				$sql .= ($row['vit'] ?? 0).", ".($row['mindmg'] ?? 0).", ".($row['maxdmg'] ?? 0).", ".($row['armor'] ?? 0).", ".($row['fireres'] ?? 0).", ".($row['earthres'] ?? 0).", ".($row['iceres'] ?? 0).", ";
 				$sql .= ($row['arcaneres'] ?? 0).", ".($row['holyres'] ?? 0).", ".($row['maxhp'] ?? 0).", ".($row['maxmp'] ?? 0).", ".($row['regenhp'] ?? 0).", ".($row['regenmp'] ?? 0).", ".($row['evasion'] ?? 0).", ";
@@ -648,8 +648,8 @@
 			}
 
 
-			if($row['holyRes'] > 0){
-				$script .= "<strong>Holy Resistance: </strong>".$row['holyRes']."%<br/>";
+			if($row['holyres'] > 0){
+				$script .= "<strong>Holy Resistance: </strong>".$row['holyres']."%<br/>";
 			}
 
 
@@ -698,8 +698,8 @@
 			}
 
 
-			if($row['blockChance'] > 0){
-				$script .= "<strong>Block Rate: </strong>".$row['blockChance']."%<br/>";
+			if($row['blockchance'] > 0){
+				$script .= "<strong>Block Rate: </strong>".$row['blockchance']."%<br/>";
 			}
 
 
@@ -978,8 +978,8 @@
 			}
 
 
-			if($row['holyRes'] > 0){
-				$script .= "<strong>Holy Resistance: </strong>".$row['holyRes']."%<br/>";
+			if($row['holyres'] > 0){
+				$script .= "<strong>Holy Resistance: </strong>".$row['holyres']."%<br/>";
 			}
 
 
@@ -1028,8 +1028,8 @@
 			}
 
 
-			if($row['blockChance'] > 0){
-				$script .= "<strong>Block Rate: </strong>".$row['blockChance']."%<br/>";
+			if($row['blockchance'] > 0){
+				$script .= "<strong>Block Rate: </strong>".$row['blockchance']."%<br/>";
 			}
 
 
@@ -1462,13 +1462,13 @@
 				((((((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex") * 1.5) + (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") * 0.75)) + "character"."level") + 100) AS "hit",
 				((1 / ((1 / (((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr") / 150)) + 0.9)) + (("equipmentbonus"."critchance" + "buffsbonus"."critchance") / 100)) AS "critRate",
 				(((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 150)) + 0.9)) + 0.1) + (("equipmentbonus"."critDamage" + "buffsbonus"."critDamage") / 100)) AS "critMulti",
-				((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 750)) + 0.5)) + ("equipmentbonus"."blockChance" / 100)) AS "block",
+				((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 750)) + 0.5)) + ("equipmentbonus"."blockchance" / 100)) AS "block",
 				("equipmentbonus"."armor" + "buffsbonus"."armor") AS "armor",
 				("equipmentbonus"."fireRes" + "buffsbonus"."fireRes") AS "fireRes",
 				("equipmentbonus"."iceRes" + "buffsbonus"."iceRes") AS "iceRes",
 				("equipmentbonus"."earthRes" + "buffsbonus"."earthRes") AS "earthRes",
 				("equipmentbonus"."arcaneRes" + "buffsbonus"."arcaneRes") AS "arcaneRes",
-				("equipmentbonus"."holyRes" + "buffsbonus"."holyRes") AS "holyRes",
+				("equipmentbonus"."holyres" + "buffsbonus"."holyres") AS "holyres",
 				-- "equipmentinventory"."class" AS "weapon",
 				"character"."exp" AS "exp",
 				"character"."next" AS "next",
@@ -1530,13 +1530,13 @@
 		        ((((((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex") * 1.5) + (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") * 0.75)) + "character"."level") + 100) AS "hit",
 		        ((1 / ((1 / (((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr") / 150)) + 0.9)) + (("equipmentbonus"."critchance" + "buffsbonus"."critchance") / 100)) AS "critRate",
 		        (((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 150)) + 0.9)) + 0.1) + (("equipmentbonus"."critDamage" + "buffsbonus"."critDamage") / 100)) AS "critMulti",
-		        ((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 750)) + 0.5)) + ("equipmentbonus"."blockChance" / 100)) AS "block",
+		        ((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 750)) + 0.5)) + ("equipmentbonus"."blockchance" / 100)) AS "block",
 		        ("equipmentbonus"."armor" + "buffsbonus"."armor") AS "armor",
 		        ("equipmentbonus"."fireRes" + "buffsbonus"."fireRes") AS "fireRes",
 		        ("equipmentbonus"."iceRes" + "buffsbonus"."iceRes") AS "iceRes",
 		        ("equipmentbonus"."earthRes" + "buffsbonus"."earthRes") AS "earthRes",
 		        ("equipmentbonus"."arcaneRes" + "buffsbonus"."arcaneRes") AS "arcaneRes",
-		        ("equipmentbonus"."holyRes" + "buffsbonus"."holyRes") AS "holyRes",
+		        ("equipmentbonus"."holyres" + "buffsbonus"."holyres") AS "holyres",
 		        (SELECT class FROM "equipmentinventory" WHERE "playerid" = '.$index.' AND "equipped" = 1 AND ("slot" = \'weapon\' OR "slot" = \'2hweapon\') LIMIT 1) AS "weapon",
 		        "character"."exp" AS "exp",
 		        "character"."next" AS "next",
@@ -1631,7 +1631,7 @@
 		$atk = $calcStats["damage"] ?? 1;
 		$hit = floor($calcStats['hit'] ?? 0);
 		$dodge = floor($calcStats['flee'] ?? 0);
-		$equippedShield = getAttribute($conn, "equipmentbonus", "blockChance", $acc);
+		$equippedShield = getAttribute($conn, "equipmentbonus", "blockchance", $acc);
 		$block = $calcStats["block"];
 
 		if($equippedShield != 0){
@@ -1650,7 +1650,7 @@
 		$ice = floor($calcStats['iceres'] ?? 0);
 		$earth = floor($calcStats['earthres'] ?? 0);
 		$arcane = floor($calcStats['arcaneres'] ?? 0);
-		$holy = floor($calcStats['holyRes']);
+		$holy = floor($calcStats['holyres']);
 		$stats[] = $atk;
 		// 0 = attack
 		$stats[] = $hit;
@@ -3465,15 +3465,15 @@
 	function getShadows($conn, $acc){
 		$map = getAttribute($conn, "character", "map", $acc);
 		if($map != 'endless.php?'){
-			$sql = "SELECT l.* FROM \"character\" c INNER JOIN \"lightSources\" l on c.map = l.map inner join \"account\" a on a.playerid = c.playerid where c.playerid = $acc and a.light != 0";
+			$sql = "SELECT l.* FROM \"character\" c INNER JOIN \"lightsources\" l on c.map = l.map inner join \"account\" a on a.playerid = c.playerid where c.playerid = $acc and a.light != 0";
 		}else{  //endless tower lights
 			$floor = getAttribute($conn, "character", "currentTowerLevel", $acc);
 			if($floor == 1){
-				$sql = "SELECT l.* FROM \"character\" c INNER JOIN \"lightSources\" l on 'endless.php?1' = l.map inner join \"account\" a on a.playerid = c.playerid where c.playerid = $acc and a.light != 0";
+				$sql = "SELECT l.* FROM \"character\" c INNER JOIN \"lightsources\" l on 'endless.php?1' = l.map inner join \"account\" a on a.playerid = c.playerid where c.playerid = $acc and a.light != 0";
 			}else if (($floor - 1) % 10 == 0){
-				$sql = "SELECT l.* FROM \"character\" c INNER JOIN \"lightSources\" l on 'endless.php?0' = l.map inner join \"account\" a on a.playerid = c.playerid where c.playerid = $acc and a.light != 0";
+				$sql = "SELECT l.* FROM \"character\" c INNER JOIN \"lightsources\" l on 'endless.php?0' = l.map inner join \"account\" a on a.playerid = c.playerid where c.playerid = $acc and a.light != 0";
 			}else{
-				$sql = "SELECT l.* FROM \"character\" c INNER JOIN \"lightSources\" l on 'endless.php?x' = l.map inner join \"account\" a on a.playerid = c.playerid where c.playerid = $acc and a.light != 0";
+				$sql = "SELECT l.* FROM \"character\" c INNER JOIN \"lightsources\" l on 'endless.php?x' = l.map inner join \"account\" a on a.playerid = c.playerid where c.playerid = $acc and a.light != 0";
 			}
 		}
 		$result = sql_query($sql, $conn);
@@ -3557,7 +3557,7 @@
 
 			$output[] = $row;
 		}
-		$sql = "SELECT \"index\" as itemid, 1 as \"count\", \"template\", null as \"used\", \"script\" as \"description\", \"archived\", \"upgrade\", \"name\", \"equipped\", \"image\", \"price\" as \"value\", 0 as usable, 0 as combat, 0 as quest, 1 as equipment, 1 as visible FROM \"equipmentinventory\" where \"playerid\" = $acc and \"archived\" = 0 and \"name\" != 'unarmed' order by \"name\";";
+		$sql = "SELECT \"id\" as itemid, 1 as \"count\", \"template\", null as \"used\", \"script\" as \"description\", \"archived\", \"upgrade\", \"name\", \"equipped\", \"image\", \"price\" as \"value\", 0 as usable, 0 as combat, 0 as quest, 1 as equipment, 1 as visible FROM \"equipmentinventory\" where \"playerid\" = $acc and \"archived\" = 0 and \"name\" != 'unarmed' order by \"name\";";
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			if($row['upgrade'] > 0){

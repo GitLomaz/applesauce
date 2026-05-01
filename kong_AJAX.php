@@ -60,7 +60,7 @@
 			switch ($call){
 				case "createLight":
 					if($account == 437){
-						sql_query("insert into lightSources (map, radius, x, y) select map, $param1, $param2, $param3 FROM \"character\" where \"playerid\" = 437", $conn);
+						sql_query("insert into lightsources (map, radius, x, y) select map, $param1, $param2, $param3 FROM \"character\" where \"playerid\" = 437", $conn);
 					}
 					break;
 				case "checkCombat":
