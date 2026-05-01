@@ -2610,7 +2610,7 @@
 	// -- Purpose : Grabs current quest from NPC
 	function getQuest($conn, $acc, $npc){
 
-		$sql = "SELECT * FROM \"quests\" WHERE  \"npcID\" = $npc AND \"startDate\" < NOW() AND \"endDate\" > NOW()";
+		$sql = "SELECT * FROM \"quests\" WHERE  \"npcid\" = $npc AND \"startDate\" < NOW() AND \"endDate\" > NOW()";
 		$sql_rows = sql_query($sql, $conn);
 		$counter = 1;
 		$quests = false;
