@@ -2383,7 +2383,7 @@
     	sql_query($logMessege, $conn);
     	$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','', 'rgb(242,130,31)', '')";
     	sql_query($logMessege, $conn);
-    	$sql = "UPDATE \"character\" SET \"level\" = \"level\" + 1, \"exp\" = " . $diff . ", \"next\" = " . $nextLevel . ", "statPoints" = "statPoints" + 4, "skillPoints" = "skillPoints" + 1, ";
+    	$sql = "UPDATE \"character\" SET \"level\" = \"level\" + 1, \"exp\" = " . $diff . ", \"next\" = " . $nextLevel . ", \"statPoints\" = \"statPoints\" + 4, \"skillPoints\" = \"skillPoints\" + 1, ";
     	$sql.= " \"strength\" = \"strength\" + " . $str . ", \"dexterity\" = \"dexterity\" + " . $dex . ", \"spirit\" = \"spirit\" + " . $spr . " WHERE playerID = " . $acc;
     	sql_query($sql, $conn);
     	fullheal($acc, $conn);
