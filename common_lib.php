@@ -1566,9 +1566,12 @@
 		            AND ("buffsbonus"."playerid" = '.$index.')
 		            AND ("character"."playerid" = '.$index.'))';
 			$sql_q = strtolower($sql_q);
-			error_log($sql_q);
 			$sql = sql_query($sql_q, $conn);
-			return mysqli_fetch_array($sql,MYSQLI_ASSOC);
+			
+			$row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
+			error_log(print_r($row, true));
+			error_log(print_r($attribute, true));
+			return $row;
 		}
 
 	}
