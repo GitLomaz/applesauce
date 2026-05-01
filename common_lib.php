@@ -3421,7 +3421,7 @@
 	    $costs[91] = 34;
 
 		$sql = "select * from  \"character\" c inner join inventory i on i.playerID = c.playerID
-			where c.playerID = $acc and towerLevel >= $floor and itemID = 235 and "count" >= " . $costs[$floor];
+			where c.playerID = $acc and towerLevel >= $floor and itemID = 235 and \"count\" >= " . $costs[$floor];
 		$sql_rows = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 			$sql = "update inventory set \"count\" = \"count\" - " . $costs[$floor] . " where itemID = 235 and playerID = $acc";
