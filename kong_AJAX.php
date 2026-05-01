@@ -149,7 +149,6 @@
 					break;
 				case "getLocation":
 					$row = getRow($conn, "character", $account);
-					print "getting location for account $account: ";
 					print json_encode($row);
 					if($row && is_array($row)){
 						print (($row["locationx"] ?? 0).'-'.($row["locationy"] ?? 0).'-'.($row["map"] ?? '').'-'.($row["class"] ?? ''));
@@ -315,7 +314,7 @@
 					$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 					$to = 'lomasia@hotmail.ca';
 					mail($to, "Suggestion!", $emailString, $headers);
-					$sql = "INSERT INTO `suggestions` (playerID, text) values ($account, '$param1')";
+				$sql = "INSERT INTO `suggestions` (playerid, text) values ($account, '$param1')";
 					sql_query($sql, $conn);
 					break;
 				case "getQuestLog":
@@ -440,12 +439,12 @@
 					$total = $pala + $sin + $warlock;
 
 					
-					$sqlCreateChar = "INSERT INTO `character`(playerID, class, strength, dexterity, spirit, vitality, respawn, skillPoints, diff, neverLogged, resetScript,  map, locationX, locationY, combatModifier) VALUES ($account, '$param1',$str,$dex,$spr,$vit, $respawn, $skillPoints, $param2, 0, '$param4', 'VanaheimrNE', 4726, 5121, 100)";
-					sql_query($sqlCreateChar, $conn);
-					$sql_insert = "INSERT INTO `equippedStuff`(`equipIndex`) VALUES ($account)";
-					sql_query($sql_insert, $conn);
-					$sql_insert = "INSERT INTO `equipmentInventory`(`playerID`, `equipped`, `baseDmgMin`, `baseDmgMax`) VALUES (".$account.", 1, 1, 2)";
-					sql_query('INSERT INTO `playerBuffs` (playerID) values ('.$account.")", $conn);
+				$sqlCreateChar = "INSERT INTO `character`(playerid, class, strength, dexterity, spirit, vitality, respawn, skillpoints, diff, neverlogged, resetscript,  map, locationx, locationy, combatmodifier) VALUES ($account, '$param1',$str,$dex,$spr,$vit, $respawn, $skillPoints, $param2, 0, '$param4', 'VanaheimrNE', 4726, 5121, 100)";
+				sql_query($sqlCreateChar, $conn);
+				$sql_insert = "INSERT INTO `equippedstuff`(`equipindex`) VALUES ($account)";
+				sql_query($sql_insert, $conn);
+				$sql_insert = "INSERT INTO `equipmentinventory`(`playerid`, `equipped`, `basedmgmin`, `basedmgmax`) VALUES (".$account.", 1, 1, 2)";
+					sql_query('INSERT INTO `playerbuffs` (playerid) values ('.$account.")", $conn);
 					sql_query($sql_insert, $conn);
 					fullheal($account, $conn);
 					fullmana($account, $conn);
@@ -608,7 +607,7 @@
 					echo "Error: Invalid session ID";
 					exit;
 				}
-				
+				print "CREATING A USER MAYBE!? $sessionId";
 				// Check if session already exists
 				$sql = "SELECT `cookie`, `account` FROM `sessions` WHERE `sessionid` = ?";
 				$stmt = mysqli_prepare($conn, $sql);
@@ -626,32 +625,33 @@
 				// Create new Paladin character with proper stats (matching rebirth code)
 				// Paladin stats: str=3, dex=2, spr=1, vit=3, respawn=100, skillPoints=0
 				// Location: VanaheimrNE at 4726, 5121
-				$sql = "INSERT INTO `character` (class, strength, dexterity, spirit, vitality, respawn, skillPoints, diff, neverLogged, resetScript, map, zone, locationX, locationY, combatModifier) VALUES ('Paladin', 3, 2, 1, 3, 100, 0, 1, 0, '', 'VanaheimrNE', 'East Vanaheimr Village', 4726, 5121, 100)";
+				$sql = "INSERT INTO `character` (class, strength, dexterity, spirit, vitality, respawn, skillpoints, diff, neverlogged, resetscript, map, zone, locationx, locationy, combatmodifier) VALUES ('Paladin', 3, 2, 1, 3, 100, 0, 1, 0, '', 'VanaheimrNE', 'East Vanaheimr Village', 4726, 5121, 100)";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_execute($stmt);
 				$playerId = mysqli_insert_id($conn);
+				print 'USER CREATED WITH ID: ' . $playerId;
 				
 				// Create account row with random account name
 				$randomAccount = "player_" . $playerId . "_" . bin2hex(random_bytes(4));
-				$sql = "INSERT INTO `account` (playerID, account, password, salt, email) VALUES (?, ?, 'N/A', 'N/A', 'N/A')";
+				$sql = "INSERT INTO `account` (`playerid`, `account`, `password`, `salt`, `email`) VALUES (?, ?, 'N/A', 'N/A', 'N/A')";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_bind_param($stmt, "is", $playerId, $randomAccount);
 				mysqli_stmt_execute($stmt);
 				
 				// Create equippedStuff entry
-				$sql = "INSERT INTO `equippedStuff` (`equipIndex`) VALUES (?)";
+				$sql = "INSERT INTO `equippedstuff` (`equipindex`) VALUES (?)";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_bind_param($stmt, "i", $playerId);
 				mysqli_stmt_execute($stmt);
 				
 				// Create starting equipment (fists)
-				$sql = "INSERT INTO `equipmentInventory` (`playerID`, `equipped`, `baseDmgMin`, `baseDmgMax`, `name`, `template`, `image`, `script`, `class`) VALUES (?, 1, 1, 2, 'unarmed', 0, '', '', '')";
+				$sql = "INSERT INTO `equipmentinventory` (`playerid`, `equipped`, `basedmgmin`, `basedmgmax`, `name`, `template`, `image`, `script`, `class`) VALUES (?, 1, 1, 2, 'unarmed', 0, '', '', '')";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_bind_param($stmt, "i", $playerId);
 				mysqli_stmt_execute($stmt);
 				
 				// Create playerBuffs entry
-				$sql = "INSERT INTO `playerBuffs` (playerID) VALUES (?)";
+				$sql = "INSERT INTO `playerbuffs` (playerid) VALUES (?)";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_bind_param($stmt, "i", $playerId);
 				mysqli_stmt_execute($stmt);

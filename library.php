@@ -184,7 +184,7 @@ function startQuest($conn, $acc, $quest){
     sql_query($sql, $conn);
 
     if(mysqli_affected_rows($conn) == 0){
-        $sql = "INSERT INTO `questPlayerStatus` (`playerID`, `questID`, `status`) VALUES (".$acc.",".$quest.",'working')";
+        $sql = "INSERT INTO `questplayerstatus` (`playerid`, `questid`, `status`) VALUES (".$acc.",".$quest.",'working')";
         sql_query($sql, $conn);
     }
     $questName = getAttribute($conn, 'quests', 'name', $quest);

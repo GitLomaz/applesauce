@@ -405,9 +405,9 @@
 				}
 
 			}
-			$sql = "INSERT INTO `equipmentInventory` (`script`, `playerID`, `price`, `image`, `name`, `slot`, `class`, `baseDmgMin`, `baseDmgMax`, ";
-			$sql .= "`baseArmor`, `level`, `str`, `dex`, `spr`, `vit`, `minDmg`, `maxDmg`, `armor`, `fireRes`, `earthRes`, ";
-			$sql .= "`iceRes`, `arcaneRes`, `holyRes`, `maxHP`, `maxMP`, `regenHP`, `regenMP`, `evasion`, `itemDrop`, `silverDrop`, ";
+			$sql = "INSERT INTO `equipmentinventory` (`script`, `playerid`, `price`, `image`, `name`, `slot`, `class`, `basedmgmin`, `basedmgmax`, ";
+			$sql .= "`basearmor`, `level`, `str`, `dex`, `spr`, `vit`, `mindmg`, `maxdmg`, `armor`, `fireres`, `earthres`, ";
+			$sql .= "`iceres`, `arcaneres`, `holyres`, `maxhp`, `maxmp`, `regenhp`, `regenmp`, `evasion`, `itemdrop`, `silverdrop`, ";
 			$sql .= "`critChance`, `critDamage`, `blockChance`, template, statString, bonusPotHeal, bonusPotMana, expDrop, healthPerc, manaPerc, strPerc, vitPerc, dexPerc, sprPerc, spellReduction) VALUES ('".$row['script']."', ".$acc.", ".$row['price'].", '".$row['image']."', '".$row['name']."', '".$row['slot']."', '".$row['class']."', ";
 			$sql .= $row['baseDmgMin'].", ".$row['baseDmgMax'].", ".$row['baseArmor'].", ".$row['level'].", ".$row['str'].", ".$row['dex'].", ".$row['spr'].", ";
 			$sql .= $row['vit'].", ".$row['minDmg'].", ".$row['maxDmg'].", ".$row['armor'].", ".$row['fireRes'].", ".$row['earthRes'].", ".$row['iceRes'].", ";
@@ -479,9 +479,9 @@
 		$row['statString'] = str_replace('[shapelessExpDrop]',$row['shapelessExpDrop'],$row['statString']);
 		$row['statString'] = str_replace('[shapelessDmg]',$row['shapelessDmg'],$row['statString']);
 
-		$sql = "INSERT INTO `equipmentInventory` (`script`, `playerID`, `price`, `image`, `name`, `slot`, `class`, `baseDmgMin`, `baseDmgMax`, ";
-		$sql .= "`baseArmor`, `level`, `str`, `dex`, `spr`, `vit`, `minDmg`, `maxDmg`, `armor`, `fireRes`, `earthRes`, ";
-		$sql .= "`iceRes`, `arcaneRes`, `holyRes`, `maxHP`, `maxMP`, `regenHP`, `regenMP`, `evasion`, `itemDrop`, `silverDrop`, ";
+		$sql = "INSERT INTO `equipmentinventory` (`script`, `playerid`, `price`, `image`, `name`, `slot`, `class`, `basedmgmin`, `basedmgmax`, ";
+		$sql .= "`basearmor`, `level`, `str`, `dex`, `spr`, `vit`, `mindmg`, `maxdmg`, `armor`, `fireres`, `earthres`, ";
+		$sql .= "`iceres`, `arcaneres`, `holyres`, `maxhp`, `maxmp`, `regenhp`, `regenmp`, `evasion`, `itemdrop`, `silverdrop`, ";
 		$sql .= "`critChance`, `critDamage`, `blockChance`, template, statString, bonusPotHeal, bonusPotMana, expDrop, healthPerc, ";
 		$sql .= "manaPerc, strPerc, vitPerc, dexPerc, sprPerc, spellReduction, shapelessRes, shapelessExpDrop, shapelessDmg) VALUES ('";
 		$sql .= $row['script']."', ".$acc.", ".$row['price'].", '".$row['image']."', '".$row['name']."', '".$row['slot']."', '".$row['class']."', ";
@@ -522,9 +522,9 @@
 				sql_query("UPDATE `character` set `silver`=`silver` - ".$cost." where `playerID`=".$acc, $conn);
 				$row['price'] = $row['price'] / 3;
 				// Use null coalescing operator to provide defaults for missing/NULL columns
-				$sql = "INSERT INTO `equipmentInventory` (`script`, `playerID`, `price`, `image`, `name`, `slot`, `class`, `baseDmgMin`, `baseDmgMax`, ";
-				$sql .= "`baseArmor`, `level`, `str`, `dex`, `spr`, `vit`, `minDmg`, `maxDmg`, `armor`, `fireRes`, `earthRes`, ";
-				$sql .= "`iceRes`, `arcaneRes`, `holyRes`, `maxHP`, `maxMP`, `regenHP`, `regenMP`, `evasion`, `itemDrop`, `silverDrop`, ";
+				$sql = "INSERT INTO `equipmentinventory` (`script`, `playerid`, `price`, `image`, `name`, `slot`, `class`, `basedmgmin`, `basedmgmax`, ";
+				$sql .= "`basearmor`, `level`, `str`, `dex`, `spr`, `vit`, `mindmg`, `maxdmg`, `armor`, `fireres`, `earthres`, ";
+				$sql .= "`iceres`, `arcaneres`, `holyres`, `maxhp`, `maxmp`, `regenhp`, `regenmp`, `evasion`, `itemdrop`, `silverdrop`, ";
 				$sql .= "`critChance`, `critDamage`, `blockChance`, template, statString, bonusPotHeal,  bonusPotMana, expDrop, healthPerc, manaPerc, strPerc, vitPerc, dexPerc, sprPerc, spellReduction) VALUES ('".(($row['script'] ?? ''))."', ".$acc.", ".$row['price'].", '".(($row['image'] ?? ''))."', '".(($row['name'] ?? ''))."', '".(($row['slot'] ?? ''))."', '".(($row['class'] ?? ''))."', ";
 				$sql .= ($row['basedmgmin'] ?? 0).", ".($row['basedmgmax'] ?? 0).", ".($row['basearmor'] ?? 0).", ".($row['level'] ?? 0).", ".($row['str'] ?? 0).", ".($row['dex'] ?? 0).", ".($row['spr'] ?? 0).", ";
 				$sql .= ($row['vit'] ?? 0).", ".($row['mindmg'] ?? 0).", ".($row['maxdmg'] ?? 0).", ".($row['armor'] ?? 0).", ".($row['fireres'] ?? 0).", ".($row['earthres'] ?? 0).", ".($row['iceres'] ?? 0).", ";
@@ -2028,7 +2028,7 @@
 			if($points <= $maxLevel && $points <= getAttribute($conn, 'character', 'skillPoints', $acc)){
 				$sql = "UPDATE `character` set `skillPoints` = `skillPoints` - ".$points." where playerID = ".$acc;
 				sql_query($sql, $conn);
-				$sql = "INSERT INTO `charSkills` (`level`, `playerID`, `skillID`) values (".$points.",".$acc.", ".$skillID.")";
+				$sql = "INSERT INTO `charskills` (`level`, `playerid`, `skillid`) values (".$points.",".$acc.", ".$skillID.")";
 				sql_query($sql, $conn);
 				$level = $points;
 				applyPassives($conn, $acc, $skillID, $level);
@@ -2063,15 +2063,15 @@
 				//didn't exist before
 
 				if($skillID == 6){
-					$sql = "INSERT INTO playerBuffs (passiveID, playerID, remaining, maxHP) values ($skillID, $acc, 0, $effect)";
+					$sql = "INSERT INTO playerbuffs (passiveid, playerid, remaining, maxhp) values ($skillID, $acc, 0, $effect)";
 					sql_query($sql, $conn);
 				}
 				if($skillID == 40){
-					$sql = "INSERT INTO playerBuffs (passiveID, playerID, remaining, evasion) values ($skillID, $acc, 0, $effect)";
+					$sql = "INSERT INTO playerbuffs (passiveid, playerid, remaining, evasion) values ($skillID, $acc, 0, $effect)";
 					sql_query($sql, $conn);
 				}
 				if($skillID == 41){
-					$sql = "INSERT INTO playerBuffs (passiveID, playerID, remaining, critChance, critDamage) values ($skillID, $acc, 0, $effect, $effect * 2)";
+					$sql = "INSERT INTO playerbuffs (passiveid, playerid, remaining, critchance, critdamage) values ($skillID, $acc, 0, $effect, $effect * 2)";
 					sql_query($sql, $conn);
 				}
 
@@ -2597,7 +2597,7 @@
 		sql_query($sql, $conn);
 
 		if(mysqli_affected_rows($conn) == 0){
-			$sql = "INSERT INTO `inventory` (`playerID`, `itemID`, `count`) VALUES (".$acc.",".$item.",".$amnt.")";
+			$sql = "INSERT INTO `inventory` (`playerid`, `itemid`, `count`) VALUES (".$acc.",".$item.",".$amnt.")";
 			sql_query($sql, $conn);
 		}
 
@@ -2739,7 +2739,7 @@
 		sql_query($sql, $conn);
 
 		if(mysqli_affected_rows($conn) == 0){
-			$sql = "INSERT INTO `questPlayerStatus` (`playerID`, `questID`, `status`) VALUES (".$acc.",".$quest.",'working')";
+			$sql = "INSERT INTO `questplayerstatus` (`playerid`, `questid`, `status`) VALUES (".$acc.",".$quest.",'working')";
 			sql_query($sql, $conn);
 		}
 		$questName = getAttribute($conn, 'quests', 'name', $quest);
@@ -2800,7 +2800,7 @@
 			sql_query($sql, $conn);
 		}
 
-		$sql = "INSERT INTO `completeQuests` (playerID, questID) values ($acc, $quest)";
+		$sql = "INSERT INTO `completequests` (playerid, questid) values ($acc, $quest)";
 		sql_query($sql, $conn);
 		$counter = 0;
 		while($counter != 3){
@@ -2893,7 +2893,7 @@
 			$sql = "select * from playerBuffs where buffID = -20 and playerID = $acc";
 			$query = sql_query($sql, $conn);
 			if(mysqli_num_rows($query) == 0){
-				$sql = "INSERT INTO playerBuffs (buffID, playerID, remaining, image, name, script) values (-20, $acc, 0, 'burningAura', 'Tome of the Elements', 'Surrounds you with a flaming aura that damage all that come near you, burns for 8-11 <strong> fire</strong> damage')";
+				$sql = "INSERT INTO playerbuffs (buffid, playerid, remaining, image, name, script) values (-20, $acc, 0, 'burningAura', 'Tome of the Elements', 'Surrounds you with a flaming aura that damage all that come near you, burns for 8-11 <strong> fire</strong> damage')";
 				sql_query($sql, $conn);
 			}
 		}else{
@@ -2929,7 +2929,7 @@
 			$sql = "select * from playerBuffs where buffID = -20 and playerID = $acc";
 			$query = sql_query($sql, $conn);
 			if(mysqli_num_rows($query) == 0){
-				$sql = "INSERT INTO playerBuffs (buffID, playerID, remaining, image, name, script) values (-20, $acc, 0, 'burningAura', 'Tome of the Elements', 'Surrounds you with a flaming aura that damage all that come near you, burns for 8-11 <strong> fire</strong> damage')";
+				$sql = "INSERT INTO playerbuffs (buffid, playerid, remaining, image, name, script) values (-20, $acc, 0, 'burningAura', 'Tome of the Elements', 'Surrounds you with a flaming aura that damage all that come near you, burns for 8-11 <strong> fire</strong> damage')";
 				sql_query($sql, $conn);
 			}
 		}else{
@@ -2969,7 +2969,7 @@
 			$steps = getAttribute($conn, "account", "stepsTaken", $acc);
 
 			if($steps > 49000){
-				sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, 1)", $conn);
+				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 1)", $conn);
 			}
 
 		}
@@ -2982,7 +2982,7 @@
 			$steps = getAttribute($conn, "account", "stepsTaken", $acc);
 
 			if($steps > 999999){
-				sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, 2)", $conn);
+				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 2)", $conn);
 			}
 
 		}
@@ -2997,7 +2997,7 @@
 			$kills = $row['kills'];
 
 			if($kills > 9){
-				sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, 3)", $conn);
+				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 3)", $conn);
 			}
 
 		}
@@ -3012,7 +3012,7 @@
 			$kills = $row['kills'];
 
 			if($kills > 249){
-				sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, 4)", $conn);
+				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 4)", $conn);
 			}
 
 		}
@@ -3024,7 +3024,7 @@
 		if($row['timestamp'] == ''){
 
 			if(getAttribute($conn, "character", "level", $acc) > 1){
-				sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, 12)", $conn);
+				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 12)", $conn);
 			}
 
 		}
@@ -3036,7 +3036,7 @@
 		if($row['timestamp'] == ''){
 
 			if(getAttribute($conn, "character", "level", $acc) > 9){
-				sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, 13)", $conn);
+				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 13)", $conn);
 			}
 
 		}
@@ -3048,7 +3048,7 @@
 		if($row['timestamp'] == ''){
 
 			if(getAttribute($conn, "character", "level", $acc) > 24){
-				sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, 14)", $conn);
+				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 14)", $conn);
 			}
 
 		}
@@ -3060,7 +3060,7 @@
 		if($row['timestamp'] == ''){
 
 			if(getAttribute($conn, "character", "level", $acc) > 49){
-				sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, 15)", $conn);
+				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 15)", $conn);
 			}
 
 		}
@@ -3075,7 +3075,7 @@
 			$used = $row['used'];
 
 			if($used > 99){
-				sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, 18)", $conn);
+				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 18)", $conn);
 			}
 
 		}
@@ -3087,7 +3087,7 @@
 		if($row['timestamp'] == ''){
 
 			if(count(getCompleteQuests($conn, $acc)) > 19){
-				sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, 19)", $conn);
+				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 19)", $conn);
 			}
 
 		}
@@ -3102,7 +3102,7 @@
 			$used = $row['used'];
 
 			if($used > 24){
-				sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, 24)", $conn);
+				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 24)", $conn);
 			}
 
 		}
@@ -3117,7 +3117,7 @@
 			$used = $row['used'];
 
 			if($used > 9){
-				sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, 23)", $conn);
+				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 23)", $conn);
 			}
 
 		}
@@ -3132,7 +3132,7 @@
 			$kills = $row['kills'];
 
 			if($kills > 2999){
-				sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, 25)", $conn);
+				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 25)", $conn);
 			}
 
 		}
@@ -3146,7 +3146,7 @@
 			$result = sql_query($sql, $conn);
 
 			if(mysqli_num_rows($result) > 2){
-				sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, 20)", $conn);
+				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 20)", $conn);
 			}
 
 		}
@@ -3160,7 +3160,7 @@
 			$result = sql_query($sql, $conn);
 
 			if(mysqli_num_rows($result) > 4){
-				sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, 21)", $conn);
+				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 21)", $conn);
 			}
 
 		}
@@ -3175,7 +3175,7 @@
 			$kills = $row['counter'];
 
 			if($kills > 4){
-				sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, 26)", $conn);
+				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 26)", $conn);
 			}
 
 		}
@@ -3189,7 +3189,7 @@
 			$result = sql_query($sql, $conn);
 
 			if(mysqli_num_rows($result) > 2){
-				sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, 17)", $conn);
+				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 17)", $conn);
 			}
 
 		}
@@ -3203,7 +3203,7 @@
 			$result = sql_query($sql, $conn);
 
 			if(mysqli_num_rows($result) > 0){
-				sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, 27)", $conn);
+				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 27)", $conn);
 			}
 
 		}
@@ -3216,7 +3216,7 @@
 		$sql = "SELECT * FROM charSkills c inner join skills s on c.skillID = s.`id` where level = maxLevel and playerID = $acc";
 
 			if(mysqli_num_rows($result) > 0){
-				sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, 16)", $conn);
+				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 16)", $conn);
 			}
 
 		}
@@ -3258,7 +3258,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-			sql_query("INSERT INTO charAchievements (playerID, achievementID) values ($acc, $ach)", $conn);
+			sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, $ach)", $conn);
 		}
 
 	}
@@ -3447,8 +3447,8 @@
 			$sql = "SELECT * FROM `spawnPoints` where displayName = '$loc'";
 			$query = sql_query($sql, $conn);
 
-			if(mysqli_num_rows($query) > 0){
-				$sql = "INSERT INTO playerWaypoints (playerID, spawnID) values ($acc, (SELECT spawnID from spawnPoints WHERE displayName = '$loc'))";
+				if(mysqli_num_rows($query) > 0){
+				$sql = "INSERT INTO playerwaypoints (playerid, spawnid) values ($acc, (SELECT spawnid from spawnpoints WHERE displayname = '$loc'))";
 				sql_query($sql, $conn);
 				return 1;
 			}
