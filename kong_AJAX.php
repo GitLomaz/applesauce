@@ -199,7 +199,7 @@
 					break;
 				case "getEndlessTopFloor":
 					$output["floor"] = getAttribute($conn, "character", "towerLevel", $account);
-					$sql = "select \"count\" from \"inventory\" where \"itemID\" = 235 and \"playerid\" = $account";
+					$sql = "select \"count\" from \"inventory\" where \"itemid\" = 235 and \"playerid\" = $account";
 					$blag = sql_query($sql, $conn);
 					$stones = 0;
 					while($row = mysqli_fetch_array($blag,MYSQLI_ASSOC)){
@@ -354,11 +354,11 @@
 					sql_query($sql, $conn);
 					break;
 				case "stashItem":
-					$sql = "UPDATE \"inventory\" set stored = count + stored, count = 0 where \"itemID\" = $param1 and \"playerid\" = $account";
+					$sql = "UPDATE \"inventory\" set stored = count + stored, count = 0 where \"itemid\" = $param1 and \"playerid\" = $account";
 					sql_query($sql, $conn);
 					break;
 				case "unstashItem":
-					$sql = "UPDATE \"inventory\" set count = count + stored, stored = 0 where \"itemID\" = $param1 and \"playerid\" = $account";
+					$sql = "UPDATE \"inventory\" set count = count + stored, stored = 0 where \"itemid\" = $param1 and \"playerid\" = $account";
 					print $sql;
 					sql_query($sql, $conn);
 					break;
@@ -457,7 +457,7 @@
 						toSpawn($account, $conn);
 					}
 
-					$sql = "UPDATE inventory SET \"count\" = \"archived\", \"archived\" = 0 where playerid = $account and itemID in (93,119,120,108,90,237,238,239)";
+					$sql = "UPDATE inventory SET \"count\" = \"archived\", \"archived\" = 0 where playerid = $account and itemid in (93,119,120,108,90,237,238,239)";
 					sql_query($unlockSQL, $conn);
 					sql_query($sql, $conn);
 					if($param2 == .5){
@@ -631,7 +631,7 @@
 				
 				// Create account row with random account name
 				$randomAccount = "player_" . $playerId . "_" . bin2hex(random_bytes(4));
-				$sql = "INSERT INTO \"account\" (\"playerid\", \"account\", \"password\", \"salt\", \"email\") VALUES (?, ?, 'N/A', 'N/A', 'N/A')";
+				$sql = "INSERT INTO  \"account\" OVERRIDING SYSTEM VALUE (\"playerid\", \"account\", \"password\", \"salt\", \"email\") VALUES (?, ?, 'N/A', 'N/A', 'N/A')";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_bind_param($stmt, "is", $playerId, $randomAccount);
 				mysqli_stmt_execute($stmt);

@@ -17,9 +17,9 @@
 		var $amountStored;
 		var $items;
 
-		function __construct($acc, $itemID) {
+		function __construct($acc, $itemid) {
 
-			$this->itemID = $itemID;
+			$this->itemid = $itemid;
 			$this->playerid = $acc;
 
 			$mysqli = get_db_connection();
@@ -32,7 +32,7 @@
 			}
 
 			/*
-			if ($result = $mysqli->query("SELECT i.itemID, i.count, i.used, i.archived, i.stored, name, image, value, `description`, usable, combat, quest, visible FROM inventory i inner join item t on i.itemID = t.item_ID where playerid = $acc")) {
+			if ($result = $mysqli->query("SELECT i.itemid, i.count, i.used, i.archived, i.stored, name, image, value, `description`, usable, combat, quest, visible FROM inventory i inner join item t on i.itemid = t.item_ID where playerid = $acc")) {
 				while ($row = $result->fetch_object()){
 					$items[] = $row;
 				}

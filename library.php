@@ -109,11 +109,11 @@ function getSingleShopEquipment($conn, $id){
     $keys['evasion'] = "Evasion: ";
     $keys['itemDrop'] = "Item Drop Increase: ";
     $keys['silverDrop'] = "Silver Drop Increase: ";
-    $keys['critChance'] = "Increased Critical Rate ";
+    $keys['critchance'] = "Increased Critical Rate ";
     $keys['critDamage'] = "Bonus Crit Modifier: ";
     $keys['blockChance'] = "Block Chance: ";
 
-    $sql = "SELECT * FROM equipmentTemplate WHERE \"index\" = ".$id;
+    $sql = "SELECT * FROM equipmenttemplate WHERE \"index\" = ".$id;
     $sql_rows = sql_query($sql, $conn);
     while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
         $script = "<strong>Item Name: </strong>".$row['name']."<br/><br/><strong>Item Class: </strong>";
@@ -134,7 +134,7 @@ function getSingleShopEquipment($conn, $id){
             if($row[$key] > 0){
                 $script .= "<strong>" . $value . "</strong>".$row[$key];
                 if(in_array($key, ['fireRes', 'iceRes', 'arcaneRes', 'earthRes', 'holyRes',
-                    'itemDrop', 'silverDrop', 'critChance', 'critDamage', 'blockChance'])){
+                    'itemDrop', 'silverDrop', 'critchance', 'critDamage', 'blockChance'])){
                         $script .= "%";
                     }
                 $script .= "<br/>";
@@ -172,7 +172,7 @@ function cancelQuest($conn, $acc, $quest){
     $sql = "DELETE FROM questPlayerStatus WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
     sql_query($sql, $conn);
     $questRow = getRow($conn, "quests", $quest);
-    $sql = "DELETE FROM \"inventory\" WHERE \"playerid\" = ".$acc." AND \"itemID\" in (".$questRow['req1'].",".$questRow['req2'].",".$questRow['req3'].")";
+    $sql = "DELETE FROM \"inventory\" WHERE \"playerid\" = ".$acc." AND \"itemid\" in (".$questRow['req1'].",".$questRow['req2'].",".$questRow['req3'].")";
     sql_query($sql, $conn);
 }
 
@@ -281,7 +281,7 @@ function getStatusBar($acc, $conn){
     $output["silver"] = $charRow["silver"];
     $output["expString"] = $charRow['exp'].' / '.$charRow['next'];
 
-    $sql = "select script, \"image\", remaining from playerbuffs where name != 'empty' and playerid in ($acc, -1) order by itemID";
+    $sql = "select script, \"image\", remaining from playerbuffs where name != 'empty' and playerid in ($acc, -1) order by itemid";
     $rowset = sql_query($sql, $conn);
     $output["buffs"] = null;
 
@@ -327,7 +327,7 @@ function getEquipment($acc, $conn){
     $keys['evasion'] = "Evasion: ";
     $keys['itemDrop'] = "Item Drop Increase: ";
     $keys['silverDrop'] = "Silver Drop Increase: ";
-    $keys['critChance'] = "Increased Critical Rate ";
+    $keys['critchance'] = "Increased Critical Rate ";
     $keys['critDamage'] = "Bonus Crit Modifier: ";
     $keys['blockChance'] = "Block Chance: ";
 
@@ -352,7 +352,7 @@ function getEquipment($acc, $conn){
             if($row[$key] != "0"){
                 $script .= "<strong>" . $value . "</strong>".$row[$key];
                 if(in_array($key, ['fireRes', 'iceRes', 'arcaneRes', 'earthRes', 'holyRes',
-                    'itemDrop', 'silverDrop', 'critChance', 'critDamage', 'blockChance'])){
+                    'itemDrop', 'silverDrop', 'critchance', 'critDamage', 'blockChance'])){
                         $script .= "%";
                     }
                 $script .= "<br/>";

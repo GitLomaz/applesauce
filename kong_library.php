@@ -211,7 +211,7 @@
 		}
 	}
 	function kongBuff($conn, $acc){
-		$sql = "DELETE from \"playerbuffs\" where itemID = -1 AND playerid = $acc";
+		$sql = "DELETE from \"playerbuffs\" where itemid = -1 AND playerid = $acc";
 		sql_query($sql, $conn);
 		$level = getAttribute($conn, "character", "level", $acc);
 		if($level < 8){
@@ -219,7 +219,7 @@
 		}
 		$bonus = floor($level/3);
 		$string = "<strong>Kongregate Ad Support</strong><br/><br/>Thanks for your ad support! here is a bonus!<br/><br/><strong>Primary Stats: </strong>$bonus";
-		$sql = "insert into \"playerbuffs\" (str, vit, dex, spr, itemID, playerid, name, image, remaining, script) values ($bonus,$bonus,$bonus,$bonus,-1,$acc,'Kongregate Premium Buff','kongBuff',50,'$string')";
+		$sql = "insert into \"playerbuffs\" (str, vit, dex, spr, itemid, playerid, name, image, remaining, script) values ($bonus,$bonus,$bonus,$bonus,-1,$acc,'Kongregate Premium Buff','kongBuff',50,'$string')";
 		sql_query($sql, $conn);
 	}
 	function kongSubmitInitStats($conn, $acc){

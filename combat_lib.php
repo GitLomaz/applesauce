@@ -320,7 +320,7 @@
     {
     	$buffmod = 10;
     	$buffmulti = 1;
-    	$sql = "select sum(test) as active from (SELECT count(*) as test FROM \"playerbuffs\" a where playerid = $acc and itemID in (86,87,88,93,102,87) union SELECT count(*) as test FROM \"equipmentinventory\" b where playerid = $acc and template in (56, 63, 72) and equipped = 1) as t";
+    	$sql = "select sum(test) as active from (SELECT count(*) as test FROM \"playerbuffs\" a where playerid = $acc and itemid in (86,87,88,93,102,87) union SELECT count(*) as test FROM \"equipmentinventory\" b where playerid = $acc and template in (56, 63, 72) and equipped = 1) as t";
 			$query = sql_query($sql, $conn);
     	$row = mysqli_fetch_array($query, MYSQLI_ASSOC);
     	if ($row["active"] > 0) {
@@ -790,11 +790,11 @@
     		$odds = rand(0, 10000);
     		$dropRate = ($dropRow['dropRate'] * $dropMod) * (($calcValues['itemDrop'] / 100) + 1);
     		if ($dropRate > $odds) {
-    			$itemName = getAttribute($conn, "item", "name", $dropRow['itemID']);
+    			$itemName = getAttribute($conn, "item", "name", $dropRow['itemid']);
     			$message = $name . " Dropped: " . $itemName;
     			$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','" . $message . "', 'WHITE', '<strong></strong>')";
     			sql_query($logMessege, $conn);
-    			addItemAmount($conn, $acc, $dropRow['itemID'], 1);
+    			addItemAmount($conn, $acc, $dropRow['itemid'], 1);
     		}
     	}
 
@@ -825,13 +825,13 @@
     				$enemyLevel = 62;
     			}
 
-    			$sql = "select itemID, name from findPotion fp inner join item i on fp.itemID = i.item_id where fp.enemyLevel = $enemyLevel ORDER BY RAND()";
+    			$sql = "select itemid, name from findPotion fp inner join item i on fp.itemid = i.item_id where fp.enemyLevel = $enemyLevel ORDER BY RAND()";
     			$query = sql_query($sql, $conn);
     			$itemRow = mysqli_fetch_array($query, MYSQLI_ASSOC);
     			$message = "You found 1 " . $itemRow['name'] . " on the ground!";
     			$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','" . $message . "', 'WHITE', '<strong></strong>')";
     			sql_query($logMessege, $conn);
-    			addItemAmount($conn, $acc, $itemRow['itemID'], 1);
+    			addItemAmount($conn, $acc, $itemRow['itemid'], 1);
     		}
     	}
 
@@ -1435,11 +1435,11 @@
     	$sql = 'UPDATE "character" set currentTowerLevel = 1 WHERE "playerid" = ' . $acc;
     	sql_query($sql, $conn);
     	$HP = (getAttribute($conn, "calcValues", "maxhealth", $acc) / 2);
-    	$sql = 'SELECT * FROM "playerbuffs" where itemID = 116 AND playerid = ' . $acc;
+    	$sql = 'SELECT * FROM "playerbuffs" where itemid = 116 AND playerid = ' . $acc;
     	$query = sql_query($sql, $conn);
     	logAction($conn, $acc, 'death', NULL, NULL);
     	if (mysqli_num_rows($query) > 0) {
-    		$sql = 'DELETE FROM "playerbuffs" where itemID = 116 AND playerid = ' . $acc;
+    		$sql = 'DELETE FROM "playerbuffs" where itemid = 116 AND playerid = ' . $acc;
     		$query = sql_query($sql, $conn);
     		sql_query('UPDATE "character" set "hitpoints" = ' . $HP . ' WHERE "playerid" = ' . $acc, $conn);
     		sql_query('UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = ' . $acc, $conn);
@@ -1452,7 +1452,7 @@
 
                 sql_query('UPDATE "character" set "hitpoints" = ' . $HP . ' WHERE "playerid" = ' . $acc, $conn);
     			sql_query('UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = ' . $acc, $conn);
-    			sql_query('DELETE FROM "playerbuffs" where "remaining" > 0 AND "playerid" = ' . $acc . ' and itemID != -2', $conn);
+    			sql_query('DELETE FROM "playerbuffs" where "remaining" > 0 AND "playerid" = ' . $acc . ' and itemid != -2', $conn);
 
             }else{
 
@@ -1469,7 +1469,7 @@
 
                     sql_query('UPDATE "character" set "hitpoints" = ' . $HP . ', exp = ' . $XP . ' WHERE "playerid" = ' . $acc, $conn);
                     sql_query('UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = ' . $acc, $conn);
-                    sql_query('DELETE FROM "playerbuffs" where "remaining" > 0 AND "playerid" = ' . $acc . ' and itemID != -2', $conn);
+                    sql_query('DELETE FROM "playerbuffs" where "remaining" > 0 AND "playerid" = ' . $acc . ' and itemid != -2', $conn);
 
                 } else {
 
@@ -1483,7 +1483,7 @@
 
         			sql_query('UPDATE "character" set "hitpoints" = ' . $HP . ', exp = ' . $XP . ' WHERE "playerid" = ' . $acc, $conn);
         			sql_query('UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = ' . $acc, $conn);
-        			sql_query('DELETE FROM "playerbuffs" where "remaining" > 0 AND "playerid" = ' . $acc . ' and itemID != -2', $conn);
+        			sql_query('DELETE FROM "playerbuffs" where "remaining" > 0 AND "playerid" = ' . $acc . ' and itemid != -2', $conn);
 
                 }
             }
