@@ -240,9 +240,9 @@
 		if($row['script'] == "0"){
 
 			if($class == "club"){
-				$array[] = "minDmg|".(ceil(((rand(ceil($row['level']/10),ceil(($row['level']+20)/8)))/100) * $row['baseDmgMin']) + 1);
-				$array[] = "maxDmg|".(ceil(((rand(ceil($row['level']/10),ceil(($row['level']+20)/8)))/100) * $row['baseDmgMin']) + 1);
-				$array[] = "maxDmg|".(ceil(((rand(ceil($row['level']/10),ceil(($row['level']+20)/8)))/100) * $row['baseDmgMin']) + 1);
+				$array[] = "mindmg|".(ceil(((rand(ceil($row['level']/10),ceil(($row['level']+20)/8)))/100) * $row['baseDmgMin']) + 1);
+				$array[] = "maxdmg|".(ceil(((rand(ceil($row['level']/10),ceil(($row['level']+20)/8)))/100) * $row['baseDmgMin']) + 1);
+				$array[] = "maxdmg|".(ceil(((rand(ceil($row['level']/10),ceil(($row['level']+20)/8)))/100) * $row['baseDmgMin']) + 1);
 				$array[] = "str|".(rand(ceil($row['level']/10),ceil(($row['level']+20)/8)) + 1);
 				$array[] = "str|".(rand(ceil($row['level']/10),ceil(($row['level']+20)/8)) + 1);
 				$array[] = "dex|".(rand(ceil($row['level']/10),ceil(($row['level']+20)/8)) + 1);
@@ -251,8 +251,8 @@
 
 
 			if($class == "sword"){
-				$array[] = "minDmg|".(ceil(((rand(ceil($row['level']/10),ceil(($row['level']+20)/8)))/100) * $row['baseDmgMin']) + 1);
-				$array[] = "maxDmg|".(ceil(((rand(ceil($row['level']/10),ceil(($row['level']+20)/8)))/100) * $row['baseDmgMin']) + 1);
+				$array[] = "mindmg|".(ceil(((rand(ceil($row['level']/10),ceil(($row['level']+20)/8)))/100) * $row['baseDmgMin']) + 1);
+				$array[] = "maxdmg|".(ceil(((rand(ceil($row['level']/10),ceil(($row['level']+20)/8)))/100) * $row['baseDmgMin']) + 1);
 				$array[] = "critchance|".(rand(ceil($row['level']/10),ceil(($row['level']+20)/8)) + 1);
 				$array[] = "critchance|".(rand(ceil($row['level']/10),ceil(($row['level']+20)/8)) + 1);
 				$array[] = "str|".(rand(ceil($row['level']/10),ceil(($row['level']+20)/8)) + 1);
@@ -382,7 +382,7 @@
 						$row[$attr] = $row[$attr] + $number;
 						$name = $attr;
 
-						if($name == 'minDmg' || $name == 'maxDmg'){
+						if($name == 'mindmg' || $name == 'maxdmg'){
 							$name = 'damage';
 						}
 
@@ -410,7 +410,7 @@
 			$sql .= "\"iceres\", \"arcaneres\", \"holyres\", \"maxhp\", \"maxmp\", \"regenhp\", \"regenmp\", \"evasion\", \"itemdrop\", \"silverdrop\", ";
 			$sql .= "\"critchance\", \"critDamage\", \"blockchance\", \"template\", \"statString\", \"bonusPotHeal\", \"bonusPotMana\", \"expDrop\", \"healthPerc\", \"manaPerc\", \"strPerc\", \"vitPerc\", \"dexPerc\", \"sprPerc\", \"spellReduction\") VALUES ('".$row['script']."', ".$acc.", ".$row['price'].", '".$row['image']."', '".$row['name']."', '".$row['slot']."', '".$row['class']."', ";
 			$sql .= $row['baseDmgMin'].", ".$row['baseDmgMax'].", ".$row['baseArmor'].", ".$row['level'].", ".$row['str'].", ".$row['dex'].", ".$row['spr'].", ";
-			$sql .= $row['vit'].", ".$row['minDmg'].", ".$row['maxDmg'].", ".$row['armor'].", ".$row['fireRes'].", ".$row['earthRes'].", ".$row['iceRes'].", ";
+			$sql .= $row['vit'].", ".$row['mindmg'].", ".$row['maxdmg'].", ".$row['armor'].", ".$row['fireRes'].", ".$row['earthRes'].", ".$row['iceRes'].", ";
 			$sql .= $row['arcaneRes'].", ".$row['holyres'].", ".$row['maxHP'].", ".$row['maxMP'].", ".$row['regenHP'].", ".$row['regenMP'].", ".$row['evasion'].", ";
 			$sql .= $row['itemDrop'].", ".$row['silverDrop'].", ".$row['critchance'].", ".$row['critDamage'].", ".$row['blockchance'].", $id, '".$row['statString']."', ".$row['bonusPotHeal'].", ".$row['bonusPotMana'].", ".$row['expDrop'].", ".$row['healthPerc'].", ".$row['manaPerc'].", ".$row['strPerc'].", ".$row['vitPerc'].", ".$row['dexPerc'].", ".$row['sprPerc'].", ".$row['spellReduction'].")";
 			sql_query($sql, $conn);
@@ -439,8 +439,8 @@
 		$row['dex'] = floor(rand($row['dex'] * .7, $row['dex'] * 1.3));
 		$row['spr'] = floor(rand($row['spr'] * .7, $row['spr'] * 1.3));
 		$row['vit'] = floor(rand($row['vit'] * .7, $row['vit'] * 1.3));
-		$row['minDmg'] = floor(rand($row['minDmg'] * .7, $row['minDmg'] * 1.3));
-		$row['maxDmg'] = floor(rand($row['maxDmg'] * .7, $row['maxDmg'] * 1.3));
+		$row['mindmg'] = floor(rand($row['mindmg'] * .7, $row['mindmg'] * 1.3));
+		$row['maxdmg'] = floor(rand($row['maxdmg'] * .7, $row['maxdmg'] * 1.3));
 		$row['maxHP'] = floor(rand($row['maxHP'] * .7, $row['maxHP'] * 1.3));
 		$row['maxMP'] = floor(rand($row['maxMP'] * .7, $row['maxMP'] * 1.3));
 		$row['evasion'] = floor(rand($row['evasion'] * .7, $row['evasion'] * 1.3));
@@ -486,7 +486,7 @@
 		$sql .= "\"manaPerc\", \"strPerc\", \"vitPerc\", \"dexPerc\", \"sprPerc\", \"spellReduction\", \"shapelessRes\", \"shapelessExpDrop\", \"shapelessDmg\") VALUES ('";
 		$sql .= $row['script']."', ".$acc.", ".$row['price'].", '".$row['image']."', '".$row['name']."', '".$row['slot']."', '".$row['class']."', ";
 		$sql .= $row['baseDmgMin'].", ".$row['baseDmgMax'].", ".$row['baseArmor'].", ".$row['level'].", ".$row['str'].", ".$row['dex'].", ".$row['spr'].", ";
-		$sql .= $row['vit'].", ".$row['minDmg'].", ".$row['maxDmg'].", ".$row['armor'].", ".$row['fireRes'].", ".$row['earthRes'].", ".$row['iceRes'].", ";
+		$sql .= $row['vit'].", ".$row['mindmg'].", ".$row['maxdmg'].", ".$row['armor'].", ".$row['fireRes'].", ".$row['earthRes'].", ".$row['iceRes'].", ";
 		$sql .= $row['arcaneRes'].", ".$row['holyres'].", ".$row['maxHP'].", ".$row['maxMP'].", ".$row['regenHP'].", ".$row['regenMP'].", ".$row['evasion'].", ";
 		$sql .= $row['itemDrop'].", ".$row['silverDrop'].", ".$row['critchance'].", ".$row['critDamage'].", ".$row['blockchance'].", $id, '".$row['statString']."', ";
 		$sql .= $row['bonusPotHeal'].", ".$row['bonusPotMana'].", ".$row['expDrop'].", ".$row['healthPerc'].", ".$row['manaPerc'].", ".$row['strPerc'].", ";
@@ -613,13 +613,13 @@
 			}
 
 
-			if($row['minDmg'] > 0){
-				$script .= "<strong>Bonus Min Damage: </strong>".$row['minDmg']."<br/>";
+			if($row['mindmg'] > 0){
+				$script .= "<strong>Bonus Min Damage: </strong>".$row['mindmg']."<br/>";
 			}
 
 
-			if($row['maxDmg'] > 0){
-				$script .= "<strong>Bonus Max Damage: </strong>".$row['maxDmg']."<br/>";
+			if($row['maxdmg'] > 0){
+				$script .= "<strong>Bonus Max Damage: </strong>".$row['maxdmg']."<br/>";
 			}
 
 
@@ -943,13 +943,13 @@
 			}
 
 
-			if($row['minDmg'] > 0){
-				$script .= "<strong>Bonus Min Damage: </strong>".$row['minDmg']."<br/>";
+			if($row['mindmg'] > 0){
+				$script .= "<strong>Bonus Min Damage: </strong>".$row['mindmg']."<br/>";
 			}
 
 
-			if($row['maxDmg'] > 0){
-				$script .= "<strong>Bonus Max Damage: </strong>".$row['maxDmg']."<br/>";
+			if($row['maxdmg'] > 0){
+				$script .= "<strong>Bonus Max Damage: </strong>".$row['maxdmg']."<br/>";
 			}
 
 
@@ -1456,11 +1456,11 @@
 				((("character"."strength" + "equipmentbonus"."str") + "buffsbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) AS "str",
 				((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex") AS "dex",
 				((("character"."vitality" + "equipmentbonus"."vit") + FLOOR((("character"."vitality" * "equipmentbonus"."vitPerc") / 100))) + "buffsbonus"."vit") AS "vit",
-				(("equipmentbonus"."baseDmgMin" + "equipmentbonus"."minDmg") + "buffsbonus"."minDmg") AS "minDmg",
-				(("equipmentbonus"."baseDmgMax" + "equipmentbonus"."maxDmg") + "buffsbonus"."maxDmg") AS "maxDmg",
+				(("equipmentbonus"."baseDmgMin" + "equipmentbonus"."mindmg") + "buffsbonus"."mindmg") AS "mindmg",
+				(("equipmentbonus"."baseDmgMax" + "equipmentbonus"."maxdmg") + "buffsbonus"."maxdmg") AS "maxdmg",
 				(((((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex") * 1.5) + "character"."level") + "buffsbonus"."evasion") AS "flee",
 				((((((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex") * 1.5) + (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") * 0.75)) + "character"."level") + 100) AS "hit",
-				((1 / ((1 / (((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr") / 150)) + 0.9)) + (("equipmentbonus"."critchance" + "buffsbonus"."critchance") / 100)) AS "critRate",
+				((1 / ((1 / (((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr") / 150)) + 0.9)) + (("equipmentbonus"."critchance" + "buffsbonus"."critchance") / 100)) AS "critrate",
 				(((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 150)) + 0.9)) + 0.1) + (("equipmentbonus"."critDamage" + "buffsbonus"."critDamage") / 100)) AS "critMulti",
 				((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 750)) + 0.5)) + ("equipmentbonus"."blockchance" / 100)) AS "block",
 				("equipmentbonus"."armor" + "buffsbonus"."armor") AS "armor",
@@ -1485,7 +1485,7 @@
 				"equipmentbonus"."sprPerc" AS "sprPerc",
 				"equipmentbonus"."vitPerc" AS "vitPerc",
 				"equipmentbonus"."spellReduction" AS "spellReduction",
-				COALESCE("buffsbonus"."weapElement", \'physical\') AS "weapElement",
+				COALESCE("buffsbonus"."weapelement", \'physical\') AS "weapelement",
 				"equipmentbonus"."shapelessRes" AS "shapelessRes",
 				"equipmentbonus"."shapelessExpDrop" AS "shapelessExpDrop",
 				"equipmentbonus"."shapelessDmg" AS "shapelessDmg",
@@ -1524,11 +1524,11 @@
 		        ((("character"."strength" + "equipmentbonus"."str") + "buffsbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) AS "str",
 		        ((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex") AS "dex",
 		        ((("character"."vitality" + "equipmentbonus"."vit") + FLOOR((("character"."vitality" * "equipmentbonus"."vitPerc") / 100))) + "buffsbonus"."vit") AS "vit",
-		        (("equipmentbonus"."baseDmgMin" + "equipmentbonus"."minDmg") + "buffsbonus"."minDmg") AS "minDmg",
-		        (("equipmentbonus"."baseDmgMax" + "equipmentbonus"."maxDmg") + "buffsbonus"."maxDmg") AS "maxDmg",
+		        (("equipmentbonus"."baseDmgMin" + "equipmentbonus"."mindmg") + "buffsbonus"."mindmg") AS "mindmg",
+		        (("equipmentbonus"."baseDmgMax" + "equipmentbonus"."maxdmg") + "buffsbonus"."maxdmg") AS "maxdmg",
 		        (((((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex") * 1.5) + "character"."level") + "buffsbonus"."evasion") AS "flee",
 		        ((((((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex") * 1.5) + (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") * 0.75)) + "character"."level") + 100) AS "hit",
-		        ((1 / ((1 / (((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr") / 150)) + 0.9)) + (("equipmentbonus"."critchance" + "buffsbonus"."critchance") / 100)) AS "critRate",
+		        ((1 / ((1 / (((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr") / 150)) + 0.9)) + (("equipmentbonus"."critchance" + "buffsbonus"."critchance") / 100)) AS "critrate",
 		        (((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 150)) + 0.9)) + 0.1) + (("equipmentbonus"."critDamage" + "buffsbonus"."critDamage") / 100)) AS "critMulti",
 		        ((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 750)) + 0.5)) + ("equipmentbonus"."blockchance" / 100)) AS "block",
 		        ("equipmentbonus"."armor" + "buffsbonus"."armor") AS "armor",
@@ -1553,7 +1553,7 @@
 		        "equipmentbonus"."sprPerc" AS "sprPerc",
 		        "equipmentbonus"."vitPerc" AS "vitPerc",
 		        "equipmentbonus"."spellReduction" AS "spellReduction",
-		        COALESCE("buffsbonus"."weapElement", \'physical\') AS "weapElement",
+		        COALESCE("buffsbonus"."weapelement", \'physical\') AS "weapelement",
 		        "equipmentbonus"."shapelessRes" AS "shapelessRes",
 		        "equipmentbonus"."shapelessExpDrop" AS "shapelessExpDrop",
 		        "equipmentbonus"."shapelessDmg" AS "shapelessDmg"
@@ -3732,7 +3732,7 @@
 					logAction($conn, $acc, "Crafting (Failure)", $itemName, null);
 					return "Crafting Failed: Item Destroyed!";
 				}else{
-					$sql = "update equipmentinventory set minDmg = minDmg + 1, maxDmg = maxDmg+ 2, upgrade = upgrade + 1, price = ". $recipe["cost"] ." where \"index\" = " . $ing[0];
+					$sql = "update equipmentinventory set mindmg = mindmg + 1, maxdmg = maxdmg+ 2, upgrade = upgrade + 1, price = ". $recipe["cost"] ." where \"index\" = " . $ing[0];
 					sql_query($sql, $conn);
 					$itemName = $recipe["name"];
 					logAction($conn, $acc, "Crafting (Success)", $itemName, null);

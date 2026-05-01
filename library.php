@@ -46,7 +46,7 @@ function getKey($table){
         case "combat":
             $table = "combatID";
             break;
-        case "combatEnemies":
+        case "combatenemies":
             $table = "combatenemyid";
             break;
         case "drops":
@@ -96,8 +96,8 @@ function getSingleShopEquipment($conn, $id){
     $keys['dex'] = "Dexterity: ";
     $keys['spr'] = "Spirit: ";
     $keys['vit'] = "Vitality: ";
-    $keys['minDmg'] = "Bonus Min Damage: ";
-    $keys['maxDmg'] = "Bonus Max Damage: ";
+    $keys['mindmg'] = "Bonus Min Damage: ";
+    $keys['maxdmg'] = "Bonus Max Damage: ";
     $keys['armor'] = "Bonus Armor: ";
     $keys['fireRes'] = "Fire Resistance: ";
     $keys['iceRes'] = "Ice Resistance: ";
@@ -311,8 +311,8 @@ function getEquipment($acc, $conn){
     $keys['dex'] = "Dexterity: ";
     $keys['spr'] = "Spirit: ";
     $keys['vit'] = "Vitality: ";
-    $keys['minDmg'] = "Bonus Min Damage: ";
-    $keys['maxDmg'] = "Bonus Max Damage: ";
+    $keys['mindmg'] = "Bonus Min Damage: ";
+    $keys['maxdmg'] = "Bonus Max Damage: ";
     $keys['armor'] = "Bonus Armor: ";
     $keys['fireRes'] = "Fire Resistance: ";
     $keys['iceRes'] = "Ice Resistance: ";
@@ -395,7 +395,7 @@ function getCalcStats($acc, $conn){
     }
     $calcRow["block"] = $block;
 
-    $calcRow['critRate'] = floor($calcRow['critRate'] * 100);
+    $calcRow['critrate'] = floor($calcRow['critrate'] * 100);
     $calcRow['critMulti'] = floor($calcRow['critMulti'] * 100);
 
     $calcRow['combatItems'] = getEquippedItems($acc, $conn);
@@ -408,8 +408,8 @@ function getCalcStats($acc, $conn){
     unset($calcRow["str"]);
     unset($calcRow["vit"]);
     unset($calcRow["dex"]);
-    unset($calcRow["minDmg"]);
-    unset($calcRow["maxDmg"]);
+    unset($calcRow["mindmg"]);
+    unset($calcRow["maxdmg"]);
     unset($calcRow["weapon"]);
     unset($calcRow["itemDrop"]);
     unset($calcRow["silverDrop"]);
@@ -423,7 +423,7 @@ function getCalcStats($acc, $conn){
     unset($calcRow["sprPerc"]);
     unset($calcRow["vitPerc"]);
     unset($calcRow["spellReduction"]);
-    unset($calcRow["weapElement"]);
+    unset($calcRow["weapelement"]);
 
     return $calcRow;
 }

@@ -45,7 +45,7 @@
 				$iceresists = '<span style="color:blue">Ice: </span>'.$row["iceRes"]."%<br/>";
 				$holyresists = '<span style="color:white">Holy: </span>'.$row["holyres"]."%<br/>";
 				$arcaneresists = '<span style="color:purple">Arcane: </span>'.$row["arcaneRes"]."%<br/>";
-				$phyresists = '<span style="color:grey">Phys.: </span>'.$row["physicalRes"]."%<br/>";
+				$phyresists = '<span style="color:grey">Phys.: </span>'.$row["physicalres"]."%<br/>";
 				$color = "#a2b0b6";
 			}else{
 				$fireresists = '<span style="color:red">Fire: </span>??<br/>';
