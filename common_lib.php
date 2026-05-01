@@ -2206,7 +2206,7 @@
 		//
 		//  --------------------------------------------------------------------------------------------------
 		$output = array();
-		$sql_shop_result = sql_query("SELECT * FROM "equipmentShops" WHERE shop_index = $shop", $conn);
+		$sql_shop_result = sql_query("SELECT * FROM \"equipmentShops\" WHERE shop_index = $shop", $conn);
 		while($row = mysqli_fetch_array($sql_shop_result,MYSQLI_ASSOC)){
 			$output[] = getSingleEquipment($conn, $row['item_1']);
 			$output[] = getSingleEquipment($conn, $row['item_2']);
@@ -2525,7 +2525,7 @@
 	// -- Params : $conn, $acc, $item
 	// -- Purpose : Returns the current count of an item on an an account
 	function getInventoryItem($conn, $acc, $item){
-		$sql = "SELECT * FROM \"inventory\" WHERE "playerID" = ".$acc." AND "itemID" = ".$item;
+		$sql = "SELECT * FROM \"inventory\" WHERE \"playerID\" = ".$acc." AND \"itemID\" = ".$item;
 		$itemRow = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($itemRow['count'] == ''){
@@ -2539,7 +2539,7 @@
 	// -- Params : $conn, $acc, $item
 	// -- Purpose : Returns the current count of an item on an an account
 	function getStoredItem($conn, $acc, $item){
-		$sql = "SELECT * FROM \"inventory\" WHERE "playerID" = ".$acc." AND "itemID" = ".$item;
+		$sql = "SELECT * FROM \"inventory\" WHERE \"playerID\" = ".$acc." AND \"itemID\" = ".$item;
 		$itemRow = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($itemRow['stored'] == ''){
@@ -2555,9 +2555,9 @@
 	function removeItemAmount($conn, $acc, $item, $amnt, $use){
 
 		if($use == true){
-			$sql = "UPDATE \"inventory\" set \"count\" = \"count\" - ".$amnt.", \"used\" = \"used\" + ".$amnt." WHERE "playerID" = ".$acc." AND "itemID" = ".$item;
+			$sql = "UPDATE \"inventory\" set \"count\" = \"count\" - ".$amnt.", \"used\" = \"used\" + ".$amnt." WHERE \"playerID\" = ".$acc." AND \"itemID\" = ".$item;
 		} else {
-			$sql = "UPDATE \"inventory\" set \"count\" = \"count\" - ".$amnt." WHERE "playerID" = ".$acc." AND "itemID" = ".$item;
+			$sql = "UPDATE \"inventory\" set \"count\" = \"count\" - ".$amnt." WHERE \"playerID\" = ".$acc." AND \"itemID\" = ".$item;
 		}
 
 		sql_query($sql, $conn);
@@ -2593,7 +2593,7 @@
 		if($item == 0){
 			return;
 		}
-		$sql = "UPDATE \"inventory\" set \"count\" = \"count\" + ".$amnt." WHERE "playerID" = ".$acc." AND "itemID" = ".$item;
+		$sql = "UPDATE \"inventory\" set \"count\" = \"count\" + ".$amnt." WHERE \"playerID\" = ".$acc." AND \"itemID\" = ".$item;
 		sql_query($sql, $conn);
 
 		if(mysqli_affected_rows($conn) == 0){
@@ -2608,7 +2608,7 @@
 	// -- Purpose : Grabs current quest from NPC
 	function getQuest($conn, $acc, $npc){
 
-		$sql = "SELECT * FROM \"quests\" WHERE  "npcID" = $npc AND startDate < NOW() AND endDate > NOW()";
+		$sql = "SELECT * FROM \"quests\" WHERE  \"npcID\" = $npc AND \"startDate\" < NOW() AND \"endDate\" > NOW()";
 		$sql_rows = sql_query($sql, $conn);
 		$counter = 1;
 		$quests = false;
@@ -2616,7 +2616,7 @@
 			$quests = true;
 			//Cycles through each row tel one incomplete
 			$quest = $questList['questID'];
-			$sql = "SELECT * FROM "questPlayerStatus" WHERE "playerID" = ".$acc." AND "questID" = ".$quest;
+			$sql = "SELECT * FROM \"questPlayerStatus\" WHERE \"playerID\" = ".$acc." AND \"questID\" = ".$quest;
 			//Grabs the quest status from table
 			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$questTitle = getAttribute($conn, "quests", "name", $quest);
@@ -2690,7 +2690,7 @@
 			if($quest == 32){
 				$quest = 27;
 			}
-			$sql = "SELECT * FROM "questPlayerStatus" WHERE "playerID" = ".$acc." AND "questID" = ".$quest;
+			$sql = "SELECT * FROM \"questPlayerStatus\" WHERE \"playerID\" = ".$acc." AND \"questID\" = ".$quest;
 			//Grabs the quest status from table
 			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$questTitle = getAttribute($conn, "quests", "name", $quest);
@@ -2735,11 +2735,11 @@
 	// -- Params : $conn, $acc, $quest
 	// -- Purpose : Starts a quest based on ID
 	function startQuest($conn, $acc, $quest){
-		$sql = "UPDATE "questPlayerStatus" set \"status\" = 'working' WHERE "playerID" = ".$acc." AND "questID" = ".$quest;
+		$sql = "UPDATE \"questPlayerStatus\" set \"status\" = 'working' WHERE \"playerID\" = ".$acc." AND \"questID\" = ".$quest;
 		sql_query($sql, $conn);
 
 		if(mysqli_affected_rows($conn) == 0){
-			$sql = "INSERT INTO \"questplayerstatus\" (\"playerid\", \"questid\", \"status\") VALUES (".$acc.",".$quest.",'working')";
+			$sql = "INSERT INTO \"questPlayerStatus\" (\"playerID\", \"questID\", \"status\") VALUES (".$acc.",".$quest.",'working')";
 			sql_query($sql, $conn);
 		}
 		$questName = getAttribute($conn, 'quests', 'name', $quest);
@@ -2750,7 +2750,7 @@
 	// -- Params : $conn, $acc, $quest
 	// -- Purpose : Cancels a quest based on ID
 	function cancelQuest($conn, $acc, $quest){
-		$sql = "DELETE FROM "questPlayerStatus" WHERE "playerID" = ".$acc." AND "questID" = ".$quest;
+		$sql = "DELETE FROM \"questPlayerStatus\" WHERE \"playerID\" = ".$acc." AND \"questID\" = ".$quest;
 		sql_query($sql, $conn);
 		$questRow = getRow($conn, "quests", $quest);
 		$counter = 0;
@@ -2759,7 +2759,7 @@
 			$item = $questRow['req'.$counter];
 
 			if($item != 0){
-				$sql = "DELETE FROM \"inventory\" WHERE "playerID" = ".$acc." AND "itemID" = ".$item;
+				$sql = "DELETE FROM \"inventory\" WHERE \"playerID\" = ".$acc." AND \"itemID\" = ".$item;
 				sql_query($sql, $conn);
 			}
 
@@ -2793,10 +2793,10 @@
 		$repeat = getAttribute($conn, "quests", "repeatable", $quest);
 
 		if($repeat == 1){
-			$sql = "DELETE FROM "questPlayerStatus" WHERE "playerID" = ".$acc." AND "questID" = ".$quest;
+			$sql = "DELETE FROM \"questPlayerStatus\" WHERE \"playerID\" = ".$acc." AND \"questID\" = ".$quest;
 			sql_query($sql, $conn);
 		} else {
-			$sql = "UPDATE "questPlayerStatus" set \"status\" = 'complete' WHERE "playerID" = ".$acc." AND "questID" = ".$quest;
+			$sql = "UPDATE \"questPlayerStatus\" set \"status\" = 'complete' WHERE \"playerID\" = ".$acc." AND \"questID\" = ".$quest;
 			sql_query($sql, $conn);
 		}
 
@@ -2810,7 +2810,7 @@
 			$amnt = $questRow['req'.$counter."amnt"];
 
 			if($item != 0){
-				$sql = "DELETE FROM \"inventory\" WHERE "playerID" = ".$acc." AND "itemID" = ".$item;
+				$sql = "DELETE FROM \"inventory\" WHERE \"playerID\" = ".$acc." AND \"itemID\" = ".$item;
 				sql_query($sql, $conn);
 			}
 
@@ -2946,7 +2946,7 @@
 	// -- Purpose : Gets all achievements
 	function getAchievementList($conn){
 		$output = array();
-		$sql = 'SELECT * FROM "achievements" order by "order"';
+		$sql = 'SELECT * FROM \"achievements\" order by \"order\"';
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$script = "<strong>".($row['name'] ?? '')." </strong><br><br>".($row['description'] ?? '')."<br><br>[complete]";
@@ -3222,7 +3222,7 @@
 		}
 
 		// ================================================== Get All Achievements ===================================================
-		$sql = 'SELECT * FROM "achievements" order by "order"';
+		$sql = 'SELECT * FROM \"achievements\" order by \"order\"';
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$counter = $row['index'];
@@ -3267,7 +3267,7 @@
 	// -- Params : $conn, $acc
 	// -- Purpose : gets all complete quests for log
 	function getCompleteQuests($conn, $acc){
-		$sql = "SELECT DISTINCT(q.questID) as questID, count(*) as 'count', repeatable, name FROM "completeQuests" c inner join \"quests\" q on c.questID = q.questID where playerID = $acc group by questID";
+		$sql = "SELECT DISTINCT(q.questID) as questID, count(*) as 'count', repeatable, name FROM \"completeQuests\" c inner join \"quests\" q on c.questID = q.questID where playerID = $acc group by questID";
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$string = $row['questID']."|".$row['repeatable']."|".$row['count']."|".$row['name'];
@@ -3281,7 +3281,7 @@
 	// -- Params : $conn, $acc
 	// -- Purpose : gets all incomplete quests for log
 	function getIncompleteQuests($conn, $acc){
-		$sql = "SELECT DISTINCT(q.questID) as questID, name FROM "questPlayerStatus" c inner join \"quests\" q on c.questID = q.questID where playerID = $acc and status = 'working'";
+		$sql = "SELECT DISTINCT(q.questID) as questID, name FROM \"questPlayerStatus\" c inner join \"quests\" q on c.questID = q.questID where playerID = $acc and status = 'working'";
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$string = $row['questID'].'|'.$row['name'];
@@ -3301,7 +3301,7 @@
 		while($questList = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 			//Cycles through each row tel one incomplete
 			$quest = $questID;
-			$sql = "SELECT * FROM "questPlayerStatus" s inner join quests q on q.questID = s.questID WHERE "playerID" = ".$acc." AND q.questID = ".$quest;
+			$sql = "SELECT * FROM \"questPlayerStatus\" s inner join \"quests\" q on q.\"questID\" = s.\"questID\" WHERE \"playerID\" = ".$acc." AND q.\"questID\" = ".$quest;
 			//Grabs the quest status from table
 			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			//if($Row['status'] == "" || $Row['status'] == "working"){
@@ -3439,12 +3439,12 @@
 	// -- Params : $conn, $acc, $loc
 	// -- Purpose : updates zone info
 	function updateZone($conn, $acc, $loc){
-		sql_query("UPDATE "character" SET "zone" = '$loc' WHERE playerID = ".$acc, $conn);
+		sql_query("UPDATE \"character\" SET \"zone\" = '$loc' WHERE \"playerID\" = ".$acc, $conn);
 		$sql = "SELECT * FROM playerWaypoints p inner join spawnPoints s on s.spawnID = p.spawnID where p.playerID = $acc and s.displayName = '$loc' order by p.index desc";
 		$query = sql_query($sql, $conn);
 
 		if(mysqli_num_rows($query) == 0){
-			$sql = "SELECT * FROM "spawnPoints" where displayName = '$loc'";
+			$sql = "SELECT * FROM \"spawnPoints\" where displayName = '$loc'";
 			$query = sql_query($sql, $conn);
 
 				if(mysqli_num_rows($query) > 0){
@@ -3463,15 +3463,15 @@
 	function getShadows($conn, $acc){
 		$map = getAttribute($conn, "character", "map", $acc);
 		if($map != 'endless.php?'){
-			$sql = "SELECT l.* FROM \"character\" c INNER JOIN "lightSources" l on c.map = l.map inner join \"account\" a on a.playerID = c.playerID where c.playerID = $acc and a.light != 0";
+			$sql = "SELECT l.* FROM \"character\" c INNER JOIN \"lightSources\" l on c.map = l.map inner join \"account\" a on a.playerID = c.playerID where c.playerID = $acc and a.light != 0";
 		}else{  //endless tower lights
 			$floor = getAttribute($conn, "character", "currentTowerLevel", $acc);
 			if($floor == 1){
-				$sql = "SELECT l.* FROM \"character\" c INNER JOIN "lightSources" l on 'endless.php?1' = l.map inner join \"account\" a on a.playerID = c.playerID where c.playerID = $acc and a.light != 0";
+				$sql = "SELECT l.* FROM \"character\" c INNER JOIN \"lightSources\" l on 'endless.php?1' = l.map inner join \"account\" a on a.playerID = c.playerID where c.playerID = $acc and a.light != 0";
 			}else if (($floor - 1) % 10 == 0){
-				$sql = "SELECT l.* FROM \"character\" c INNER JOIN "lightSources" l on 'endless.php?0' = l.map inner join \"account\" a on a.playerID = c.playerID where c.playerID = $acc and a.light != 0";
+				$sql = "SELECT l.* FROM \"character\" c INNER JOIN \"lightSources\" l on 'endless.php?0' = l.map inner join \"account\" a on a.playerID = c.playerID where c.playerID = $acc and a.light != 0";
 			}else{
-				$sql = "SELECT l.* FROM \"character\" c INNER JOIN "lightSources" l on 'endless.php?x' = l.map inner join \"account\" a on a.playerID = c.playerID where c.playerID = $acc and a.light != 0";
+				$sql = "SELECT l.* FROM \"character\" c INNER JOIN \"lightSources\" l on 'endless.php?x' = l.map inner join \"account\" a on a.playerID = c.playerID where c.playerID = $acc and a.light != 0";
 			}
 		}
 		$result = sql_query($sql, $conn);
@@ -3763,17 +3763,17 @@
 			$result = sql_query($sql, $conn);
 			$row = mysqli_fetch_array($result,MYSQLI_ASSOC);
 			$success = true;
-			$sql = "update inventory set count = count - 1 where playerID = $acc and count > 0 and itemID = " . $row[\"item1\"];
+			$sql = "update inventory set count = count - 1 where playerID = $acc and count > 0 and itemID = " . $row["item1"];
 			$query = sql_query($sql, $conn);
 			if (mysqli_affected_rows($conn) == 0) {
 				$success = false;
 			}
-			$sql = "update inventory set count = count - 1 where playerID = $acc and count > 0 and itemID = " . $row[\"item2\"];
+			$sql = "update inventory set count = count - 1 where playerID = $acc and count > 0 and itemID = " . $row["item2"];
 			$query = sql_query($sql, $conn);
 			if (mysqli_affected_rows($conn) == 0) {
 				$success = false;
 			}
-			$sql = "update inventory set count = count - 1 where playerID = $acc and count > 0 and itemID = " . $row[\"item3\"];
+			$sql = "update inventory set count = count - 1 where playerID = $acc and count > 0 and itemID = " . $row["item3"];
 			$query = sql_query($sql, $conn);
 			if (mysqli_affected_rows($conn) == 0) {
 				$success = false;
