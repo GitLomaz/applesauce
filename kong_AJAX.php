@@ -34,12 +34,12 @@
 		error_log("JS ERROR FOR $acc: " . $_POST['text']);
 	}
 	if(strLen($token)>5){
-		$sqlToken = "SELECT * FROM `sessions` where `cookie` = '$token'";
+		$sqlToken = "SELECT * FROM "sessions" where "cookie" = '$token'";
 		$query = sql_query($sqlToken, $conn);
 		if(mysqli_num_rows($query) > 0){
 			if($call != 'getChat'){
 				if($account == ''){
-					$sqlGetAccount = sql_query("SELECT `account` from `sessions` where `cookie` = '$token'", $conn);
+					$sqlGetAccount = sql_query("SELECT "account" from "sessions" where "cookie" = '$token'", $conn);
 					$row = mysqli_fetch_array($sqlGetAccount,MYSQLI_ASSOC);
 					$account = $row['account'] ?? null;
 				}
@@ -50,7 +50,7 @@
 				// Don't update session expiry if no account exists
 			} else {
 				// Update session expiry by cookie
-			$sql = "UPDATE `sessions` SET `cookie` = '" . $token . "', `expiry` = NOW() + INTERVAL '". SESSION_TIMEOUT_MINUTES ." MINUTE' WHERE `type` = 'Session' AND `cookie` = '" . $token . "'";
+			$sql = "UPDATE "sessions" SET "cookie" = '" . $token . "', "expiry" = NOW() + INTERVAL '". SESSION_TIMEOUT_MINUTES ." MINUTE' WHERE "type" = 'Session' AND "cookie" = '" . $token . "'";
 				sql_query($sql, $conn);
 			}
 			}
@@ -60,7 +60,7 @@
 			switch ($call){
 				case "createLight":
 					if($account == 437){
-						sql_query("insert into lightSources (map, radius, x, y) select map, $param1, $param2, $param3 FROM `character` where playerID = 437", $conn);
+						sql_query("insert into lightSources (map, radius, x, y) select map, $param1, $param2, $param3 FROM "character" where playerID = 437", $conn);
 					}
 					break;
 				case "checkCombat":
@@ -110,13 +110,13 @@
 					print json_encode($output);
 					if($output["combatStatus2"] == 1 || $output["combatStatus1"] == 2){
 						decreaseBuff($conn, $account);
-						sql_query("DELETE FROM `combat` WHERE `playerID` = ".$account, $conn);
-						sql_query("DELETE FROM `combatEnemies` WHERE `playerID` = ".$account, $conn);
-						sql_query("DELETE FROM `enemyEffects` WHERE `playerID` = ".$account, $conn);
+						sql_query("DELETE FROM "combat" WHERE "playerID" = ".$account, $conn);
+						sql_query("DELETE FROM "combatEnemies" WHERE "playerID" = ".$account, $conn);
+						sql_query("DELETE FROM "enemyEffects" WHERE "playerID" = ".$account, $conn);
 					}else if($output["combatStatus2"] == 3){
-						sql_query("DELETE FROM `combat` WHERE `playerID` = ".$account, $conn);
-						sql_query("DELETE FROM `combatEnemies` WHERE `playerID` = ".$account, $conn);
-						sql_query("DELETE FROM `enemyEffects` WHERE `playerID` = ".$account, $conn);
+						sql_query("DELETE FROM "combat" WHERE "playerID" = ".$account, $conn);
+						sql_query("DELETE FROM "combatEnemies" WHERE "playerID" = ".$account, $conn);
+						sql_query("DELETE FROM "enemyEffects" WHERE "playerID" = ".$account, $conn);
 						combatDeath($conn, $account);
 					}
 					$output["timer"][] = (11 . " --- " . (microtime(true) - $time_start));
@@ -161,7 +161,7 @@
 					break;
 				case "sendChat":
 					setAchievement($conn, $account, 11);
-					sql_query('INSERT INTO `chat` (name, chat) VALUES ("' . getAttribute($conn, "account", "account", $account) . '","'. htmlspecialchars($param1) .'")', $conn);
+					sql_query('INSERT INTO "chat" (name, chat) VALUES ("' . getAttribute($conn, "account", "account", $account) . '","'. htmlspecialchars($param1) .'")', $conn);
 					break;
 				case "getChat":
 					print getChatArray($conn);
@@ -200,7 +200,7 @@
 					break;
 				case "getEndlessTopFloor":
 					$output["floor"] = getAttribute($conn, "character", "towerLevel", $account);
-					$sql = "select `count` from inventory where itemID = 235 and playerID = $account";
+					$sql = "select "count" from inventory where itemID = 235 and playerID = $account";
 					$blag = sql_query($sql, $conn);
 					$stones = 0;
 					while($row = mysqli_fetch_array($blag,MYSQLI_ASSOC)){
@@ -314,7 +314,7 @@
 					$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 					$to = 'lomasia@hotmail.ca';
 					mail($to, "Suggestion!", $emailString, $headers);
-				$sql = "INSERT INTO `suggestions` (playerid, text) values ($account, '$param1')";
+				$sql = "INSERT INTO "suggestions" (playerid, text) values ($account, '$param1')";
 					sql_query($sql, $conn);
 					break;
 				case "getQuestLog":
@@ -351,15 +351,15 @@
 					print $message.'~'.json_encode(getCalcStats($account, $conn, $calcValues)).'~'.getStatus($account, $conn, $calcValues);
 					break;
 				case "stashEquipment":
-					$sql = "UPDATE `equipmentInventory` set stored = $param2 where `index` = $param1 and playerID = $account";
+					$sql = "UPDATE "equipmentInventory" set stored = $param2 where "index" = $param1 and playerID = $account";
 					sql_query($sql, $conn);
 					break;
 				case "stashItem":
-					$sql = "UPDATE `inventory` set stored = count + stored, count = 0 where `itemID` = $param1 and playerID = $account";
+					$sql = "UPDATE "inventory" set stored = count + stored, count = 0 where "itemID" = $param1 and playerID = $account";
 					sql_query($sql, $conn);
 					break;
 				case "unstashItem":
-					$sql = "UPDATE `inventory` set count = count + stored, stored = 0 where `itemID` = $param1 and playerID = $account";
+					$sql = "UPDATE "inventory" set count = count + stored, stored = 0 where "itemID" = $param1 and playerID = $account";
 					print $sql;
 					sql_query($sql, $conn);
 					break;
@@ -379,7 +379,7 @@
 					print json_encode(craft($account, json_decode(stripslashes($param1)), $conn));
 					break;
 				case "charExist":
-					$sql = "SELECT * FROM `character` where playerID = $account";
+					$sql = "SELECT * FROM "character" where playerID = $account";
 					$query = sql_query($sql, $conn);
 					print mysqli_num_rows($query);
 					break;
@@ -415,7 +415,7 @@
 						$dex = $dex + 1;
 						$vit = $vit + 3;
 						$respawn = 100;
-						$unlockSQL = "UPDATE equipmentInventory set `archived` = 0 where playerID = $account and template in (60,61,62,63,64,65,66,67,90,91,92,93,94,95,96,97)";
+						$unlockSQL = "UPDATE equipmentInventory set "archived" = 0 where playerID = $account and template in (60,61,62,63,64,65,66,67,90,91,92,93,94,95,96,97)";
 						$skillPoints = $warlock;
 					}
 					if($param1 == 'Paladin'){
@@ -424,7 +424,7 @@
 						$dex = $dex + 2;
 						$vit = $vit + 3;
 						$respawn = 100;
-						$unlockSQL = "UPDATE equipmentInventory set `archived` = 0 where playerID = $account and template in (51,52,53,54,55,56,57,58,83,84,85,86,87,88,89)";
+						$unlockSQL = "UPDATE equipmentInventory set "archived" = 0 where playerID = $account and template in (51,52,53,54,55,56,57,58,83,84,85,86,87,88,89)";
 						$skillPoints = $pala;
 					}
 					if($param1 == 'Assassin'){
@@ -433,18 +433,18 @@
 						$dex = $dex + 3;
 						$vit = $vit + 3;
 						$respawn = 202;
-						$unlockSQL = "UPDATE equipmentInventory set `archived` = 0 where playerID = $account and template in (68,69,70,71,72,73,74,98,99,100,101,102,103,104)";
+						$unlockSQL = "UPDATE equipmentInventory set "archived" = 0 where playerID = $account and template in (68,69,70,71,72,73,74,98,99,100,101,102,103,104)";
 						$skillPoints = $sin;
 					}
 					$total = $pala + $sin + $warlock;
 
 					
-				$sqlCreateChar = "INSERT INTO `character`(playerid, class, strength, dexterity, spirit, vitality, respawn, skillpoints, diff, neverlogged, resetscript,  map, locationx, locationy, combatmodifier) VALUES ($account, '$param1',$str,$dex,$spr,$vit, $respawn, $skillPoints, $param2, 0, '$param4', 'VanaheimrNE', 4726, 5121, 100)";
+				$sqlCreateChar = "INSERT INTO "character"(playerid, class, strength, dexterity, spirit, vitality, respawn, skillpoints, diff, neverlogged, resetscript,  map, locationx, locationy, combatmodifier) VALUES ($account, '$param1',$str,$dex,$spr,$vit, $respawn, $skillPoints, $param2, 0, '$param4', 'VanaheimrNE', 4726, 5121, 100)";
 				sql_query($sqlCreateChar, $conn);
-				$sql_insert = "INSERT INTO `equippedstuff`(`equipindex`) VALUES ($account)";
+				$sql_insert = "INSERT INTO "equippedstuff"("equipindex") VALUES ($account)";
 				sql_query($sql_insert, $conn);
-				$sql_insert = "INSERT INTO `equipmentinventory`(`playerid`, `equipped`, `basedmgmin`, `basedmgmax`) VALUES (".$account.", 1, 1, 2)";
-					sql_query('INSERT INTO `playerbuffs` (playerid) values ('.$account.")", $conn);
+				$sql_insert = "INSERT INTO "equipmentinventory"("playerid", "equipped", "basedmgmin", "basedmgmax") VALUES (".$account.", 1, 1, 2)";
+					sql_query('INSERT INTO "playerbuffs" (playerid) values ('.$account.")", $conn);
 					sql_query($sql_insert, $conn);
 					fullheal($account, $conn);
 					fullmana($account, $conn);
@@ -457,13 +457,13 @@
 						toSpawn($account, $conn);
 					}
 
-					$sql = "UPDATE inventory SET `count` = `archived`, `archived` = 0 where playerID = $account and itemID in (93,119,120,108,90,237,238,239)";
+					$sql = "UPDATE inventory SET "count" = "archived", "archived" = 0 where playerID = $account and itemID in (93,119,120,108,90,237,238,239)";
 					sql_query($unlockSQL, $conn);
 					sql_query($sql, $conn);
 					if($param2 == .5){
-						$sql = "UPDATE inventory SET `count` = `archived`, `archived` = 0 where playerID = $account";
+						$sql = "UPDATE inventory SET "count" = "archived", "archived" = 0 where playerID = $account";
 						sql_query($sql, $conn);
-						$sql = "UPDATE equipmentInventory  SET `archived` = 0 where playerID = $account";
+						$sql = "UPDATE equipmentInventory  SET "archived" = 0 where playerID = $account";
 						sql_query($sql, $conn);
 					}
 					print 1;
@@ -514,11 +514,11 @@
 				$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 				$to = $email;
 				mail($_POST['to'], $_POST['subject'], $emailString, $headers);
-				$sql = "INSERT INTO `tortuga_debug` (message) values ('".$_POST['message']."')";
+				$sql = "INSERT INTO "tortuga_debug" (message) values ('".$_POST['message']."')";
 				sql_query($sql, $conn);
 				break;
 			case "getBrowser":
-				$blag = sql_query('SELECT * FROM `tortuga_debug` where `browser` != ""', $conn);
+				$blag = sql_query('SELECT * FROM "tortuga_debug" where "browser" != ""', $conn);
 				$IE = 0;
 				$FF = 0;
 				$CH = 0;
@@ -543,11 +543,11 @@
 				print '['.$IE.','.$FF.','.$CH.','.$SF.','.$OP.','.$OT.']';
 				break;
 			case "counter":
-				$sql = "UPDATE variables set value = value + 1 where `index` = 2";
+				$sql = "UPDATE variables set value = value + 1 where "index" = 2";
 				sql_query($sql, $conn);
 				break;
 			case "getHost":
-				$blag = sql_query('SELECT * FROM `tortuga_debug` where `host` != ""', $conn);
+				$blag = sql_query('SELECT * FROM "tortuga_debug" where "host" != ""', $conn);
 				$IE = 0;
 				$FF = 0;
 				$CH = 0;
@@ -568,7 +568,7 @@
 				print '['.$IE.','.$FF.','.$CH.','.$OT.']';
 				break;
 			case "getErrorLog":
-				$blag = sql_query('SELECT * FROM `tortuga_debug` where `message` != "" order by `index` desc', $conn);
+				$blag = sql_query('SELECT * FROM "tortuga_debug" where "message" != "" order by "index" desc', $conn);
 				while($row = mysqli_fetch_array($blag,MYSQLI_ASSOC)){
 					$output[] = $row['index']."|".$row['timestamp']."|".$row['host']."|".$row['browser']."|".$row['user']."|".str_replace('"', "'", $row['message']);
 				}
@@ -576,13 +576,13 @@
 				break;
 			case "getUsername":
 				//print $param1;
-				$sql = sql_query("SELECT * FROM `account` where salt = '$param1'", $conn);
+				$sql = sql_query("SELECT * FROM "account" where salt = '$param1'", $conn);
 				$Row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
 				print	 $Row['account'];
 				break;
 			case "resetPass":
 				//param1:code, param2:email, param3:pass}
-				$sql = "SELECT * FROM `account` where email = '$param2' AND salt = '$param1'";
+				$sql = "SELECT * FROM "account" where email = '$param2' AND salt = '$param1'";
 				$query = sql_query($sql, $conn);
 				if(mysqli_num_rows($query) == 0){
 					print "Email not valid or token mismatch";
@@ -594,7 +594,7 @@
 						$salt = $salt.$salthex;
 					}
 					$pass = md5(sha1($salt.$param3));
-					$sql = "UPDATE `account` set salt = '$salt', password = '$pass' where email = '$param2' AND salt = '$param1'";
+					$sql = "UPDATE "account" set salt = '$salt', password = '$pass' where email = '$param2' AND salt = '$param1'";
 					sql_query($sql, $conn);
 					print "Password Changed!";
 				}
@@ -609,7 +609,7 @@
 				}
 				print "CREATING A USER MAYBE!? $sessionId";
 				// Check if session already exists
-				$sql = "SELECT `cookie`, `account` FROM `sessions` WHERE `sessionid` = ?";
+				$sql = "SELECT "cookie", "account" FROM "sessions" WHERE "sessionid" = ?";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_bind_param($stmt, 's', $sessionId);
 				mysqli_stmt_execute($stmt);
@@ -625,7 +625,7 @@
 				// Create new Paladin character with proper stats (matching rebirth code)
 				// Paladin stats: str=3, dex=2, spr=1, vit=3, respawn=100, skillPoints=0
 				// Location: VanaheimrNE at 4726, 5121
-				$sql = "INSERT INTO `character` (class, strength, dexterity, spirit, vitality, respawn, skillpoints, diff, neverlogged, resetscript, map, zone, locationx, locationy, combatmodifier) VALUES ('Paladin', 3, 2, 1, 3, 100, 0, 1, 0, '', 'VanaheimrNE', 'East Vanaheimr Village', 4726, 5121, 100)";
+				$sql = "INSERT INTO "character" (class, strength, dexterity, spirit, vitality, respawn, skillpoints, diff, neverlogged, resetscript, map, zone, locationx, locationy, combatmodifier) VALUES ('Paladin', 3, 2, 1, 3, 100, 0, 1, 0, '', 'VanaheimrNE', 'East Vanaheimr Village', 4726, 5121, 100)";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_execute($stmt);
 				$playerId = mysqli_insert_id($conn);
@@ -633,25 +633,25 @@
 				
 				// Create account row with random account name
 				$randomAccount = "player_" . $playerId . "_" . bin2hex(random_bytes(4));
-				$sql = "INSERT INTO `account` (`playerid`, `account`, `password`, `salt`, `email`) VALUES (?, ?, 'N/A', 'N/A', 'N/A')";
+				$sql = "INSERT INTO "account" ("playerid", "account", "password", "salt", "email") VALUES (?, ?, 'N/A', 'N/A', 'N/A')";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_bind_param($stmt, "is", $playerId, $randomAccount);
 				mysqli_stmt_execute($stmt);
 				
 				// Create equippedStuff entry
-				$sql = "INSERT INTO `equippedstuff` (`equipindex`) VALUES (?)";
+				$sql = "INSERT INTO "equippedstuff" ("equipindex") VALUES (?)";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_bind_param($stmt, "i", $playerId);
 				mysqli_stmt_execute($stmt);
 				
 				// Create starting equipment (fists)
-				$sql = "INSERT INTO `equipmentinventory` (`playerid`, `equipped`, `basedmgmin`, `basedmgmax`, `name`, `template`, `image`, `script`, `class`) VALUES (?, 1, 1, 2, 'unarmed', 0, '', '', '')";
+				$sql = "INSERT INTO "equipmentinventory" ("playerid", "equipped", "basedmgmin", "basedmgmax", "name", "template", "image", "script", "class") VALUES (?, 1, 1, 2, 'unarmed', 0, '', '', '')";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_bind_param($stmt, "i", $playerId);
 				mysqli_stmt_execute($stmt);
 				
 				// Create playerBuffs entry
-				$sql = "INSERT INTO `playerbuffs` (playerid) VALUES (?)";
+				$sql = "INSERT INTO "playerbuffs" (playerid) VALUES (?)";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_bind_param($stmt, "i", $playerId);
 				mysqli_stmt_execute($stmt);
@@ -665,7 +665,7 @@
 				buyEquipment($conn, "17|", $playerId, false);  // Buy starting equipment
 				
 				// Create session (Type defaults to 'Session') and set expiry 1 year from now
-			$sql = "INSERT INTO `sessions` (`cookie`, `account`, `sessionid`, `type`, `lastactive`, `expiry`) VALUES (?, ?, ?, 'Session', NOW(), NOW() + INTERVAL '1 YEAR')";
+			$sql = "INSERT INTO "sessions" ("cookie", "account", "sessionid", "type", "lastactive", "expiry") VALUES (?, ?, ?, 'Session', NOW(), NOW() + INTERVAL '1 YEAR')";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_bind_param($stmt, 'sis', $cookie, $playerId, $sessionId);
 				
@@ -747,7 +747,7 @@
 			// case "updateStoreInv":
 			// 	$ID = mysqli_real_escape_string($conn, $_POST['userID']);
 			// 	$token = mysqli_real_escape_string($conn, $_POST['userToken']);
-			// 	$sql = "select * from `account` where password = $ID";
+			// 	$sql = "select * from "account" where password = $ID";
 			// 	$sql_rows = sql_query($sql, $conn);
 			// 	while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 			// 		$account = $row['playerID'];

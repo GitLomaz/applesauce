@@ -405,10 +405,10 @@
 				}
 
 			}
-			$sql = "INSERT INTO `equipmentinventory` (`script`, `playerid`, `price`, `image`, `name`, `slot`, `class`, `basedmgmin`, `basedmgmax`, ";
-			$sql .= "`basearmor`, `level`, `str`, `dex`, `spr`, `vit`, `mindmg`, `maxdmg`, `armor`, `fireres`, `earthres`, ";
-			$sql .= "`iceres`, `arcaneres`, `holyres`, `maxhp`, `maxmp`, `regenhp`, `regenmp`, `evasion`, `itemdrop`, `silverdrop`, ";
-			$sql .= "`critChance`, `critDamage`, `blockChance`, template, statString, bonusPotHeal, bonusPotMana, expDrop, healthPerc, manaPerc, strPerc, vitPerc, dexPerc, sprPerc, spellReduction) VALUES ('".$row['script']."', ".$acc.", ".$row['price'].", '".$row['image']."', '".$row['name']."', '".$row['slot']."', '".$row['class']."', ";
+			$sql = "INSERT INTO "equipmentinventory" ("script", "playerid", "price", "image", "name", "slot", "class", "basedmgmin", "basedmgmax", ";
+			$sql .= ""basearmor", "level", "str", "dex", "spr", "vit", "mindmg", "maxdmg", "armor", "fireres", "earthres", ";
+			$sql .= ""iceres", "arcaneres", "holyres", "maxhp", "maxmp", "regenhp", "regenmp", "evasion", "itemdrop", "silverdrop", ";
+			$sql .= ""critChance", "critDamage", "blockChance", template, statString, bonusPotHeal, bonusPotMana, expDrop, healthPerc, manaPerc, strPerc, vitPerc, dexPerc, sprPerc, spellReduction) VALUES ('".$row['script']."', ".$acc.", ".$row['price'].", '".$row['image']."', '".$row['name']."', '".$row['slot']."', '".$row['class']."', ";
 			$sql .= $row['baseDmgMin'].", ".$row['baseDmgMax'].", ".$row['baseArmor'].", ".$row['level'].", ".$row['str'].", ".$row['dex'].", ".$row['spr'].", ";
 			$sql .= $row['vit'].", ".$row['minDmg'].", ".$row['maxDmg'].", ".$row['armor'].", ".$row['fireRes'].", ".$row['earthRes'].", ".$row['iceRes'].", ";
 			$sql .= $row['arcaneRes'].", ".$row['holyRes'].", ".$row['maxHP'].", ".$row['maxMP'].", ".$row['regenHP'].", ".$row['regenMP'].", ".$row['evasion'].", ";
@@ -479,10 +479,10 @@
 		$row['statString'] = str_replace('[shapelessExpDrop]',$row['shapelessExpDrop'],$row['statString']);
 		$row['statString'] = str_replace('[shapelessDmg]',$row['shapelessDmg'],$row['statString']);
 
-		$sql = "INSERT INTO `equipmentinventory` (`script`, `playerid`, `price`, `image`, `name`, `slot`, `class`, `basedmgmin`, `basedmgmax`, ";
-		$sql .= "`basearmor`, `level`, `str`, `dex`, `spr`, `vit`, `mindmg`, `maxdmg`, `armor`, `fireres`, `earthres`, ";
-		$sql .= "`iceres`, `arcaneres`, `holyres`, `maxhp`, `maxmp`, `regenhp`, `regenmp`, `evasion`, `itemdrop`, `silverdrop`, ";
-		$sql .= "`critChance`, `critDamage`, `blockChance`, template, statString, bonusPotHeal, bonusPotMana, expDrop, healthPerc, ";
+		$sql = "INSERT INTO "equipmentinventory" ("script", "playerid", "price", "image", "name", "slot", "class", "basedmgmin", "basedmgmax", ";
+		$sql .= ""basearmor", "level", "str", "dex", "spr", "vit", "mindmg", "maxdmg", "armor", "fireres", "earthres", ";
+		$sql .= ""iceres", "arcaneres", "holyres", "maxhp", "maxmp", "regenhp", "regenmp", "evasion", "itemdrop", "silverdrop", ";
+		$sql .= ""critChance", "critDamage", "blockChance", template, statString, bonusPotHeal, bonusPotMana, expDrop, healthPerc, ";
 		$sql .= "manaPerc, strPerc, vitPerc, dexPerc, sprPerc, spellReduction, shapelessRes, shapelessExpDrop, shapelessDmg) VALUES ('";
 		$sql .= $row['script']."', ".$acc.", ".$row['price'].", '".$row['image']."', '".$row['name']."', '".$row['slot']."', '".$row['class']."', ";
 		$sql .= $row['baseDmgMin'].", ".$row['baseDmgMax'].", ".$row['baseArmor'].", ".$row['level'].", ".$row['str'].", ".$row['dex'].", ".$row['spr'].", ";
@@ -519,13 +519,13 @@
 			if($cost > $silver && $payReqd){
 				return '<span style="color:red;">Transaction Failed</span>';
 			} else {
-				sql_query("UPDATE `character` set `silver`=`silver` - ".$cost." where `playerID`=".$acc, $conn);
+				sql_query("UPDATE "character" set "silver"="silver" - ".$cost." where "playerID"=".$acc, $conn);
 				$row['price'] = $row['price'] / 3;
 				// Use null coalescing operator to provide defaults for missing/NULL columns
-				$sql = "INSERT INTO `equipmentinventory` (`script`, `playerid`, `price`, `image`, `name`, `slot`, `class`, `basedmgmin`, `basedmgmax`, ";
-				$sql .= "`basearmor`, `level`, `str`, `dex`, `spr`, `vit`, `mindmg`, `maxdmg`, `armor`, `fireres`, `earthres`, ";
-				$sql .= "`iceres`, `arcaneres`, `holyres`, `maxhp`, `maxmp`, `regenhp`, `regenmp`, `evasion`, `itemdrop`, `silverdrop`, ";
-				$sql .= "`critChance`, `critDamage`, `blockChance`, template, statString, bonusPotHeal,  bonusPotMana, expDrop, healthPerc, manaPerc, strPerc, vitPerc, dexPerc, sprPerc, spellReduction) VALUES ('".(($row['script'] ?? ''))."', ".$acc.", ".$row['price'].", '".(($row['image'] ?? ''))."', '".(($row['name'] ?? ''))."', '".(($row['slot'] ?? ''))."', '".(($row['class'] ?? ''))."', ";
+				$sql = "INSERT INTO "equipmentinventory" ("script", "playerid", "price", "image", "name", "slot", "class", "basedmgmin", "basedmgmax", ";
+				$sql .= ""basearmor", "level", "str", "dex", "spr", "vit", "mindmg", "maxdmg", "armor", "fireres", "earthres", ";
+				$sql .= ""iceres", "arcaneres", "holyres", "maxhp", "maxmp", "regenhp", "regenmp", "evasion", "itemdrop", "silverdrop", ";
+				$sql .= ""critChance", "critDamage", "blockChance", template, statString, bonusPotHeal,  bonusPotMana, expDrop, healthPerc, manaPerc, strPerc, vitPerc, dexPerc, sprPerc, spellReduction) VALUES ('".(($row['script'] ?? ''))."', ".$acc.", ".$row['price'].", '".(($row['image'] ?? ''))."', '".(($row['name'] ?? ''))."', '".(($row['slot'] ?? ''))."', '".(($row['class'] ?? ''))."', ";
 				$sql .= ($row['basedmgmin'] ?? 0).", ".($row['basedmgmax'] ?? 0).", ".($row['basearmor'] ?? 0).", ".($row['level'] ?? 0).", ".($row['str'] ?? 0).", ".($row['dex'] ?? 0).", ".($row['spr'] ?? 0).", ";
 				$sql .= ($row['vit'] ?? 0).", ".($row['mindmg'] ?? 0).", ".($row['maxdmg'] ?? 0).", ".($row['armor'] ?? 0).", ".($row['fireres'] ?? 0).", ".($row['earthres'] ?? 0).", ".($row['iceres'] ?? 0).", ";
 				$sql .= ($row['arcaneres'] ?? 0).", ".($row['holyres'] ?? 0).", ".($row['maxhp'] ?? 0).", ".($row['maxmp'] ?? 0).", ".($row['regenhp'] ?? 0).", ".($row['regenmp'] ?? 0).", ".($row['evasion'] ?? 0).", ";
@@ -556,9 +556,9 @@
 			$cost = $row['price'];
 
 			if(($acc ==  $row['playerID']) && ($row['equipped'] == 0)){
-				$sql = "DELETE FROM `equipmentInventory` WHERE `index` = ".$item;
+				$sql = "DELETE FROM "equipmentInventory" WHERE "index" = ".$item;
 				sql_query($sql, $conn);
-				sql_query("UPDATE `character` set `silver`=`silver` + ".$cost." where `playerID`=".$acc, $conn);
+				sql_query("UPDATE "character" set "silver"="silver" + ".$cost." where "playerID"=".$acc, $conn);
 			}
 
 			$counter++;
@@ -567,7 +567,7 @@
 		return '<span style="color:green;">Transaction Successful</span>';
 	}
 
-	// -- Function Name : `getSingleEquipment`
+	// -- Function Name : "getSingleEquipment"
 	// -- Params : $conn, $id
 	// -- Purpose : gets description text for a single equipment
 	function getSingleEquipment($conn, $id){
@@ -1100,10 +1100,10 @@
 								break;
 						case 3:
 							//CHEST (RESET?)
-							$maxSQL = "SELECT SUM(rate) as total FROM `chests` where chestID = $item";
+							$maxSQL = "SELECT SUM(rate) as total FROM "chests" where chestID = $item";
 							$max = mysqli_fetch_array(sql_query($maxSQL, $conn),MYSQLI_ASSOC)['total'];
 							$roll = rand (0,($max - 1)) + 1;
-							$sql_get_items = "SELECT * FROM `chests` where chestID = $item";
+							$sql_get_items = "SELECT * FROM "chests" where chestID = $item";
 							$sql_result = sql_query($sql_get_items, $conn);
 							$totalWeight = 0;
 							while($row = mysqli_fetch_array($sql_result,MYSQLI_ASSOC)){
@@ -1167,10 +1167,10 @@
 							break;
 						case 6:
 							//CHEST
-							$maxSQL = "SELECT SUM(rate) as total FROM `chests` where chestID = $item";
+							$maxSQL = "SELECT SUM(rate) as total FROM "chests" where chestID = $item";
 							$max = mysqli_fetch_array(sql_query($maxSQL, $conn),MYSQLI_ASSOC)['total'];
 							$roll = rand (0,($max - 1)) + 1;
-							$sql_get_items = "SELECT * FROM `chests` where chestID = $item";
+							$sql_get_items = "SELECT * FROM "chests" where chestID = $item";
 							$sql_result = sql_query($sql_get_items, $conn);
 							$totalWeight = 0;
 							while($row = mysqli_fetch_array($sql_result,MYSQLI_ASSOC)){
@@ -1210,18 +1210,18 @@
 							$resets = 0; //getAttribute($conn, "account", "paleResets", $acc); FIX
 							$row = getRow($conn, "character", $acc);
 							$points = ($row["strength"] - (5 + $resets * 2)) + ($row["dexterity"] - 3) + ($row["vitality"] - 3)+ ($row["spirit"] - 1);
-							$sql = "update `character` set `strength` = (5 + $resets * 2), `dexterity` = 3, `vitality` = 3, `spirit` = 1, statPoints = statPoints + $points where playerID = $acc";
+							$sql = "update "character" set "strength" = (5 + $resets * 2), "dexterity" = 3, "vitality" = 3, "spirit" = 1, statPoints = statPoints + $points where playerID = $acc";
 							sql_query($sql, $conn);
 							$used = true;
 							$return .= "All stat points have now been reset";
 							break;
 						case 101:
 							//SKILL RESET
-							$sql = "update `character` set skillPoints = skillPoints + (select sum(level) from charSkills where playerID = $acc) where playerID = $acc";
+							$sql = "update "character" set skillPoints = skillPoints + (select sum(level) from charSkills where playerID = $acc) where playerID = $acc";
 							sql_query($sql, $conn);
 							$sql = "delete from charSkills where playerID = $acc";
 							sql_query($sql, $conn);
-							sql_query('UPDATE equippedStuff SET `skill_1`= -1, `skill_2`= -1, `skill_3`= -1, `skill_4`= -1 WHERE equipIndex='.$acc, $conn);
+							sql_query('UPDATE equippedStuff SET "skill_1"= -1, "skill_2"= -1, "skill_3"= -1, "skill_4"= -1 WHERE equipIndex='.$acc, $conn);
 							$used = true;
 							$return .= "All skill points have now been reset";
 							break;
@@ -1230,13 +1230,13 @@
 							$resets = 1; // FIX getAttribute($conn, "account", "paleResets", $acc);
 							$row = getRow($conn, "character", $acc);
 							$points = ($row["strength"] - (5 + $resets * 2)) + ($row["dexterity"] - 3) + ($row["vitality"] - 3)+ ($row["spirit"] - 1);
-							$sql = "update `character` set `strength` = (5 + $resets * 2), `dexterity` = 3, `vitality` = 3, `spirit` = 1, statPoints = statPoints + $points where playerID = $acc";
+							$sql = "update "character" set "strength" = (5 + $resets * 2), "dexterity" = 3, "vitality" = 3, "spirit" = 1, statPoints = statPoints + $points where playerID = $acc";
 							sql_query($sql, $conn);
-							$sql = "update `character` set skillPoints = skillPoints + (select sum(level) from charSkills where playerID = $acc) where playerID = $acc";
+							$sql = "update "character" set skillPoints = skillPoints + (select sum(level) from charSkills where playerID = $acc) where playerID = $acc";
 							sql_query($sql, $conn);
 							$sql = "delete from charSkills where playerID = $acc";
 							sql_query($sql, $conn);
-							sql_query('UPDATE equippedStuff SET `skill_1`= -1, `skill_2`= -1, `skill_3`= -1, `skill_4`= -1 WHERE equipIndex='.$acc, $conn);
+							sql_query('UPDATE equippedStuff SET "skill_1"= -1, "skill_2"= -1, "skill_3"= -1, "skill_4"= -1 WHERE equipIndex='.$acc, $conn);
 							$used = true;
 							$return .= "All stat and skill points have now been reset";
 							break;
@@ -1271,16 +1271,16 @@
 			levelUpNoncombat($acc, $diff, $conn, $level);
 
 				if($level == 50){
-					$sql = "UPDATE `equipmentInventory` SET `archived` = 0 WHERE playerID = $acc";
+					$sql = "UPDATE "equipmentInventory" SET "archived" = 0 WHERE playerID = $acc";
 					sql_query($sql, $conn);
-					$sql = "UPDATE `inventory` SET `count` = `count` + `archived` WHERE playerID = $acc";
+					$sql = "UPDATE "inventory" SET "count" = "count" + "archived" WHERE playerID = $acc";
 					sql_query($sql, $conn);
-					$sql = "UPDATE `inventory` SET `archived` = 0 WHERE playerID = $acc";
+					$sql = "UPDATE "inventory" SET "archived" = 0 WHERE playerID = $acc";
 					sql_query($sql, $conn);
 				}
 
 		} else {
-			$sql = "UPDATE `character` SET `exp` = `exp` + ".$amnt." WHERE playerID = '".$acc."'";
+			$sql = "UPDATE "character" SET "exp" = "exp" + ".$amnt." WHERE playerID = '".$acc."'";
 			sql_query($sql, $conn);
 		}
 
@@ -1325,7 +1325,7 @@
 	// -- Params : $conn, $acc, $stat
 	// -- Purpose : Allocates a single stat point
 	function allocateStat($conn, $acc, $stat){
-		$sql = "UPDATE `character` SET `".$stat."` = `".$stat."` + 1, `statPoints` = `statPoints` - 1 WHERE `statPoints` > 0 AND playerID = ".$acc;
+		$sql = "UPDATE "character" SET "".$stat."" = "".$stat."" + 1, "statPoints" = "statPoints" - 1 WHERE "statPoints" > 0 AND playerID = ".$acc;
 		sql_query($sql, $conn);
 	}
 
@@ -1340,7 +1340,7 @@
 			return '<span style="color:red;">Transaction Failed</span>';
 		} else {
 			addItemAmount($conn, $acc, $item, $quan);
-			sql_query("UPDATE `character` set `silver`=`silver` - ".$cost." where `playerID`=".$acc, $conn);
+			sql_query("UPDATE "character" set "silver"="silver" - ".$cost." where "playerID"=".$acc, $conn);
 			return '<span style="color:green;">Transaction Successful</span>';
 		}
 
@@ -1376,7 +1376,7 @@
 			$equipTo = array_search("-1", $equipped);
 
 			if($equipTo > -1){
-				sql_query('UPDATE equippedStuff SET `item_'.($equipTo + 1).'`= '.$item.' WHERE equipIndex='.$acc, $conn);
+				sql_query('UPDATE equippedStuff SET "item_'.($equipTo + 1).'"= '.$item.' WHERE equipIndex='.$acc, $conn);
 				return '<span style="color:green;">Item added to battle ready list!</span>';
 			}
 
@@ -1437,7 +1437,7 @@
 	// -- Purpose : Returns arg from row of table at index in args
 	function getAttribute($conn, $table, $attribute, $index){
 		if($table != 'calcValues'){
-			$sql_q = "select `".$attribute."` from `".$table."` where `".getKey($table)."` =".$index." LIMIT 1";
+			$sql_q = "select "".$attribute."" from "".$table."" where "".getKey($table)."" =".$index." LIMIT 1";
 			$sql = sql_query($sql_q, $conn);
 			$row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
 			if(!$row || !is_array($row)){
@@ -1448,55 +1448,55 @@
 			return $row[$attr_lower] ?? $row[$attribute] ?? null;
 		}else{
 			$sql_q = "SELECT
-				`character`.`playerID` AS `playerID`,
-				((((((`character`.`strength` + `equipmentBonus`.`str`) + `buffsBonus`.`str`) + FLOOR(((`character`.`strength` * `equipmentBonus`.`strPerc`) / 100))) * 4) + (((`character`.`dexterity` + `equipmentBonus`.`dex`) + FLOOR(((`character`.`dexterity` * `equipmentBonus`.`dexPerc`) / 100))) + `buffsBonus`.`dex`)) + (`character`.`level` / 2)) AS `damage`,
-				FLOOR(((((((10 + `equipmentBonus`.`maxMP`) + `buffsBonus`.`maxMP`) + (`character`.`level` * 10)) + ((((`character`.`spirit` + `equipmentBonus`.`spr`) + FLOOR(((`character`.`spirit` * `equipmentBonus`.`sprPerc`) / 100))) + `buffsBonus`.`spr`) * 30)) + ((((`character`.`vitality` + `equipmentBonus`.`vit`) + FLOOR(((`character`.`vitality` * `equipmentBonus`.`vitPerc`) / 100))) + `buffsBonus`.`vit`) * 10)) * (1 + (`equipmentBonus`.`manaPerc` / 100)))) AS `maxMana`,
-				FLOOR(((((((150 + `equipmentBonus`.`maxHP`) + `buffsBonus`.`maxHP`) + (`character`.`level` * 20)) + ((((`character`.`strength` + `equipmentBonus`.`str`) + `buffsBonus`.`str`) + FLOOR(((`character`.`strength` * `equipmentBonus`.`strPerc`) / 100))) * 15)) + ((((`character`.`vitality` + `equipmentBonus`.`vit`) + FLOOR(((`character`.`vitality` * `equipmentBonus`.`vitPerc`) / 100))) + `buffsBonus`.`vit`) * 25)) * (1 + (`equipmentBonus`.`healthPerc` / 100)))) AS `maxHealth`,
-				(((`character`.`spirit` + `equipmentBonus`.`spr`) + FLOOR(((`character`.`spirit` * `equipmentBonus`.`sprPerc`) / 100))) + `buffsBonus`.`spr`) AS `spr`,
-				(((`character`.`strength` + `equipmentBonus`.`str`) + `buffsBonus`.`str`) + FLOOR(((`character`.`strength` * `equipmentBonus`.`strPerc`) / 100))) AS `str`,
-				(((`character`.`dexterity` + `equipmentBonus`.`dex`) + FLOOR(((`character`.`dexterity` * `equipmentBonus`.`dexPerc`) / 100))) + `buffsBonus`.`dex`) AS `dex`,
-				(((`character`.`vitality` + `equipmentBonus`.`vit`) + FLOOR(((`character`.`vitality` * `equipmentBonus`.`vitPerc`) / 100))) + `buffsBonus`.`vit`) AS `vit`,
-				((`equipmentBonus`.`baseDmgMin` + `equipmentBonus`.`minDmg`) + `buffsBonus`.`minDmg`) AS `minDmg`,
-				((`equipmentBonus`.`baseDmgMax` + `equipmentBonus`.`maxDmg`) + `buffsBonus`.`maxDmg`) AS `maxDmg`,
-				((((((`character`.`dexterity` + `equipmentBonus`.`dex`) + FLOOR(((`character`.`dexterity` * `equipmentBonus`.`dexPerc`) / 100))) + `buffsBonus`.`dex`) * 1.5) + `character`.`level`) + `buffsBonus`.`evasion`) AS `flee`,
-				(((((((`character`.`dexterity` + `equipmentBonus`.`dex`) + FLOOR(((`character`.`dexterity` * `equipmentBonus`.`dexPerc`) / 100))) + `buffsBonus`.`dex`) * 1.5) + ((((`character`.`strength` + `equipmentBonus`.`str`) + FLOOR(((`character`.`strength` * `equipmentBonus`.`strPerc`) / 100))) + `buffsBonus`.`str`) * 0.75)) + `character`.`level`) + 100) AS `hit`,
-				((1 / ((1 / ((((`character`.`spirit` + `equipmentBonus`.`spr`) + FLOOR(((`character`.`spirit` * `equipmentBonus`.`sprPerc`) / 100))) + `buffsBonus`.`spr`) / 150)) + 0.9)) + ((`equipmentBonus`.`critChance` + `buffsBonus`.`critChance`) / 100)) AS `critRate`,
-				(((1 / ((1 / ((((`character`.`strength` + `equipmentBonus`.`str`) + FLOOR(((`character`.`strength` * `equipmentBonus`.`strPerc`) / 100))) + `buffsBonus`.`str`) / 150)) + 0.9)) + 0.1) + ((`equipmentBonus`.`critDamage` + `buffsBonus`.`critDamage`) / 100)) AS `critMulti`,
-				((1 / ((1 / ((((`character`.`strength` + `equipmentBonus`.`str`) + FLOOR(((`character`.`strength` * `equipmentBonus`.`strPerc`) / 100))) + `buffsBonus`.`str`) / 750)) + 0.5)) + (`equipmentBonus`.`blockChance` / 100)) AS `block`,
-				(`equipmentBonus`.`armor` + `buffsBonus`.`armor`) AS `armor`,
-				(`equipmentBonus`.`fireRes` + `buffsBonus`.`fireRes`) AS `fireRes`,
-				(`equipmentBonus`.`iceRes` + `buffsBonus`.`iceRes`) AS `iceRes`,
-				(`equipmentBonus`.`earthRes` + `buffsBonus`.`earthRes`) AS `earthRes`,
-				(`equipmentBonus`.`arcaneRes` + `buffsBonus`.`arcaneRes`) AS `arcaneRes`,
-				(`equipmentBonus`.`holyRes` + `buffsBonus`.`holyRes`) AS `holyRes`,
-				`equipmentInventory`.`class` AS `weapon`,
-				`character`.`exp` AS `exp`,
-				`character`.`next` AS `next`,
-				`character`.`level` AS `level`,
-				`equipmentBonus`.`itemDrop` AS `itemDrop`,
-				`equipmentBonus`.`silverDrop` AS `silverDrop`,
-				(`equipmentBonus`.`bonusPotHeal` + (((`character`.`vitality` + `equipmentBonus`.`vit`) + FLOOR(((`character`.`vitality` * `equipmentBonus`.`vitPerc`) / 100))) + `buffsBonus`.`vit`)) AS `bonusPotHeal`,
-				(`equipmentBonus`.`bonusPotMana` + (((`character`.`spirit` + `equipmentBonus`.`spr`) + FLOOR(((`character`.`spirit` * `equipmentBonus`.`sprPerc`) / 100))) + `buffsBonus`.`spr`)) AS `bonusPotMana`,
-				(`equipmentBonus`.`expDrop` + `buffsBonus`.`expDrop`) AS `expDrop`,
-				`equipmentBonus`.`healthPerc` AS `healthPerc`,
-				`equipmentBonus`.`manaPerc` AS `manaPerc`,
-				`equipmentBonus`.`strPerc` AS `strPerc`,
-				`equipmentBonus`.`dexPerc` AS `dexPerc`,
-				`equipmentBonus`.`sprPerc` AS `sprPerc`,
-				`equipmentBonus`.`vitPerc` AS `vitPerc`,
-				`equipmentBonus`.`spellReduction` AS `spellReduction`,
-				COALESCE(`buffsBonus`.`weapElement`, 'physical') AS `weapElement`,
-				`equipmentBonus`.`shapelessRes` AS `shapelessRes`,
-				`equipmentBonus`.`shapelessExpDrop` AS `shapelessExpDrop`,
-				`equipmentBonus`.`shapelessDmg` AS `shapelessDmg`,
+				"character"."playerID" AS "playerID",
+				(((((("character"."strength" + "equipmentBonus"."str") + "buffsBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) * 4) + ((("character"."dexterity" + "equipmentBonus"."dex") + FLOOR((("character"."dexterity" * "equipmentBonus"."dexPerc") / 100))) + "buffsBonus"."dex")) + ("character"."level" / 2)) AS "damage",
+				FLOOR(((((((10 + "equipmentBonus"."maxMP") + "buffsBonus"."maxMP") + ("character"."level" * 10)) + (((("character"."spirit" + "equipmentBonus"."spr") + FLOOR((("character"."spirit" * "equipmentBonus"."sprPerc") / 100))) + "buffsBonus"."spr") * 30)) + (((("character"."vitality" + "equipmentBonus"."vit") + FLOOR((("character"."vitality" * "equipmentBonus"."vitPerc") / 100))) + "buffsBonus"."vit") * 10)) * (1 + ("equipmentBonus"."manaPerc" / 100)))) AS "maxMana",
+				FLOOR(((((((150 + "equipmentBonus"."maxHP") + "buffsBonus"."maxHP") + ("character"."level" * 20)) + (((("character"."strength" + "equipmentBonus"."str") + "buffsBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) * 15)) + (((("character"."vitality" + "equipmentBonus"."vit") + FLOOR((("character"."vitality" * "equipmentBonus"."vitPerc") / 100))) + "buffsBonus"."vit") * 25)) * (1 + ("equipmentBonus"."healthPerc" / 100)))) AS "maxHealth",
+				((("character"."spirit" + "equipmentBonus"."spr") + FLOOR((("character"."spirit" * "equipmentBonus"."sprPerc") / 100))) + "buffsBonus"."spr") AS "spr",
+				((("character"."strength" + "equipmentBonus"."str") + "buffsBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) AS "str",
+				((("character"."dexterity" + "equipmentBonus"."dex") + FLOOR((("character"."dexterity" * "equipmentBonus"."dexPerc") / 100))) + "buffsBonus"."dex") AS "dex",
+				((("character"."vitality" + "equipmentBonus"."vit") + FLOOR((("character"."vitality" * "equipmentBonus"."vitPerc") / 100))) + "buffsBonus"."vit") AS "vit",
+				(("equipmentBonus"."baseDmgMin" + "equipmentBonus"."minDmg") + "buffsBonus"."minDmg") AS "minDmg",
+				(("equipmentBonus"."baseDmgMax" + "equipmentBonus"."maxDmg") + "buffsBonus"."maxDmg") AS "maxDmg",
+				(((((("character"."dexterity" + "equipmentBonus"."dex") + FLOOR((("character"."dexterity" * "equipmentBonus"."dexPerc") / 100))) + "buffsBonus"."dex") * 1.5) + "character"."level") + "buffsBonus"."evasion") AS "flee",
+				((((((("character"."dexterity" + "equipmentBonus"."dex") + FLOOR((("character"."dexterity" * "equipmentBonus"."dexPerc") / 100))) + "buffsBonus"."dex") * 1.5) + (((("character"."strength" + "equipmentBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) + "buffsBonus"."str") * 0.75)) + "character"."level") + 100) AS "hit",
+				((1 / ((1 / (((("character"."spirit" + "equipmentBonus"."spr") + FLOOR((("character"."spirit" * "equipmentBonus"."sprPerc") / 100))) + "buffsBonus"."spr") / 150)) + 0.9)) + (("equipmentBonus"."critChance" + "buffsBonus"."critChance") / 100)) AS "critRate",
+				(((1 / ((1 / (((("character"."strength" + "equipmentBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) + "buffsBonus"."str") / 150)) + 0.9)) + 0.1) + (("equipmentBonus"."critDamage" + "buffsBonus"."critDamage") / 100)) AS "critMulti",
+				((1 / ((1 / (((("character"."strength" + "equipmentBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) + "buffsBonus"."str") / 750)) + 0.5)) + ("equipmentBonus"."blockChance" / 100)) AS "block",
+				("equipmentBonus"."armor" + "buffsBonus"."armor") AS "armor",
+				("equipmentBonus"."fireRes" + "buffsBonus"."fireRes") AS "fireRes",
+				("equipmentBonus"."iceRes" + "buffsBonus"."iceRes") AS "iceRes",
+				("equipmentBonus"."earthRes" + "buffsBonus"."earthRes") AS "earthRes",
+				("equipmentBonus"."arcaneRes" + "buffsBonus"."arcaneRes") AS "arcaneRes",
+				("equipmentBonus"."holyRes" + "buffsBonus"."holyRes") AS "holyRes",
+				"equipmentInventory"."class" AS "weapon",
+				"character"."exp" AS "exp",
+				"character"."next" AS "next",
+				"character"."level" AS "level",
+				"equipmentBonus"."itemDrop" AS "itemDrop",
+				"equipmentBonus"."silverDrop" AS "silverDrop",
+				("equipmentBonus"."bonusPotHeal" + ((("character"."vitality" + "equipmentBonus"."vit") + FLOOR((("character"."vitality" * "equipmentBonus"."vitPerc") / 100))) + "buffsBonus"."vit")) AS "bonusPotHeal",
+				("equipmentBonus"."bonusPotMana" + ((("character"."spirit" + "equipmentBonus"."spr") + FLOOR((("character"."spirit" * "equipmentBonus"."sprPerc") / 100))) + "buffsBonus"."spr")) AS "bonusPotMana",
+				("equipmentBonus"."expDrop" + "buffsBonus"."expDrop") AS "expDrop",
+				"equipmentBonus"."healthPerc" AS "healthPerc",
+				"equipmentBonus"."manaPerc" AS "manaPerc",
+				"equipmentBonus"."strPerc" AS "strPerc",
+				"equipmentBonus"."dexPerc" AS "dexPerc",
+				"equipmentBonus"."sprPerc" AS "sprPerc",
+				"equipmentBonus"."vitPerc" AS "vitPerc",
+				"equipmentBonus"."spellReduction" AS "spellReduction",
+				COALESCE("buffsBonus"."weapElement", 'physical') AS "weapElement",
+				"equipmentBonus"."shapelessRes" AS "shapelessRes",
+				"equipmentBonus"."shapelessExpDrop" AS "shapelessExpDrop",
+				"equipmentBonus"."shapelessDmg" AS "shapelessDmg",
 				(SELECT class FROM equipmentInventory WHERE playerID = $index AND equipped = 1 AND (slot = 'weapon' OR slot = '2hweapon') LIMIT 1) AS weapon
 			FROM
-				`character`,`equipmentBonus`,`buffsBonus`
+				"character","equipmentBonus","buffsBonus"
 			WHERE
-				((`equipmentBonus`.`playerID` = $index)
-					AND (`buffsBonus`.`playerID` = $index)
-					AND (`character`.`playerID` = $index))
-			GROUP BY `character`.`playerID`, `equipmentBonus`.`playerID`, `buffsBonus`.`playerID`";
+				(("equipmentBonus"."playerID" = $index)
+					AND ("buffsBonus"."playerID" = $index)
+					AND ("character"."playerID" = $index))
+			GROUP BY "character"."playerID", "equipmentBonus"."playerID", "buffsBonus"."playerID"";
 			$sql = sql_query($sql_q, $conn);
 			$row = mysqli_fetch_array($sql,MYSQLI_ASSOC);
 			return $row[$attribute];
@@ -1512,59 +1512,59 @@
 			if($index === null || $index === '' || $index === false){
 				return null;
 			}
-			$sql_q = "select * from `".$table."` where `".getKey($table)."` =".$index." LIMIT 1";
+			$sql_q = "select * from "".$table."" where "".getKey($table)."" =".$index." LIMIT 1";
 			$sql = sql_query($sql_q, $conn);
 			return mysqli_fetch_array($sql,MYSQLI_ASSOC);
 		}else{
 			$sql_q = "SELECT
-		        `character`.`playerID` AS `playerID`,
-		        ((((((`character`.`strength` + `equipmentBonus`.`str`) + `buffsBonus`.`str`) + FLOOR(((`character`.`strength` * `equipmentBonus`.`strPerc`) / 100))) * 4) + (((`character`.`dexterity` + `equipmentBonus`.`dex`) + FLOOR(((`character`.`dexterity` * `equipmentBonus`.`dexPerc`) / 100))) + `buffsBonus`.`dex`)) + (`character`.`level` / 2)) AS `damage`,
-		        FLOOR(((((((10 + `equipmentBonus`.`maxMP`) + `buffsBonus`.`maxMP`) + (`character`.`level` * 10)) + ((((`character`.`spirit` + `equipmentBonus`.`spr`) + FLOOR(((`character`.`spirit` * `equipmentBonus`.`sprPerc`) / 100))) + `buffsBonus`.`spr`) * 30)) + ((((`character`.`vitality` + `equipmentBonus`.`vit`) + FLOOR(((`character`.`vitality` * `equipmentBonus`.`vitPerc`) / 100))) + `buffsBonus`.`vit`) * 10)) * (1 + (`equipmentBonus`.`manaPerc` / 100)))) AS `maxMana`,
-		        FLOOR(((((((150 + `equipmentBonus`.`maxHP`) + `buffsBonus`.`maxHP`) + (`character`.`level` * 20)) + ((((`character`.`strength` + `equipmentBonus`.`str`) + `buffsBonus`.`str`) + FLOOR(((`character`.`strength` * `equipmentBonus`.`strPerc`) / 100))) * 15)) + ((((`character`.`vitality` + `equipmentBonus`.`vit`) + FLOOR(((`character`.`vitality` * `equipmentBonus`.`vitPerc`) / 100))) + `buffsBonus`.`vit`) * 25)) * (1 + (`equipmentBonus`.`healthPerc` / 100)))) AS `maxHealth`,
-		        (((`character`.`spirit` + `equipmentBonus`.`spr`) + FLOOR(((`character`.`spirit` * `equipmentBonus`.`sprPerc`) / 100))) + `buffsBonus`.`spr`) AS `spr`,
-		        (((`character`.`strength` + `equipmentBonus`.`str`) + `buffsBonus`.`str`) + FLOOR(((`character`.`strength` * `equipmentBonus`.`strPerc`) / 100))) AS `str`,
-		        (((`character`.`dexterity` + `equipmentBonus`.`dex`) + FLOOR(((`character`.`dexterity` * `equipmentBonus`.`dexPerc`) / 100))) + `buffsBonus`.`dex`) AS `dex`,
-		        (((`character`.`vitality` + `equipmentBonus`.`vit`) + FLOOR(((`character`.`vitality` * `equipmentBonus`.`vitPerc`) / 100))) + `buffsBonus`.`vit`) AS `vit`,
-		        ((`equipmentBonus`.`baseDmgMin` + `equipmentBonus`.`minDmg`) + `buffsBonus`.`minDmg`) AS `minDmg`,
-		        ((`equipmentBonus`.`baseDmgMax` + `equipmentBonus`.`maxDmg`) + `buffsBonus`.`maxDmg`) AS `maxDmg`,
-		        ((((((`character`.`dexterity` + `equipmentBonus`.`dex`) + FLOOR(((`character`.`dexterity` * `equipmentBonus`.`dexPerc`) / 100))) + `buffsBonus`.`dex`) * 1.5) + `character`.`level`) + `buffsBonus`.`evasion`) AS `flee`,
-		        (((((((`character`.`dexterity` + `equipmentBonus`.`dex`) + FLOOR(((`character`.`dexterity` * `equipmentBonus`.`dexPerc`) / 100))) + `buffsBonus`.`dex`) * 1.5) + ((((`character`.`strength` + `equipmentBonus`.`str`) + FLOOR(((`character`.`strength` * `equipmentBonus`.`strPerc`) / 100))) + `buffsBonus`.`str`) * 0.75)) + `character`.`level`) + 100) AS `hit`,
-		        ((1 / ((1 / ((((`character`.`spirit` + `equipmentBonus`.`spr`) + FLOOR(((`character`.`spirit` * `equipmentBonus`.`sprPerc`) / 100))) + `buffsBonus`.`spr`) / 150)) + 0.9)) + ((`equipmentBonus`.`critChance` + `buffsBonus`.`critChance`) / 100)) AS `critRate`,
-		        (((1 / ((1 / ((((`character`.`strength` + `equipmentBonus`.`str`) + FLOOR(((`character`.`strength` * `equipmentBonus`.`strPerc`) / 100))) + `buffsBonus`.`str`) / 150)) + 0.9)) + 0.1) + ((`equipmentBonus`.`critDamage` + `buffsBonus`.`critDamage`) / 100)) AS `critMulti`,
-		        ((1 / ((1 / ((((`character`.`strength` + `equipmentBonus`.`str`) + FLOOR(((`character`.`strength` * `equipmentBonus`.`strPerc`) / 100))) + `buffsBonus`.`str`) / 750)) + 0.5)) + (`equipmentBonus`.`blockChance` / 100)) AS `block`,
-		        (`equipmentBonus`.`armor` + `buffsBonus`.`armor`) AS `armor`,
-		        (`equipmentBonus`.`fireRes` + `buffsBonus`.`fireRes`) AS `fireRes`,
-		        (`equipmentBonus`.`iceRes` + `buffsBonus`.`iceRes`) AS `iceRes`,
-		        (`equipmentBonus`.`earthRes` + `buffsBonus`.`earthRes`) AS `earthRes`,
-		        (`equipmentBonus`.`arcaneRes` + `buffsBonus`.`arcaneRes`) AS `arcaneRes`,
-		        (`equipmentBonus`.`holyRes` + `buffsBonus`.`holyRes`) AS `holyRes`,
+		        "character"."playerID" AS "playerID",
+		        (((((("character"."strength" + "equipmentBonus"."str") + "buffsBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) * 4) + ((("character"."dexterity" + "equipmentBonus"."dex") + FLOOR((("character"."dexterity" * "equipmentBonus"."dexPerc") / 100))) + "buffsBonus"."dex")) + ("character"."level" / 2)) AS "damage",
+		        FLOOR(((((((10 + "equipmentBonus"."maxMP") + "buffsBonus"."maxMP") + ("character"."level" * 10)) + (((("character"."spirit" + "equipmentBonus"."spr") + FLOOR((("character"."spirit" * "equipmentBonus"."sprPerc") / 100))) + "buffsBonus"."spr") * 30)) + (((("character"."vitality" + "equipmentBonus"."vit") + FLOOR((("character"."vitality" * "equipmentBonus"."vitPerc") / 100))) + "buffsBonus"."vit") * 10)) * (1 + ("equipmentBonus"."manaPerc" / 100)))) AS "maxMana",
+		        FLOOR(((((((150 + "equipmentBonus"."maxHP") + "buffsBonus"."maxHP") + ("character"."level" * 20)) + (((("character"."strength" + "equipmentBonus"."str") + "buffsBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) * 15)) + (((("character"."vitality" + "equipmentBonus"."vit") + FLOOR((("character"."vitality" * "equipmentBonus"."vitPerc") / 100))) + "buffsBonus"."vit") * 25)) * (1 + ("equipmentBonus"."healthPerc" / 100)))) AS "maxHealth",
+		        ((("character"."spirit" + "equipmentBonus"."spr") + FLOOR((("character"."spirit" * "equipmentBonus"."sprPerc") / 100))) + "buffsBonus"."spr") AS "spr",
+		        ((("character"."strength" + "equipmentBonus"."str") + "buffsBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) AS "str",
+		        ((("character"."dexterity" + "equipmentBonus"."dex") + FLOOR((("character"."dexterity" * "equipmentBonus"."dexPerc") / 100))) + "buffsBonus"."dex") AS "dex",
+		        ((("character"."vitality" + "equipmentBonus"."vit") + FLOOR((("character"."vitality" * "equipmentBonus"."vitPerc") / 100))) + "buffsBonus"."vit") AS "vit",
+		        (("equipmentBonus"."baseDmgMin" + "equipmentBonus"."minDmg") + "buffsBonus"."minDmg") AS "minDmg",
+		        (("equipmentBonus"."baseDmgMax" + "equipmentBonus"."maxDmg") + "buffsBonus"."maxDmg") AS "maxDmg",
+		        (((((("character"."dexterity" + "equipmentBonus"."dex") + FLOOR((("character"."dexterity" * "equipmentBonus"."dexPerc") / 100))) + "buffsBonus"."dex") * 1.5) + "character"."level") + "buffsBonus"."evasion") AS "flee",
+		        ((((((("character"."dexterity" + "equipmentBonus"."dex") + FLOOR((("character"."dexterity" * "equipmentBonus"."dexPerc") / 100))) + "buffsBonus"."dex") * 1.5) + (((("character"."strength" + "equipmentBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) + "buffsBonus"."str") * 0.75)) + "character"."level") + 100) AS "hit",
+		        ((1 / ((1 / (((("character"."spirit" + "equipmentBonus"."spr") + FLOOR((("character"."spirit" * "equipmentBonus"."sprPerc") / 100))) + "buffsBonus"."spr") / 150)) + 0.9)) + (("equipmentBonus"."critChance" + "buffsBonus"."critChance") / 100)) AS "critRate",
+		        (((1 / ((1 / (((("character"."strength" + "equipmentBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) + "buffsBonus"."str") / 150)) + 0.9)) + 0.1) + (("equipmentBonus"."critDamage" + "buffsBonus"."critDamage") / 100)) AS "critMulti",
+		        ((1 / ((1 / (((("character"."strength" + "equipmentBonus"."str") + FLOOR((("character"."strength" * "equipmentBonus"."strPerc") / 100))) + "buffsBonus"."str") / 750)) + 0.5)) + ("equipmentBonus"."blockChance" / 100)) AS "block",
+		        ("equipmentBonus"."armor" + "buffsBonus"."armor") AS "armor",
+		        ("equipmentBonus"."fireRes" + "buffsBonus"."fireRes") AS "fireRes",
+		        ("equipmentBonus"."iceRes" + "buffsBonus"."iceRes") AS "iceRes",
+		        ("equipmentBonus"."earthRes" + "buffsBonus"."earthRes") AS "earthRes",
+		        ("equipmentBonus"."arcaneRes" + "buffsBonus"."arcaneRes") AS "arcaneRes",
+		        ("equipmentBonus"."holyRes" + "buffsBonus"."holyRes") AS "holyRes",
 		        (SELECT class FROM equipmentInventory WHERE playerID = $index AND equipped = 1 AND (slot = 'weapon' OR slot = '2hweapon') LIMIT 1) AS weapon,
-		        `character`.`exp` AS `exp`,
-		        `character`.`next` AS `next`,
-		        `character`.`level` AS `level`,
-		        `equipmentBonus`.`itemDrop` AS `itemDrop`,
-		        `equipmentBonus`.`silverDrop` AS `silverDrop`,
-		        (`equipmentBonus`.`bonusPotHeal` + (((`character`.`vitality` + `equipmentBonus`.`vit`) + FLOOR(((`character`.`vitality` * `equipmentBonus`.`vitPerc`) / 100))) + `buffsBonus`.`vit`)) AS `bonusPotHeal`,
-		        (`equipmentBonus`.`bonusPotMana` + (((`character`.`spirit` + `equipmentBonus`.`spr`) + FLOOR(((`character`.`spirit` * `equipmentBonus`.`sprPerc`) / 100))) + `buffsBonus`.`spr`)) AS `bonusPotMana`,
-		        (`equipmentBonus`.`expDrop` + `buffsBonus`.`expDrop`) AS `expDrop`,
-		        `equipmentBonus`.`healthPerc` AS `healthPerc`,
-		        `equipmentBonus`.`manaPerc` AS `manaPerc`,
-		        `equipmentBonus`.`strPerc` AS `strPerc`,
-		        `equipmentBonus`.`dexPerc` AS `dexPerc`,
-		        `equipmentBonus`.`sprPerc` AS `sprPerc`,
-		        `equipmentBonus`.`vitPerc` AS `vitPerc`,
-		        `equipmentBonus`.`spellReduction` AS `spellReduction`,
-		        COALESCE(`buffsBonus`.`weapElement`, 'physical') AS `weapElement`,
-		        `equipmentBonus`.`shapelessRes` AS `shapelessRes`,
-		        `equipmentBonus`.`shapelessExpDrop` AS `shapelessExpDrop`,
-		        `equipmentBonus`.`shapelessDmg` AS `shapelessDmg`
+		        "character"."exp" AS "exp",
+		        "character"."next" AS "next",
+		        "character"."level" AS "level",
+		        "equipmentBonus"."itemDrop" AS "itemDrop",
+		        "equipmentBonus"."silverDrop" AS "silverDrop",
+		        ("equipmentBonus"."bonusPotHeal" + ((("character"."vitality" + "equipmentBonus"."vit") + FLOOR((("character"."vitality" * "equipmentBonus"."vitPerc") / 100))) + "buffsBonus"."vit")) AS "bonusPotHeal",
+		        ("equipmentBonus"."bonusPotMana" + ((("character"."spirit" + "equipmentBonus"."spr") + FLOOR((("character"."spirit" * "equipmentBonus"."sprPerc") / 100))) + "buffsBonus"."spr")) AS "bonusPotMana",
+		        ("equipmentBonus"."expDrop" + "buffsBonus"."expDrop") AS "expDrop",
+		        "equipmentBonus"."healthPerc" AS "healthPerc",
+		        "equipmentBonus"."manaPerc" AS "manaPerc",
+		        "equipmentBonus"."strPerc" AS "strPerc",
+		        "equipmentBonus"."dexPerc" AS "dexPerc",
+		        "equipmentBonus"."sprPerc" AS "sprPerc",
+		        "equipmentBonus"."vitPerc" AS "vitPerc",
+		        "equipmentBonus"."spellReduction" AS "spellReduction",
+		        COALESCE("buffsBonus"."weapElement", 'physical') AS "weapElement",
+		        "equipmentBonus"."shapelessRes" AS "shapelessRes",
+		        "equipmentBonus"."shapelessExpDrop" AS "shapelessExpDrop",
+		        "equipmentBonus"."shapelessDmg" AS "shapelessDmg"
 		    FROM
-		        `character`,`equipmentBonus`,`buffsBonus`
+		        "character","equipmentBonus","buffsBonus"
 		    WHERE
-		        ((`equipmentBonus`.`playerID` = $index)
-		            AND (`buffsBonus`.`playerID` = $index)
-		            AND (`character`.`playerID` = $index))
-		    GROUP BY `character`.`playerID`, `equipmentBonus`.`playerID`, `buffsBonus`.`playerID`";
+		        (("equipmentBonus"."playerID" = $index)
+		            AND ("buffsBonus"."playerID" = $index)
+		            AND ("character"."playerID" = $index))
+		    GROUP BY "character"."playerID", "equipmentBonus"."playerID", "buffsBonus"."playerID"";
 			$sql = sql_query($sql_q, $conn);
 			return mysqli_fetch_array($sql,MYSQLI_ASSOC);
 		}
@@ -1705,16 +1705,16 @@
 		$stats[] = $resetString;
 		$stats[] = $promptDaily;
 		if($logged == 1){
-			$sql = "UPDATE `character` set `neverLogged` = 2 WHERE `playerID` = ".$acc;
+			$sql = "UPDATE "character" set "neverLogged" = 2 WHERE "playerID" = ".$acc;
 		}
 
 
 		if($logged == 2){
-			$sql = "UPDATE `character` set `neverLogged` = 0 WHERE `playerID` = ".$acc;
+			$sql = "UPDATE "character" set "neverLogged" = 0 WHERE "playerID" = ".$acc;
 		}
 
 		sql_query($sql, $conn);
-		$sql = "update `character` set promptDaily = 0 where playerID = $acc";
+		$sql = "update "character" set promptDaily = 0 where playerID = $acc";
 		sql_query($sql, $conn);
 		return $stats;
 	}
@@ -1815,7 +1815,7 @@
 		//  --------------------------------------------------------------------------------------------------
 		//
 		//  --------------------------------------------------------------------------------------------------
-		$sql_get_items = "SELECT * FROM `item` where item_ID = $item";
+		$sql_get_items = "SELECT * FROM "item" where item_ID = $item";
 		$sql_item_result = sql_query($sql_get_items, $conn);
 		while($row = mysqli_fetch_array($sql_item_result,MYSQLI_ASSOC)){
 			$type = "";
@@ -1859,7 +1859,7 @@
 	// -- Purpose : Returns information about all skills  -- key: combat:1 non:2 combat/non:3 buff:4 passive:5
 	function getSkillInfo($conn){
 		$output = array();
-		$sql_get_skills = "SELECT `id` as skillindex, `name`, `image`, `prereq`, `requiredlevel`, `maxlevel`, `type`, `prereq2`, `prereq3` FROM `skills`";
+		$sql_get_skills = "SELECT "id" as skillindex, "name", "image", "prereq", "requiredlevel", "maxlevel", "type", "prereq2", "prereq3" FROM "skills"";
 		$sql_skills_result = sql_query($sql_get_skills, $conn);
 		if(!$sql_skills_result){
 			error_log("[getSkillInfo] Query failed");
@@ -1899,7 +1899,7 @@
 	// -- Purpose : Gets all levels of all skills
 	function getSkillLevels($conn){
 		$output = array();
-		$sql_get_skills = "SELECT l.*, s.`name`, s.`type`, s.`id` as skillindex FROM `skilllevels` l inner join `skills` s on s.`id` = l.`skillid`";
+		$sql_get_skills = "SELECT l.*, s."name", s."type", s."id" as skillindex FROM "skilllevels" l inner join "skills" s on s."id" = l."skillid"";
 		$sql_skills_result = sql_query($sql_get_skills, $conn);
 		if(!$sql_skills_result){
 			error_log("[getSkillLevels] Query failed");
@@ -1934,7 +1934,7 @@
 	// -- Purpose : Returns current skill level of all skills
 	function getCharSkillLevels($conn, $acc){
 		$output = array();
-		$sql_get_skills = "SELECT * FROM `charSkills` where playerID = ".$acc;
+		$sql_get_skills = "SELECT * FROM "charSkills" where playerID = ".$acc;
 		$sql_skills_result = sql_query($sql_get_skills, $conn);
 		while($row = mysqli_fetch_array($sql_skills_result,MYSQLI_ASSOC)){
 			$string = $row['skillID'].'|'.$row['level'];
@@ -1986,7 +1986,7 @@
 
 		}
 
-	$existingSQL = "SELECT * FROM charSkills c inner join skills s on s.`id` = c.skillID where c.playerID = ".$acc." AND c.skillID = ".$skillID;
+	$existingSQL = "SELECT * FROM charSkills c inner join skills s on s."id" = c.skillID where c.playerID = ".$acc." AND c.skillID = ".$skillID;
 	$query = sql_query($existingSQL, $conn);
 
 	if(mysqli_num_rows($query) > 0){
@@ -2002,9 +2002,9 @@
 
 
 			if($currentLevel + $points <= $maxLevel && $points <= getAttribute($conn, 'character', 'skillPoints', $acc)){
-				$sql = "UPDATE `character` set `skillPoints` = `skillPoints` - ".$points." where playerID = ".$acc;
+				$sql = "UPDATE "character" set "skillPoints" = "skillPoints" - ".$points." where playerID = ".$acc;
 				sql_query($sql, $conn);
-				$sql = "UPDATE `charSkills` set `level` = `level` + ".$points." where playerID = ".$acc." AND skillID = ".$skillID;
+				$sql = "UPDATE "charSkills" set "level" = "level" + ".$points." where playerID = ".$acc." AND skillID = ".$skillID;
 				sql_query($sql, $conn);
 				$level = $currentLevel + $points;
 				applyPassives($conn, $acc, $skillID, $level);
@@ -2018,7 +2018,7 @@
 		}
 
 	} else {
-		$sql = "select * from skills where `id` = ".$skillID;
+		$sql = "select * from skills where "id" = ".$skillID;
 		$query = sql_query($sql, $conn);
 		$row = mysqli_fetch_array($query,MYSQLI_ASSOC);
 		$maxLevel = $row['maxlevel'];
@@ -2026,9 +2026,9 @@
 		if(getAttribute($conn, 'character', 'level', $acc) >= $row['requiredlevel']){
 
 			if($points <= $maxLevel && $points <= getAttribute($conn, 'character', 'skillPoints', $acc)){
-				$sql = "UPDATE `character` set `skillPoints` = `skillPoints` - ".$points." where playerID = ".$acc;
+				$sql = "UPDATE "character" set "skillPoints" = "skillPoints" - ".$points." where playerID = ".$acc;
 				sql_query($sql, $conn);
-				$sql = "INSERT INTO `charskills` (`level`, `playerid`, `skillid`) values (".$points.",".$acc.", ".$skillID.")";
+				$sql = "INSERT INTO "charskills" ("level", "playerid", "skillid") values (".$points.",".$acc.", ".$skillID.")";
 				sql_query($sql, $conn);
 				$level = $points;
 				applyPassives($conn, $acc, $skillID, $level);
@@ -2180,7 +2180,7 @@
 	// -- Params : $conn, $shop
 	// -- Purpose : Returns shop info based on a shop name
 	function getShopInfo($conn, $shop){
-		$sql_shop_result = sql_query("SELECT * FROM `shops` WHERE shop_index = $shop", $conn);
+		$sql_shop_result = sql_query("SELECT * FROM "shops" WHERE shop_index = $shop", $conn);
 		while($row = mysqli_fetch_array($sql_shop_result,MYSQLI_ASSOC)){
 			$sql = "select item_id as itemid, name, image, usable, combat, quest, equipment, value, description, visible from item where item_id in (".
 				$row['item_1'].','.$row['item_2'].','.$row['item_3'].','.$row['item_4'].','.$row['item_5'].','.$row['item_6'].','.$row['item_7'].','.$row['item_8'].")";
@@ -2206,7 +2206,7 @@
 		//
 		//  --------------------------------------------------------------------------------------------------
 		$output = array();
-		$sql_shop_result = sql_query("SELECT * FROM `equipmentShops` WHERE shop_index = $shop", $conn);
+		$sql_shop_result = sql_query("SELECT * FROM "equipmentShops" WHERE shop_index = $shop", $conn);
 		while($row = mysqli_fetch_array($sql_shop_result,MYSQLI_ASSOC)){
 			$output[] = getSingleEquipment($conn, $row['item_1']);
 			$output[] = getSingleEquipment($conn, $row['item_2']);
@@ -2319,21 +2319,21 @@
 							$level = getAttribute($conn, "character", "currentTowerLevel", $acc);
 							$level++;
 							$_SESSION['towerLevel'] = $level;
-							$sql = "UPDATE `character` SET towerLevel = towerLevel + 1 WHERE playerID = $acc and towerLevel < $level LIMIT 1";
+							$sql = "UPDATE "character" SET towerLevel = towerLevel + 1 WHERE playerID = $acc and towerLevel < $level LIMIT 1";
 							sql_query($sql, $conn);
-							$sql = "UPDATE `character` SET currentTowerLevel = $level WHERE playerID = $acc LIMIT 1";
+							$sql = "UPDATE "character" SET currentTowerLevel = $level WHERE playerID = $acc LIMIT 1";
 							sql_query($sql, $conn);
 						}else{
-							$sql = "UPDATE `character` SET currentTowerLevel = 1 WHERE playerID = $acc LIMIT 1";
+							$sql = "UPDATE "character" SET currentTowerLevel = 1 WHERE playerID = $acc LIMIT 1";
 							sql_query($sql, $conn);
 						}
 					}else{
 						if($map == "endless.php?"){
-							$sql = "UPDATE `character` SET currentTowerLevel = 1 WHERE playerID = $acc LIMIT 1";
+							$sql = "UPDATE "character" SET currentTowerLevel = 1 WHERE playerID = $acc LIMIT 1";
 							sql_query($sql, $conn);
 						}
 					}
-					$sql = "UPDATE `character` SET locationX = ".$x.", locationY = ".$y.", map = '".$map."', `combatModifier` = 0 WHERE playerID = $acc LIMIT 1";
+					$sql = "UPDATE "character" SET locationX = ".$x.", locationY = ".$y.", map = '".$map."', "combatModifier" = 0 WHERE playerID = $acc LIMIT 1";
 				} else {
 					$oldX = isset($_SESSION['oldX']) ? floatval($_SESSION['oldX']) : null;
 					$oldY = isset($_SESSION['oldY']) ? floatval($_SESSION['oldY']) : null;
@@ -2361,9 +2361,9 @@
 					$debug[] = "raw_steps=" . $steps . " floored_steps=" . floor($steps);
 					$_SESSION['oldX'] = $x;
 					$_SESSION['oldY'] = $y;
-					$sql = "UPDATE `account` set `stepsTaken` = `stepsTaken` + ".floor($steps)." where playerID = $acc";
+					$sql = "UPDATE "account" set "stepsTaken" = "stepsTaken" + ".floor($steps)." where playerID = $acc";
 					sql_query($sql, $conn);
-					$sql = "UPDATE `character` SET locationX = ".$x.", locationY = ".$y.", `combatModifier` = `combatModifier` + 1 WHERE map = '".$map."' AND playerID = ".$acc;
+					$sql = "UPDATE "character" SET locationX = ".$x.", locationY = ".$y.", "combatModifier" = "combatModifier" + 1 WHERE map = '".$map."' AND playerID = ".$acc;
 				}
 
 				sql_query($sql, $conn);
@@ -2398,7 +2398,7 @@
 		if(getInventoryItem($conn, $acc, $item) > ($quan - 1)){
 			$total = $quan * floor(getAttribute($conn, "item", "value", $item)/3);
 			removeItemAmount($conn, $acc, $item, $quan, false);
-			sql_query("UPDATE `character` set `silver`=`silver` + ".$total." where `playerID`=".$acc, $conn);
+			sql_query("UPDATE "character" set "silver"="silver" + ".$total." where "playerID"=".$acc, $conn);
 			return '<span style="color:green;">Transaction Successful</span>';
 		}
 
@@ -2425,9 +2425,9 @@
 	function toSpawn($acc, $conn){
 		$row = getRow($conn, "spawnPoints", getAttribute($conn, "character", "respawn", $acc));
 		//if($row["mapName"] == "endless.php?"){
-			$sql = "UPDATE `character` set currentTowerLevel = 1, `map` = '".$row["mapName"]."', `locationX` = ".$row["telestoneX"].", locationY = ".$row["telestoneY"]." WHERE `playerID` = ".$acc;
+			$sql = "UPDATE "character" set currentTowerLevel = 1, "map" = '".$row["mapName"]."', "locationX" = ".$row["telestoneX"].", locationY = ".$row["telestoneY"]." WHERE "playerID" = ".$acc;
 		//}else{
-			//$sql = "UPDATE `character` set currentTowerLevel = 0, `map` = '".$row["mapName"]."', `locationX` = ".$row["telestoneX"].", locationY = ".$row["telestoneY"]." WHERE `playerID` = ".$acc;
+			//$sql = "UPDATE "character" set currentTowerLevel = 0, "map" = '".$row["mapName"]."', "locationX" = ".$row["telestoneX"].", locationY = ".$row["telestoneY"]." WHERE "playerID" = ".$acc;
 		//}
 		sql_query($sql, $conn);
 	}
@@ -2436,7 +2436,7 @@
 	// -- Params : $acc, $slot, $conn
 	// -- Purpose : Removed item from slot provided on account provided in args
 	function unequipItem($acc, $slot, $conn){
-		sql_query('UPDATE equippedStuff SET `item_'.$slot.'`= -1 WHERE equipIndex='.$acc, $conn);
+		sql_query('UPDATE equippedStuff SET "item_'.$slot.'"= -1 WHERE equipIndex='.$acc, $conn);
 		return '<span style="color:green;">Item removed from battle ready list!</span>';
 	}
 
@@ -2454,7 +2454,7 @@
 			$sql = "delete from playerBuffs where buffID = $skill and playerID = $acc";
 			$query = sql_query($sql, $conn);
 		}
-		sql_query('UPDATE equippedStuff SET `skill_'.$slot.'`= -1 WHERE equipIndex='.$acc, $conn);
+		sql_query('UPDATE equippedStuff SET "skill_'.$slot.'"= -1 WHERE equipIndex='.$acc, $conn);
 		return '<span style="color:green;">Skill removed from battle ready list!</span>';
 	}
 
@@ -2464,7 +2464,7 @@
 	// -- Params : $conn, $item, $c1, $c2, $c3
 	// -- Purpose : Returns a custom string based on passed conditions
 	function getString($conn, $item, $c1, $c2, $c3){
-		$sql = 'SELECT * FROM `strings` WHERE (forKey = '.$item.') AND c1 = "'.$c1.'" AND c2 = "'.$c2.'" AND c3 = "'.$c3.'" ORDER BY RAND() LIMIT 1;';
+		$sql = 'SELECT * FROM "strings" WHERE (forKey = '.$item.') AND c1 = "'.$c1.'" AND c2 = "'.$c2.'" AND c3 = "'.$c3.'" ORDER BY RAND() LIMIT 1;';
 		$res = sql_query($sql, $conn);
 		$row = mysqli_fetch_array($res, MYSQLI_ASSOC);
 		return isset($row['text']) ? $row['text'] : "";
@@ -2475,7 +2475,7 @@
 	// -- Purpose : Regenerates a player's health fully
 	function fullheal ($acc, $conn){
 		$maxHealth = getAttribute($conn, "calcValues", "maxHealth", $acc);
-		$sql_char_update = "UPDATE `character` set hitpoints = ".$maxHealth." where playerID=".$acc;
+		$sql_char_update = "UPDATE "character" set hitpoints = ".$maxHealth." where playerID=".$acc;
 		sql_query($sql_char_update, $conn);
 		return $sql_char_update;
 	}
@@ -2492,7 +2492,7 @@
 			$HP = $max;
 		}
 
-		$sql_char_update = "UPDATE `character` set hitpoints=".$HP." where playerID=".$acc;
+		$sql_char_update = "UPDATE "character" set hitpoints=".$HP." where playerID=".$acc;
 		$sql_char_updated = sql_query($sql_char_update, $conn);
 	}
 
@@ -2501,7 +2501,7 @@
 	// -- Purpose : Regenerates a player's mana fully
 	function fullmana ($acc, $conn){
 		$maxMana = getAttribute($conn, "calcValues", "maxMana", $acc);
-		$sql_char_update = "UPDATE `character` set mana = ".$maxMana." where playerID=".$acc;
+		$sql_char_update = "UPDATE "character" set mana = ".$maxMana." where playerID=".$acc;
 		sql_query($sql_char_update, $conn);
 	}
 
@@ -2517,7 +2517,7 @@
 			$MP = $max;
 		}
 
-		$sql_char_update = "UPDATE `character` set mana=".$MP." where playerID=".$acc;
+		$sql_char_update = "UPDATE "character" set mana=".$MP." where playerID=".$acc;
 		$sql_char_updated = sql_query($sql_char_update, $conn);
 	}
 
@@ -2525,7 +2525,7 @@
 	// -- Params : $conn, $acc, $item
 	// -- Purpose : Returns the current count of an item on an an account
 	function getInventoryItem($conn, $acc, $item){
-		$sql = "SELECT * FROM `inventory` WHERE `playerID` = ".$acc." AND `itemID` = ".$item;
+		$sql = "SELECT * FROM "inventory" WHERE "playerID" = ".$acc." AND "itemID" = ".$item;
 		$itemRow = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($itemRow['count'] == ''){
@@ -2539,7 +2539,7 @@
 	// -- Params : $conn, $acc, $item
 	// -- Purpose : Returns the current count of an item on an an account
 	function getStoredItem($conn, $acc, $item){
-		$sql = "SELECT * FROM `inventory` WHERE `playerID` = ".$acc." AND `itemID` = ".$item;
+		$sql = "SELECT * FROM "inventory" WHERE "playerID" = ".$acc." AND "itemID" = ".$item;
 		$itemRow = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($itemRow['stored'] == ''){
@@ -2555,9 +2555,9 @@
 	function removeItemAmount($conn, $acc, $item, $amnt, $use){
 
 		if($use == true){
-			$sql = "UPDATE `inventory` set `count` = `count` - ".$amnt.", `used` = `used` + ".$amnt." WHERE `playerID` = ".$acc." AND `itemID` = ".$item;
+			$sql = "UPDATE "inventory" set "count" = "count" - ".$amnt.", "used" = "used" + ".$amnt." WHERE "playerID" = ".$acc." AND "itemID" = ".$item;
 		} else {
-			$sql = "UPDATE `inventory` set `count` = `count` - ".$amnt." WHERE `playerID` = ".$acc." AND `itemID` = ".$item;
+			$sql = "UPDATE "inventory" set "count" = "count" - ".$amnt." WHERE "playerID" = ".$acc." AND "itemID" = ".$item;
 		}
 
 		sql_query($sql, $conn);
@@ -2567,7 +2567,7 @@
 	// -- Params : $conn, $acc
 	// -- Purpose : Generates the item array for client for account in args
 	function generateItemArray($conn, $acc){
-		$sql = "SELECT COUNT(*) FROM `item`";
+		$sql = "SELECT COUNT(*) FROM "item"";
 		$itemRow = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 		$itemCount = $itemRow['COUNT(*)'];
 		$counter = 0;
@@ -2593,11 +2593,11 @@
 		if($item == 0){
 			return;
 		}
-		$sql = "UPDATE `inventory` set `count` = `count` + ".$amnt." WHERE `playerID` = ".$acc." AND `itemID` = ".$item;
+		$sql = "UPDATE "inventory" set "count" = "count" + ".$amnt." WHERE "playerID" = ".$acc." AND "itemID" = ".$item;
 		sql_query($sql, $conn);
 
 		if(mysqli_affected_rows($conn) == 0){
-			$sql = "INSERT INTO `inventory` (`playerid`, `itemid`, `count`) VALUES (".$acc.",".$item.",".$amnt.")";
+			$sql = "INSERT INTO "inventory" ("playerid", "itemid", "count") VALUES (".$acc.",".$item.",".$amnt.")";
 			sql_query($sql, $conn);
 		}
 
@@ -2608,7 +2608,7 @@
 	// -- Purpose : Grabs current quest from NPC
 	function getQuest($conn, $acc, $npc){
 
-		$sql = "SELECT * FROM `quests` WHERE  `npcID` = $npc AND startDate < NOW() AND endDate > NOW()";
+		$sql = "SELECT * FROM "quests" WHERE  "npcID" = $npc AND startDate < NOW() AND endDate > NOW()";
 		$sql_rows = sql_query($sql, $conn);
 		$counter = 1;
 		$quests = false;
@@ -2616,7 +2616,7 @@
 			$quests = true;
 			//Cycles through each row tel one incomplete
 			$quest = $questList['questID'];
-			$sql = "SELECT * FROM `questPlayerStatus` WHERE `playerID` = ".$acc." AND `questID` = ".$quest;
+			$sql = "SELECT * FROM "questPlayerStatus" WHERE "playerID" = ".$acc." AND "questID" = ".$quest;
 			//Grabs the quest status from table
 			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$questTitle = getAttribute($conn, "quests", "name", $quest);
@@ -2672,7 +2672,7 @@
 	function getDailyQuest($conn, $acc, $npc){
 
 		if($npc == -1){
-			$sql = "SELECT lastDailyComplete + 26 as questID, lastDailyTime as timestamp FROM `character` where playerID = $acc";
+			$sql = "SELECT lastDailyComplete + 26 as questID, lastDailyTime as timestamp FROM "character" where playerID = $acc";
 			$charRow = mysqli_fetch_array(sql_query($sql, $conn), MYSQLI_ASSOC);
 			$quest = $charRow["questID"];
 			$timestamp = $charRow["timestamp"];
@@ -2690,7 +2690,7 @@
 			if($quest == 32){
 				$quest = 27;
 			}
-			$sql = "SELECT * FROM `questPlayerStatus` WHERE `playerID` = ".$acc." AND `questID` = ".$quest;
+			$sql = "SELECT * FROM "questPlayerStatus" WHERE "playerID" = ".$acc." AND "questID" = ".$quest;
 			//Grabs the quest status from table
 			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$questTitle = getAttribute($conn, "quests", "name", $quest);
@@ -2735,11 +2735,11 @@
 	// -- Params : $conn, $acc, $quest
 	// -- Purpose : Starts a quest based on ID
 	function startQuest($conn, $acc, $quest){
-		$sql = "UPDATE `questPlayerStatus` set `status` = 'working' WHERE `playerID` = ".$acc." AND `questID` = ".$quest;
+		$sql = "UPDATE "questPlayerStatus" set "status" = 'working' WHERE "playerID" = ".$acc." AND "questID" = ".$quest;
 		sql_query($sql, $conn);
 
 		if(mysqli_affected_rows($conn) == 0){
-			$sql = "INSERT INTO `questplayerstatus` (`playerid`, `questid`, `status`) VALUES (".$acc.",".$quest.",'working')";
+			$sql = "INSERT INTO "questplayerstatus" ("playerid", "questid", "status") VALUES (".$acc.",".$quest.",'working')";
 			sql_query($sql, $conn);
 		}
 		$questName = getAttribute($conn, 'quests', 'name', $quest);
@@ -2750,7 +2750,7 @@
 	// -- Params : $conn, $acc, $quest
 	// -- Purpose : Cancels a quest based on ID
 	function cancelQuest($conn, $acc, $quest){
-		$sql = "DELETE FROM `questPlayerStatus` WHERE `playerID` = ".$acc." AND `questID` = ".$quest;
+		$sql = "DELETE FROM "questPlayerStatus" WHERE "playerID" = ".$acc." AND "questID" = ".$quest;
 		sql_query($sql, $conn);
 		$questRow = getRow($conn, "quests", $quest);
 		$counter = 0;
@@ -2759,7 +2759,7 @@
 			$item = $questRow['req'.$counter];
 
 			if($item != 0){
-				$sql = "DELETE FROM `inventory` WHERE `playerID` = ".$acc." AND `itemID` = ".$item;
+				$sql = "DELETE FROM "inventory" WHERE "playerID" = ".$acc." AND "itemID" = ".$item;
 				sql_query($sql, $conn);
 			}
 
@@ -2793,14 +2793,14 @@
 		$repeat = getAttribute($conn, "quests", "repeatable", $quest);
 
 		if($repeat == 1){
-			$sql = "DELETE FROM `questPlayerStatus` WHERE `playerID` = ".$acc." AND `questID` = ".$quest;
+			$sql = "DELETE FROM "questPlayerStatus" WHERE "playerID" = ".$acc." AND "questID" = ".$quest;
 			sql_query($sql, $conn);
 		} else {
-			$sql = "UPDATE `questPlayerStatus` set `status` = 'complete' WHERE `playerID` = ".$acc." AND `questID` = ".$quest;
+			$sql = "UPDATE "questPlayerStatus" set "status" = 'complete' WHERE "playerID" = ".$acc." AND "questID" = ".$quest;
 			sql_query($sql, $conn);
 		}
 
-		$sql = "INSERT INTO `completequests` (playerid, questid) values ($acc, $quest)";
+		$sql = "INSERT INTO "completequests" (playerid, questid) values ($acc, $quest)";
 		sql_query($sql, $conn);
 		$counter = 0;
 		while($counter != 3){
@@ -2810,7 +2810,7 @@
 			$amnt = $questRow['req'.$counter."amnt"];
 
 			if($item != 0){
-				$sql = "DELETE FROM `inventory` WHERE `playerID` = ".$acc." AND `itemID` = ".$item;
+				$sql = "DELETE FROM "inventory" WHERE "playerID" = ".$acc." AND "itemID" = ".$item;
 				sql_query($sql, $conn);
 			}
 
@@ -2822,7 +2822,7 @@
 		$exp = $questRow['expAmnt'];
 		$silver = $questRow['silverAmnt'];
 		giveEXPnoncombat($acc, $exp, $conn);
-		$sql = "UPDATE `character` SET `silver` = `silver` + ".$silver." WHERE playerID = ".$acc;
+		$sql = "UPDATE "character" SET "silver" = "silver" + ".$silver." WHERE playerID = ".$acc;
 		sql_query($sql, $conn);
 
 		if($quest == 5){
@@ -2846,37 +2846,37 @@
 		}
 
 		if($slot != "accessory"){
-			$sql = 'UPDATE `equipmentInventory` SET `equipped` = 0 WHERE `slot` = "'.$slot.'" AND `equipped` = 1 AND `playerID` = '.$acc. ' limit 1';
+			$sql = 'UPDATE "equipmentInventory" SET "equipped" = 0 WHERE "slot" = "'.$slot.'" AND "equipped" = 1 AND "playerID" = '.$acc. ' limit 1';
 			sql_query($sql, $conn);
 			if($slot == "2hweapon"){
-				$sql = 'UPDATE `equipmentInventory` SET `equipped` = 0 WHERE `slot` in ("offhand", "weapon", "2hweapon") AND `equipped` = 1 AND `playerID` = '.$acc. ' limit 3';
+				$sql = 'UPDATE "equipmentInventory" SET "equipped" = 0 WHERE "slot" in ("offhand", "weapon", "2hweapon") AND "equipped" = 1 AND "playerID" = '.$acc. ' limit 3';
 				sql_query($sql, $conn);
 			}
 			if($slot == "offhand"){
-				$sql = 'UPDATE `equipmentInventory` SET `equipped` = 0 WHERE `slot` = "2hweapon" AND `equipped` = 1 AND `playerID` = '.$acc. ' limit 1';
+				$sql = 'UPDATE "equipmentInventory" SET "equipped" = 0 WHERE "slot" = "2hweapon" AND "equipped" = 1 AND "playerID" = '.$acc. ' limit 1';
 				sql_query($sql, $conn);
 			}
 			if($slot == "weapon"){
-				$sql = 'UPDATE `equipmentInventory` SET `equipped` = 0 WHERE `slot` = "2hweapon" AND `equipped` = 1 AND `playerID` = '.$acc. ' limit 1';
+				$sql = 'UPDATE "equipmentInventory" SET "equipped" = 0 WHERE "slot" = "2hweapon" AND "equipped" = 1 AND "playerID" = '.$acc. ' limit 1';
 				sql_query($sql, $conn);
 			}
 		} else {
-			$sql = 'SELECT COUNT(*) FROM `equipmentInventory` WHERE `slot` = "'.$slot.'" AND `equipped` = 1 AND `playerID` = '.$acc;
+			$sql = 'SELECT COUNT(*) FROM "equipmentInventory" WHERE "slot" = "'.$slot.'" AND "equipped" = 1 AND "playerID" = '.$acc;
 			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$itemCount = $Row['COUNT(*)'];
 
 			if($itemCount == 2){
-				$sql = 'UPDATE `equipmentInventory` SET `equipped` = 0 WHERE `slot` = "'.$slot.'" AND `equipped` = 1 AND `playerID` = '.$acc. ' ORDER BY `index` DESC limit 1';
+				$sql = 'UPDATE "equipmentInventory" SET "equipped" = 0 WHERE "slot" = "'.$slot.'" AND "equipped" = 1 AND "playerID" = '.$acc. ' ORDER BY "index" DESC limit 1';
 				sql_query($sql, $conn);
 			}
 
 		}
 
-		$sql = 'UPDATE `equipmentInventory` SET `equipped` = 1 WHERE `index` = '.$item.' AND `playerID` = '.$acc;
+		$sql = 'UPDATE "equipmentInventory" SET "equipped" = 1 WHERE "index" = '.$item.' AND "playerID" = '.$acc;
 		sql_query($sql, $conn);
 
 		if($slot == "weapon" || $slot == "2hweapon"){
-			$sql = 'UPDATE `equipmentInventory` SET `equipped` = 0 WHERE `name` = "unarmed" AND `playerID` = '.$acc;
+			$sql = 'UPDATE "equipmentInventory" SET "equipped" = 0 WHERE "name" = "unarmed" AND "playerID" = '.$acc;
 			sql_query($sql, $conn);
 		}
 
@@ -2908,11 +2908,11 @@
 	// -- Purpose : removes an equipped item
 	function unequipEquipmentItem($conn, $acc, $item){
 		$slot = getAttribute($conn, "equipmentInventory", "slot", $item);
-		$sql = 'UPDATE `equipmentInventory` SET `equipped` = 0 WHERE `index` = '.$item.' AND `playerID` = '.$acc;
+		$sql = 'UPDATE "equipmentInventory" SET "equipped" = 0 WHERE "index" = '.$item.' AND "playerID" = '.$acc;
 		sql_query($sql, $conn);
 
 		if($slot == "weapon" || $slot == "2hweapon"){
-			$sql = 'UPDATE `equipmentInventory` SET `equipped` = 1 WHERE `name` = "unarmed" AND `playerID` = '.$acc;
+			$sql = 'UPDATE "equipmentInventory" SET "equipped" = 1 WHERE "name" = "unarmed" AND "playerID" = '.$acc;
 			sql_query($sql, $conn);
 		}
 
@@ -2946,7 +2946,7 @@
 	// -- Purpose : Gets all achievements
 	function getAchievementList($conn){
 		$output = array();
-		$sql = 'SELECT * FROM `achievements` order by "order"';
+		$sql = 'SELECT * FROM "achievements" order by "order"';
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$script = "<strong>".($row['name'] ?? '')." </strong><br><br>".($row['description'] ?? '')."<br><br>[complete]";
@@ -3213,7 +3213,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-		$sql = "SELECT * FROM charSkills c inner join skills s on c.skillID = s.`id` where level = maxLevel and playerID = $acc";
+		$sql = "SELECT * FROM charSkills c inner join skills s on c.skillID = s."id" where level = maxLevel and playerID = $acc";
 
 			if(mysqli_num_rows($result) > 0){
 				sql_query("INSERT INTO charachievements (playerid, achievementid) values ($acc, 16)", $conn);
@@ -3222,7 +3222,7 @@
 		}
 
 		// ================================================== Get All Achievements ===================================================
-		$sql = 'SELECT * FROM `achievements` order by `order`';
+		$sql = 'SELECT * FROM "achievements" order by "order"';
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$counter = $row['index'];
@@ -3267,7 +3267,7 @@
 	// -- Params : $conn, $acc
 	// -- Purpose : gets all complete quests for log
 	function getCompleteQuests($conn, $acc){
-		$sql = "SELECT DISTINCT(q.questID) as questID, count(*) as 'count', repeatable, name FROM `completeQuests` c inner join `quests` q on c.questID = q.questID where playerID = $acc group by questID";
+		$sql = "SELECT DISTINCT(q.questID) as questID, count(*) as 'count', repeatable, name FROM "completeQuests" c inner join "quests" q on c.questID = q.questID where playerID = $acc group by questID";
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$string = $row['questID']."|".$row['repeatable']."|".$row['count']."|".$row['name'];
@@ -3281,7 +3281,7 @@
 	// -- Params : $conn, $acc
 	// -- Purpose : gets all incomplete quests for log
 	function getIncompleteQuests($conn, $acc){
-		$sql = "SELECT DISTINCT(q.questID) as questID, name FROM `questPlayerStatus` c inner join `quests` q on c.questID = q.questID where playerID = $acc and status = 'working'";
+		$sql = "SELECT DISTINCT(q.questID) as questID, name FROM "questPlayerStatus" c inner join "quests" q on c.questID = q.questID where playerID = $acc and status = 'working'";
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$string = $row['questID'].'|'.$row['name'];
@@ -3296,12 +3296,12 @@
 	// -- Purpose : gets quest details for log
 	function getQuestForLog($conn, $acc, $questID, $complete){
 
-		$sql = "SELECT * FROM `quests` WHERE  `questID` = ".$questID;
+		$sql = "SELECT * FROM "quests" WHERE  "questID" = ".$questID;
 		$sql_rows = sql_query($sql, $conn);
 		while($questList = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 			//Cycles through each row tel one incomplete
 			$quest = $questID;
-			$sql = "SELECT * FROM `questPlayerStatus` s inner join quests q on q.questID = s.questID WHERE `playerID` = ".$acc." AND q.questID = ".$quest;
+			$sql = "SELECT * FROM "questPlayerStatus" s inner join quests q on q.questID = s.questID WHERE "playerID" = ".$acc." AND q.questID = ".$quest;
 			//Grabs the quest status from table
 			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			//if($Row['status'] == "" || $Row['status'] == "working"){
@@ -3371,11 +3371,11 @@
 	// -- Params : $conn, $acc
 	// -- Purpose : sets player spawn point
 	function setSpawn($conn, $acc){
-		$sql = "select s.spawnID as spawn from spawnPoints s inner join `character` c on c.zone = s.displayName where c.playerID = $acc";
+		$sql = "select s.spawnID as spawn from spawnPoints s inner join "character" c on c.zone = s.displayName where c.playerID = $acc";
 		$rows = sql_query($sql, $conn);
 		$row = mysqli_fetch_array($rows,MYSQLI_ASSOC);
 		$spawn = $row['spawn'];
-		sql_query("UPDATE `character` set respawn = $spawn where playerID = $acc", $conn);
+		sql_query("UPDATE "character" set respawn = $spawn where playerID = $acc", $conn);
 		return getSpawn($conn, $acc);
 	}
 
@@ -3383,7 +3383,7 @@
 	// -- Params : $conn, $acc, $loc
 	// -- Purpose : teleports user to spawn point
 	function teleport($conn, $acc, $loc){
-		$sql = "select * from spawnPoints s inner join `character` c on c.zone = s.displayName where c.playerID = $acc";
+		$sql = "select * from spawnPoints s inner join "character" c on c.zone = s.displayName where c.playerID = $acc";
 		$sql_rows = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 			$x = $row['posX'];
@@ -3396,7 +3396,7 @@
 				$distence = $distence * 15;
 				$distence = floor($distence /100) * 100;
 				$index = $waypoints['spawnID'];
-				$sql = "UPDATE `character` set `map` = '".$waypoints["mapName"]."', `locationX` = ".$waypoints["telestoneX"].", locationY = ".$waypoints["telestoneY"].", silver = silver - $distence WHERE `playerID` = $acc and `silver` + 1 > $distence LIMIT 1";
+				$sql = "UPDATE "character" set "map" = '".$waypoints["mapName"]."', "locationX" = ".$waypoints["telestoneX"].", locationY = ".$waypoints["telestoneY"].", silver = silver - $distence WHERE "playerID" = $acc and "silver" + 1 > $distence LIMIT 1";
 				sql_query($sql, $conn);
 				return "0";
 			}
@@ -3421,13 +3421,13 @@
 	    $costs[81] = 26;
 	    $costs[91] = 34;
 
-		$sql = "select * from  `character` c inner join inventory i on i.playerID = c.playerID
-			where c.playerID = $acc and towerLevel >= $floor and itemID = 235 and `count` >= " . $costs[$floor];
+		$sql = "select * from  "character" c inner join inventory i on i.playerID = c.playerID
+			where c.playerID = $acc and towerLevel >= $floor and itemID = 235 and "count" >= " . $costs[$floor];
 		$sql_rows = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
-			$sql = "update inventory set `count` = `count` - " . $costs[$floor] . " where itemID = 235 and playerID = $acc";
+			$sql = "update inventory set "count" = "count" - " . $costs[$floor] . " where itemID = 235 and playerID = $acc";
 			sql_query($sql, $conn);
-			$sql = "update `character` set currentTowerLevel = $floor where playerID = $acc";
+			$sql = "update "character" set currentTowerLevel = $floor where playerID = $acc";
 			sql_query($sql, $conn);
 			return "0";
 		}
@@ -3439,12 +3439,12 @@
 	// -- Params : $conn, $acc, $loc
 	// -- Purpose : updates zone info
 	function updateZone($conn, $acc, $loc){
-		sql_query("UPDATE `character` SET `zone` = '$loc' WHERE playerID = ".$acc, $conn);
+		sql_query("UPDATE "character" SET "zone" = '$loc' WHERE playerID = ".$acc, $conn);
 		$sql = "SELECT * FROM playerWaypoints p inner join spawnPoints s on s.spawnID = p.spawnID where p.playerID = $acc and s.displayName = '$loc' order by p.index desc";
 		$query = sql_query($sql, $conn);
 
 		if(mysqli_num_rows($query) == 0){
-			$sql = "SELECT * FROM `spawnPoints` where displayName = '$loc'";
+			$sql = "SELECT * FROM "spawnPoints" where displayName = '$loc'";
 			$query = sql_query($sql, $conn);
 
 				if(mysqli_num_rows($query) > 0){
@@ -3463,15 +3463,15 @@
 	function getShadows($conn, $acc){
 		$map = getAttribute($conn, "character", "map", $acc);
 		if($map != 'endless.php?'){
-			$sql = "SELECT l.* FROM `character` c INNER JOIN `lightSources` l on c.map = l.map inner join `account` a on a.playerID = c.playerID where c.playerID = $acc and a.light != 0";
+			$sql = "SELECT l.* FROM "character" c INNER JOIN "lightSources" l on c.map = l.map inner join "account" a on a.playerID = c.playerID where c.playerID = $acc and a.light != 0";
 		}else{  //endless tower lights
 			$floor = getAttribute($conn, "character", "currentTowerLevel", $acc);
 			if($floor == 1){
-				$sql = "SELECT l.* FROM `character` c INNER JOIN `lightSources` l on 'endless.php?1' = l.map inner join `account` a on a.playerID = c.playerID where c.playerID = $acc and a.light != 0";
+				$sql = "SELECT l.* FROM "character" c INNER JOIN "lightSources" l on 'endless.php?1' = l.map inner join "account" a on a.playerID = c.playerID where c.playerID = $acc and a.light != 0";
 			}else if (($floor - 1) % 10 == 0){
-				$sql = "SELECT l.* FROM `character` c INNER JOIN `lightSources` l on 'endless.php?0' = l.map inner join `account` a on a.playerID = c.playerID where c.playerID = $acc and a.light != 0";
+				$sql = "SELECT l.* FROM "character" c INNER JOIN "lightSources" l on 'endless.php?0' = l.map inner join "account" a on a.playerID = c.playerID where c.playerID = $acc and a.light != 0";
 			}else{
-				$sql = "SELECT l.* FROM `character` c INNER JOIN `lightSources` l on 'endless.php?x' = l.map inner join `account` a on a.playerID = c.playerID where c.playerID = $acc and a.light != 0";
+				$sql = "SELECT l.* FROM "character" c INNER JOIN "lightSources" l on 'endless.php?x' = l.map inner join "account" a on a.playerID = c.playerID where c.playerID = $acc and a.light != 0";
 			}
 		}
 		$result = sql_query($sql, $conn);
@@ -3485,7 +3485,7 @@
 	// -- Params : $conn, $acc, $loc
 	// -- Purpose : gets skill tree based on char class
 	function getSkillTree($conn, $acc){
-		$sql = "select * from skillTrees where class = (select class from `character` where playerID = $acc)";
+		$sql = "select * from skillTrees where class = (select class from "character" where playerID = $acc)";
 		return mysqli_fetch_array(sql_query($sql, $conn), MYSQLI_ASSOC)["imagelist"];
 	}
 
@@ -3493,7 +3493,7 @@
 	// -- Params : $conn, $acc
 	// -- Purpose : Starts whatever quest is due to start for a character.
 	function startDailyQuest($acc, $conn){
-		$sql = "SELECT lastDailyComplete + 27 as questID FROM `character` where playerID = $acc;";
+		$sql = "SELECT lastDailyComplete + 27 as questID FROM "character" where playerID = $acc;";
 		//error_log($sql);
 		$quest = mysqli_fetch_array(sql_query($sql, $conn), MYSQLI_ASSOC)["questID"];
 		if(isset($quest)){
@@ -3508,16 +3508,16 @@
 	// -- Params : $conn, $acc
 	// -- Purpose : Completes the daily quest
 	function finishDailyQuest($acc, $conn){
-		$sql = "SELECT lastDailyComplete + 27 as questID FROM `character` where playerID = $acc;";
+		$sql = "SELECT lastDailyComplete + 27 as questID FROM "character" where playerID = $acc;";
 		$quest = mysqli_fetch_array(sql_query($sql, $conn), MYSQLI_ASSOC)["questID"];
 		if(isset($quest)){
 			if($quest != 31){
 				completeQuest($conn, $acc, $quest);
-				$sql = "update `character` set lastDailyComplete = lastDailyComplete + 1, lastDailyTime = date(SYSDATE()) where playerID = $acc";
+				$sql = "update "character" set lastDailyComplete = lastDailyComplete + 1, lastDailyTime = date(SYSDATE()) where playerID = $acc";
 				sql_query($sql, $conn);
 			}else{
 				completeQuest($conn, $acc, $quest);
-				$sql = "update `character` set lastDailyComplete = 0, lastDailyTime = date(SYSDATE()) where playerID = $acc";
+				$sql = "update "character" set lastDailyComplete = 0, lastDailyTime = date(SYSDATE()) where playerID = $acc";
 				sql_query($sql, $conn);
 			}
 		}
@@ -3555,7 +3555,7 @@
 
 			$output[] = $row;
 		}
-		$sql = "SELECT `index` as itemID, 1 as `count`, `template`, null as `used`, `script` as `description`, `archived`, `upgrade`, `name`, `equipped`, `image`, `price` as `value`, 0 as usable, 0 as combat, 0 as quest, 1 as equipment, 1 as visible FROM `equipmentInventory` where `playerID` = $acc and `archived` = 0 and `name` != 'unarmed' order by `name`;";
+		$sql = "SELECT "index" as itemID, 1 as "count", "template", null as "used", "script" as "description", "archived", "upgrade", "name", "equipped", "image", "price" as "value", 0 as usable, 0 as combat, 0 as quest, 1 as equipment, 1 as visible FROM "equipmentInventory" where "playerID" = $acc and "archived" = 0 and "name" != 'unarmed' order by "name";";
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			if($row['upgrade'] > 0){
@@ -3597,7 +3597,7 @@
 				$ing[4] = $ing[6];
 			}
 			if($ing[1] == 1){
-				$sql = "SELECT * FROM equipmentInventory where `index` = " . $ing[0];
+				$sql = "SELECT * FROM equipmentInventory where "index" = " . $ing[0];
 				$result = sql_query($sql, $conn);
 				while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 					$currentUp = $row["upgrade"];
@@ -3712,7 +3712,7 @@
 		if($recipe["cost"] > getAttribute($conn, "character", "silver", $acc)){
 			return "Crafting Failed, Not Enough Silver";
 		}else{
-			$sql = "update `character` set silver = silver - ".$recipe["cost"]." where playerID = $acc";
+			$sql = "update "character" set silver = silver - ".$recipe["cost"]." where playerID = $acc";
 			$query = sql_query($sql, $conn);
 		}
 		if($recipe["equipment"]){
@@ -3729,13 +3729,13 @@
 			if($recipe["upgrade"] == "weapon"){
 				$success = true;
 				if (rand(0, 100) > $recipe["rate"]){
-					$sql = "delete from equipmentInventory where `index` = " . $ing[0];
+					$sql = "delete from equipmentInventory where "index" = " . $ing[0];
 					sql_query($sql, $conn);
 					$itemName = $recipe["name"];
 					logAction($conn, $acc, "Crafting (Failure)", $itemName, null);
 					return "Crafting Failed: Item Destroyed!";
 				}else{
-					$sql = "update equipmentInventory set minDmg = minDmg + 1, maxDmg = maxDmg+ 2, upgrade = upgrade + 1, price = ". $recipe["cost"] ." where `index` = " . $ing[0];
+					$sql = "update equipmentInventory set minDmg = minDmg + 1, maxDmg = maxDmg+ 2, upgrade = upgrade + 1, price = ". $recipe["cost"] ." where "index" = " . $ing[0];
 					sql_query($sql, $conn);
 					$itemName = $recipe["name"];
 					logAction($conn, $acc, "Crafting (Success)", $itemName, null);
@@ -3744,13 +3744,13 @@
 			}else if($recipe["upgrade"] == "armor"){
 				$success = true;
 				if (rand(0, 100) > $recipe["rate"]){
-					$sql = "delete from equipmentInventory where `index` = " . $ing[0];
+					$sql = "delete from equipmentInventory where "index" = " . $ing[0];
 					sql_query($sql, $conn);
 					$itemName = $recipe["name"];
 					logAction($conn, $acc, "Crafting (Failure)", $itemName, null);
 					return "Crafting Failed: Item Destroyed!";
 				}else{
-					$sql = "update equipmentInventory set armor = armor + 1, upgrade = upgrade + 1, price = ". $recipe["cost"] ." where `index` = " . $ing[0];
+					$sql = "update equipmentInventory set armor = armor + 1, upgrade = upgrade + 1, price = ". $recipe["cost"] ." where "index" = " . $ing[0];
 					sql_query($sql, $conn);
 					$itemName = $recipe["name"];
 					logAction($conn, $acc, "Crafting (Success)", $itemName, null);

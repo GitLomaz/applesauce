@@ -7,12 +7,12 @@
 	//  --------------------------------------------------------------------------------------------------
 	//                            Activates an account, so you can log onto it
 	//  --------------------------------------------------------------------------------------------------
-		$sqlToken = "SELECT * FROM `sessions` where `cookie` = '".$token."' AND `type` = 'Activation' AND `expiry` > NOW()";
+		$sqlToken = "SELECT * FROM "sessions" where "cookie" = '".$token."' AND "type" = 'Activation' AND "expiry" > NOW()";
 		$query = sql_query($sqlToken, $conn);
 		if(mysqli_num_rows($query) > 0){
-			$sqlDelete = "DELETE FROM `sessions` where `cookie` = '".$token."' AND `type` = 'Activation'";
+			$sqlDelete = "DELETE FROM "sessions" where "cookie" = '".$token."' AND "type" = 'Activation'";
 			sql_query($sqlDelete, $conn);
-			$sqlActivate = "UPDATE `account` SET `confirmed` = 1 where `playerid` = ".$login;
+			$sqlActivate = "UPDATE "account" SET "confirmed" = 1 where "playerid" = ".$login;
 			sql_query($sqlActivate, $conn);
 			return 1;
 		}else{
@@ -21,7 +21,7 @@
 	}
 	function getEnemyList($conn, $acc){
 		$playerDiff = getAttribute($conn, "character", "diff", $acc);
-		$sql = "SELECT * from `charKills` c , `enemies` e inner join `enemySpawns` s on e.enemyID = s.enemyID WHERE (e.enemyID = c.enemyID) AND playerID = $acc";
+		$sql = "SELECT * from "charKills" c , "enemies" e inner join "enemySpawns" s on e.enemyID = s.enemyID WHERE (e.enemyID = c.enemyID) AND playerID = $acc";
 		$sql_rows = sql_query($sql, $conn);
 		$zones = '';
 		$enemies = '';
@@ -189,7 +189,7 @@
 					$salthex = dechex($saltdec);
 					$token = $token.$salthex;
 				}
-				$sql = "INSERT INTO `sessions` set `cookie` = '".$token."', Expiry = NOW() + INTERVAL 1500 MINUTE, Type = 'Session', Account = ".$LookUpAccountNo;
+				$sql = "INSERT INTO "sessions" set "cookie" = '".$token."', Expiry = NOW() + INTERVAL 1500 MINUTE, Type = 'Session', Account = ".$LookUpAccountNo;
 				sql_query($sql, $conn);
 				kongSubmitInitStats($conn, $LookUpAccountNo);
 				return $token;
@@ -207,13 +207,13 @@
 					$token = $token.$salthex;
 				}
 				try{
-					$sql = "DELETE FROM `sessions` WHERE Type = 'Session' AND Account = ".$_SESSION['accountNo'];
+					$sql = "DELETE FROM "sessions" WHERE Type = 'Session' AND Account = ".$_SESSION['accountNo'];
 					sql_query($sql, $conn);
 				}catch (Exception $e) {
 
 				}
 				try{
-					$sql = "INSERT INTO `sessions` set `cookie` = '".$token."', Expiry = NOW() + INTERVAL 1500 MINUTE, Type = 'Session', Account = ".$_SESSION['accountNo'];
+					$sql = "INSERT INTO "sessions" set "cookie" = '".$token."', Expiry = NOW() + INTERVAL 1500 MINUTE, Type = 'Session', Account = ".$_SESSION['accountNo'];
 					sql_query($sql, $conn);
 					error_log(kongSubmitInitStats($conn, $_SESSION['accountNo']));
 				}catch (Exception $e) {
@@ -224,7 +224,7 @@
 		}
 	}
 	function kongBuff($conn, $acc){
-		$sql = "DELETE from `playerBuffs` where itemID = -1 AND playerID = $acc";
+		$sql = "DELETE from "playerBuffs" where itemID = -1 AND playerID = $acc";
 		sql_query($sql, $conn);
 		$level = getAttribute($conn, "character", "level", $acc);
 		if($level < 8){
@@ -232,7 +232,7 @@
 		}
 		$bonus = floor($level/3);
 		$string = "<strong>Kongregate Ad Support</strong><br/><br/>Thanks for your ad support! here is a bonus!<br/><br/><strong>Primary Stats: </strong>$bonus";
-		$sql = "insert into `playerBuffs` (str, vit, dex, spr, itemID, playerID, name, image, remaining, script) values ($bonus,$bonus,$bonus,$bonus,-1,$acc,'Kongregate Premium Buff','kongBuff',50,'$string')";
+		$sql = "insert into "playerBuffs" (str, vit, dex, spr, itemID, playerID, name, image, remaining, script) values ($bonus,$bonus,$bonus,$bonus,-1,$acc,'Kongregate Premium Buff','kongBuff',50,'$string')";
 		sql_query($sql, $conn);
 	}
 	function kongSubmitInitStats($conn, $acc){
@@ -275,100 +275,100 @@
 				switch($storeItem["identifier"]){
 					case 1:
 						addItemAmount($conn, $acc, 85, 1); // TIP JAR
-						$sql = "UPDATE `account` set kredsSpent = kredsSpent + 20 where playerID = $acc";
+						$sql = "UPDATE "account" set kredsSpent = kredsSpent + 20 where playerID = $acc";
 						sql_query($sql, $conn);
-						$sql = "INSERT INTO `kredsTransactions` (playerID, storeID, Kreds) values ($acc, 1, 20)";
+						$sql = "INSERT INTO "kredsTransactions" (playerID, storeID, Kreds) values ($acc, 1, 20)";
 						sql_query($sql, $conn);
 						break;
 					case 2:
 						addItemAmount($conn, $acc, 108, 3); // JEWELRY BOX
-						$sql = "UPDATE `account` set kredsSpent = kredsSpent + 100 where playerID = $acc";
+						$sql = "UPDATE "account" set kredsSpent = kredsSpent + 100 where playerID = $acc";
 						sql_query($sql, $conn);
-						$sql = "INSERT INTO `kredsTransactions` (playerID, storeID, Kreds) values ($acc, 2, 100)";
+						$sql = "INSERT INTO "kredsTransactions" (playerID, storeID, Kreds) values ($acc, 2, 100)";
 						sql_query($sql, $conn);
 						break;
 					case 3:
 						addItemAmount($conn, $acc, 111, 10); // 10x MED REJEUV
-						$sql = "UPDATE `account` set kredsSpent = kredsSpent + 15 where playerID = $acc";
+						$sql = "UPDATE "account" set kredsSpent = kredsSpent + 15 where playerID = $acc";
 						sql_query($sql, $conn);
-						$sql = "INSERT INTO `kredsTransactions` (playerID, storeID, Kreds) values ($acc, 3, 15)";
+						$sql = "INSERT INTO "kredsTransactions" (playerID, storeID, Kreds) values ($acc, 3, 15)";
 						sql_query($sql, $conn);
 						break;
 					case 4:
 						addItemAmount($conn, $acc, 111, 20); // 20x MED REJEUV
-						$sql = "UPDATE `account` set kredsSpent = kredsSpent + 25 where playerID = $acc";
+						$sql = "UPDATE "account" set kredsSpent = kredsSpent + 25 where playerID = $acc";
 						sql_query($sql, $conn);
-						$sql = "INSERT INTO `kredsTransactions` (playerID, storeID, Kreds) values ($acc, 4, 25)";
+						$sql = "INSERT INTO "kredsTransactions" (playerID, storeID, Kreds) values ($acc, 4, 25)";
 						sql_query($sql, $conn);
 						break;
 					case 5:
 						addItemAmount($conn, $acc, 112, 10); // 10x LARGE REJEW
-						$sql = "UPDATE `account` set kredsSpent = kredsSpent + 20 where playerID = $acc";
+						$sql = "UPDATE "account" set kredsSpent = kredsSpent + 20 where playerID = $acc";
 						sql_query($sql, $conn);
-						$sql = "INSERT INTO `kredsTransactions` (playerID, storeID, Kreds) values ($acc, 5, 20)";
+						$sql = "INSERT INTO "kredsTransactions" (playerID, storeID, Kreds) values ($acc, 5, 20)";
 						sql_query($sql, $conn);
 						break;
 					case 6:
 						addItemAmount($conn, $acc, 112, 20); // 20x LARGE REJEW
-						$sql = "UPDATE `account` set kredsSpent = kredsSpent + 35 where playerID = $acc";
+						$sql = "UPDATE "account" set kredsSpent = kredsSpent + 35 where playerID = $acc";
 						sql_query($sql, $conn);
-						$sql = "INSERT INTO `kredsTransactions` (playerID, storeID, Kreds) values ($acc, 6, 35)";
+						$sql = "INSERT INTO "kredsTransactions" (playerID, storeID, Kreds) values ($acc, 6, 35)";
 						sql_query($sql, $conn);
 						break;
 					case 7:
 						addItemAmount($conn, $acc, 90, 3); // REINFORCED WOODEN CHEST
-						$sql = "UPDATE `account` set kredsSpent = kredsSpent + 65 where playerID = $acc";
+						$sql = "UPDATE "account" set kredsSpent = kredsSpent + 65 where playerID = $acc";
 						sql_query($sql, $conn);
-						$sql = "INSERT INTO `kredsTransactions` (playerID, storeID, Kreds) values ($acc, 7, 65)";
+						$sql = "INSERT INTO "kredsTransactions" (playerID, storeID, Kreds) values ($acc, 7, 65)";
 						sql_query($sql, $conn);
 						break;
 					case 8:
 						addItemAmount($conn, $acc, 113, 1);  // STAT RESET
-						$sql = "UPDATE `account` set kredsSpent = kredsSpent + 50 where playerID = $acc";
+						$sql = "UPDATE "account" set kredsSpent = kredsSpent + 50 where playerID = $acc";
 						sql_query($sql, $conn);
-						$sql = "INSERT INTO `kredsTransactions` (playerID, storeID, Kreds) values ($acc, 8, 50)";
+						$sql = "INSERT INTO "kredsTransactions" (playerID, storeID, Kreds) values ($acc, 8, 50)";
 						sql_query($sql, $conn);
 						break;
 					case 9:
 						addItemAmount($conn, $acc, 114, 1); // SKILL RESET
-						$sql = "UPDATE `account` set kredsSpent = kredsSpent + 50 where playerID = $acc";
+						$sql = "UPDATE "account" set kredsSpent = kredsSpent + 50 where playerID = $acc";
 						sql_query($sql, $conn);
-						$sql = "INSERT INTO `kredsTransactions` (playerID, storeID, Kreds) values ($acc, 9, 50)";
+						$sql = "INSERT INTO "kredsTransactions" (playerID, storeID, Kreds) values ($acc, 9, 50)";
 						sql_query($sql, $conn);
 						break;
 					case 10:
 						addItemAmount($conn, $acc, 115, 1); // STAT AND KILL RESET
-						$sql = "UPDATE `account` set kredsSpent = kredsSpent + 90 where playerID = $acc";
+						$sql = "UPDATE "account" set kredsSpent = kredsSpent + 90 where playerID = $acc";
 						sql_query($sql, $conn);
-						$sql = "INSERT INTO `kredsTransactions` (playerID, storeID, Kreds) values ($acc, 10, 90)";
+						$sql = "INSERT INTO "kredsTransactions" (playerID, storeID, Kreds) values ($acc, 10, 90)";
 						sql_query($sql, $conn);
 						break;
 					case 11:
 						addItemAmount($conn, $acc, 116, 10); // 10x LIFE INSURANCE
-						$sql = "UPDATE `account` set kredsSpent = kredsSpent + 50 where playerID = $acc";
+						$sql = "UPDATE "account" set kredsSpent = kredsSpent + 50 where playerID = $acc";
 						sql_query($sql, $conn);
-						$sql = "INSERT INTO `kredsTransactions` (playerID, storeID, Kreds) values ($acc, 11, 50)";
+						$sql = "INSERT INTO "kredsTransactions" (playerID, storeID, Kreds) values ($acc, 11, 50)";
 						sql_query($sql, $conn);
 						break;
 					case 12:
 						addItemAmount($conn, $acc, 117, 10);  // 10X EXPERENCE SCROLL
-						$sql = "UPDATE `account` set kredsSpent = kredsSpent + 100 where playerID = $acc";
+						$sql = "UPDATE "account" set kredsSpent = kredsSpent + 100 where playerID = $acc";
 						sql_query($sql, $conn);
-						$sql = "INSERT INTO `kredsTransactions` (playerID, storeID, Kreds) values ($acc, 12, 100)";
+						$sql = "INSERT INTO "kredsTransactions" (playerID, storeID, Kreds) values ($acc, 12, 100)";
 						sql_query($sql, $conn);
 						break;
 					case 13:
 						addItemAmount($conn, $acc, 223, 20);  // 20X RHENIUM INGOT
-						$sql = "UPDATE `account` set kredsSpent = kredsSpent + 200 where playerID = $acc";
+						$sql = "UPDATE "account" set kredsSpent = kredsSpent + 200 where playerID = $acc";
 						sql_query($sql, $conn);
-						$sql = "INSERT INTO `kredsTransactions` (playerID, storeID, Kreds) values ($acc, 13, 200)";
+						$sql = "INSERT INTO "kredsTransactions" (playerID, storeID, Kreds) values ($acc, 13, 200)";
 						sql_query($sql, $conn);
 						break;
 					case 14:
 						addItemAmount($conn, $acc, 222, 20);  // 20X TERBIUM INGOT
-						$sql = "UPDATE `account` set kredsSpent = kredsSpent + 150 where playerID = $acc";
+						$sql = "UPDATE "account" set kredsSpent = kredsSpent + 150 where playerID = $acc";
 						sql_query($sql, $conn);
-						$sql = "INSERT INTO `kredsTransactions` (playerID, storeID, Kreds) values ($acc, 14, 150)";
+						$sql = "INSERT INTO "kredsTransactions" (playerID, storeID, Kreds) values ($acc, 14, 150)";
 						sql_query($sql, $conn);
 						break;
 					case 15:
@@ -377,9 +377,9 @@
 						addItemAmount($conn, $acc, 108, 1); // JEWELRY BOX
 						addItemAmount($conn, $acc, 116, 20); // 10x LIFE INSURANCE
 						generateItem($conn, $acc, 24, 0, 0); // BRONZE DAGGER
-						$sql = "UPDATE `account` set kredsSpent = kredsSpent + 110 where playerID = $acc";
+						$sql = "UPDATE "account" set kredsSpent = kredsSpent + 110 where playerID = $acc";
 						sql_query($sql, $conn);
-						$sql = "INSERT INTO `kredsTransactions` (playerID, storeID, Kreds) values ($acc, 15, 110)";
+						$sql = "INSERT INTO "kredsTransactions" (playerID, storeID, Kreds) values ($acc, 15, 110)";
 						sql_query($sql, $conn);
 						break;
 				}

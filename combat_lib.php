@@ -60,7 +60,7 @@
     		$text = str_replace('[weapon]', strtolower($row['name']) , $text);
     	}
     	$message = str_replace('[enemy]', $monsterName, $text);
-    	$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "')";
+    	$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "')";
     	sql_query($logMessege, $conn);
     	if ($row['template'] == 53 || $row['template'] == 85) {
     		if (in_array($enemyid, [147, 148, 149, 150])) {
@@ -72,9 +72,9 @@
     			$enemyMax = getAttribute($conn, "enemies", "health", $enemyID);
     			$enemyPercent = floor($enemyHP / $enemyMax * 100);
     			if ($enemyPercent < 21 && (rand(0, 100) > 75)) {
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'RIGHT','...and SMASHED the $monsterName to smithereens')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'RIGHT','...and SMASHED the $monsterName to smithereens')";
     				sql_query($logMessege, $conn);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     				sql_query($logMessege, $conn);
     				doDamage($conn, $acc, 99999999999, $enemyRow);
     				return;
@@ -109,17 +109,17 @@
     		$damage = number_format($damage);
     		$message = str_replace('[damage]', $damage . $elementText, $text);
     		$message = "<strong>" . $message . "!!</strong>";
-    		$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "!!</strong>')";
+    		$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "!!</strong>')";
     		sql_query($logMessege, $conn);
     		dblAttack($acc, $conn, $damage, $enemyRow, $elementText, $enemyid, $hit, $flee, $itemClass);
-    		$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    		$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     		sql_query($logMessege, $conn);
     	} else {
     		if (attackHit($hit, $flee) == 0) {
     			$text = getString($conn, "0", "combat", "right", "miss");
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#E00101', '<strong></strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#E00101', '<strong></strong>')";
     			sql_query($logMessege, $conn);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     			sql_query($logMessege, $conn);
     		} else {
     			$damage = getDamage($conn, $acc, $charStats);
@@ -128,10 +128,10 @@
     			$text = getString($conn, "0", "combat", "right", "");
     			$damage = number_format($damage);
     			$message = str_replace('[damage]', $damage . $elementText, $text);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
     			sql_query($logMessege, $conn);
     			dblAttack($acc, $conn, $damage, $enemyRow, $elementText, $enemyid, $hit, $flee, $itemClass);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     			sql_query($logMessege, $conn);
     		}
     	}
@@ -151,7 +151,7 @@
     	$row = mysqli_fetch_array($query, MYSQLI_ASSOC);
     	$chance = $row['chance'];
     	$mod = $row['damage'];
-    	$sql = "SELECT * FROM `equipmentInventory` where `template` = 74 AND `equipped` = 1 AND `playerid` = $acc LIMIT 1";
+    	$sql = "SELECT * FROM "equipmentInventory" where "template" = 74 AND "equipped" = 1 AND "playerid" = $acc LIMIT 1";
     	$query = sql_query($sql, $conn);
     	if (mysqli_num_rows($query) == 1) {
     		$chance = $chance + 5;
@@ -159,13 +159,13 @@
 
     	if (rand(0, 100) < $chance) {
     		$text = getString($conn, "29", "skill", "left", "");
-    		$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "')";
+    		$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "')";
     		sql_query($logMessege, $conn);
     		if (attackHit($hit + 10, $flee) == 0) {
     			$text = getString($conn, "0", "combat", "right", "miss");
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#E00101', '<strong></strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#E00101', '<strong></strong>')";
     			sql_query($logMessege, $conn);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     			sql_query($logMessege, $conn);
     		}
     		else {
@@ -175,10 +175,10 @@
     			$text = getString($conn, "0", "combat", "right", "");
     			$dblDmg = number_format($dblDmg);
     			$message = str_replace('[damage]', $dblDmg . $elementText, $text);
-    			$logMessege = 'INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (' . $acc . ',' . $enemyID . ' ,"RIGHT","' . $message . '", "#E00101", "<strong>' . $dblDmg . '</strong>")';
+    			$logMessege = 'INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (' . $acc . ',' . $enemyID . ' ,"RIGHT","' . $message . '", "#E00101", "<strong>' . $dblDmg . '</strong>")';
     			sql_query($logMessege, $conn);
     			cripple($acc, $conn, $enemyRow, $enemyID);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     			sql_query($logMessege, $conn);
     		}
     	}
@@ -198,7 +198,7 @@
     	$row = mysqli_fetch_array($query, MYSQLI_ASSOC);
     	$chance = $row['chance'];
     	$mod = $row['damage'];
-    	$sql = "SELECT * FROM `equipmentInventory` where `template` = 74 AND `equipped` = 1 AND `playerid` = $acc LIMIT 1";
+    	$sql = "SELECT * FROM "equipmentInventory" where "template" = 74 AND "equipped" = 1 AND "playerid" = $acc LIMIT 1";
     	$query = sql_query($sql, $conn);
     	if (mysqli_num_rows($query) == 1) {
     		$chance = $chance + 5;
@@ -207,7 +207,7 @@
     	if (rand(0, 100) < $chance) {
     		$text = getString($conn, "30", "skill", "left", null);
     		$text = str_replace('[enemy]', $enemyRow['name'], $text);
-    		$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "')";
+    		$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "')";
     		sql_query($logMessege, $conn);
     		if (1 == 0) {
 
@@ -217,12 +217,12 @@
     		else {
     			$text = getString($conn, "30", "skill", "right", "");
     			$message = str_replace('[enemy]', $enemyRow['name'], $text);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>5%</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>5%</strong>')";
     			sql_query($logMessege, $conn);
-    			$attack = "INSERT INTO `combatenemies` (`maxhealth`, `enemyid`, `playerid` , `prefix` , `name` , `attack` , `mattack` , `fireres` , `earthres` , `iceres` , `holyres` , `arcaneres` , `physicalres` , `softdef` , `softmdef` , `health` , `exp`, `silver`, `hit`, `flee`, `level`, `stunresist`)
-                        SELECT `maxhealth`, `enemyid`, `playerid` , `prefix` , `name` , (`attack` * .9), (`mattack` * .9) , `fireres` , `earthres` , `iceres` , `holyres` , `arcaneres` , `physicalres` , `softdef` , `softmdef` , `health`, `exp`, `silver`, `hit`, `flee`, `level`, `stunresist`
-                        FROM `combatEnemies` WHERE `enemyid` =" . $enemyID . " AND `playerid` = " . $acc . "
-                        ORDER BY `combatEnemyID` DESC LIMIT 1";
+    			$attack = "INSERT INTO "combatenemies" ("maxhealth", "enemyid", "playerid" , "prefix" , "name" , "attack" , "mattack" , "fireres" , "earthres" , "iceres" , "holyres" , "arcaneres" , "physicalres" , "softdef" , "softmdef" , "health" , "exp", "silver", "hit", "flee", "level", "stunresist")
+                        SELECT "maxhealth", "enemyid", "playerid" , "prefix" , "name" , ("attack" * .9), ("mattack" * .9) , "fireres" , "earthres" , "iceres" , "holyres" , "arcaneres" , "physicalres" , "softdef" , "softmdef" , "health", "exp", "silver", "hit", "flee", "level", "stunresist"
+                        FROM "combatEnemies" WHERE "enemyid" =" . $enemyID . " AND "playerid" = " . $acc . "
+                        ORDER BY "combatEnemyID" DESC LIMIT 1";
     			sql_query($attack, $conn);
     			darkAssault($acc, $conn, $enemyRow, $enemyID);
     		}
@@ -243,7 +243,7 @@
     	$row = mysqli_fetch_array($query, MYSQLI_ASSOC);
     	$chance = $row['chance'];
     	$mod = $row['damage'];
-    	$sql = "SELECT * FROM `equipmentInventory` where `template` = 74 AND `equipped` = 1 AND `playerid` = $acc LIMIT 1";
+    	$sql = "SELECT * FROM "equipmentInventory" where "template" = 74 AND "equipped" = 1 AND "playerid" = $acc LIMIT 1";
     	$query = sql_query($sql, $conn);
     	if (mysqli_num_rows($query) == 1) {
     		$chance = $chance + 5;
@@ -252,7 +252,7 @@
     	if (rand(0, 100) < $chance) {
     		$text = getString($conn, "31", "skill", "left", "");
     		$text = str_replace('[enemy]', $enemyRow['name'], $text);
-    		$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "')";
+    		$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "')";
     		sql_query($logMessege, $conn);
     		if (1 == 0) {
 
@@ -266,7 +266,7 @@
     			$text = getString($conn, "0", "combat", "right", "");
     			$dblDmg = number_format($damage);
     			$message = str_replace('[damage]', $dblDmg . " <strong style='color:purple'>arcane</strong>", $text);
-    			$logMessege = 'INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (' . $acc . ',' . $enemyID . ' ,"RIGHT","' . $message . '", "#E00101", "<strong>' . $dblDmg . '</strong>")';
+    			$logMessege = 'INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (' . $acc . ',' . $enemyID . ' ,"RIGHT","' . $message . '", "#E00101", "<strong>' . $dblDmg . '</strong>")';
     			sql_query($logMessege, $conn);
     			condem($acc, $conn, $enemyRow, $enemyID);
     		}
@@ -286,7 +286,7 @@
 
     	$row = mysqli_fetch_array($query, MYSQLI_ASSOC);
     	$chance = $row['chance'];
-    	$sql = "SELECT * FROM `equipmentInventory` where `template` = 74 AND `equipped` = 1 AND `playerid` = $acc LIMIT 1";
+    	$sql = "SELECT * FROM "equipmentInventory" where "template" = 74 AND "equipped" = 1 AND "playerid" = $acc LIMIT 1";
     	$query = sql_query($sql, $conn);
     	if (mysqli_num_rows($query) == 1) {
     		$chance = $chance + 5;
@@ -295,7 +295,7 @@
     	if (rand(0, 100) < $chance) {
     		$text = getString($conn, "32", "skill", "left", "");
     		$text = str_replace('[enemy]', $enemyRow['name'], $text);
-    		$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "')";
+    		$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "')";
     		sql_query($logMessege, $conn);
     		if (1 == 0) {
 
@@ -306,7 +306,7 @@
     			doDamage($conn, $acc, 9999999, $enemyRow);
     			$text = getString($conn, "32", "skill", "right", "");
     			$text = str_replace('[enemy]', $enemyRow['name'], $text);
-    			$logMessege = 'INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (' . $acc . ',' . $enemyID . ' ,"RIGHT","' . $text . '", "#E00101", "<strong></strong>")';
+    			$logMessege = 'INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (' . $acc . ',' . $enemyID . ' ,"RIGHT","' . $text . '", "#E00101", "<strong></strong>")';
     			sql_query($logMessege, $conn);
     		}
     	}
@@ -320,7 +320,7 @@
     {
     	$buffmod = 10;
     	$buffmulti = 1;
-    	$sql = "select sum(test) as active from (SELECT count(*) as test FROM `playerBuffs` a where playerid = $acc and itemID in (86,87,88,93,102,87) union SELECT count(*) as test FROM `equipmentInventory` b where playerid = $acc and template in (56, 63, 72) and equipped = 1) as t";
+    	$sql = "select sum(test) as active from (SELECT count(*) as test FROM "playerBuffs" a where playerid = $acc and itemID in (86,87,88,93,102,87) union SELECT count(*) as test FROM "equipmentInventory" b where playerid = $acc and template in (56, 63, 72) and equipped = 1) as t";
     	$query = sql_query($sql, $conn);
     	$row = mysqli_fetch_array($query, MYSQLI_ASSOC);
     	if ($row["active"] > 0) {
@@ -347,19 +347,19 @@
     			$flee = (pow($e_level, 2) + 0.3 * $e_level + 4.55) / 9 + 30;
     			$health = $charRow['diff'] * (pow($e_level, 2) + 0.3 * $e_level + 4.55) * 1.5;
     			$exp = (0.0019 * pow($e_level + 35, 4) - 0.065 * pow($e_level + 35, 3) + 1.12 * pow($e_level + 35, 2) + 4 * $e_level + 35) / 2;
-    			$sql = "UPDATE `character` SET `combatModifier` = 0 WHERE playerID = " . $acc;
+    			$sql = "UPDATE "character" SET "combatModifier" = 0 WHERE playerID = " . $acc;
     			sql_query($sql, $conn);
-    			$combatRow = sql_query("SELECT * FROM `combat` WHERE `playerid` = " . $acc, $conn);
+    			$combatRow = sql_query("SELECT * FROM "combat" WHERE "playerid" = " . $acc, $conn);
     			if (mysqli_num_rows($combatRow) > 0) {
     				return;
     			}
 
-    			$initCombat = "INSERT INTO `combatenemies` ( `enemyid` , `playerid` , `prefix` , `name` , `attack` , `fireres` , `earthres` , `iceres` , `holyres` , `arcaneres` , `physicalres` , `softdef` , `softmdef` , `hit` , `flee` , `health` , `exp`, `level`, `silver`, maxhealth, `mattack`)
-                    SELECT `enemyid` , $acc , `prefix` , `name` , $atk , `fireres` , `earthres` , `iceres` , `holyres` , `arcaneres` , `physicalres` , $def , $def , $hit , $flee , $health , $exp, $e_level, 100, $health, $atk
-                    FROM `enemies`
-                    WHERE `enemyid` = 150";
+    			$initCombat = "INSERT INTO "combatenemies" ( "enemyid" , "playerid" , "prefix" , "name" , "attack" , "fireres" , "earthres" , "iceres" , "holyres" , "arcaneres" , "physicalres" , "softdef" , "softmdef" , "hit" , "flee" , "health" , "exp", "level", "silver", maxhealth, "mattack")
+                    SELECT "enemyid" , $acc , "prefix" , "name" , $atk , "fireres" , "earthres" , "iceres" , "holyres" , "arcaneres" , "physicalres" , $def , $def , $hit , $flee , $health , $exp, $e_level, 100, $health, $atk
+                    FROM "enemies"
+                    WHERE "enemyid" = 150";
     			sql_query($initCombat, $conn);
-    			$initCombat = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) select playerid, enemyid, 'CENTER', concat_ws('', '<strong>You have encountered ', prefix, name, '</strong><br/>') from combatenemies where playerid = $acc";
+    			$initCombat = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) select playerid, enemyid, 'CENTER', concat_ws('', '<strong>You have encountered ', prefix, name, '</strong><br/>') from combatenemies where playerid = $acc";
     			sql_query($initCombat, $conn);
     			return 5;
     		}
@@ -404,9 +404,9 @@
     			$freq = $steps * ($diffFactor / 100) * $combatCoeff;
     			$roll = rand(0, 100);
     			if ($roll < $freq) {
-    				$sql = "UPDATE `character` SET `combatModifier` = 0 WHERE playerID = " . $acc;
+    				$sql = "UPDATE "character" SET "combatModifier" = 0 WHERE playerID = " . $acc;
     				sql_query($sql, $conn);
-    				$combatRow = sql_query("SELECT * FROM `combat` WHERE `playerid` = " . $acc, $conn);
+    				$combatRow = sql_query("SELECT * FROM "combat" WHERE "playerid" = " . $acc, $conn);
     				if (mysqli_num_rows($combatRow) > 0) {
     					return;
     				}
@@ -443,17 +443,17 @@
     				}
 
     				$exp = (0.0019 * pow($e_level + 30, 4) - 0.065 * pow($e_level + 30, 3) + 1.12 * pow($e_level + 30, 2) + 4 * $e_level + 30) / 2;
-    				$sql = "UPDATE `character` SET `combatModifier` = 0 WHERE playerID = " . $acc;
+    				$sql = "UPDATE "character" SET "combatModifier" = 0 WHERE playerID = " . $acc;
     				sql_query($sql, $conn);
-    				$combatRow = sql_query("SELECT * FROM `combat` WHERE `playerid` = " . $acc, $conn);
+    				$combatRow = sql_query("SELECT * FROM "combat" WHERE "playerid" = " . $acc, $conn);
     				if (mysqli_num_rows($combatRow) > 0) {
     					return;
     				}
 
-    				$initCombat = "INSERT INTO `combatenemies` ( `enemyid` , `playerid` , `prefix` , `name` , `attack` , `fireres` , `earthres` , `iceres` , `holyres` , `arcaneres` , `physicalres` , `softdef` , `softmdef` , `hit` , `flee` , `health` , `exp`, `level`, `silver`, maxhealth, `mattack`)
-                        SELECT `enemyid` , $acc , `prefix` , `name` , $atk , `fireres` , `earthres` , `iceres` , `holyres` , `arcaneres` , `physicalres` , $def , $def , $hit , $flee , $health , $exp, $e_level, 100, $health, $atk
-                        FROM `enemies`
-                        WHERE `enemyid` = $enemyID";
+    				$initCombat = "INSERT INTO "combatenemies" ( "enemyid" , "playerid" , "prefix" , "name" , "attack" , "fireres" , "earthres" , "iceres" , "holyres" , "arcaneres" , "physicalres" , "softdef" , "softmdef" , "hit" , "flee" , "health" , "exp", "level", "silver", maxhealth, "mattack")
+                        SELECT "enemyid" , $acc , "prefix" , "name" , $atk , "fireres" , "earthres" , "iceres" , "holyres" , "arcaneres" , "physicalres" , $def , $def , $hit , $flee , $health , $exp, $e_level, 100, $health, $atk
+                        FROM "enemies"
+                        WHERE "enemyid" = $enemyID";
     				sql_query($initCombat, $conn);
     				$roll = rand(0, 10000);
     				if ($roll < 200) {
@@ -476,14 +476,14 @@
     					}
     				}
 
-    				$initCombat = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) select playerid, enemyid, 'CENTER', concat_ws('', '<strong>You have encountered ', prefix, name, '</strong><br/>') from combatenemies where playerid = $acc";
+    				$initCombat = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) select playerid, enemyid, 'CENTER', concat_ws('', '<strong>You have encountered ', prefix, name, '</strong><br/>') from combatenemies where playerid = $acc";
     				sql_query($initCombat, $conn);
     				return 5;
     			}
     		}
     	}
     	else {
-    		$sql_get_level = "SELECT MIN(e.level) as level, c.map, c.diff FROM `character` c Inner join `enemySpawns` s on c.zone = s.zone	inner join `enemies` e on s.enemyID = e.enemyID where c.playerID = $acc AND s.startDate < NOW() AND s.endDate > NOW()";
+    		$sql_get_level = "SELECT MIN(e.level) as level, c.map, c.diff FROM "character" c Inner join "enemySpawns" s on c.zone = s.zone	inner join "enemies" e on s.enemyID = e.enemyID where c.playerID = $acc AND s.startDate < NOW() AND s.endDate > NOW()";
     		$sql_result = sql_query($sql_get_level, $conn);
     		$row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC);
     		$map = $row['map'];
@@ -526,45 +526,45 @@
     		$freq = $steps * ($diffFactor / 100) * $combatCoeff;
     		$roll = rand(0, 100);
     		if ($roll < $freq) {
-    			$sql = "UPDATE `character` SET `combatModifier` = 0 WHERE playerID = " . $acc;
+    			$sql = "UPDATE "character" SET "combatModifier" = 0 WHERE playerID = " . $acc;
     			sql_query($sql, $conn);
     			$totalWeight = 0;
-    			$maxSQL = "SELECT SUM(weight) as total FROM `character` c Inner join `enemySpawns` s on c.zone = s.zone or s.zone = 'all' where c.playerID = $acc AND s.startDate < NOW() AND s.endDate > NOW()";
+    			$maxSQL = "SELECT SUM(weight) as total FROM "character" c Inner join "enemySpawns" s on c.zone = s.zone or s.zone = 'all' where c.playerID = $acc AND s.startDate < NOW() AND s.endDate > NOW()";
     			$max = mysqli_fetch_array(sql_query($maxSQL, $conn) , MYSQLI_ASSOC) ['total'];
     			$roll = rand(0, $max);
-    			$sql_get_enemies = "SELECT e.enemyid, e.name, s.weight, e.prefix, e.quest, weight FROM `character` c Inner join `enemySpawns` s on c.zone = s.zone or s.zone = 'all' inner join `enemies` e on s.enemyID = e.enemyID where c.playerID = $acc AND s.startDate < NOW() AND s.endDate > NOW()";
+    			$sql_get_enemies = "SELECT e.enemyid, e.name, s.weight, e.prefix, e.quest, weight FROM "character" c Inner join "enemySpawns" s on c.zone = s.zone or s.zone = 'all' inner join "enemies" e on s.enemyID = e.enemyID where c.playerID = $acc AND s.startDate < NOW() AND s.endDate > NOW()";
     			$sql_result = sql_query($sql_get_enemies, $conn);
     			while ($row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC)) {
     				$totalWeight = $totalWeight + intval($row['weight']);
     				if ($totalWeight > $roll) {
-    					$combatRow = sql_query("SELECT * FROM `combat` WHERE `playerid` = " . $acc, $conn);
+    					$combatRow = sql_query("SELECT * FROM "combat" WHERE "playerid" = " . $acc, $conn);
     					if (mysqli_num_rows($combatRow) > 0) {
     						return;
     					}
 
     					if ($row['quest'] > 0) {
-    						$sql_quest = 'SELECT * FROM `enemies` e, `questPlayerStatus` p, `quests` q WHERE (e.enemyID = ' . $row['enemyID'] . ' AND q.req1 = e.quest AND q.questID = p.questID AND p.status = "working" AND p.playerID =  ' . $acc . ')';
+    						$sql_quest = 'SELECT * FROM "enemies" e, "questPlayerStatus" p, "quests" q WHERE (e.enemyID = ' . $row['enemyID'] . ' AND q.req1 = e.quest AND q.questID = p.questID AND p.status = "working" AND p.playerID =  ' . $acc . ')';
     						$sqlQuest = sql_query($sql_quest, $conn);
     						$rowQuest = mysqli_fetch_array($sqlQuest, MYSQLI_ASSOC);
     						sql_query($sql_quest, $conn);
     						if ((mysqli_num_rows($sqlQuest) != 0) && (getInventoryItem($conn, $acc, $rowQuest['req1']) != $rowQuest['req1amnt'])) {
-    							$initCombat = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $row['enemyID'] . ",'CENTER','<strong>You have encountered " . $row['prefix'] . $row['name'] . "</strong>')";
+    							$initCombat = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $row['enemyID'] . ",'CENTER','<strong>You have encountered " . $row['prefix'] . $row['name'] . "</strong>')";
     							sql_query($initCombat, $conn);
-    							$initCombat = "INSERT INTO `combatenemies` ( `enemyid` , `playerid` , `prefix` , `name` , `attack` , `fireres` , `earthres` , `iceres` , `holyres` , `arcaneres` , `physicalres` , `softdef` , `softmdef` , `hit` , `flee` , `health` , `exp`, `level`, `silver`, maxhealth, `mattack`)
-                                        SELECT `enemyid` , " . $acc . ", `prefix` , `name` , CEIL(`attack` * $diffMod) , `fireres` , `earthres` , `iceres` , `holyres` , `arcaneres` , `physicalres` , CEIL(`softdef` * $diffMod) , CEIL(`softmdef` * $diffMod) , `hit` , `flee` , CEIL(`health` * $diffMod)  , `exp`, `level`, `silver`, CEIL(`health` * $diffMod), `mattack`
-                                        FROM `enemies`
-                                        WHERE `enemyid` =" . $row['enemyID'];
+    							$initCombat = "INSERT INTO "combatenemies" ( "enemyid" , "playerid" , "prefix" , "name" , "attack" , "fireres" , "earthres" , "iceres" , "holyres" , "arcaneres" , "physicalres" , "softdef" , "softmdef" , "hit" , "flee" , "health" , "exp", "level", "silver", maxhealth, "mattack")
+                                        SELECT "enemyid" , " . $acc . ", "prefix" , "name" , CEIL("attack" * $diffMod) , "fireres" , "earthres" , "iceres" , "holyres" , "arcaneres" , "physicalres" , CEIL("softdef" * $diffMod) , CEIL("softmdef" * $diffMod) , "hit" , "flee" , CEIL("health" * $diffMod)  , "exp", "level", "silver", CEIL("health" * $diffMod), "mattack"
+                                        FROM "enemies"
+                                        WHERE "enemyid" =" . $row['enemyID'];
     							sql_query($initCombat, $conn);
-    							$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $row['enemyID'] . ",'LEFT','<br/>', '#E00101', ' ')";
+    							$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $row['enemyID'] . ",'LEFT','<br/>', '#E00101', ' ')";
     							sql_query($logMessege, $conn);
     							return 5;
     						}
     					}
     					else {
-    						$initCombat = "INSERT INTO `combatenemies` ( `enemyid` , `playerid` , `prefix` , `name` , `attack` , `fireres` , `earthres` , `iceres` , `holyres` , `arcaneres` , `physicalres` , `softdef` , `softmdef` , `hit` , `flee` , `health` , `exp`, `level`, `silver`, maxhealth, `mattack`)
-                                SELECT `enemyid` , " . $acc . ", `prefix` , `name` , CEIL(`attack` * $diffMod) , `fireres` , `earthres` , `iceres` , `holyres` , `arcaneres` , `physicalres` , CEIL(`softdef` * $diffMod) , CEIL(`softmdef` * $diffMod) , `hit` , `flee` , CEIL(`health` * $diffMod)  , `exp`, `level`, `silver`, CEIL(`health` * $diffMod), `mattack`
-                                FROM `enemies`
-                                WHERE `enemyid` =" . $row['enemyID'];
+    						$initCombat = "INSERT INTO "combatenemies" ( "enemyid" , "playerid" , "prefix" , "name" , "attack" , "fireres" , "earthres" , "iceres" , "holyres" , "arcaneres" , "physicalres" , "softdef" , "softmdef" , "hit" , "flee" , "health" , "exp", "level", "silver", maxhealth, "mattack")
+                                SELECT "enemyid" , " . $acc . ", "prefix" , "name" , CEIL("attack" * $diffMod) , "fireres" , "earthres" , "iceres" , "holyres" , "arcaneres" , "physicalres" , CEIL("softdef" * $diffMod) , CEIL("softmdef" * $diffMod) , "hit" , "flee" , CEIL("health" * $diffMod)  , "exp", "level", "silver", CEIL("health" * $diffMod), "mattack"
+                                FROM "enemies"
+                                WHERE "enemyid" =" . $row['enemyID'];
     						sql_query($initCombat, $conn);
     						$roll = rand(0, 10000);
     						if ($roll < 200) {
@@ -587,7 +587,7 @@
     							}
     						}
 
-    						$initCombat = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) select playerid, enemyid, 'CENTER', concat_ws('', '<strong>You have encountered ', prefix, name, '</strong><br/>') from combatenemies where playerid = $acc";
+    						$initCombat = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) select playerid, enemyid, 'CENTER', concat_ws('', '<strong>You have encountered ', prefix, name, '</strong><br/>') from combatenemies where playerid = $acc";
     						sql_query($initCombat, $conn);
     						return 5;
     					}
@@ -611,7 +611,7 @@
     	$calcValues = getRow($conn, "calcValues", $acc);
     	$enemyID = $row['enemyID'];
     	if ($enemyID == 150) {
-    		$sql = "update `character` set towerBoss = currentTowerLevel where playerid = $acc";
+    		$sql = "update "character" set towerBoss = currentTowerLevel where playerid = $acc";
     		sql_query($sql, $conn);
     	}
 
@@ -624,7 +624,7 @@
         if(in_array($enemyid, [147,148,149,150])){
             $exp = floor($exp * (($calcValues['shapelessExpDrop'] / 100) + 1));
         }
-    	sql_query("UPDATE charKills set `count` = `count` + 1 WHERE playerID = $acc AND enemyID = $enemyID", $conn);
+    	sql_query("UPDATE charKills set "count" = "count" + 1 WHERE playerID = $acc AND enemyID = $enemyID", $conn);
     	if (mysqli_affected_rows($conn) == 0) {
     		$sql = 'INSERT INTO charkills (playerID, enemyID) VALUES (' . $acc . ', ' . $enemyID . ')';
     		sql_query($sql, $conn);
@@ -648,7 +648,7 @@
     	$insertRow2 = "$acc, $enemyid, 'CENTER', 'You have gained " . number_format($exp) . " experience!', 'rgb(242,130,31)', '<strong>" . number_format($exp) . "</strong>'";
     	$insertRow3 = "$acc, $enemyid, 'LEFT', '<br/>', '#E00101', ' '";
     	$insertRow4 = "$acc, $enemyid, 'CENTER', '" . number_format($silver) . " Silver dropped to the ground!', 'SILVER', '<strong>" . number_format($silver) . "</strong>'";
-    	$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values ($insertRow), ($insertRow2), ($insertRow3), ($insertRow4)";
+    	$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values ($insertRow), ($insertRow2), ($insertRow3), ($insertRow4)";
     	sql_query($logMessege, $conn);
     	$levelup = $calcValues['next'];
     	$current = $calcValues['exp'];
@@ -656,28 +656,28 @@
     	$diff = $current + $exp - $levelup;
     	if ($current + $exp + 1 > $levelup) {
     		if ($level == 50) {
-    			$sql = "UPDATE `equipmentInventory` SET `archived` = 0 WHERE playerID = $acc";
+    			$sql = "UPDATE "equipmentInventory" SET "archived" = 0 WHERE playerID = $acc";
     			sql_query($sql, $conn);
-    			$sql = "UPDATE `inventory` SET `count` = `count` + `archived` WHERE playerID = $acc";
+    			$sql = "UPDATE "inventory" SET "count" = "count" + "archived" WHERE playerID = $acc";
     			sql_query($sql, $conn);
-    			$sql = "UPDATE `inventory` SET `archived` = 0 WHERE playerID = $acc";
+    			$sql = "UPDATE "inventory" SET "archived" = 0 WHERE playerID = $acc";
     			sql_query($sql, $conn);
     		}
 
     		levelUp($acc, $diff, $conn, $enemyid, $level);
     	}
     	else {
-    		sql_query("UPDATE `character` SET `exp` = `exp` + $exp WHERE playerID = $acc", $conn);
+    		sql_query("UPDATE "character" SET "exp" = "exp" + $exp WHERE playerID = $acc", $conn);
     	}
 
     	// quest drops
 
-    	$sql = 'SELECT * FROM `questDrops` WHERE  `monsterID` = -1 or `monsterID` = ' . $enemyID;
+    	$sql = 'SELECT * FROM "questDrops" WHERE  "monsterID" = -1 or "monsterID" = ' . $enemyID;
     	$sql_drops = sql_query($sql, $conn);
     	while ($dropRow = mysqli_fetch_array($sql_drops, MYSQLI_ASSOC)) {
     		$quest = $dropRow['questID'];
     		$item = $dropRow['dropID'];
-    		$sql = "SELECT * FROM `questPlayerStatus` WHERE `playerid` = " . $acc . " AND `questID` = " . $quest;
+    		$sql = "SELECT * FROM "questPlayerStatus" WHERE "playerid" = " . $acc . " AND "questID" = " . $quest;
     		$Row = mysqli_fetch_array(sql_query($sql, $conn) , MYSQLI_ASSOC);
     		$status = $Row['status'];
     		$reqAmnt = 0;
@@ -711,7 +711,7 @@
     						}
 
     						$message = "Common Enemies Slain";
-    						$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','" . $message . "', '" . $color . "', '<strong>" . (getInventoryItem($conn, $acc, $item) + 1) . "/" . $reqAmnt . "</strong>')";
+    						$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','" . $message . "', '" . $color . "', '<strong>" . (getInventoryItem($conn, $acc, $item) + 1) . "/" . $reqAmnt . "</strong>')";
     						sql_query($logMessege, $conn);
     						addItemAmount($conn, $acc, $dropRow['dropID'], 1);
     					}
@@ -727,7 +727,7 @@
     						}
 
     						$message = "Magic Enemies Slain";
-    						$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','" . $message . "', '" . $color . "', '<strong>" . (getInventoryItem($conn, $acc, $item) + 1) . "/" . $reqAmnt . "</strong>')";
+    						$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','" . $message . "', '" . $color . "', '<strong>" . (getInventoryItem($conn, $acc, $item) + 1) . "/" . $reqAmnt . "</strong>')";
     						sql_query($logMessege, $conn);
     						addItemAmount($conn, $acc, $dropRow['dropID'], 1);
     					}
@@ -743,7 +743,7 @@
     						}
 
     						$message = "Rare Enemies Slain";
-    						$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','" . $message . "', '" . $color . "', '<strong>" . (getInventoryItem($conn, $acc, $item) + 1) . "/" . $reqAmnt . "</strong>')";
+    						$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','" . $message . "', '" . $color . "', '<strong>" . (getInventoryItem($conn, $acc, $item) + 1) . "/" . $reqAmnt . "</strong>')";
     						sql_query($logMessege, $conn);
     						addItemAmount($conn, $acc, $dropRow['dropID'], 1);
     					}
@@ -770,7 +770,7 @@
     							$message = $itemName . " Slain";
     						}
 
-    						$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','" . $message . "', '" . $color . "', '<strong>" . (getInventoryItem($conn, $acc, $item) + 1) . "/" . $reqAmnt . "</strong>')";
+    						$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','" . $message . "', '" . $color . "', '<strong>" . (getInventoryItem($conn, $acc, $item) + 1) . "/" . $reqAmnt . "</strong>')";
     						sql_query($logMessege, $conn);
     						addItemAmount($conn, $acc, $dropRow['dropID'], 1);
     					}
@@ -781,7 +781,7 @@
 
     	$enemyID = $row['enemyID'];
     	$name = $row['name'];
-    	$sql = "SELECT * FROM `drops` WHERE `enemyid` = $enemyID OR `enemyid` = -1";
+    	$sql = "SELECT * FROM "drops" WHERE "enemyid" = $enemyID OR "enemyid" = -1";
     	$sql_drops = sql_query($sql, $conn);
     	while ($dropRow = mysqli_fetch_array($sql_drops, MYSQLI_ASSOC)) {
     		$odds = rand(0, 10000);
@@ -789,7 +789,7 @@
     		if ($dropRate > $odds) {
     			$itemName = getAttribute($conn, "item", "name", $dropRow['itemID']);
     			$message = $name . " Dropped: " . $itemName;
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','" . $message . "', 'WHITE', '<strong></strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','" . $message . "', 'WHITE', '<strong></strong>')";
     			sql_query($logMessege, $conn);
     			addItemAmount($conn, $acc, $dropRow['itemID'], 1);
     		}
@@ -797,7 +797,7 @@
 
     	$enemyID = $row['enemyID'];
     	$name = $row['name'];
-    	$sql = 'SELECT * FROM `equipmentDrops` WHERE `enemyid` = ' . $enemyID;
+    	$sql = 'SELECT * FROM "equipmentDrops" WHERE "enemyid" = ' . $enemyID;
     	$sql_drops = sql_query($sql, $conn);
     	while ($dropRow = mysqli_fetch_array($sql_drops, MYSQLI_ASSOC)) {
     		$odds = rand(0, 10000);
@@ -805,7 +805,7 @@
     		if ($dropRate > $odds) {
     			$itemName = generateItem($conn, $acc, $dropRow['dropID'], null, null);
     			$message = $name . " Dropped: " . $itemName;
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','" . $message . "', 'WHITE', '<strong></strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','" . $message . "', 'WHITE', '<strong></strong>')";
     			sql_query($logMessege, $conn);
     		}
     	}
@@ -826,15 +826,15 @@
     			$query = sql_query($sql, $conn);
     			$itemRow = mysqli_fetch_array($query, MYSQLI_ASSOC);
     			$message = "You found 1 " . $itemRow['name'] . " on the ground!";
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','" . $message . "', 'WHITE', '<strong></strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','" . $message . "', 'WHITE', '<strong></strong>')";
     			sql_query($logMessege, $conn);
     			addItemAmount($conn, $acc, $itemRow['itemID'], 1);
     		}
     	}
 
-    	$sql = "UPDATE `character` SET `silver` = `silver` + $silver, `combatModifier` = 0 WHERE playerID = $acc";
+    	$sql = "UPDATE "character" SET "silver" = "silver" + $silver, "combatModifier" = 0 WHERE playerID = $acc";
     	sql_query($sql, $conn);
-    	sql_query("DELETE FROM `enemySkillCooldown` WHERE `playerid` = " . $acc, $conn);
+    	sql_query("DELETE FROM "enemySkillCooldown" WHERE "playerid" = " . $acc, $conn);
     }
 
     // -- Function Name : enemyAttack
@@ -843,14 +843,14 @@
 
     function enemyAttack($acc, $conn, $calcValues)
     {
-    	$sql_char_result = sql_query("SELECT * FROM combatEnemies c where c.playerID = $acc ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    	$sql_char_result = sql_query("SELECT * FROM combatEnemies c where c.playerID = $acc ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     	$row = mysqli_fetch_array($sql_char_result, MYSQLI_ASSOC);
     	$HP = $row['health'];
     	$enemyID = $row['enemyID'];
 
         $health = getAttribute($conn, "character", "hitpoints", $acc);
         if ($health < 1) {
-            $logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','<strong>You have died!</strong>', '#E00101', ' ')";
+            $logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','<strong>You have died!</strong>', '#E00101', ' ')";
             sql_query($logMessege, $conn);
             return 3;
         }
@@ -924,13 +924,13 @@
     			sql_query("insert into enemySkillCooldown (enemyid, skillID, cooldown, playerID) values ($enemyid, $enemySkillID, $cooldown, $acc)", $conn);
     			$text = $enemySkill['text'];
     			$message = "<span style=\"color:#A5A5A5\">" . str_replace('[enemy]', $monsterName, $text) . "</span>";
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "')";
     			sql_query($logMessege, $conn);
     			if ($enemySkill['damageType'] == 'power up') {
     				$mod = $enemySkill['damageModifier'];
     				$sql = "update combatEnemies set attack = attack * $mod, hit = hit * $mod where playerid = $acc";
     				sql_query($sql, $conn);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'RIGHT','<span style=\"color:#A5A5A5\">...and it\'s attack and accuracy go up</span>', '#5B00FF', '<strong></strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'RIGHT','<span style=\"color:#A5A5A5\">...and it\'s attack and accuracy go up</span>', '#5B00FF', '<strong></strong>')";
     				sql_query($logMessege, $conn);
     			}
     			else
@@ -940,7 +940,7 @@
     				sql_query($sql, $conn);
     				$sql = "update combatEnemies set health = maxhealth where playerid = $acc and health > maxhealth";
     				sql_query($sql, $conn);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','<span style=\"color:#A5A5A5\">...and heals itself for $damage health</span>', '#00ff76', '<strong>$damage</strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','<span style=\"color:#A5A5A5\">...and heals itself for $damage health</span>', '#00ff76', '<strong>$damage</strong>')";
     				sql_query($logMessege, $conn);
     			}
     			else
@@ -986,12 +986,12 @@
     						$text = getString($conn, "0", "combat", "right", "damp");
     						$damage = floor($damage * .75);
     						$message = "<span style=\"color:#A5A5A5\">" . str_replace('[damage]', number_format($damage) , $text) . "</span>";
-    						$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "', '#5B00FF', '<strong>" . number_format($damage) . "</strong>')";
+    						$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "', '#5B00FF', '<strong>" . number_format($damage) . "</strong>')";
     						sql_query($logMessege, $conn);
     						blazingAura($conn, $acc);
-    						$sql = "UPDATE `character` SET `mana` = `mana` - " . $damage . " WHERE `playerid` = " . $acc;
+    						$sql = "UPDATE "character" SET "mana" = "mana" - " . $damage . " WHERE "playerid" = " . $acc;
     						sql_query($sql, $conn);
-    						$sql = "UPDATE `character` SET `mana` = 0 WHERE `mana` < 0 and `playerid` = " . $acc;
+    						$sql = "UPDATE "character" SET "mana" = 0 WHERE "mana" < 0 and "playerid" = " . $acc;
     						sql_query($sql, $conn);
     						return;
     					}
@@ -999,14 +999,14 @@
 
     				$text = getString($conn, "0", "combat", "right", "");
     				$message = "<span style=\"color:#A5A5A5\">" . str_replace('[damage]', number_format($damage) . $elementText, $text) . "</span>";
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "', '#E00101', '<strong>" . number_format($damage) . "</strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "', '#E00101', '<strong>" . number_format($damage) . "</strong>')";
     				sql_query($logMessege, $conn);
     				blazingAura($conn, $acc);
-    				$sql = "UPDATE `character` SET `hitpoints` = `hitpoints` - " . $damage . " WHERE `playerid` = " . $acc;
+    				$sql = "UPDATE "character" SET "hitpoints" = "hitpoints" - " . $damage . " WHERE "playerid" = " . $acc;
     				sql_query($sql, $conn);
     				$hp = getAttribute($conn, "character", "hitpoints", $acc);
     				if ($hp < 1) {
-    					$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','<strong>You have died!</strong>', '#E00101', ' ')";
+    					$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','<strong>You have died!</strong>', '#E00101', ' ')";
     					sql_query($logMessege, $conn);
     					return 3;
     				}
@@ -1029,10 +1029,10 @@
     					// Dodge
 
     					$text = getString($conn, "0", "combat", "left", "miss");
-    					$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#E00101', '<strong></strong>')";
+    					$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#E00101', '<strong></strong>')";
     					sql_query($logMessege, $conn);
     					blazingAura($conn, $acc);
-    					$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    					$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     					sql_query($logMessege, $conn);
     				}
     				else {
@@ -1041,19 +1041,19 @@
     						// Block
 
     						$text = getString($conn, "0", "combat", "left", "block");
-    						$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#E00101', '<strong></strong>')";
+    						$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#E00101', '<strong></strong>')";
     						sql_query($logMessege, $conn);
     						$sql = "SELECT * FROM equipmentInventory where playerid = $acc AND equipped = 1 AND template = 54";
     						$query = sql_query($sql, $conn);
     						if (mysqli_num_rows($query) > 0) {
     							$health = floor($calcValues["maxhealth"]) / 20;
-    							$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','And your Augmented Round Shield restores $health health!', '#00ff76', '<strong>$health</strong>')";
+    							$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','And your Augmented Round Shield restores $health health!', '#00ff76', '<strong>$health</strong>')";
     							sql_query($logMessege, $conn);
     							heal($health, $acc, $conn);
     						}
 
     						blazingAura($conn, $acc);
-    						$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    						$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     						sql_query($logMessege, $conn);
     					}
     					else {
@@ -1065,12 +1065,12 @@
     								$text = getString($conn, "0", "combat", "right", "damp");
     								$damage = floor($damage * .75);
     								$message = "<span style=\"color:#A5A5A5\">" . str_replace('[damage]', number_format($damage) , $text) . "</span>";
-    								$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "', '#5B00FF', '<strong>" . number_format($damage) . "</strong>')";
+    								$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "', '#5B00FF', '<strong>" . number_format($damage) . "</strong>')";
     								sql_query($logMessege, $conn);
     								blazingAura($conn, $acc);
-    								$sql = "UPDATE `character` SET `mana` = `mana` - " . $damage . " WHERE `playerid` = " . $acc;
+    								$sql = "UPDATE "character" SET "mana" = "mana" - " . $damage . " WHERE "playerid" = " . $acc;
     								sql_query($sql, $conn);
-    								$sql = "UPDATE `character` SET `mana` = 0 WHERE `mana` < 0 and `playerid` = " . $acc;
+    								$sql = "UPDATE "character" SET "mana" = 0 WHERE "mana" < 0 and "playerid" = " . $acc;
     								sql_query($sql, $conn);
     								return;
     							}
@@ -1078,14 +1078,14 @@
 
     						$text = getString($conn, "0", "combat", "right", "");
     						$message = "<span style=\"color:#A5A5A5\">" . str_replace('[damage]', number_format($damage) , $text) . "</span>";
-    						$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "', '#E00101', '<strong>" . number_format($damage) . "</strong>')";
+    						$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "', '#E00101', '<strong>" . number_format($damage) . "</strong>')";
     						sql_query($logMessege, $conn);
     						blazingAura($conn, $acc);
-    						$sql = "UPDATE `character` SET `hitpoints` = `hitpoints` - " . $damage . " WHERE `playerid` = " . $acc;
+    						$sql = "UPDATE "character" SET "hitpoints" = "hitpoints" - " . $damage . " WHERE "playerid" = " . $acc;
     						sql_query($sql, $conn);
     						$hp = getAttribute($conn, "character", "hitpoints", $acc);
     						if ($hp < 1) {
-    							$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','<strong>You have died!</strong>', '#E00101', ' ')";
+    							$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','<strong>You have died!</strong>', '#E00101', ' ')";
     							sql_query($logMessege, $conn);
     							return 3;
     						}
@@ -1106,17 +1106,17 @@
     			$damage = ceil($damage);
     			$text = getString($conn, "0", "enemyAttack", "left", "");
     			$message = "<span style=\"color:#A5A5A5\">" . str_replace('[enemy]', $monsterName, $text) . "</span>";
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "')";
     			sql_query($logMessege, $conn);
     			if (attackHit($hit, $flee) == 0) {
 
     				// Dodge
 
     				$text = getString($conn, "0", "combat", "left", "miss");
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#E00101', '<strong></strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#E00101', '<strong></strong>')";
     				sql_query($logMessege, $conn);
     				blazingAura($conn, $acc);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     				sql_query($logMessege, $conn);
     			}
     			else {
@@ -1125,19 +1125,19 @@
     					// Block
 
     					$text = getString($conn, "0", "combat", "left", "block");
-    					$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#E00101', '<strong></strong>')";
+    					$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#E00101', '<strong></strong>')";
     					sql_query($logMessege, $conn);
     					$sql = "SELECT * FROM equipmentInventory where playerid = $acc AND equipped = 1 AND template = 54";
     					$query = sql_query($sql, $conn);
     					if (mysqli_num_rows($query) > 0) {
     						$health = floor($calcValues["maxhealth"]) / 20;
-    						$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','And your Augmented Round Shield restores $health health!', '#00ff76', '<strong>$health</strong>')";
+    						$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','And your Augmented Round Shield restores $health health!', '#00ff76', '<strong>$health</strong>')";
     						sql_query($logMessege, $conn);
     						heal($health, $acc, $conn);
     					}
 
     					blazingAura($conn, $acc);
-    					$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    					$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     					sql_query($logMessege, $conn);
     				}
     				else {
@@ -1149,12 +1149,12 @@
     							$text = getString($conn, "0", "combat", "right", "damp");
     							$damage = floor($damage * .75);
     							$message = "<span style=\"color:#A5A5A5\">" . str_replace('[damage]', number_format($damage) , $text) . "</span>";
-    							$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "', '#5B00FF', '<strong>" . number_format($damage) . "</strong>')";
+    							$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "', '#5B00FF', '<strong>" . number_format($damage) . "</strong>')";
     							sql_query($logMessege, $conn);
     							blazingAura($conn, $acc);
-    							$sql = "UPDATE `character` SET `mana` = `mana` - " . $damage . " WHERE `playerid` = " . $acc;
+    							$sql = "UPDATE "character" SET "mana" = "mana" - " . $damage . " WHERE "playerid" = " . $acc;
     							sql_query($sql, $conn);
-    							$sql = "UPDATE `character` SET `mana` = 0 WHERE `mana` < 0 and `playerid` = " . $acc;
+    							$sql = "UPDATE "character" SET "mana" = 0 WHERE "mana" < 0 and "playerid" = " . $acc;
     							sql_query($sql, $conn);
     							return;
     						}
@@ -1162,14 +1162,14 @@
 
     					$text = getString($conn, "0", "combat", "right", "");
     					$message = "<span style=\"color:#A5A5A5\">" . str_replace('[damage]', number_format($damage) , $text) . "</span>";
-    					$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "', '#E00101', '<strong>" . number_format($damage) . "</strong>')";
+    					$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "', '#E00101', '<strong>" . number_format($damage) . "</strong>')";
     					sql_query($logMessege, $conn);
     					blazingAura($conn, $acc);
-    					$sql = "UPDATE `character` SET `hitpoints` = `hitpoints` - " . $damage . " WHERE `playerid` = " . $acc;
+    					$sql = "UPDATE "character" SET "hitpoints" = "hitpoints" - " . $damage . " WHERE "playerid" = " . $acc;
     					sql_query($sql, $conn);
     					$hp = getAttribute($conn, "character", "hitpoints", $acc);
     					if ($hp < 1) {
-    						$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','<strong>You have died!</strong>', '#E00101', ' ')";
+    						$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','<strong>You have died!</strong>', '#E00101', ' ')";
     						sql_query($logMessege, $conn);
     						return 3;
     					}
@@ -1179,13 +1179,13 @@
     	}
 
     	if (enemyAfterEffects($conn, $acc, $monsterName, $enemyid, $calcValues) == - 1) {
-    		$sql_char_result = sql_query("SELECT * FROM combatEnemies c where c.playerID = $acc ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    		$sql_char_result = sql_query("SELECT * FROM combatEnemies c where c.playerID = $acc ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     		$row = mysqli_fetch_array($sql_char_result, MYSQLI_ASSOC);
     		combatLoot($conn, $acc, $row);
     		return 1;
     	}
 
-    	$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'CENTER','<br/>')";
+    	$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'CENTER','<br/>')";
     	sql_query($logMessege, $conn);
     }
 
@@ -1210,17 +1210,17 @@
     			if ($expire) {
     				$text = getString($conn, "23", "skill", "free", "");
     				$message = "<span style=\"color:#A5A5A5\">" . str_replace('[enemy]', $monsterName, $text) . "</span>";
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "')";
     				sql_query($logMessege, $conn);
     			}
     			else {
     				$text = getString($conn, "23", "skill", "stuck", "");
     				$message = "<span style=\"color:#A5A5A5\">" . str_replace('[enemy]', $monsterName, $text) . "</span>";
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "')";
     				sql_query($logMessege, $conn);
     			}
 
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     			sql_query($logMessege, $conn);
     			$return = 1;
     		}
@@ -1240,11 +1240,11 @@
     			$getHP = sql_query("select FLOOR(health * .15) as health from combatenemies where playerid = $acc order by combatEnemyID desc limit 1", $conn);
     			$HPRow = mysqli_fetch_array($getHP, MYSQLI_ASSOC);
     			$damage = $HPRow["health"];
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     			$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			doDamage($conn, $acc, $damage, $row);
     			$message = "<span style=\"color:#A5A5A5\">$monsterName takes $damage poison damage.</span>";
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>$damage</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>$damage</strong>')";
     			sql_query($logMessege, $conn);
     			$return = 1;
     		}
@@ -1255,7 +1255,7 @@
     	if (mysqli_num_rows($sql_rows) > 0) {
     		$chanceRow = mysqli_fetch_array($sql_rows, MYSQLI_ASSOC);
     		if (rand(0, 100) < $chanceRow["chance"]) {
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     			sql_query($logMessege, $conn);
     			$row = getRow($conn, "character", $acc);
     			$charStats = getRow($conn, "calcValues", $acc);
@@ -1264,7 +1264,7 @@
     				return 3;
     			}
 
-    			$sql = "SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1";
+    			$sql = "SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY "combatEnemyID" DESC LIMIT 1";
     			$sql_get_enemy = sql_query($sql, $conn);
     			$enemyRow = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $enemyRow['enemyID'];
@@ -1301,7 +1301,7 @@
     			$levelMod = pow($levelMod, 2) / 2;
     			$flee = $flee + $levelMod;
     			$monsterName.= $enemyRow['name'];
-    			$sql = "SELECT `class`, `name`, `template` FROM `equipmentInventory` WHERE `name` != 'unarmed' AND `slot` = 'weapon' AND `equipped` = 1 AND `playerid` = $acc LIMIT 1";
+    			$sql = "SELECT "class", "name", "template" FROM "equipmentInventory" WHERE "name" != 'unarmed' AND "slot" = 'weapon' AND "equipped" = 1 AND "playerid" = $acc LIMIT 1";
     			$row = mysqli_fetch_array(sql_query($sql, $conn) , MYSQLI_ASSOC);
     			$itemClass = $row['class'];
     			$text = getString($conn, "0", "counter", "left", $itemClass);
@@ -1310,7 +1310,7 @@
     			}
 
     			$message = str_replace('[enemy]', $monsterName, $text);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "')";
     			sql_query($logMessege, $conn);
     			if (($charStats['critRate'] * 100) > rand(0, 100)) {
 
@@ -1322,18 +1322,18 @@
     				$damageDisplay = number_format($damage);
     				$message = str_replace('[damage]', $damageDisplay . $elementText, $text);
     				$message = "<strong>" . $message . "!!</strong>";
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "!!</strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "!!</strong>')";
     				sql_query($logMessege, $conn);
     				dblAttack($acc, $conn, $damage, $enemyRow, $elementText, $enemyid, $hit, $flee, $itemClass);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     				sql_query($logMessege, $conn);
     			}
     			else {
     				if (attackHit($hit, $flee) == 0) {
     					$text = getString($conn, "0", "combat", "right", "miss");
-    					$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#E00101', '<strong></strong>')";
+    					$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#E00101', '<strong></strong>')";
     					sql_query($logMessege, $conn);
-    					$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    					$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     					sql_query($logMessege, $conn);
     				}
     				else {
@@ -1343,15 +1343,15 @@
     					$text = getString($conn, "0", "combat", "right", "");
     					$damageDisplay = number_format($damage);
     					$message = str_replace('[damage]', $damageDisplay . $elementText, $text);
-    					$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
+    					$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
     					sql_query($logMessege, $conn);
     					dblAttack($acc, $conn, $damage, $enemyRow, $elementText, $enemyid, $hit, $flee, $itemClass);
-    					$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    					$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     					sql_query($logMessege, $conn);
     				}
     			}
 
-    			$sql_char_result = sql_query("SELECT * FROM combatEnemies c where c.playerID = $acc ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    			$sql_char_result = sql_query("SELECT * FROM combatEnemies c where c.playerID = $acc ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     			$row = mysqli_fetch_array($sql_char_result, MYSQLI_ASSOC);
     			$HP = $row['health'];
     			if ($HP < 1) {
@@ -1366,7 +1366,7 @@
 
     function blazingAura($conn, $acc)
     {
-    	$sql = "select damage from `character` c inner join playerBuffs b on c.playerID = b.playerID inner join charSkills s on s.playerID = b.playerID inner join skillLevels l on l.`level` = s.`level` where c.playerID = $acc and l.skillID = 20 and s.skillID = 20 and b.buffID = 20";
+    	$sql = "select damage from "character" c inner join playerBuffs b on c.playerID = b.playerID inner join charSkills s on s.playerID = b.playerID inner join skillLevels l on l."level" = s."level" where c.playerID = $acc and l.skillID = 20 and s.skillID = 20 and b.buffID = 20";
     	$sql_rows = sql_query($sql, $conn);
     	if (mysqli_num_rows($sql_rows) > 0) {
     		$row = mysqli_fetch_array($sql_rows, MYSQLI_ASSOC);
@@ -1375,7 +1375,7 @@
     		$max = explode('-', $effect) [1];
     		$damage = ceil(rand($min, $max) * (getAttribute($conn, "calcValues", "spr", $acc) / 100 + 1));
     		$damage = ceil(resistDamage($conn, $acc, $damage, isset($element) ? $element : 'physical'));
-    		$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    		$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     		$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     		$enemyID = $row['enemyID'];
     		doDamage($conn, $acc, $damage, $row);
@@ -1388,7 +1388,7 @@
     		$monsterName.= $row['name'];
     		$text = str_replace('[enemy]', $monsterName, $text);
     		$message = str_replace('[damage]', $damage . (isset($elementText) ? $elementText : '') , $text);
-    		$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
+    		$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
     		sql_query($logMessege, $conn);
     	}
 
@@ -1400,7 +1400,7 @@
     		$max = 11;
     		$damage = ceil(rand($min, $max) * (getAttribute($conn, "calcValues", "spr", $acc) / 100 + 1));
     		$damage = ceil(resistDamage($conn, $acc, $damage, isset($element) ? $element : 'physical'));
-    		$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    		$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     		$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     		$enemyID = $row['enemyID'];
     		doDamage($conn, $acc, $damage, $row);
@@ -1413,7 +1413,7 @@
     		$monsterName.= $row['name'];
     		$text = str_replace('[enemy]', $monsterName, $text);
     		$message = str_replace('[damage]', $damage . $elementText, $text);
-    		$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
+    		$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
     		sql_query($logMessege, $conn);
     	}
     }
@@ -1425,35 +1425,35 @@
     function combatDeath($conn, $acc)
     {
     	toSpawn($acc, $conn);
-    	sql_query("DELETE FROM `combat` WHERE `playerid` = " . $acc, $conn);
-    	sql_query("DELETE FROM `enemyEffects` WHERE `playerid` = " . $acc, $conn);
-    	sql_query("DELETE FROM `combatEnemies` WHERE `playerid` = " . $acc, $conn);
-    	sql_query("DELETE FROM `enemySkillCooldown` WHERE `playerid` = " . $acc, $conn);
-    	$sql = "UPDATE `character` set currentTowerLevel = 1 WHERE `playerid` = " . $acc;
+    	sql_query("DELETE FROM "combat" WHERE "playerid" = " . $acc, $conn);
+    	sql_query("DELETE FROM "enemyEffects" WHERE "playerid" = " . $acc, $conn);
+    	sql_query("DELETE FROM "combatEnemies" WHERE "playerid" = " . $acc, $conn);
+    	sql_query("DELETE FROM "enemySkillCooldown" WHERE "playerid" = " . $acc, $conn);
+    	$sql = "UPDATE "character" set currentTowerLevel = 1 WHERE "playerid" = " . $acc;
     	sql_query($sql, $conn);
     	$HP = (getAttribute($conn, "calcValues", "maxhealth", $acc) / 2);
-    	$sql = "SELECT * FROM `playerBuffs` where itemID = 116 AND playerID = $acc";
+    	$sql = "SELECT * FROM "playerBuffs" where itemID = 116 AND playerID = $acc";
     	$query = sql_query($sql, $conn);
     	logAction($conn, $acc, 'death', NULL, NULL);
     	if (mysqli_num_rows($query) > 0) {
-    		$sql = "DELETE FROM `playerBuffs` where itemID = 116 AND playerID = $acc";
+    		$sql = "DELETE FROM "playerBuffs" where itemID = 116 AND playerID = $acc";
     		$query = sql_query($sql, $conn);
-    		sql_query("UPDATE `character` set `hitpoints` = " . $HP . " WHERE `playerid` = " . $acc, $conn);
-    		sql_query("UPDATE account set `deaths` = `deaths` + 1 WHERE `playerid` = " . $acc, $conn);
+    		sql_query("UPDATE "character" set "hitpoints" = " . $HP . " WHERE "playerid" = " . $acc, $conn);
+    		sql_query("UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = " . $acc, $conn);
     	}
     	else {
-    		$sql = "SELECT * FROM `equipmentInventory` where `template` in (93, 102, 87) AND `equipped` = 1 AND `playerid` = $acc LIMIT 1";
+    		$sql = "SELECT * FROM "equipmentInventory" where "template" in (93, 102, 87) AND "equipped" = 1 AND "playerid" = $acc LIMIT 1";
     		$query = sql_query($sql, $conn);
     		if (mysqli_num_rows($query) == 1) {
 
 
-                sql_query("UPDATE `character` set `hitpoints` = " . $HP . " WHERE `playerid` = " . $acc, $conn);
-    			sql_query("UPDATE account set `deaths` = `deaths` + 1 WHERE `playerid` = " . $acc, $conn);
-    			sql_query("DELETE FROM `playerBuffs` where `remaining` > 0 AND `playerid` = $acc and itemID != -2", $conn);
+                sql_query("UPDATE "character" set "hitpoints" = " . $HP . " WHERE "playerid" = " . $acc, $conn);
+    			sql_query("UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = " . $acc, $conn);
+    			sql_query("DELETE FROM "playerBuffs" where "remaining" > 0 AND "playerid" = $acc and itemID != -2", $conn);
 
             }else{
 
-                $sql = "SELECT * FROM `equipmentInventory` where `template` in (56, 63, 72) AND `equipped` = 1 AND `playerid` = $acc LIMIT 1";
+                $sql = "SELECT * FROM "equipmentInventory" where "template" in (56, 63, 72) AND "equipped" = 1 AND "playerid" = $acc LIMIT 1";
                 $query = sql_query($sql, $conn);
                 if (mysqli_num_rows($query) == 1) {
                     $maxXP = getAttribute($conn, "character", "next", $acc);
@@ -1464,9 +1464,9 @@
                         $XP = 0;
                     }
 
-                    sql_query("UPDATE `character` set `hitpoints` = " . $HP . ", exp = $XP WHERE `playerid` = " . $acc, $conn);
-                    sql_query("UPDATE account set `deaths` = `deaths` + 1 WHERE `playerid` = " . $acc, $conn);
-                    sql_query("DELETE FROM `playerBuffs` where `remaining` > 0 AND `playerid` = $acc and itemID != -2", $conn);
+                    sql_query("UPDATE "character" set "hitpoints" = " . $HP . ", exp = $XP WHERE "playerid" = " . $acc, $conn);
+                    sql_query("UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = " . $acc, $conn);
+                    sql_query("DELETE FROM "playerBuffs" where "remaining" > 0 AND "playerid" = $acc and itemID != -2", $conn);
 
                 } else {
 
@@ -1478,9 +1478,9 @@
         				$XP = 0;
         			}
 
-        			sql_query("UPDATE `character` set `hitpoints` = " . $HP . ", exp = $XP WHERE `playerid` = " . $acc, $conn);
-        			sql_query("UPDATE account set `deaths` = `deaths` + 1 WHERE `playerid` = " . $acc, $conn);
-        			sql_query("DELETE FROM `playerBuffs` where `remaining` > 0 AND `playerid` = $acc and itemID != -2", $conn);
+        			sql_query("UPDATE "character" set "hitpoints" = " . $HP . ", exp = $XP WHERE "playerid" = " . $acc, $conn);
+        			sql_query("UPDATE account set "deaths" = "deaths" + 1 WHERE "playerid" = " . $acc, $conn);
+        			sql_query("DELETE FROM "playerBuffs" where "remaining" > 0 AND "playerid" = $acc and itemID != -2", $conn);
 
                 }
             }
@@ -1506,10 +1506,10 @@
     		23
     	); //spells.. for mana/damage bonus stuff
     	if (in_array($skillID, $spells)) {
-    		$sql = "select *, floor(l.cost -  l.cost * (cv.spellReduction / 100)) as mana, l.damage as skillDamage from `character` c ";
+    		$sql = "select *, floor(l.cost -  l.cost * (cv.spellReduction / 100)) as mana, l.damage as skillDamage from "character" c ";
     		$sql.= "inner join charSkills cs on cs.playerID = c.playerID ";
     		$sql.= "inner join skillLevels l on l.skillID = cs.skillID ";
-    		$sql.= "inner join skills s on l.skillID = s.`id` ";
+    		$sql.= "inner join skills s on l.skillID = s."id" ";
     		$sql.= "inner join calcValues cv on cv.playerID = cs.playerID ";
     		$sql.= "where c.playerID = $acc ";
     		$sql.= "and l.skillID = $skillID ";
@@ -1517,10 +1517,10 @@
     		$sql.= "and l.level = cs.level";
     	}
     	else {
-    		$sql = "select *, l.cost as mana, l.damage as skillDamage from `character` c ";
+    		$sql = "select *, l.cost as mana, l.damage as skillDamage from "character" c ";
     		$sql.= "inner join charSkills cs on cs.playerID = c.playerID ";
     		$sql.= "inner join skillLevels l on l.skillID = cs.skillID ";
-    		$sql.= "inner join skills s on l.skillID = s.`id` ";
+    		$sql.= "inner join skills s on l.skillID = s."id" ";
     		$sql.= "where c.playerID = $acc and l.skillID = $skillID and c.mana >= l.cost and l.level = cs.level";
     	}
 
@@ -1549,10 +1549,10 @@
     		$elementText = "<strong><span style=\'color:Blue\'> Ice</span></strong>";
     	}
 
-    	$sql = "UPDATE `character` set `mana` = `mana` - " . ($skillRow['mana'] * $times) . " where playerid = " . $acc;
+    	$sql = "UPDATE "character" set "mana" = "mana" - " . ($skillRow['mana'] * $times) . " where playerid = " . $acc;
     	sql_query($sql, $conn);
     	if (isInCombat($conn, $acc)) {
-    		$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = $acc ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    		$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = $acc ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     		$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     		$enemyID = $row['enemyID'];
     		$enemyHP = $row['health'];
@@ -1565,12 +1565,12 @@
     			$heal = ceil(rand($min, $max) * ($calcValues["spr"] / 40 + 1));
     			heal($heal, $acc, $conn);
     			$text = "You cast heal on yourself...";
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
     			sql_query($logMessege, $conn);
     			$text = "...and recover $heal health!";
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#00ff76', '<strong>" . $heal . "</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#00ff76', '<strong>" . $heal . "</strong>')";
     			sql_query($logMessege, $conn);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     			sql_query($logMessege, $conn);
     		}
     		else
@@ -1581,7 +1581,7 @@
     			$charStats = $calcValues;
     			$hit = $charStats['hit'];
     			$element = $charStats['weapElement'];
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     			$enemyRow = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $enemyRow['enemyID'];
     			$monsterName = $enemyRow['prefix'];
@@ -1594,23 +1594,23 @@
     				$text = getString($conn, $skillID, "skill", "left", "");
     				$monsterName.= $row['name'];
     				$text = str_replace('[enemy]', $monsterName, $text);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
     				sql_query($logMessege, $conn);
     				$text = getString($conn, 0, "combat", "right", "miss");
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#E00101', '<strong></strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#E00101', '<strong></strong>')";
     				sql_query($logMessege, $conn);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     				sql_query($logMessege, $conn);
     			}
     			else {
     				$damage = ceil(resistDamage($conn, $acc, floor(getDamage($conn, $acc, $calcValues) * $skillRow['damage']) , isset($element) ? $element : 'physical'));
-    				$sql = "SELECT * FROM `equipmentInventory` where `template` = 51 AND `equipped` = 1 AND `playerid` = $acc LIMIT 1";
+    				$sql = "SELECT * FROM "equipmentInventory" where "template" = 51 AND "equipped" = 1 AND "playerid" = $acc LIMIT 1";
     				$query = sql_query($sql, $conn);
     				if (mysqli_num_rows($query) == 1) {
     					$damage = floor($damage * 1.75);
     				}
     				else {
-    					$sql = "SELECT * FROM `equipmentInventory` where `template` = 83 AND `equipped` = 1 AND `playerid` = $acc LIMIT 1";
+    					$sql = "SELECT * FROM "equipmentInventory" where "template" = 83 AND "equipped" = 1 AND "playerid" = $acc LIMIT 1";
     					$query = sql_query($sql, $conn);
     					if (mysqli_num_rows($query) == 1) {
     						$damage = floor($damage * 2.25);
@@ -1622,13 +1622,13 @@
     				$text = getString($conn, $skillID, "skill", "left", "");
     				$monsterName.= $row['name'];
     				$text = str_replace('[enemy]', $monsterName, $text);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
     				sql_query($logMessege, $conn);
     				$text = getString($conn, $skillID . " OR forKey = 0", "combat", "right", "");
     				$message = str_replace('[damage]', number_format($damage) , $text);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
     				sql_query($logMessege, $conn);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     				sql_query($logMessege, $conn);
     			}
     		}
@@ -1639,7 +1639,7 @@
 
     			$charStats = $calcValues;
     			$hit = $charStats['hit'];
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     			$enemyRow = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $enemyRow['enemyID'];
     			$monsterName = $enemyRow['prefix'];
@@ -1652,12 +1652,12 @@
     				$text = getString($conn, $skillID, "skill", "left", "");
     				$monsterName.= $row['name'];
     				$text = str_replace('[enemy]', $monsterName, $text);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
     				sql_query($logMessege, $conn);
     				$text = getString($conn, 0, "combat", "right", "miss");
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#E00101', '<strong>" . $damage . "</strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#E00101', '<strong>" . $damage . "</strong>')";
     				sql_query($logMessege, $conn);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     				sql_query($logMessege, $conn);
     			}
     			else {
@@ -1672,14 +1672,14 @@
     				// $monsterName .= $row['name'];
 
     				$text = str_replace('[enemy]', $monsterName, $text);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
     				sql_query($logMessege, $conn);
     				$text = getString($conn, $skillID . " OR forKey = 0", "combat", "right", "");
     				$damage = "$fireDmg<strong><span style=\'color:red\'> Fire</span></strong>, $iceDmg<strong><span style=\'color:blue\'> Ice</span></strong> and $earthDmg <strong><span style=\'color:brown\'> Earth</span></strong>";
     				$message = str_replace('[damage]', number_format($damage) , $text);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $total . "</strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $total . "</strong>')";
     				sql_query($logMessege, $conn);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     				sql_query($logMessege, $conn);
     			}
     		}
@@ -1695,7 +1695,7 @@
                     $damage = floor($damage * (($calcValues['shapelessDmg'] / 100) + 1));
                 }
     			if ($skillID == 3 || $skillID == 18) {
-    				$sql = "SELECT * FROM `equipmentInventory` where `template` = 64 AND `equipped` = 1 AND `playerid` = $acc LIMIT 1";
+    				$sql = "SELECT * FROM "equipmentInventory" where "template" = 64 AND "equipped" = 1 AND "playerid" = $acc LIMIT 1";
     				$query = sql_query($sql, $conn);
     				if (mysqli_num_rows($query) > 0) {
     					$damage = floor($damage * 1.5);
@@ -1703,7 +1703,7 @@
     			}
 
     			$damage = ceil(resistDamage($conn, $acc, $damage, isset($element) ? $element : 'physical'));
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     			$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $row['enemyID'];
     			doDamage($conn, $acc, $damage, $row);
@@ -1715,14 +1715,14 @@
 
     			$monsterName.= $row['name'];
     			$text = str_replace('[enemy]', $monsterName, $text);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
     			sql_query($logMessege, $conn);
     			$text = getString($conn, $skillID . " OR forKey = 0", "combat", "right", "");
     			$damage = number_format($damage);
     			$message = str_replace('[damage]', $damage . $elementText, $text);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
     			sql_query($logMessege, $conn);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     			sql_query($logMessege, $conn);
     		}
     		else
@@ -1737,7 +1737,7 @@
                     $damage = floor($damage * (($calcValues['shapelessDmg'] / 100) + 1));
                 }
     			mana($damage, $acc, $conn);
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     			$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $row['enemyID'];
     			$text = getString($conn, $skillID, "skill", "left", "cast");
@@ -1748,21 +1748,21 @@
 
     			$monsterName.= $row['name'];
     			$text = str_replace('[enemy]', $monsterName, $text);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '')";
     			sql_query($logMessege, $conn);
     			$text = getString($conn, $skillID, "skill", "right", "leech");
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#E00101', '')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#E00101', '')";
     			sql_query($logMessege, $conn);
     			if ((rand(0, 100)) < $chance) {
     				$text = getString($conn, $skillID, "skill", "right", "harm");
     				$message = str_replace('[atk]', $duration, $text);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '')";
     				sql_query($logMessege, $conn);
     				$duration = (100 - $duration) / 100;
-    				$attack = "INSERT INTO `combatenemies` (`maxhealth`, `enemyid`, `playerid` , `prefix` , `name` , `attack`, `mattack`  , `fireres` , `earthres` , `iceres` , `holyres` , `arcaneres` , `physicalres` , `softdef` , `softmdef` , `health` , `exp`, `silver`, `hit`, `flee`, `level`, `stunresist`)
-                                    SELECT `maxhealth`, `enemyid`, `playerid` , `prefix` , `name` , (`attack` * $duration), (`mattack` * $duration) , `fireres` , `earthres` , `iceres` , `holyres` , `arcaneres` , `physicalres` , `softdef` , `softmdef` , `health`, `exp`, `silver`, `hit`, `flee`, `level`, `stunresist`
-                                    FROM `combatEnemies` WHERE `enemyid` =" . $row['enemyID'] . " AND `playerid` = " . $acc . "
-                                    ORDER BY `combatEnemyID` DESC
+    				$attack = "INSERT INTO "combatenemies" ("maxhealth", "enemyid", "playerid" , "prefix" , "name" , "attack", "mattack"  , "fireres" , "earthres" , "iceres" , "holyres" , "arcaneres" , "physicalres" , "softdef" , "softmdef" , "health" , "exp", "silver", "hit", "flee", "level", "stunresist")
+                                    SELECT "maxhealth", "enemyid", "playerid" , "prefix" , "name" , ("attack" * $duration), ("mattack" * $duration) , "fireres" , "earthres" , "iceres" , "holyres" , "arcaneres" , "physicalres" , "softdef" , "softmdef" , "health", "exp", "silver", "hit", "flee", "level", "stunresist"
+                                    FROM "combatEnemies" WHERE "enemyid" =" . $row['enemyID'] . " AND "playerid" = " . $acc . "
+                                    ORDER BY "combatEnemyID" DESC
                                     LIMIT 1";
     				sql_query($attack, $conn);
     			}
@@ -1770,9 +1770,9 @@
     			$text = getString($conn, $skillID, "skill", "left", "gain");
     			$damage = number_format($damage);
     			$text = str_replace('[mana]', $damage, $text);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#007dff', '<strong>$damage</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#007dff', '<strong>$damage</strong>')";
     			sql_query($logMessege, $conn);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     			sql_query($logMessege, $conn);
     		}
     		else
@@ -1780,7 +1780,7 @@
 
     			// Entangle
 
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     			$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $row['enemyID'];
     			$stunBlock = $row['stunresist'];
@@ -1792,7 +1792,7 @@
 
     			$monsterName.= $row['name'];
     			$text = str_replace('[enemy]', $monsterName, $text);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '')";
     			sql_query($logMessege, $conn);
     			if ((rand(0, 100)) > $stunBlock) { //entangled
     				$text = getString($conn, $skillID, "skill", "cast", "success");
@@ -1800,14 +1800,14 @@
 
     				// return $text;
 
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#5B00FF', '')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#5B00FF', '')";
     				sql_query($logMessege, $conn);
     				$sql = "INSERT INTO enemyEffects (effectName, effectRenew, effectType, playerID) values ('Entangle', $chance, 1, $acc)";
     				sql_query($sql, $conn);
-    				$attack = "INSERT INTO `combatenemies` ( `enemyid` , `playerid` , `prefix` , `name` , `attack` , `fireres` , `earthres` , `iceres` , `holyres` , `arcaneres` , `physicalres` , `softdef` , `softmdef` , `health` , `exp`, `silver`, `hit`, `flee`, `level`, `stunresist`, maxhealth, `mattack`)
-                                    SELECT `enemyid` , `playerid` , `prefix` , `name` , `attack` , `fireres` , `earthres` , `iceres` , `holyres` , `arcaneres` , `physicalres` , `softdef` , `softmdef` , `health`, `exp`, `silver`, `hit`, `flee`, `level`, `stunresist` + 50, maxhealth, `mattack`
-                                    FROM `combatEnemies` WHERE `enemyid` = $enemyID AND `playerid` = $acc
-                                    ORDER BY `combatEnemyID` DESC
+    				$attack = "INSERT INTO "combatenemies" ( "enemyid" , "playerid" , "prefix" , "name" , "attack" , "fireres" , "earthres" , "iceres" , "holyres" , "arcaneres" , "physicalres" , "softdef" , "softmdef" , "health" , "exp", "silver", "hit", "flee", "level", "stunresist", maxhealth, "mattack")
+                                    SELECT "enemyid" , "playerid" , "prefix" , "name" , "attack" , "fireres" , "earthres" , "iceres" , "holyres" , "arcaneres" , "physicalres" , "softdef" , "softmdef" , "health", "exp", "silver", "hit", "flee", "level", "stunresist" + 50, maxhealth, "mattack"
+                                    FROM "combatEnemies" WHERE "enemyid" = $enemyID AND "playerid" = $acc
+                                    ORDER BY "combatEnemyID" DESC
                                     LIMIT 1";
     				sql_query($attack, $conn);
     			}
@@ -1817,7 +1817,7 @@
     				// return $text;
 
     				$text = str_replace('[enemy]', $monsterName, $text);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#5B00FF', '')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#5B00FF', '')";
     				sql_query($logMessege, $conn);
     			}
     		}
@@ -1837,7 +1837,7 @@
     			$totalDmg = $damage;
     			$fireDmg = ceil(resistDamage($conn, $acc, $fireDmg, 'fire'));
     			$earthDmg = ceil(resistDamage($conn, $acc, $earthDmg, 'earth'));
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     			$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $row['enemyID'];
     			doDamage($conn, $acc, $fireDmg, $row);
@@ -1850,16 +1850,16 @@
 
     			$monsterName.= $row['name'];
     			$text = str_replace('[enemy]', $monsterName, $text);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
     			sql_query($logMessege, $conn);
     			$text = getString($conn, $skillID . " OR forKey = 0", "combat", "right", "");
     			$earthDmg = number_format($earthDmg);
     			$fireDmg = number_format($fireDmg);
     			$damage = "$fireDmg<strong><span style=\'color:red\'> Fire</span></strong> and $earthDmg <strong><span style=\'color:brown\'> Earth</span></strong>";
     			$message = str_replace('[damage]', number_format($damage) , $text);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $totalDmg . "</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $totalDmg . "</strong>')";
     			sql_query($logMessege, $conn);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     			sql_query($logMessege, $conn);
     		}
     		else
@@ -1887,7 +1887,7 @@
     			}
 
     			$damage = ceil(resistDamage($conn, $acc, $damage, 'holy'));
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     			$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $row['enemyID'];
     			doDamage($conn, $acc, $damage, $row);
@@ -1899,14 +1899,14 @@
 
     			$monsterName.= $row['name'];
     			$text = str_replace('[enemy]', $monsterName, $text);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
     			sql_query($logMessege, $conn);
     			$text = getString($conn, $skillID . " OR forKey = 0", "combat", "right", "");
     			$damage = number_format($damage);
     			$message = str_replace('[damage]', number_format($damage) , $text);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
     			sql_query($logMessege, $conn);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     			sql_query($logMessege, $conn);
     		}
     		else
@@ -1922,30 +1922,30 @@
 
     			$monsterName.= $row['name'];
     			$text = str_replace('[enemy]', $monsterName, $text);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
     			sql_query($logMessege, $conn);
     			$enemyMax = getAttribute($conn, "enemies", "health", $enemyID);
     			$enemyPercent = floor($enemyHP / $enemyMax * 100);
     			if ($enemyPercent < 26 && (rand(0, 100) > (100 - $chance))) {
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'RIGHT','...and OBLITERATED the $monsterName')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'RIGHT','...and OBLITERATED the $monsterName')";
     				sql_query($logMessege, $conn);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     				sql_query($logMessege, $conn);
     				doDamage($conn, $acc, 99999999999, $row);
     				return;
     			}
 
     			$damage = floor($effect * $enemyHP);
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     			$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $row['enemyID'];
     			doDamage($conn, $acc, $damage, $row);
     			$text = getString($conn, $skillID . " OR forKey = 0", "combat", "right", "");
     			$damage = number_format($damage);
     			$message = str_replace('[damage]', number_format($damage) , $text);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
     			sql_query($logMessege, $conn);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     			sql_query($logMessege, $conn);
     		}
     		else
@@ -1956,7 +1956,7 @@
     			$charStats = getRow($conn, "calcValues", $acc);
     			$hit = $charStats['hit'];
     			$element = $charStats['weapElement'];
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     			$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $row['enemyID'];
     			$flee = $row['flee'];
@@ -1970,12 +1970,12 @@
     			if (attackHit(($hit + 10) , $flee) == 0) {
     				$text = getString($conn, $skillID, "skill", "left", "");
     				$text = str_replace('[enemy]', $monsterName, $text);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
     				sql_query($logMessege, $conn);
     				$text = getString($conn, 0, "combat", "right", "miss");
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#E00101', '<strong>" . $damage . "</strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#E00101', '<strong>" . $damage . "</strong>')";
     				sql_query($logMessege, $conn);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     				sql_query($logMessege, $conn);
     			}
     			else {
@@ -1983,14 +1983,14 @@
     				$health = getAttribute($conn, "character", "hitpoints", $acc);
     				$health = floor($health / 10);
     				$damage = floor(resistDamage($conn, $acc, ($damage + (($skillRow['damage'] / 2) * $health)) , isset($element) ? $element : 'physical'));
-    				$sql = "SELECT * FROM `equipmentInventory` where `template` = 51 AND `equipped` = 1 AND `playerid` = $acc LIMIT 1";
+    				$sql = "SELECT * FROM "equipmentInventory" where "template" = 51 AND "equipped" = 1 AND "playerid" = $acc LIMIT 1";
     				$query = sql_query($sql, $conn);
     				if (mysqli_num_rows($query) == 1) {
     					$damage = floor($damage * 1.75);
     					$health = floor($health / 2);
     				}
     				else {
-    					$sql = "SELECT * FROM `equipmentInventory` where `template` = 83 AND `equipped` = 1 AND `playerid` = $acc LIMIT 1";
+    					$sql = "SELECT * FROM "equipmentInventory" where "template" = 83 AND "equipped" = 1 AND "playerid" = $acc LIMIT 1";
     					$query = sql_query($sql, $conn);
     					if (mysqli_num_rows($query) == 1) {
     						$damage = floor($damage * 2.25);
@@ -1998,19 +1998,19 @@
     					}
     				}
 
-    				$sql = "UPDATE `character` SET `hitpoints` = `hitpoints` - " . $health . " WHERE `playerid` = " . $acc;
+    				$sql = "UPDATE "character" SET "hitpoints" = "hitpoints" - " . $health . " WHERE "playerid" = " . $acc;
     				sql_query($sql, $conn);
     				$text = str_replace('[enemy]', $monsterName, $text);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
     				sql_query($logMessege, $conn);
     				$text = "...draining $health life from you...";
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#E00101', '<strong>" . $health . "</strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#E00101', '<strong>" . $health . "</strong>')";
     				sql_query($logMessege, $conn);
     				$text = getString($conn, "0", "combat", "right", "");
     				$message = str_replace('[damage]', number_format($damage) , $text);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
     				sql_query($logMessege, $conn);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     				sql_query($logMessege, $conn);
     				doDamage($conn, $acc, $damage, $row);
     			}
@@ -2023,7 +2023,7 @@
     			$charStats = getRow($conn, "calcValues", $acc);
     			$hit = $charStats['hit'];
     			$element = $charStats['weapElement'];
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     			$enemyRow = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $enemyRow['enemyID'];
     			$monsterName = $enemyRow['prefix'];
@@ -2036,12 +2036,12 @@
     				$text = getString($conn, $skillID, "skill", "left", "");
     				$monsterName.= $row['name'];
     				$text = str_replace('[enemy]', $monsterName, $text);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
     				sql_query($logMessege, $conn);
     				$text = getString($conn, 0, "combat", "right", "miss");
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#E00101', '<strong></strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#E00101', '<strong></strong>')";
     				sql_query($logMessege, $conn);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     				sql_query($logMessege, $conn);
     			}
     			else {
@@ -2050,12 +2050,12 @@
     				$text = getString($conn, $skillID, "skill", "left", "");
     				$monsterName.= $row['name'];
     				$text = str_replace('[enemy]', $monsterName, $text);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
     				sql_query($logMessege, $conn);
     				$sql = "select * from enemyEffects where playerid = $acc and effectType = 2";
     				$query = sql_query($sql, $conn);
     				if (mysqli_num_rows($query) == 0) {
-    					$sql = "SELECT * FROM `equipmentInventory` where `template` = 73 AND `equipped` = 1 AND `playerid` = $acc LIMIT 1";
+    					$sql = "SELECT * FROM "equipmentInventory" where "template" = 73 AND "equipped" = 1 AND "playerid" = $acc LIMIT 1";
     					$query = sql_query($sql, $conn);
     					if (mysqli_num_rows($query) == 1) {
     						$chance = $chance + 20;
@@ -2064,9 +2064,9 @@
     					if (rand(0, 100) < $chance) {
     						$text = getString($conn, $skillID, "skill", "right", "blind");
     						$message = str_replace('[damage]', number_format($damage) , $text);
-    						$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
+    						$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
     						sql_query($logMessege, $conn);
-    						$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    						$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     						sql_query($logMessege, $conn);
     						$sql = "insert into enemyEffects (effectRenew, effectDecay, effectType, playerID) values (9900, 85, 2, $acc)";
     						sql_query($sql, $conn);
@@ -2074,18 +2074,18 @@
     					else {
     						$text = getString($conn, $skillID, "skill", "right", "not");
     						$message = str_replace('[damage]', number_format($damage) , $text);
-    						$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
+    						$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
     						sql_query($logMessege, $conn);
-    						$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    						$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     						sql_query($logMessege, $conn);
     					}
     				}
     				else {
     					$text = "...And hit for [damage] damage, but it is already blind!";
     					$message = str_replace('[damage]', number_format($damage) , $text);
-    					$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
+    					$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
     					sql_query($logMessege, $conn);
-    					$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    					$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     					sql_query($logMessege, $conn);
     				}
     			}
@@ -2098,7 +2098,7 @@
     			$charStats = getRow($conn, "calcValues", $acc);
     			$hit = $charStats['hit'];
     			$element = $charStats['weapElement'];
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     			$enemyRow = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $enemyRow['enemyID'];
     			$monsterName = $enemyRow['prefix'];
@@ -2111,12 +2111,12 @@
     				$text = getString($conn, $skillID, "skill", "left", "");
     				$monsterName.= $row['name'];
     				$text = str_replace('[enemy]', $monsterName, $text);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
     				sql_query($logMessege, $conn);
     				$text = getString($conn, 0, "combat", "right", "miss");
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#E00101', '<strong></strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $text . "', '#E00101', '<strong></strong>')";
     				sql_query($logMessege, $conn);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     				sql_query($logMessege, $conn);
     			}
     			else {
@@ -2125,12 +2125,12 @@
     				$text = getString($conn, $skillID, "skill", "left", "");
     				$monsterName.= $row['name'];
     				$text = str_replace('[enemy]', $monsterName, $text);
-    				$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
+    				$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
     				sql_query($logMessege, $conn);
     				$sql = "select * from enemyEffects where playerid = $acc and effectType = 2";
     				$query = sql_query($sql, $conn);
     				if (mysqli_num_rows($query) == 0) {
-    					$sql = "SELECT * FROM `equipmentInventory` where `template` = 73 AND `equipped` = 1 AND `playerid` = $acc LIMIT 1";
+    					$sql = "SELECT * FROM "equipmentInventory" where "template" = 73 AND "equipped" = 1 AND "playerid" = $acc LIMIT 1";
     					$query = sql_query($sql, $conn);
     					if (mysqli_num_rows($query) == 1) {
     						$chance = $chance + 20;
@@ -2139,9 +2139,9 @@
     					if (rand(0, 100) < $chance) {
     						$text = getString($conn, $skillID, "skill", "right", "poison");
     						$message = str_replace('[damage]', number_format($damage) , $text);
-    						$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
+    						$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
     						sql_query($logMessege, $conn);
-    						$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    						$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     						sql_query($logMessege, $conn);
     						$sql = "insert into enemyEffects (effectRenew, effectDecay, effectType, playerID) values ($duration, 5, 3, $acc)";
     						sql_query($sql, $conn);
@@ -2149,18 +2149,18 @@
     					else {
     						$text = getString($conn, $skillID, "skill", "right", "not");
     						$message = str_replace('[damage]', number_format($damage) , $text);
-    						$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
+    						$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
     						sql_query($logMessege, $conn);
-    						$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    						$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     						sql_query($logMessege, $conn);
     					}
     				}
     				else {
     					$text = "...And hit for [damage] damage, but it is already poisoned!";
     					$message = str_replace('[damage]', number_format($damage) , $text);
-    					$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
+    					$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
     					sql_query($logMessege, $conn);
-    					$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    					$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     					sql_query($logMessege, $conn);
     				}
     			}
@@ -2180,7 +2180,7 @@
                     $damage = floor($damage * (($calcValues['shapelessDmg'] / 100) + 1));
                 }
     			$damage = resistDamage($conn, $acc, $damage, 'physical');
-    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    			$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     			$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     			$enemyID = $row['enemyID'];
     			doDamage($conn, $acc, $damage, $row);
@@ -2192,13 +2192,13 @@
 
     			$monsterName.= $row['name'];
     			$text = str_replace('[enemy]', $monsterName, $text);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
     			sql_query($logMessege, $conn);
     			$text = getString($conn, "0", "combat", "right", "");
     			$message = str_replace('[damage]', number_format($damage) , $text);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
     			sql_query($logMessege, $conn);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     			sql_query($logMessege, $conn);
     		}
     		else
@@ -2209,12 +2209,12 @@
     			$heal = ceil($effect * ($calcValues["spr"] / 40 + 1));
     			heal($heal, $acc, $conn);
     			$text = "You quickly wrap up your wounds...";
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#5B00FF', '<strong>" . $skillRow['mana'] . "</strong>')";
     			sql_query($logMessege, $conn);
     			$text = "...and regain $heal health!";
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#00ff76', '<strong>" . $heal . "</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "', '#00ff76', '<strong>" . $heal . "</strong>')";
     			sql_query($logMessege, $conn);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     			sql_query($logMessege, $conn);
     		}
     	}
@@ -2323,7 +2323,7 @@
     		levelUp($acc, $diff, $conn, $enemyid, $level);
     	}
     	else {
-    		$sql = "UPDATE `character` SET `exp` = `exp` + " . $amnt . " WHERE playerID = '" . $acc . "'";
+    		$sql = "UPDATE "character" SET "exp" = "exp" + " . $amnt . " WHERE playerID = '" . $acc . "'";
     		sql_query($sql, $conn);
     	}
     }
@@ -2343,18 +2343,18 @@
     	$row = mysqli_fetch_array(sql_query($sql, $conn) , MYSQLI_ASSOC);
     	$nextLevel = $row['exp'];
     	$message = "You have reached level " . $level . "!";
-    	$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','" . $message . "', 'rgb(242,130,31)', '')";
+    	$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','" . $message . "', 'rgb(242,130,31)', '')";
     	sql_query($logMessege, $conn);
-    	$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    	$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     	sql_query($logMessege, $conn);
     	$class = getAttribute($conn, "character", "class", $acc);
     	if ($class == "Paladin") {
     		$str = 2;
     		$dex = 1;
     		$spr = 0;
-    		$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','You have gained 2 strength!', 'rgb(242,130,31)', '')";
+    		$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','You have gained 2 strength!', 'rgb(242,130,31)', '')";
     		sql_query($logMessege, $conn);
-    		$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','You have gained 1 dexterity!', 'rgb(242,130,31)', '')";
+    		$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','You have gained 1 dexterity!', 'rgb(242,130,31)', '')";
     		sql_query($logMessege, $conn);
     	}
     	else
@@ -2362,29 +2362,29 @@
     		$str = 0;
     		$dex = 2;
     		$spr = 1;
-    		$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','You have gained 2 dexterity!', 'rgb(242,130,31)', '')";
+    		$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','You have gained 2 dexterity!', 'rgb(242,130,31)', '')";
     		sql_query($logMessege, $conn);
-    		$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','You have gained 1 spirit!', 'rgb(242,130,31)', '')";
+    		$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','You have gained 1 spirit!', 'rgb(242,130,31)', '')";
     		sql_query($logMessege, $conn);
     	}
     	else {
     		$str = 1;
     		$dex = 0;
     		$spr = 2;
-    		$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','You have gained 2 spirit!', 'rgb(242,130,31)', '')";
+    		$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','You have gained 2 spirit!', 'rgb(242,130,31)', '')";
     		sql_query($logMessege, $conn);
-    		$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','You have gained 1 strength!', 'rgb(242,130,31)', '')";
+    		$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','You have gained 1 strength!', 'rgb(242,130,31)', '')";
     		sql_query($logMessege, $conn);
     	}
 
-    	$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','You have gained 4 free stat points!', 'rgb(242,130,31)', '')";
+    	$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','You have gained 4 free stat points!', 'rgb(242,130,31)', '')";
     	sql_query($logMessege, $conn);
-    	$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','You have gained 1 skill point!', 'rgb(242,130,31)', '')";
+    	$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','You have gained 1 skill point!', 'rgb(242,130,31)', '')";
     	sql_query($logMessege, $conn);
-    	$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','', 'rgb(242,130,31)', '')";
+    	$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'CENTER','', 'rgb(242,130,31)', '')";
     	sql_query($logMessege, $conn);
-    	$sql = "UPDATE `character` SET `level` = `level` + 1, `exp` = " . $diff . ", `next` = " . $nextLevel . ", `statPoints` = `statPoints` + 4, `skillPoints` = `skillPoints` + 1, ";
-    	$sql.= " `strength` = `strength` + " . $str . ", `dexterity` = `dexterity` + " . $dex . ", `spirit` = `spirit` + " . $spr . " WHERE playerID = " . $acc;
+    	$sql = "UPDATE "character" SET "level" = "level" + 1, "exp" = " . $diff . ", "next" = " . $nextLevel . ", "statPoints" = "statPoints" + 4, "skillPoints" = "skillPoints" + 1, ";
+    	$sql.= " "strength" = "strength" + " . $str . ", "dexterity" = "dexterity" + " . $dex . ", "spirit" = "spirit" + " . $spr . " WHERE playerID = " . $acc;
     	sql_query($sql, $conn);
     	fullheal($acc, $conn);
     	fullmana($acc, $conn);
@@ -2461,7 +2461,7 @@
                 $atk = $atk * $row['damage'];
             }
         }
-    	$sql_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    	$sql_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     	$row = mysqli_fetch_array($sql_enemy, MYSQLI_ASSOC);
     	$mod = (100 - $row[strtolower($element) . 'Res']) / 100;
     	$max = ceil($max * (($atk + 10) / 80 + 1));
@@ -2526,7 +2526,7 @@
     	$x = $x / 300;
     	$minPostDex = $min + $x;
     	$damage = rand($minPostDex, $max);
-        $sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = $acc ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+        $sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = $acc ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
         $row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
         $enemyID = $row['enemyID'];
         if(in_array($enemyid, [147,148,149,150])){
@@ -2541,7 +2541,7 @@
 
     function resistDamage($conn, $acc, $damage, $element)
     {
-    	$sql_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    	$sql_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     	$row = mysqli_fetch_array($sql_enemy, MYSQLI_ASSOC);
     	if (isset($element) && $element != "") {
     		$mod = (100 - $row[strtolower($element) . 'Res']) / 100;
@@ -2572,7 +2572,7 @@
     function run($acc, $conn)
     {
     	$level = getAttribute($conn, "character", "level", $acc);
-    	$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    	$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     	$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     	$m_level = $row['level'];
     	$m_health = $row['health'];
@@ -2594,7 +2594,7 @@
     		// RUN AWAY
 
     		logAction($conn, $acc, 'run', $m_name, NULL);
-    		sql_query("DELETE FROM `enemySkillCooldown` WHERE `playerid` = " . $acc, $conn);
+    		sql_query("DELETE FROM "enemySkillCooldown" WHERE "playerid" = " . $acc, $conn);
     		return 2;
     	}
     	else {
@@ -2609,16 +2609,16 @@
     		$monsterName.= $row['name'];
     		$text = getString($conn, "0", "running", "left", "");
     		$message = str_replace('[enemy]', $monsterName, $text);
-    		$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $m_ID . ",'LEFT','" . $message . "')";
+    		$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $m_ID . ",'LEFT','" . $message . "')";
     		sql_query($logMessege, $conn);
     		$text = getString($conn, "0", "running", "right", "");
     		$damage = rand(1, ($level + 2));
     		$message = str_replace('[damage]', number_format($damage) , $text);
-    		$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $m_ID . ",'LEFT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
+    		$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $m_ID . ",'LEFT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
     		sql_query($logMessege, $conn);
-    		$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $m_ID . ",'LEFT','<br/>', '#E00101', ' ')";
+    		$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $m_ID . ",'LEFT','<br/>', '#E00101', ' ')";
     		sql_query($logMessege, $conn);
-            $sql = "UPDATE `character` SET `hitpoints` = `hitpoints` - " . $damage . " WHERE `playerid` = " . $acc;
+            $sql = "UPDATE "character" SET "hitpoints" = "hitpoints" - " . $damage . " WHERE "playerid" = " . $acc;
             sql_query($sql, $conn);
     	}
     }
@@ -2629,10 +2629,10 @@
 
     function doDamage($conn, $acc, $amnt, $row)
     {
-    	$attack = " INSERT INTO `combatenemies` ( `enemyid` , `playerid` , `prefix` , `name` , `attack` , `fireres` , `earthres` , `iceres` , `holyres` , `arcaneres` , `physicalres` , `softdef` , `softmdef` , `health` , `exp`, `silver`, `hit`, `flee`, `level`, `stunresist`, `maxhealth`, `mattack`)";
-    	$attack.= " SELECT `enemyid` , `playerid` , `prefix` , `name` , `attack` , `fireres` , `earthres` , `iceres` , `holyres` , `arcaneres` , `physicalres` , `softdef` , `softmdef` , (`health` - " . $amnt . "), `exp`, `silver`, `hit`, `flee`, `level`, `stunresist`, `maxhealth`, `mattack`";
-    	$attack.= " FROM `combatEnemies` WHERE `enemyid` =" . $row['enemyID'] . " AND `playerid` = " . $acc;
-    	$attack.= " ORDER BY `combatEnemyID` DESC ";
+    	$attack = " INSERT INTO "combatenemies" ( "enemyid" , "playerid" , "prefix" , "name" , "attack" , "fireres" , "earthres" , "iceres" , "holyres" , "arcaneres" , "physicalres" , "softdef" , "softmdef" , "health" , "exp", "silver", "hit", "flee", "level", "stunresist", "maxhealth", "mattack")";
+    	$attack.= " SELECT "enemyid" , "playerid" , "prefix" , "name" , "attack" , "fireres" , "earthres" , "iceres" , "holyres" , "arcaneres" , "physicalres" , "softdef" , "softmdef" , ("health" - " . $amnt . "), "exp", "silver", "hit", "flee", "level", "stunresist", "maxhealth", "mattack"";
+    	$attack.= " FROM "combatEnemies" WHERE "enemyid" =" . $row['enemyID'] . " AND "playerid" = " . $acc;
+    	$attack.= " ORDER BY "combatEnemyID" DESC ";
     	$attack.= "LIMIT 1";
     	sql_query($attack, $conn);
     }
@@ -2644,7 +2644,7 @@
     function checkCombat($acc, $conn)
     {
     	$output = array();
-    	$sql_combat = "SELECT * FROM `combat` WHERE `playerid` = " . $acc;
+    	$sql_combat = "SELECT * FROM "combat" WHERE "playerid" = " . $acc;
     	$sql_rows = sql_query($sql_combat, $conn);
     	$check = false;
     	while ($row = mysqli_fetch_array($sql_rows, MYSQLI_ASSOC)) {
@@ -2674,7 +2674,7 @@
     	$itemRow = getRow($conn, "item", $item);
     	if (getInventoryItem($conn, $acc, $item) > 0) {
     		removeItemAmount($conn, $acc, $item, 1, true);
-    		$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+    		$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = " . $acc . " ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
     		$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     		$enemyID = $row['enemyID'];
     		if ($itemRow['combatType'] == 3) {
@@ -2691,13 +2691,13 @@
 
     			$monsterName.= $row['name'];
     			$text = str_replace('[enemy]', $monsterName, $text);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "')";
     			sql_query($logMessege, $conn);
     			$text = getString($conn, $item . " OR forKey = 0", "combat", "right", "");
     			$message = str_replace('[damage]', number_format($damage) , $text);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, rightcolor, righttext) values (" . $acc . "," . $enemyID . ",'RIGHT','" . $message . "', '#E00101', '<strong>" . $damage . "</strong>')";
     			sql_query($logMessege, $conn);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     			sql_query($logMessege, $conn);
     		}
     		else
@@ -2705,13 +2705,13 @@
     			$mana = floor((rand($itemRow['useMin'], $itemRow['useMax'])) * (($calcValues["bonusPotMana"] / 100 + 1)));
     			mana($mana, $acc, $conn);
     			$text = getString($conn, $item, "combat", "left", "");
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "')";
     			sql_query($logMessege, $conn);
     			$text = getString($conn, $item, "combat", "right", "");
     			$message = str_replace('[mana]', $mana, $text);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "', '#007dff', '<strong>" . $mana . "</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "', '#007dff', '<strong>" . $mana . "</strong>')";
     			sql_query($logMessege, $conn);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     			sql_query($logMessege, $conn);
     		}
     		else
@@ -2719,13 +2719,13 @@
     			$health = floor((rand($itemRow['useMin'], $itemRow['useMax'])) * (($calcValues["bonusPotHeal"] / 100 + 1)));
     			heal($health, $acc, $conn);
     			$text = getString($conn, $item, "combat", "left", "");
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "')";
     			sql_query($logMessege, $conn);
     			$text = getString($conn, $item, "combat", "right", "");
     			$message = str_replace('[health]', $health, $text);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "', '#00ff76', '<strong>" . $health . "</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "', '#00ff76', '<strong>" . $health . "</strong>')";
     			sql_query($logMessege, $conn);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     			sql_query($logMessege, $conn);
     		}
             else
@@ -2735,14 +2735,14 @@
                 $mana = floor((rand($itemRow['useMin'], $itemRow['useMax'])) * (($calcValues["bonusPotMana"] / 100 + 1)));
     			mana($mana, $acc, $conn);
                 $text = getString($conn, $item, "combat", "left", "");
-                $logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "')";
+                $logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $text . "')";
                 sql_query($logMessege, $conn);
                 $text = getString($conn, $item, "combat", "right", "");
                 $message = str_replace('[health]', $health, $text);
                 $message = str_replace('[mana]', $mana, $message);
-                $logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "', '#00ff76', '<strong>" . $health . ' + ' . $mana . "</strong>')";
+                $logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','" . $message . "', '#00ff76', '<strong>" . $health . ' + ' . $mana . "</strong>')";
                 sql_query($logMessege, $conn);
-                $logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+                $logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
                 sql_query($logMessege, $conn);
             }
     		else
@@ -2753,11 +2753,11 @@
     			$health = floor($charStats["maxhealth"] * $amnt);
     			heal($health, $acc, $conn);
     			mana($mana, $acc, $conn);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','You chug back the rejuvenation potion')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyID . ",'LEFT','You chug back the rejuvenation potion')";
     			sql_query($logMessege, $conn);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','And recover $health health and $mana mana', '#00ff76', '<strong style=\'color:#00ff76\'>" . $health . "</strong><br/><strong style=\'color:#007dff\'>" . $mana . "</strong>')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','And recover $health health and $mana mana', '#00ff76', '<strong style=\'color:#00ff76\'>" . $health . "</strong><br/><strong style=\'color:#007dff\'>" . $mana . "</strong>')";
     			sql_query($logMessege, $conn);
-    			$logMessege = "INSERT INTO `combat` (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
+    			$logMessege = "INSERT INTO "combat" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyID . ",'LEFT','<br/>', '#E00101', ' ')";
     			sql_query($logMessege, $conn);
     		}
     	}
@@ -2785,21 +2785,21 @@
 
     function decreaseBuff($conn, $acc)
     {
-    	$sql = 'delete from `playerBuffs` where `remaining` = 1 and playerID = ' . $acc;
+    	$sql = 'delete from "playerBuffs" where "remaining" = 1 and playerID = ' . $acc;
     	sql_query($sql, $conn);
-    	$sql = 'update `playerBuffs` set `remaining` = `remaining` - 1 where `remaining` > 0 and `playerid` = ' . $acc;
+    	$sql = 'update "playerBuffs" set "remaining" = "remaining" - 1 where "remaining" > 0 and "playerid" = ' . $acc;
     	sql_query($sql, $conn);
     }
 
     function populateCombatCard($conn, $acc){
 		$playerDiff = getAttribute($conn, "character", "diff", $acc);
-		$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = ".$acc." ORDER BY `combatEnemyID` DESC LIMIT 1", $conn);
+		$sql_get_enemy = sql_query("SELECT * FROM combatEnemies WHERE playerID = ".$acc." ORDER BY "combatEnemyID" DESC LIMIT 1", $conn);
 		$row2 = mysqli_fetch_array($sql_get_enemy,MYSQLI_ASSOC);
 		$id= $row2['enemyID'];
 		$sql = "select * from enemies WHERE enemyID = ".$id;
 		$sql_rows = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
-			$sql = 'SELECT * from charKills WHERE `playerid` = '.$acc." AND `enemyid` = ".$row["enemyID"];
+			$sql = 'SELECT * from charKills WHERE "playerid" = '.$acc." AND "enemyid" = ".$row["enemyID"];
 			$killRow =  mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$color = '';
 			$count = $killRow['count'];
