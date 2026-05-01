@@ -1100,7 +1100,7 @@
 								break;
 						case 3:
 							//CHEST (RESET?)
-							$maxSQL = "SELECT SUM(rate) as total FROM "chests" where chestID = $item";
+							$maxSQL = "SELECT SUM(rate) as total FROM \"chests\" where chestID = $item";
 							$max = mysqli_fetch_array(sql_query($maxSQL, $conn),MYSQLI_ASSOC)['total'];
 							$roll = rand (0,($max - 1)) + 1;
 							$sql_get_items = "SELECT * FROM \"chests\" where chestID = $item";
@@ -1167,7 +1167,7 @@
 							break;
 						case 6:
 							//CHEST
-							$maxSQL = "SELECT SUM(rate) as total FROM "chests" where chestID = $item";
+							$maxSQL = "SELECT SUM(rate) as total FROM \"chests\" where chestID = $item";
 							$max = mysqli_fetch_array(sql_query($maxSQL, $conn),MYSQLI_ASSOC)['total'];
 							$roll = rand (0,($max - 1)) + 1;
 							$sql_get_items = "SELECT * FROM \"chests\" where chestID = $item";
