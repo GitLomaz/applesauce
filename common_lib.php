@@ -2611,13 +2611,16 @@
 		$sql_rows = sql_query($sql, $conn);
 		$counter = 1;
 		$quests = false;
+		error_log("[getQuest] SQL Query: $sql");
 		while($questList = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
+			error_log("[getQuest] Processing quest: " . $questList['questid']);
 			$quests = true;
 			//Cycles through each row tel one incomplete
-			$quest = $questList['questID'];
-			$sql = "SELECT * FROM \"questplayerstatus\" WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
+			$quest = $questList['questid'];
+			$sql = "SELECT * FROM \"questplayerstatus\" WHERE \"playerid\" = ".$acc." AND \"questid\" = ".$quest;
 			//Grabs the quest status from table
 			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
+			error_log(print_r($Row, true));
 			$questTitle = getAttribute($conn, "quests", "name", $quest);
 
 			if($Row['status'] == "" || $Row['status'] == "working"){
