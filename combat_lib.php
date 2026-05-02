@@ -92,7 +92,7 @@
     		if (isset($element) && $element != "") {
     			$mod = 1;
 
-    			// $mod = (100 - $row[strtolower($element).'Res']) / 100;
+    			// $mod = (100 - $row[strtolower($element).'res']) / 100;
 
     		}
     		else {
@@ -913,7 +913,7 @@
         				where e.enemyid = $enemyid
         					and eSkillID not in (select distinct skillID from enemyskillcooldown where playerid = $acc)
         					and chance > FLOOR(random()*(100))
-        					and maxHP >= CEIL($HP / maxhealth * 100)
+        					and maxhp >= CEIL($HP / maxhealth * 100)
         					and st.c1 ='enemySkill'
         					and e.playerid = $acc
         				order by random() limit 1";
@@ -971,7 +971,7 @@
                     $res = $calcValues[strtolower($element) . "Res"];
     				$mod = (100 - $res) / 100;
                     if(in_array($enemyid, [147,148,149,150])){
-                        $damage = floor($damage * ((100 - $calcValues['shapelessRes']) / 100));
+                        $damage = floor($damage * ((100 - $calcValues['shapelessres']) / 100));
                     }
     				$damage = $damage * $mod - ($calcValues["spr"] / 2);
     				if ($damage < 1) {
@@ -1022,7 +1022,7 @@
     					$damage = 1;
     				}
                     if(in_array($enemyid, [147,148,149,150])){
-                        $damage = floor($damage * ((100 - $calcValues['shapelessRes']) / 100));
+                        $damage = floor($damage * ((100 - $calcValues['shapelessres']) / 100));
                     }
     				$damage = ceil($damage);
     				if (attackHit($hit, $flee) == 0) {
@@ -1102,7 +1102,7 @@
     				$damage = 1;
     			}
                 if(in_array($enemyid, [147,148,149,150])){
-                    $damage = floor($damage * ((100 - $calcValues['shapelessRes']) / 100));
+                    $damage = floor($damage * ((100 - $calcValues['shapelessres']) / 100));
                 }
     			$damage = ceil($damage);
     			$text = getString($conn, "0", "enemyAttack", "left", "");

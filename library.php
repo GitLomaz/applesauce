@@ -104,13 +104,13 @@ function getSingleShopEquipment($conn, $id){
     $keys['mindmg'] = "Bonus Min Damage: ";
     $keys['maxdmg'] = "Bonus Max Damage: ";
     $keys['armor'] = "Bonus Armor: ";
-    $keys['fireRes'] = "Fire Resistance: ";
-    $keys['iceRes'] = "Ice Resistance: ";
-    $keys['arcaneRes'] = "Arcane Resistance: ";
-    $keys['earthRes'] = "Earth Resistance: ";
+    $keys['fireres'] = "Fire Resistance: ";
+    $keys['iceres'] = "Ice Resistance: ";
+    $keys['arcaneres'] = "Arcane Resistance: ";
+    $keys['earthres'] = "Earth Resistance: ";
     $keys['holyres'] = "Holy Resistance: ";
-    $keys['maxHP'] = "Maximum HP: ";
-    $keys['maxMP'] = "Maximum MP: ";
+    $keys['maxhp'] = "Maximum HP: ";
+    $keys['maxmp'] = "Maximum MP: ";
     $keys['evasion'] = "Evasion: ";
     $keys['itemdrop'] = "Item Drop Increase: ";
     $keys['silverdrop'] = "Silver Drop Increase: ";
@@ -125,7 +125,7 @@ function getSingleShopEquipment($conn, $id){
 
         if($row['slot'] == "weapon" || $row['slot'] == "2hweapon"){
             $script .= "Weapon - ".ucfirst($row['class'])."<br/><br/>";
-            $script .= "<strong>Damage: </strong>".$row['baseDmgMin']." - ".$row['baseDmgMax']."<br/><br/>";
+            $script .= "<strong>Damage: </strong>".$row['basedmgmin']." - ".$row['basedmgmax']."<br/><br/>";
         } else {
             $script .= ucfirst($row['slot'])."<br/><br/>";
 
@@ -138,7 +138,7 @@ function getSingleShopEquipment($conn, $id){
         foreach ($keys as $key => $value) {
             if($row[$key] > 0){
                 $script .= "<strong>" . $value . "</strong>".$row[$key];
-                if(in_array($key, ['fireRes', 'iceRes', 'arcaneRes', 'earthRes', 'holyres',
+                if(in_array($key, ['fireres', 'iceres', 'arcaneres', 'earthres', 'holyres',
                     'itemdrop', 'silverdrop', 'critchance', 'critdamage', 'blockchance'])){
                         $script .= "%";
                     }
@@ -319,13 +319,13 @@ function getEquipment($acc, $conn){
     $keys['mindmg'] = "Bonus Min Damage: ";
     $keys['maxdmg'] = "Bonus Max Damage: ";
     $keys['armor'] = "Bonus Armor: ";
-    $keys['fireRes'] = "Fire Resistance: ";
-    $keys['iceRes'] = "Ice Resistance: ";
-    $keys['arcaneRes'] = "Arcane Resistance: ";
-    $keys['earthRes'] = "Earth Resistance: ";
+    $keys['fireres'] = "Fire Resistance: ";
+    $keys['iceres'] = "Ice Resistance: ";
+    $keys['arcaneres'] = "Arcane Resistance: ";
+    $keys['earthres'] = "Earth Resistance: ";
     $keys['holyres'] = "Holy Resistance: ";
-    $keys['maxHP'] = "Maximum HP: ";
-    $keys['maxMP'] = "Maximum MP: ";
+    $keys['maxhp'] = "Maximum HP: ";
+    $keys['maxmp'] = "Maximum MP: ";
     $keys['evasion'] = "Evasion: ";
     $keys['itemdrop'] = "Item Drop Increase: ";
     $keys['silverdrop'] = "Silver Drop Increase: ";
@@ -340,7 +340,7 @@ function getEquipment($acc, $conn){
 
         if($row['slot'] == "weapon" || $row['slot'] == "2hweapon"){
             $script .= "Weapon - ".ucfirst($row['class'])."<br/><br/>";
-            $script .= "<strong>Damage: </strong>".$row['baseDmgMin']." - ".$row['baseDmgMax']."<br/><br/>";
+            $script .= "<strong>Damage: </strong>".$row['basedmgmin']." - ".$row['basedmgmax']."<br/><br/>";
         } else {
             $script .= ucfirst($row['slot'])."<br/><br/>";
 
@@ -353,7 +353,7 @@ function getEquipment($acc, $conn){
 
             if($row[$key] != "0"){
                 $script .= "<strong>" . $value . "</strong>".$row[$key];
-                if(in_array($key, ['fireRes', 'iceRes', 'arcaneRes', 'earthRes', 'holyres',
+                if(in_array($key, ['fireres', 'iceres', 'arcaneres', 'earthres', 'holyres',
                     'itemdrop', 'silverdrop', 'critchance', 'critdamage', 'blockchance'])){
                         $script .= "%";
                     }
