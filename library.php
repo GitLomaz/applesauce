@@ -115,7 +115,7 @@ function getSingleShopEquipment($conn, $id){
     $keys['itemdrop'] = "Item Drop Increase: ";
     $keys['silverdrop'] = "Silver Drop Increase: ";
     $keys['critchance'] = "Increased Critical Rate ";
-    $keys['critDamage'] = "Bonus Crit Modifier: ";
+    $keys['critdamage'] = "Bonus Crit Modifier: ";
     $keys['blockchance'] = "Block Chance: ";
 
     $sql = "SELECT * FROM equipmenttemplate WHERE \"index\" = ".$id;
@@ -139,7 +139,7 @@ function getSingleShopEquipment($conn, $id){
             if($row[$key] > 0){
                 $script .= "<strong>" . $value . "</strong>".$row[$key];
                 if(in_array($key, ['fireRes', 'iceRes', 'arcaneRes', 'earthRes', 'holyres',
-                    'itemdrop', 'silverdrop', 'critchance', 'critDamage', 'blockchance'])){
+                    'itemdrop', 'silverdrop', 'critchance', 'critdamage', 'blockchance'])){
                         $script .= "%";
                     }
                 $script .= "<br/>";
@@ -330,7 +330,7 @@ function getEquipment($acc, $conn){
     $keys['itemdrop'] = "Item Drop Increase: ";
     $keys['silverdrop'] = "Silver Drop Increase: ";
     $keys['critchance'] = "Increased Critical Rate ";
-    $keys['critDamage'] = "Bonus Crit Modifier: ";
+    $keys['critdamage'] = "Bonus Crit Modifier: ";
     $keys['blockchance'] = "Block Chance: ";
 
     $sql = "SELECT * FROM equipmentinventory where playerid = $acc and archived = 0 and name != 'unarmed' order by name;";
@@ -354,7 +354,7 @@ function getEquipment($acc, $conn){
             if($row[$key] != "0"){
                 $script .= "<strong>" . $value . "</strong>".$row[$key];
                 if(in_array($key, ['fireRes', 'iceRes', 'arcaneRes', 'earthRes', 'holyres',
-                    'itemdrop', 'silverdrop', 'critchance', 'critDamage', 'blockchance'])){
+                    'itemdrop', 'silverdrop', 'critchance', 'critdamage', 'blockchance'])){
                         $script .= "%";
                     }
                 $script .= "<br/>";
@@ -418,16 +418,16 @@ function getCalcStats($acc, $conn){
     unset($calcRow["weapon"]);
     unset($calcRow["itemdrop"]);
     unset($calcRow["silverdrop"]);
-    unset($calcRow["bonusPotHeal"]);
-    unset($calcRow["bonusPotMana"]);
+    unset($calcRow["bonuspotheal"]);
+    unset($calcRow["bonuspotmana"]);
     unset($calcRow["expdrop"]);
-    unset($calcRow["healthPerc"]);
-    unset($calcRow["manaPerc"]);
+    unset($calcRow["healthperc"]);
+    unset($calcRow["manaperc"]);
     unset($calcRow["strPerc"]);
     unset($calcRow["dexPerc"]);
     unset($calcRow["sprPerc"]);
     unset($calcRow["vitPerc"]);
-    unset($calcRow["spellReduction"]);
+    unset($calcRow["spellreduction"]);
     unset($calcRow["weapelement"]);
 
     return $calcRow;

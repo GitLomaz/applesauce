@@ -1507,14 +1507,14 @@
     		23
     	); //spells.. for mana/damage bonus stuff
     	if (in_array($skillID, $spells)) {
-    		$sql = "select *, floor(l.cost -  l.cost * (cv.spellReduction / 100)) as mana, l.damage as skillDamage from \"character\" c ";
+    		$sql = "select *, floor(l.cost -  l.cost * (cv.spellreduction / 100)) as mana, l.damage as skillDamage from \"character\" c ";
     		$sql.= "inner join charskills cs on cs.playerid = c.playerid ";
     		$sql.= "inner join skillLevels l on l.skillID = cs.skillID ";
     		$sql.= "inner join skills s on l.skillID = s.\"id\" ";
     		$sql.= "inner join calcValues cv on cv.playerid = cs.playerid ";
     		$sql.= "where c.playerid = $acc ";
     		$sql.= "and l.skillID = $skillID ";
-    		$sql.= "and c.mana >= floor( l.cost * cv.spellReduction / 100) ";
+    		$sql.= "and c.mana >= floor( l.cost * cv.spellreduction / 100) ";
     		$sql.= "and l.level = cs.level";
     	}
     	else {
@@ -2703,7 +2703,7 @@
     		}
     		else
     		if ($itemRow['combatType'] == 2) {
-    			$mana = floor((rand($itemRow['useMin'], $itemRow['useMax'])) * (($calcValues["bonusPotMana"] / 100 + 1)));
+    			$mana = floor((rand($itemRow['useMin'], $itemRow['useMax'])) * (($calcValues["bonuspotmana"] / 100 + 1)));
     			mana($mana, $acc, $conn);
     			$text = getString($conn, $item, "combat", "left", "");
     			$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyid . ",'LEFT','" . $text . "')";
@@ -2717,7 +2717,7 @@
     		}
     		else
     		if ($itemRow['combatType'] == 1) {
-    			$health = floor((rand($itemRow['useMin'], $itemRow['useMax'])) * (($calcValues["bonusPotHeal"] / 100 + 1)));
+    			$health = floor((rand($itemRow['useMin'], $itemRow['useMax'])) * (($calcValues["bonuspotheal"] / 100 + 1)));
     			heal($health, $acc, $conn);
     			$text = getString($conn, $item, "combat", "left", "");
     			$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyid . ",'LEFT','" . $text . "')";
@@ -2731,9 +2731,9 @@
     		}
             else
             if ($itemRow['combatType'] == 8) {
-                $health = floor((rand($itemRow['useMin'], $itemRow['useMax'])) * (($calcValues["bonusPotHeal"] / 100 + 1)));
+                $health = floor((rand($itemRow['useMin'], $itemRow['useMax'])) * (($calcValues["bonuspotheal"] / 100 + 1)));
                 heal($health, $acc, $conn);
-                $mana = floor((rand($itemRow['useMin'], $itemRow['useMax'])) * (($calcValues["bonusPotMana"] / 100 + 1)));
+                $mana = floor((rand($itemRow['useMin'], $itemRow['useMax'])) * (($calcValues["bonuspotmana"] / 100 + 1)));
     			mana($mana, $acc, $conn);
                 $text = getString($conn, $item, "combat", "left", "");
                 $logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyid . ",'LEFT','" . $text . "')";
