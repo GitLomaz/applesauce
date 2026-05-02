@@ -544,7 +544,7 @@
     					}
 
     					if ($row['quest'] > 0) {
-    						$sql_quest = 'SELECT * FROM \"enemies\" e, "questplayerstatus" p, \"quests\" q WHERE (e.enemyid = ' . $row['enemyid'] . ' AND q.req1 = e.quest AND q.questID = p.questID AND p.status = \"working\" AND p.playerid =  ' . $acc . ')';
+    						$sql_quest = 'SELECT * FROM \"enemies\" e, "questplayerstatus" p, \"quests\" q WHERE (e.enemyid = ' . $row['enemyid'] . ' AND q.req1 = e.quest AND q.questid = p.questid AND p.status = \"working\" AND p.playerid =  ' . $acc . ')';
     						$sqlQuest = sql_query($sql_quest, $conn);
     						$rowQuest = mysqli_fetch_array($sqlQuest, MYSQLI_ASSOC);
     						sql_query($sql_quest, $conn);
@@ -676,9 +676,9 @@
     	$sql = 'SELECT * FROM "questDrops" WHERE  "monsterID" = -1 or "monsterID" = ' . $enemyid;
     	$sql_drops = sql_query($sql, $conn);
     	while ($dropRow = mysqli_fetch_array($sql_drops, MYSQLI_ASSOC)) {
-    		$quest = $dropRow['questID'];
+    		$quest = $dropRow['questid'];
     		$item = $dropRow['dropID'];
-    		$sql = "SELECT * FROM \"questplayerstatus\" WHERE \"playerid\" = " . $acc . " AND \"questID\" = " . $quest;
+    		$sql = "SELECT * FROM \"questplayerstatus\" WHERE \"playerid\" = " . $acc . " AND \"questid\" = " . $quest;
     		$Row = mysqli_fetch_array(sql_query($sql, $conn) , MYSQLI_ASSOC);
     		$status = $Row['status'];
     		$reqAmnt = 0;

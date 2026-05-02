@@ -2624,7 +2624,7 @@
 			$questTitle = getAttribute($conn, "quests", "name", $quest);
 
 			if($Row['status'] == "" || $Row['status'] == "working"){
-				$output["questID"] = $quest;
+				$output["questid"] = $quest;
 				$output["status"] = $Row['status'];
 				//If quest does not exist/in progress..  generate start reply
 				$output["startText"] = "<div class='questTitle'>$questTitle</div>".getString($conn, $quest, "quest", "start", "");
@@ -2653,7 +2653,7 @@
 				//enter silver reward															//quest ID
 				return json_encode($output);
 			} else if(($Row['status'] == "complete" && (mysqli_num_rows($sql_rows) == $counter))){
-				$output["questID"] = $quest;
+				$output["questid"] = $quest;
 				$output["status"] = $Row['status'];
 				$output["completeText"] = "<div class='questTitle'>$questTitle</div>".getString($conn, $quest, "quest", "complete", "");
 				return json_encode($output);
@@ -2662,7 +2662,7 @@
 			$counter++;
 		}
 		if($quests == false){
-				$output["questID"] = -1;
+				$output["questid"] = -1;
 				$output["status"] = 'complete';
 				$output["completeText"] = "<div class='questTitle'></div>".getString($conn, $npc, "quest", "noquest", "");
 				return json_encode($output);
@@ -2673,13 +2673,13 @@
 	function getDailyQuest($conn, $acc, $npc){
 
 		if($npc == -1){
-			$sql = "SELECT lastDailyComplete + 26 as questID, lastDailyTime as timestamp FROM \"character\" where playerid = $acc";
+			$sql = "SELECT lastDailyComplete + 26 as questid, lastDailyTime as timestamp FROM \"character\" where playerid = $acc";
 			$charRow = mysqli_fetch_array(sql_query($sql, $conn), MYSQLI_ASSOC);
-			$quest = $charRow["questID"];
+			$quest = $charRow["questid"];
 			$timestamp = $charRow["timestamp"];
 			date_default_timezone_set("UTC");
 			if($timestamp == date("Y-m-d")){
-				$output["questID"] = $quest;
+				$output["questid"] = $quest;
 				$output["status"] = 'complete';
 				$output["completeText"] = "<div class='questTitle'></div>";
 				return json_encode($output);
@@ -2691,12 +2691,12 @@
 			if($quest == 32){
 				$quest = 27;
 			}
-			$sql = "SELECT * FROM \"questplayerstatus\" WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
+			$sql = "SELECT * FROM \"questplayerstatus\" WHERE \"playerid\" = ".$acc." AND \"questid\" = ".$quest;
 			//Grabs the quest status from table
 			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$questTitle = getAttribute($conn, "quests", "name", $quest);
 			if($Row['status'] == "" || $Row['status'] == "working"){
-				$output["questID"] = $quest;
+				$output["questid"] = $quest;
 				$output["status"] = $Row['status'];
 				//If quest does not exist/in progress..  generate start reply
 				$output["startText"] = "<div class='questTitle'>$questTitle</div>".getString($conn, $quest, "quest", "start", "");
@@ -2736,11 +2736,11 @@
 	// -- Params : $conn, $acc, $quest
 	// -- Purpose : Starts a quest based on ID
 	function startQuest($conn, $acc, $quest){
-		$sql = "UPDATE \"questplayerstatus\" set \"status\" = 'working' WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
+		$sql = "UPDATE \"questplayerstatus\" set \"status\" = 'working' WHERE \"playerid\" = ".$acc." AND \"questid\" = ".$quest;
 		sql_query($sql, $conn);
 
 		if(mysqli_affected_rows($conn) == 0){
-			$sql = "INSERT INTO \"questplayerstatus\" (\"playerid\", \"questID\", \"status\") VALUES (".$acc.",".$quest.",'working')";
+			$sql = "INSERT INTO \"questplayerstatus\" (\"playerid\", \"questid\", \"status\") VALUES (".$acc.",".$quest.",'working')";
 			sql_query($sql, $conn);
 		}
 		$questName = getAttribute($conn, 'quests', 'name', $quest);
@@ -2751,7 +2751,7 @@
 	// -- Params : $conn, $acc, $quest
 	// -- Purpose : Cancels a quest based on ID
 	function cancelQuest($conn, $acc, $quest){
-		$sql = "DELETE FROM \"questplayerstatus\" WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
+		$sql = "DELETE FROM \"questplayerstatus\" WHERE \"playerid\" = ".$acc." AND \"questid\" = ".$quest;
 		sql_query($sql, $conn);
 		$questRow = getRow($conn, "quests", $quest);
 		$counter = 0;
@@ -2794,10 +2794,10 @@
 		$repeat = getAttribute($conn, "quests", "repeatable", $quest);
 
 		if($repeat == 1){
-			$sql = "DELETE FROM \"questplayerstatus\" WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
+			$sql = "DELETE FROM \"questplayerstatus\" WHERE \"playerid\" = ".$acc." AND \"questid\" = ".$quest;
 			sql_query($sql, $conn);
 		} else {
-			$sql = "UPDATE \"questplayerstatus\" set \"status\" = 'complete' WHERE \"playerid\" = ".$acc." AND \"questID\" = ".$quest;
+			$sql = "UPDATE \"questplayerstatus\" set \"status\" = 'complete' WHERE \"playerid\" = ".$acc." AND \"questid\" = ".$quest;
 			sql_query($sql, $conn);
 		}
 
@@ -3143,7 +3143,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-			$sql = "select * from completeQuests where playerid = $acc and questID in (11,13,15,16,20)";
+			$sql = "select * from completeQuests where playerid = $acc and questid in (11,13,15,16,20)";
 			$result = sql_query($sql, $conn);
 
 			if(mysqli_num_rows($result) > 2){
@@ -3157,7 +3157,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-			$sql = "select questID, count(questID) from completeQuests where playerid = $acc and questID in (11,13,15,16,20) group by questID";
+			$sql = "select questid, count(questid) from completeQuests where playerid = $acc and questid in (11,13,15,16,20) group by questid";
 			$result = sql_query($sql, $conn);
 
 			if(mysqli_num_rows($result) > 4){
@@ -3171,7 +3171,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-			$sql = "SELECT questID, COUNT( questID ) AS counter FROM completeQuests WHERE playerid = $acc GROUP BY questID ORDER BY counter DESC";
+			$sql = "SELECT questid, COUNT( questid ) AS counter FROM completeQuests WHERE playerid = $acc GROUP BY questid ORDER BY counter DESC";
 			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$kills = $row['counter'];
 
@@ -3268,10 +3268,10 @@
 	// -- Params : $conn, $acc
 	// -- Purpose : gets all complete quests for log
 	function getCompleteQuests($conn, $acc){
-		$sql = "SELECT DISTINCT(q.questID) as questID, count(*) as 'count', repeatable, name FROM \"completeQuests\" c inner join \"quests\" q on c.questID = q.questID where playerid = $acc group by q.questID, repeatable, name";
+		$sql = "SELECT DISTINCT(q.questid) as questid, count(*) as 'count', repeatable, name FROM \"completeQuests\" c inner join \"quests\" q on c.questid = q.questid where playerid = $acc group by q.questid, repeatable, name";
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
-			$string = $row['questID']."|".$row['repeatable']."|".$row['count']."|".$row['name'];
+			$string = $row['questid']."|".$row['repeatable']."|".$row['count']."|".$row['name'];
 			$output[] = $string;
 		}
 
@@ -3282,10 +3282,10 @@
 	// -- Params : $conn, $acc
 	// -- Purpose : gets all incomplete quests for log
 	function getIncompleteQuests($conn, $acc){
-		$sql = "SELECT DISTINCT(q.questID) as questID, name FROM \"questplayerstatus\" c inner join \"quests\" q on c.questID = q.questID where playerid = $acc and status = 'working'";
+		$sql = "SELECT DISTINCT(q.questid) as questid, name FROM \"questplayerstatus\" c inner join \"quests\" q on c.questid = q.questid where playerid = $acc and status = 'working'";
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
-			$string = $row['questID'].'|'.$row['name'];
+			$string = $row['questid'].'|'.$row['name'];
 			$output[] = $string;
 		}
 
@@ -3293,21 +3293,21 @@
 	}
 
 	// -- Function Name : getQuestForLog
-	// -- Params : $conn, $acc, $questID, $complete
+	// -- Params : $conn, $acc, $questid, $complete
 	// -- Purpose : gets quest details for log
-	function getQuestForLog($conn, $acc, $questID, $complete){
+	function getQuestForLog($conn, $acc, $questid, $complete){
 
-		$sql = "SELECT * FROM \"quests\" WHERE  \"questID\" = ".$questID;
+		$sql = "SELECT * FROM \"quests\" WHERE  \"questid\" = ".$questid;
 		$sql_rows = sql_query($sql, $conn);
 		while($questList = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
 			//Cycles through each row tel one incomplete
-			$quest = $questID;
-			$sql = "SELECT * FROM \"questplayerstatus\" s inner join \"quests\" q on q.\"questID\" = s.\"questID\" WHERE \"playerid\" = ".$acc." AND q.\"questID\" = ".$quest;
+			$quest = $questid;
+			$sql = "SELECT * FROM \"questplayerstatus\" s inner join \"quests\" q on q.\"questid\" = s.\"questid\" WHERE \"playerid\" = ".$acc." AND q.\"questid\" = ".$quest;
 			//Grabs the quest status from table
 			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			//if($Row['status'] == "" || $Row['status'] == "working"){
 			$questTitle = $Row['name'];
-			$output["questID"] = $quest;
+			$output["questid"] = $quest;
 			$output["status"] = $Row['status'];
 			//If quest does not exist/in progress..  generate start reply
 			$output["startText"] = "<div class='questTitle'>$questTitle</div>".getString($conn, $quest, "quest", "start", "");
@@ -3494,9 +3494,9 @@
 	// -- Params : $conn, $acc
 	// -- Purpose : Starts whatever quest is due to start for a character.
 	function startDailyQuest($acc, $conn){
-		$sql = "SELECT lastDailyComplete + 27 as questID FROM \"character\" where playerid = $acc;";
+		$sql = "SELECT lastDailyComplete + 27 as questid FROM \"character\" where playerid = $acc;";
 		//error_log($sql);
-		$quest = mysqli_fetch_array(sql_query($sql, $conn), MYSQLI_ASSOC)["questID"];
+		$quest = mysqli_fetch_array(sql_query($sql, $conn), MYSQLI_ASSOC)["questid"];
 		if(isset($quest)){
 			if ($quest == 32){
 				$quest = 27;
@@ -3509,8 +3509,8 @@
 	// -- Params : $conn, $acc
 	// -- Purpose : Completes the daily quest
 	function finishDailyQuest($acc, $conn){
-		$sql = "SELECT lastDailyComplete + 27 as questID FROM \"character\" where playerid = $acc;";
-		$quest = mysqli_fetch_array(sql_query($sql, $conn), MYSQLI_ASSOC)["questID"];
+		$sql = "SELECT lastDailyComplete + 27 as questid FROM \"character\" where playerid = $acc;";
+		$quest = mysqli_fetch_array(sql_query($sql, $conn), MYSQLI_ASSOC)["questid"];
 		if(isset($quest)){
 			if($quest != 31){
 				completeQuest($conn, $acc, $quest);
