@@ -3556,7 +3556,7 @@
 
 			$output[] = $row;
 		}
-		$sql = "SELECT \"id\" as itemid, 1 as \"count\", \"template\", null as \"used\", \"script\" as \"description\", \"archived\", \"upgrade\", \"name\", \"equipped\", \"image\", \"price\" as \"value\", 0 as usable, 0 as combat, 0 as quest, 1 as equipment, 1 as visible FROM \"equipmentinventory\" where \"playerid\" = $acc and \"archived\" = 0 and \"name\" != 'unarmed' order by \"name\";";
+		$sql = "SELECT \"id\" as itemID, 1 as \"count\", \"template\", null as \"used\", \"script\" as \"description\", \"archived\", \"upgrade\", \"name\", \"equipped\", \"image\", \"price\" as \"value\", 0 as usable, 0 as combat, 0 as quest, 1 as equipment, 1 as visible FROM \"equipmentinventory\" where \"playerid\" = $acc and \"archived\" = 0 and \"name\" != 'unarmed' order by \"name\";";
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			if($row['upgrade'] > 0){
