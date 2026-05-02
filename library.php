@@ -107,8 +107,8 @@ function getSingleShopEquipment($conn, $id){
     $keys['maxHP'] = "Maximum HP: ";
     $keys['maxMP'] = "Maximum MP: ";
     $keys['evasion'] = "Evasion: ";
-    $keys['itemDrop'] = "Item Drop Increase: ";
-    $keys['silverDrop'] = "Silver Drop Increase: ";
+    $keys['itemdrop'] = "Item Drop Increase: ";
+    $keys['silverdrop'] = "Silver Drop Increase: ";
     $keys['critchance'] = "Increased Critical Rate ";
     $keys['critDamage'] = "Bonus Crit Modifier: ";
     $keys['blockchance'] = "Block Chance: ";
@@ -134,7 +134,7 @@ function getSingleShopEquipment($conn, $id){
             if($row[$key] > 0){
                 $script .= "<strong>" . $value . "</strong>".$row[$key];
                 if(in_array($key, ['fireRes', 'iceRes', 'arcaneRes', 'earthRes', 'holyres',
-                    'itemDrop', 'silverDrop', 'critchance', 'critDamage', 'blockchance'])){
+                    'itemdrop', 'silverdrop', 'critchance', 'critDamage', 'blockchance'])){
                         $script .= "%";
                     }
                 $script .= "<br/>";
@@ -322,8 +322,8 @@ function getEquipment($acc, $conn){
     $keys['maxHP'] = "Maximum HP: ";
     $keys['maxMP'] = "Maximum MP: ";
     $keys['evasion'] = "Evasion: ";
-    $keys['itemDrop'] = "Item Drop Increase: ";
-    $keys['silverDrop'] = "Silver Drop Increase: ";
+    $keys['itemdrop'] = "Item Drop Increase: ";
+    $keys['silverdrop'] = "Silver Drop Increase: ";
     $keys['critchance'] = "Increased Critical Rate ";
     $keys['critDamage'] = "Bonus Crit Modifier: ";
     $keys['blockchance'] = "Block Chance: ";
@@ -349,7 +349,7 @@ function getEquipment($acc, $conn){
             if($row[$key] != "0"){
                 $script .= "<strong>" . $value . "</strong>".$row[$key];
                 if(in_array($key, ['fireRes', 'iceRes', 'arcaneRes', 'earthRes', 'holyres',
-                    'itemDrop', 'silverDrop', 'critchance', 'critDamage', 'blockchance'])){
+                    'itemdrop', 'silverdrop', 'critchance', 'critDamage', 'blockchance'])){
                         $script .= "%";
                     }
                 $script .= "<br/>";
@@ -396,7 +396,7 @@ function getCalcStats($acc, $conn){
     $calcRow["block"] = $block;
 
     $calcRow['critrate'] = floor($calcRow['critrate'] * 100);
-    $calcRow['critMulti'] = floor($calcRow['critMulti'] * 100);
+    $calcRow['critmulti'] = floor($calcRow['critmulti'] * 100);
 
     $calcRow['combatItems'] = getEquippedItems($acc, $conn);
 
@@ -411,11 +411,11 @@ function getCalcStats($acc, $conn){
     unset($calcRow["mindmg"]);
     unset($calcRow["maxdmg"]);
     unset($calcRow["weapon"]);
-    unset($calcRow["itemDrop"]);
-    unset($calcRow["silverDrop"]);
+    unset($calcRow["itemdrop"]);
+    unset($calcRow["silverdrop"]);
     unset($calcRow["bonusPotHeal"]);
     unset($calcRow["bonusPotMana"]);
-    unset($calcRow["expDrop"]);
+    unset($calcRow["expdrop"]);
     unset($calcRow["healthPerc"]);
     unset($calcRow["manaPerc"]);
     unset($calcRow["strPerc"]);

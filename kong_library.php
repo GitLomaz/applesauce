@@ -107,8 +107,8 @@
 			$outputString .= '<tr><td style="width:50%">'.$fireresists.'</td><td style="width:50%">'.$earthresists.'</td></tr>';
 			$outputString .= '<tr><td style="width:50%">'.$holyresists.'</td><td style="width:50%">'.$arcaneresists.'</td></tr>';
 			$outputString .= '</table><div style="padding-top: 5%;">Experience / <span style="color:#80919A">Silver:<br/></span> '.$exp.'<br/><br/>'.$killCount.'</div></div>';
-			$output[] = $name.'|'.$row["enemyid"].'|'.$image.'|'.$row['Chapter'].'|'.$row['Map'].'|'.$row['Zone'].'|'.$outputString.'|'.$row['count'].'|'.$color;
-			$zones .= "'".$row['Zone']."'";
+			$output[] = $name.'|'.$row["enemyid"].'|'.$image.'|'.$row['chapter'].'|'.$row['map'].'|'.$row['zone'].'|'.$outputString.'|'.$row['count'].'|'.$color;
+			$zones .= "'".$row['zone']."'";
 			$enemies .= $row['enemyid'];
 		}
 		if ($zones != ''){
@@ -140,7 +140,7 @@
 				$outputString .= '<tr><td style="width:50%">'.$fireresists.'</td><td style="width:50%">'.$earthresists.'</td></tr>';
 				$outputString .= '<tr><td style="width:50%">'.$holyresists.'</td><td style="width:50%">'.$arcaneresists.'</td></tr>';
 				$outputString .= '</table><div style="padding-top: 5%;">Experience / <span style="color:#80919A">Silver:<br/></span> '.$exp.'<br/><br/>'.$killCount.'</div></div>';
-				$output[] = $name.'|_'.$row["enemyid"].'|'.$image.'|'.$row['Chapter'].'|'.$row['Map'].'|'.$row['Zone'].'|'.$outputString.'|0|'.$color;
+				$output[] = $name.'|_'.$row["enemyid"].'|'.$image.'|'.$row['chapter'].'|'.$row['map'].'|'.$row['zone'].'|'.$outputString.'|0|'.$color;
 			}
 			sort($output);
 			foreach ($output as $row) {

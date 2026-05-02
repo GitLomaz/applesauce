@@ -6,10 +6,11 @@
 
 
 	function logAction($conn, $acc, $action, $param1, $param2){
+		return; //Comment out to disable action logging
 		$sql = 'select "timestamp" as "time" from actions ORDER BY actionID DESC LIMIT 1';
 		$sqlR = sql_query($sql, $conn);
 		$row = $sqlR->fetch();
-		$timestamp = $row['time'];
+		$timestamp = $row ? $row['time'] : null;
 		$message = '';
 		$accountName =  getAttribute($conn, "account", "account", $acc);
 		if($action == 'kill'){
@@ -408,11 +409,11 @@
 			$sql = "INSERT INTO \"equipmentinventory\" (\"script\", \"playerid\", \"price\", \"image\", \"name\", \"slot\", \"class\", \"basedmgmin\", \"basedmgmax\", ";
 			$sql .= "\"basearmor\", \"level\", \"str\", \"dex\", \"spr\", \"vit\", \"mindmg\", \"maxdmg\", \"armor\", \"fireres\", \"earthres\", ";
 			$sql .= "\"iceres\", \"arcaneres\", \"holyres\", \"maxhp\", \"maxmp\", \"regenhp\", \"regenmp\", \"evasion\", \"itemdrop\", \"silverdrop\", ";
-			$sql .= "\"critchance\", \"critDamage\", \"blockchance\", \"template\", \"statString\", \"bonusPotHeal\", \"bonusPotMana\", \"expDrop\", \"healthPerc\", \"manaPerc\", \"strPerc\", \"vitPerc\", \"dexPerc\", \"sprPerc\", \"spellReduction\") VALUES ('".$row['script']."', ".$acc.", ".$row['price'].", '".$row['image']."', '".$row['name']."', '".$row['slot']."', '".$row['class']."', ";
+			$sql .= "\"critchance\", \"critDamage\", \"blockchance\", \"template\", \"statString\", \"bonusPotHeal\", \"bonusPotMana\", \"expdrop\", \"healthPerc\", \"manaPerc\", \"strPerc\", \"vitPerc\", \"dexPerc\", \"sprPerc\", \"spellReduction\") VALUES ('".$row['script']."', ".$acc.", ".$row['price'].", '".$row['image']."', '".$row['name']."', '".$row['slot']."', '".$row['class']."', ";
 			$sql .= $row['baseDmgMin'].", ".$row['baseDmgMax'].", ".$row['baseArmor'].", ".$row['level'].", ".$row['str'].", ".$row['dex'].", ".$row['spr'].", ";
 			$sql .= $row['vit'].", ".$row['mindmg'].", ".$row['maxdmg'].", ".$row['armor'].", ".$row['fireRes'].", ".$row['earthRes'].", ".$row['iceRes'].", ";
 			$sql .= $row['arcaneRes'].", ".$row['holyres'].", ".$row['maxHP'].", ".$row['maxMP'].", ".$row['regenHP'].", ".$row['regenMP'].", ".$row['evasion'].", ";
-			$sql .= $row['itemDrop'].", ".$row['silverDrop'].", ".$row['critchance'].", ".$row['critDamage'].", ".$row['blockchance'].", $id, '".$row['statString']."', ".$row['bonusPotHeal'].", ".$row['bonusPotMana'].", ".$row['expDrop'].", ".$row['healthPerc'].", ".$row['manaPerc'].", ".$row['strPerc'].", ".$row['vitPerc'].", ".$row['dexPerc'].", ".$row['sprPerc'].", ".$row['spellReduction'].")";
+			$sql .= $row['itemdrop'].", ".$row['silverdrop'].", ".$row['critchance'].", ".$row['critDamage'].", ".$row['blockchance'].", $id, '".$row['statString']."', ".$row['bonusPotHeal'].", ".$row['bonusPotMana'].", ".$row['expdrop'].", ".$row['healthPerc'].", ".$row['manaPerc'].", ".$row['strPerc'].", ".$row['vitPerc'].", ".$row['dexPerc'].", ".$row['sprPerc'].", ".$row['spellReduction'].")";
 			sql_query($sql, $conn);
 
 			if($row['script'] != "0"){
@@ -444,13 +445,13 @@
 		$row['maxHP'] = floor(rand($row['maxHP'] * .7, $row['maxHP'] * 1.3));
 		$row['maxMP'] = floor(rand($row['maxMP'] * .7, $row['maxMP'] * 1.3));
 		$row['evasion'] = floor(rand($row['evasion'] * .7, $row['evasion'] * 1.3));
-		$row['itemDrop'] = floor(rand($row['itemDrop'] * .7, $row['itemDrop'] * 1.3));
-		$row['silverDrop'] = floor(rand($row['silverDrop'] * .7, $row['silverDrop'] * 1.3));
+		$row['itemdrop'] = floor(rand($row['itemdrop'] * .7, $row['itemdrop'] * 1.3));
+		$row['silverdrop'] = floor(rand($row['silverdrop'] * .7, $row['silverdrop'] * 1.3));
 		$row['critchance'] = floor(rand($row['critchance'] * .7, $row['critchance'] * 1.3));
 		$row['critDamage'] = floor(rand($row['critDamage'] * .7, $row['critDamage'] * 1.3));
 		$row['bonusPotHeal'] = floor(rand($row['bonusPotHeal'] * .7, $row['bonusPotHeal'] * 1.3));
 		$row['bonusPotMana'] = floor(rand($row['bonusPotMana'] * .7, $row['bonusPotMana'] * 1.3));
-		$row['expDrop'] = floor(rand($row['expDrop'] * .7, $row['expDrop'] * 1.3));
+		$row['expdrop'] = floor(rand($row['expdrop'] * .7, $row['expdrop'] * 1.3));
 		$row['healthPerc'] = floor(rand($row['healthPerc'] * .7, $row['healthPerc'] * 1.3));
 		$row['manaPerc'] = floor(rand($row['manaPerc'] * .7, $row['manaPerc'] * 1.3));
 		$row['strPerc'] = floor(rand($row['strPerc'] * .7, $row['strPerc'] * 1.3));
@@ -469,10 +470,10 @@
 		$row['statString'] = str_replace('[vitPerc]',$row['vitPerc'],$row['statString']);
 		$row['statString'] = str_replace('[dexPerc]',$row['dexPerc'],$row['statString']);
 		$row['statString'] = str_replace('[sprPerc]',$row['sprPerc'],$row['statString']);
-		$row['statString'] = str_replace('[silverDrop]',$row['silverDrop'],$row['statString']);
-		$row['statString'] = str_replace('[itemDrop]',$row['itemDrop'],$row['statString']);
+		$row['statString'] = str_replace('[silverdrop]',$row['silverdrop'],$row['statString']);
+		$row['statString'] = str_replace('[itemdrop]',$row['itemdrop'],$row['statString']);
 		$row['statString'] = str_replace('[bonusPotMana]',$row['bonusPotMana'],$row['statString']);
-		$row['statString'] = str_replace('[expDrop]',$row['expDrop'],$row['statString']);
+		$row['statString'] = str_replace('[expdrop]',$row['expdrop'],$row['statString']);
 		$row['statString'] = str_replace('[critchance]',$row['critchance'],$row['statString']);
 		$row['statString'] = str_replace('[critDamage]',$row['critDamage'],$row['statString']);
 		$row['statString'] = str_replace('[shapelessRes]',$row['shapelessRes'],$row['statString']);
@@ -482,14 +483,14 @@
 		$sql = "INSERT INTO \"equipmentinventory\" (\"script\", \"playerid\", \"price\", \"image\", \"name\", \"slot\", \"class\", \"basedmgmin\", \"basedmgmax\", ";
 		$sql .= "\"basearmor\", \"level\", \"str\", \"dex\", \"spr\", \"vit\", \"mindmg\", \"maxdmg\", \"armor\", \"fireres\", \"earthres\", ";
 		$sql .= "\"iceres\", \"arcaneres\", \"holyres\", \"maxhp\", \"maxmp\", \"regenhp\", \"regenmp\", \"evasion\", \"itemdrop\", \"silverdrop\", ";
-		$sql .= "\"critchance\", \"critDamage\", \"blockchance\", \"template\", \"statString\", \"bonusPotHeal\", \"bonusPotMana\", \"expDrop\", \"healthPerc\", ";
+		$sql .= "\"critchance\", \"critDamage\", \"blockchance\", \"template\", \"statString\", \"bonusPotHeal\", \"bonusPotMana\", \"expdrop\", \"healthPerc\", ";
 		$sql .= "\"manaPerc\", \"strPerc\", \"vitPerc\", \"dexPerc\", \"sprPerc\", \"spellReduction\", \"shapelessRes\", \"shapelessExpDrop\", \"shapelessDmg\") VALUES ('";
 		$sql .= $row['script']."', ".$acc.", ".$row['price'].", '".$row['image']."', '".$row['name']."', '".$row['slot']."', '".$row['class']."', ";
 		$sql .= $row['baseDmgMin'].", ".$row['baseDmgMax'].", ".$row['baseArmor'].", ".$row['level'].", ".$row['str'].", ".$row['dex'].", ".$row['spr'].", ";
 		$sql .= $row['vit'].", ".$row['mindmg'].", ".$row['maxdmg'].", ".$row['armor'].", ".$row['fireRes'].", ".$row['earthRes'].", ".$row['iceRes'].", ";
 		$sql .= $row['arcaneRes'].", ".$row['holyres'].", ".$row['maxHP'].", ".$row['maxMP'].", ".$row['regenHP'].", ".$row['regenMP'].", ".$row['evasion'].", ";
-		$sql .= $row['itemDrop'].", ".$row['silverDrop'].", ".$row['critchance'].", ".$row['critDamage'].", ".$row['blockchance'].", $id, '".$row['statString']."', ";
-		$sql .= $row['bonusPotHeal'].", ".$row['bonusPotMana'].", ".$row['expDrop'].", ".$row['healthPerc'].", ".$row['manaPerc'].", ".$row['strPerc'].", ";
+		$sql .= $row['itemdrop'].", ".$row['silverdrop'].", ".$row['critchance'].", ".$row['critDamage'].", ".$row['blockchance'].", $id, '".$row['statString']."', ";
+		$sql .= $row['bonusPotHeal'].", ".$row['bonusPotMana'].", ".$row['expdrop'].", ".$row['healthPerc'].", ".$row['manaPerc'].", ".$row['strPerc'].", ";
 		$sql .= $row['vitPerc'].", ".$row['dexPerc'].", ".$row['sprPerc'].", ".$row['spellReduction'].", ".$row['shapelessRes'].", ".$row['shapelessExpDrop'].", ".$row['shapelessDmg'].")";
 		sql_query($sql, $conn);
 
@@ -525,7 +526,7 @@
 				$sql = "INSERT INTO \"equipmentinventory\" (\"script\", \"playerid\", \"price\", \"image\", \"name\", \"slot\", \"class\", \"basedmgmin\", \"basedmgmax\", ";
 				$sql .= "\"basearmor\", \"level\", \"str\", \"dex\", \"spr\", \"vit\", \"mindmg\", \"maxdmg\", \"armor\", \"fireres\", \"earthres\", ";
 				$sql .= "\"iceres\", \"arcaneres\", \"holyres\", \"maxhp\", \"maxmp\", \"regenhp\", \"regenmp\", \"evasion\", \"itemdrop\", \"silverdrop\", ";
-				$sql .= "\"critchance\", \"critDamage\", \"blockchance\", \"template\", \"statString\", \"bonusPotHeal\",  \"bonusPotMana\", \"expDrop\", \"healthPerc\", \"manaPerc\", \"strPerc\", \"vitPerc\", \"dexPerc\", \"sprPerc\", \"spellReduction\") VALUES ('".(($row['script'] ?? ''))."', ".$acc.", ".$row['price'].", '".(($row['image'] ?? ''))."', '".(($row['name'] ?? ''))."', '".(($row['slot'] ?? ''))."', '".(($row['class'] ?? ''))."', ";
+				$sql .= "\"critchance\", \"critDamage\", \"blockchance\", \"template\", \"statString\", \"bonusPotHeal\",  \"bonusPotMana\", \"expdrop\", \"healthPerc\", \"manaPerc\", \"strPerc\", \"vitPerc\", \"dexPerc\", \"sprPerc\", \"spellReduction\") VALUES ('".(($row['script'] ?? ''))."', ".$acc.", ".$row['price'].", '".(($row['image'] ?? ''))."', '".(($row['name'] ?? ''))."', '".(($row['slot'] ?? ''))."', '".(($row['class'] ?? ''))."', ";
 				$sql .= ($row['basedmgmin'] ?? 0).", ".($row['basedmgmax'] ?? 0).", ".($row['basearmor'] ?? 0).", ".($row['level'] ?? 0).", ".($row['str'] ?? 0).", ".($row['dex'] ?? 0).", ".($row['spr'] ?? 0).", ";
 				$sql .= ($row['vit'] ?? 0).", ".($row['mindmg'] ?? 0).", ".($row['maxdmg'] ?? 0).", ".($row['armor'] ?? 0).", ".($row['fireres'] ?? 0).", ".($row['earthres'] ?? 0).", ".($row['iceres'] ?? 0).", ";
 				$sql .= ($row['arcaneres'] ?? 0).", ".($row['holyres'] ?? 0).", ".($row['maxhp'] ?? 0).", ".($row['maxmp'] ?? 0).", ".($row['regenhp'] ?? 0).", ".($row['regenmp'] ?? 0).", ".($row['evasion'] ?? 0).", ";
@@ -678,13 +679,13 @@
 			}
 
 
-			if($row['itemDrop'] > 0){
-				$script .= "<strong>Item Drop Increase: </strong>".$row['itemDrop']."%<br/>";
+			if($row['itemdrop'] > 0){
+				$script .= "<strong>Item Drop Increase: </strong>".$row['itemdrop']."%<br/>";
 			}
 
 
-			if($row['silverDrop'] > 0){
-				$script .= "<strong>Silver Drop Increase: </strong>".$row['silverDrop']."%<br/>";
+			if($row['silverdrop'] > 0){
+				$script .= "<strong>Silver Drop Increase: </strong>".$row['silverdrop']."%<br/>";
 			}
 
 
@@ -1008,13 +1009,13 @@
 			}
 
 
-			if($row['itemDrop'] > 0){
-				$script .= "<strong>Item Drop Increase: </strong>".$row['itemDrop']."%<br/>";
+			if($row['itemdrop'] > 0){
+				$script .= "<strong>Item Drop Increase: </strong>".$row['itemdrop']."%<br/>";
 			}
 
 
-			if($row['silverDrop'] > 0){
-				$script .= "<strong>Silver Drop Increase: </strong>".$row['silverDrop']."%<br/>";
+			if($row['silverdrop'] > 0){
+				$script .= "<strong>Silver Drop Increase: </strong>".$row['silverdrop']."%<br/>";
 			}
 
 
@@ -1461,7 +1462,7 @@
 				(((((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex") * 1.5) + "character"."level") + "buffsbonus"."evasion") AS "flee",
 				((((((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex") * 1.5) + (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") * 0.75)) + "character"."level") + 100) AS "hit",
 				((1 / ((1 / (((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr") / 150)) + 0.9)) + (("equipmentbonus"."critchance" + "buffsbonus"."critchance") / 100)) AS "critrate",
-				(((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 150)) + 0.9)) + 0.1) + (("equipmentbonus"."critDamage" + "buffsbonus"."critDamage") / 100)) AS "critMulti",
+				(((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 150)) + 0.9)) + 0.1) + (("equipmentbonus"."critDamage" + "buffsbonus"."critDamage") / 100)) AS "critmulti",
 				((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 750)) + 0.5)) + ("equipmentbonus"."blockchance" / 100)) AS "block",
 				("equipmentbonus"."armor" + "buffsbonus"."armor") AS "armor",
 				("equipmentbonus"."fireRes" + "buffsbonus"."fireRes") AS "fireRes",
@@ -1473,11 +1474,11 @@
 				"character"."exp" AS "exp",
 				"character"."next" AS "next",
 				"character"."level" AS "level",
-				"equipmentbonus"."itemDrop" AS "itemDrop",
-				"equipmentbonus"."silverDrop" AS "silverDrop",
+				"equipmentbonus"."itemdrop" AS "itemdrop",
+				"equipmentbonus"."silverdrop" AS "silverdrop",
 				("equipmentbonus"."bonusPotHeal" + ((("character"."vitality" + "equipmentbonus"."vit") + FLOOR((("character"."vitality" * "equipmentbonus"."vitPerc") / 100))) + "buffsbonus"."vit")) AS "bonusPotHeal",
 				("equipmentbonus"."bonusPotMana" + ((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr")) AS "bonusPotMana",
-				("equipmentbonus"."expDrop" + "buffsbonus"."expDrop") AS "expDrop",
+				("equipmentbonus"."expdrop" + "buffsbonus"."expdrop") AS "expdrop",
 				"equipmentbonus"."healthPerc" AS "healthPerc",
 				"equipmentbonus"."manaPerc" AS "manaPerc",
 				"equipmentbonus"."strPerc" AS "strPerc",
@@ -1529,7 +1530,7 @@
 		        (((((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex") * 1.5) + "character"."level") + "buffsbonus"."evasion") AS "flee",
 		        ((((((("character"."dexterity" + "equipmentbonus"."dex") + FLOOR((("character"."dexterity" * "equipmentbonus"."dexPerc") / 100))) + "buffsbonus"."dex") * 1.5) + (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") * 0.75)) + "character"."level") + 100) AS "hit",
 		        ((1 / ((1 / (((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr") / 150)) + 0.9)) + (("equipmentbonus"."critchance" + "buffsbonus"."critchance") / 100)) AS "critrate",
-		        (((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 150)) + 0.9)) + 0.1) + (("equipmentbonus"."critDamage" + "buffsbonus"."critDamage") / 100)) AS "critMulti",
+		        (((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 150)) + 0.9)) + 0.1) + (("equipmentbonus"."critDamage" + "buffsbonus"."critDamage") / 100)) AS "critmulti",
 		        ((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 750)) + 0.5)) + ("equipmentbonus"."blockchance" / 100)) AS "block",
 		        ("equipmentbonus"."armor" + "buffsbonus"."armor") AS "armor",
 		        ("equipmentbonus"."fireRes" + "buffsbonus"."fireRes") AS "fireRes",
@@ -1541,11 +1542,11 @@
 		        "character"."exp" AS "exp",
 		        "character"."next" AS "next",
 		        "character"."level" AS "level",
-		        "equipmentbonus"."itemDrop" AS "itemDrop",
-		        "equipmentbonus"."silverDrop" AS "silverDrop",
+		        "equipmentbonus"."itemdrop" AS "itemdrop",
+		        "equipmentbonus"."silverdrop" AS "silverdrop",
 		        ("equipmentbonus"."bonusPotHeal" + ((("character"."vitality" + "equipmentbonus"."vit") + FLOOR((("character"."vitality" * "equipmentbonus"."vitPerc") / 100))) + "buffsbonus"."vit")) AS "bonusPotHeal",
 		        ("equipmentbonus"."bonusPotMana" + ((("character"."spirit" + "equipmentbonus"."spr") + FLOOR((("character"."spirit" * "equipmentbonus"."sprPerc") / 100))) + "buffsbonus"."spr")) AS "bonusPotMana",
-		        ("equipmentbonus"."expDrop" + "buffsbonus"."expDrop") AS "expDrop",
+		        ("equipmentbonus"."expdrop" + "buffsbonus"."expdrop") AS "expdrop",
 		        "equipmentbonus"."healthPerc" AS "healthPerc",
 		        "equipmentbonus"."manaPerc" AS "manaPerc",
 		        "equipmentbonus"."strPerc" AS "strPerc",

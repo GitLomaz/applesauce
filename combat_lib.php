@@ -618,8 +618,8 @@
 
     	$name = $row['prefix'] . ' ' . $row['name'];
     	$shortName = $row['name'];
-    	$exp = floor($row['exp'] * (($calcValues['expDrop'] / 100) + 1));
-    	$silver = $row['silver'] * (($calcValues['silverDrop'] / 100) + 1);
+    	$exp = floor($row['exp'] * (($calcValues['expdrop'] / 100) + 1));
+    	$silver = $row['silver'] * (($calcValues['silverdrop'] / 100) + 1);
     	$variance = floor($silver / 10);
     	$silver = rand($silver - $variance, $silver + $variance);
         if(in_array($enemyid, [147,148,149,150])){
@@ -750,8 +750,8 @@
     					}
     				}
     				else { //NOT DAILY
-    					$dropRate = ($dropRow['dropRate'] * $dropMod) * (($calcValues['itemDrop'] / 100) + 1);
-    					if ($dropRate > $odds) {
+    					$droprate = ($dropRow['droprate'] * $dropMod) * (($calcValues['itemdrop'] / 100) + 1);
+    					if ($droprate > $odds) {
     						$questItemRow = getRow($conn, "item", $dropRow['dropID']);
     						$itemName = $questItemRow['name'];
     						$loot = $questItemRow['visible'];
@@ -786,8 +786,8 @@
     	$sql_drops = sql_query($sql, $conn);
     	while ($dropRow = mysqli_fetch_array($sql_drops, MYSQLI_ASSOC)) {
     		$odds = rand(0, 10000);
-    		$dropRate = ($dropRow['dropRate'] * $dropMod) * (($calcValues['itemDrop'] / 100) + 1);
-    		if ($dropRate > $odds) {
+    		$droprate = ($dropRow['droprate'] * $dropMod) * (($calcValues['itemdrop'] / 100) + 1);
+    		if ($droprate > $odds) {
     			$itemName = getAttribute($conn, "item", "name", $dropRow['itemid']);
     			$message = $name . " Dropped: " . $itemName;
     			$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyid . ",'CENTER','" . $message . "', 'WHITE', '<strong></strong>')";
@@ -798,12 +798,12 @@
 
     	$enemyid = $row['enemyid'];
     	$name = $row['name'];
-    	$sql = 'SELECT * FROM \"equipmentDrops\" WHERE \"enemyid\" = ' . $enemyid;
+    	$sql = 'SELECT * FROM "equipmentDrops" WHERE "enemyid" = ' . $enemyid;
     	$sql_drops = sql_query($sql, $conn);
     	while ($dropRow = mysqli_fetch_array($sql_drops, MYSQLI_ASSOC)) {
     		$odds = rand(0, 10000);
-    		$dropRate = ($dropRow['rate'] * $dropMod) * (($calcValues['itemDrop'] / 100) + 1);
-    		if ($dropRate > $odds) {
+    		$droprate = ($dropRow['rate'] * $dropMod) * (($calcValues['itemdrop'] / 100) + 1);
+    		if ($droprate > $odds) {
     			$itemName = generateItem($conn, $acc, $dropRow['dropID'], null, null);
     			$message = $name . " Dropped: " . $itemName;
     			$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyid . ",'CENTER','" . $message . "', 'WHITE', '<strong></strong>')";
@@ -905,7 +905,7 @@
     		$levelMod = ((pow($levelMod, 2) / 100) + 1);
     		$damage = (rand($min, $max)) * $levelMod;
     		$mDamage = (rand($mmin, $mmax)) * $levelMod;
-    		$skillSQL = "select skillName, mskillID as skillid, damagetype, text, damageModifier, s.cooldown as cooldown, element
+    		$skillSQL = "select skillName, mskillID as skillid, damagetype, text, damagemodifier, s.cooldown as cooldown, element
         				from enemySkill s
         				inner join combatenemies e on e.enemyid = s.enemyid
         				inner join monsterSkills m on mskillID = s.eSkillID
@@ -928,7 +928,7 @@
     			$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyid . ",'RIGHT','" . $message . "')";
     			sql_query($logMessege, $conn);
     			if ($enemySkill['damagetype'] == 'power up') {
-    				$mod = $enemySkill['damageModifier'];
+    				$mod = $enemySkill['damagemodifier'];
     				$sql = "update combatenemies set attack = attack * $mod, hit = hit * $mod where playerid = $acc";
     				sql_query($sql, $conn);
     				$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyid . ",'RIGHT','<span style=\"color:#A5A5A5\">...and it\'s attack and accuracy go up</span>', '#5B00FF', '<strong></strong>')";
@@ -936,7 +936,7 @@
     			}
     			else
     			if ($enemySkill['damagetype'] == 'heal') {
-    				$damage = floor($mDamage * $enemySkill['damageModifier']);
+    				$damage = floor($mDamage * $enemySkill['damagemodifier']);
     				$sql = "update combatenemies set health = health + $damage where playerid = $acc";
     				sql_query($sql, $conn);
     				$sql = "update combatenemies set health = maxhealth where playerid = $acc and health > maxhealth";
@@ -946,7 +946,7 @@
     			}
     			else
     			if ($enemySkill['damagetype'] == 'mattack') {
-    				$damage = floor($mDamage * $enemySkill['damageModifier']);
+    				$damage = floor($mDamage * $enemySkill['damagemodifier']);
     				$element = $enemySkill['element'];
     				$elementText = "";
     				if (strtolower($element) == 'fire') {
@@ -1014,7 +1014,7 @@
     			}
     			else
     			if ($enemySkill['damagetype'] == 'attack') {
-    				$damage = $damage * $enemySkill['damageModifier'];
+    				$damage = $damage * $enemySkill['damagemodifier'];
     				$hard = ((100 - $armor) / 100);
     				$damage = $damage * $hard;
     				$damage = $damage - (ceil($vit / 2));
@@ -2423,7 +2423,7 @@
     	$row = getRow($conn, "calcValues", $acc);
     	$atk = $row['damage'];
     	$dex = $row['dex'];
-    	$multi = $row['critMulti'];
+    	$multi = $row['critmulti'];
     	$max = $row['maxdmg'];
     	$element = $row['weapelement'];
 
@@ -2464,7 +2464,7 @@
         }
     	$sql_enemy = sql_query("SELECT * FROM combatenemies WHERE playerid = " . $acc . " ORDER BY \"combatenemyid\" DESC LIMIT 1", $conn);
     	$row = mysqli_fetch_array($sql_enemy, MYSQLI_ASSOC);
-    	$mod = (100 - $row[strtolower($element) . 'Res']) / 100;
+    	$mod = (100 - $row[strtolower($element) . 'res']) / 100;
     	$max = ceil($max * (($atk + 10) / 80 + 1));
     	$max = ($mod * $max);
     	return floor($max + ($max * $multi));
