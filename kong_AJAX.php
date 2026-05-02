@@ -627,7 +627,14 @@
 				$sql = "INSERT INTO \"character\" (class, strength, dexterity, spirit, vitality, respawn, skillpoints, diff, neverlogged, resetscript, map, zone, locationx, locationy, combatmodifier) VALUES ('Paladin', 3, 2, 1, 3, 100, 0, 1, 0, '', 'VanaheimrNE', 'East Vanaheimr Village', 4726, 5121, 100)";
 				$stmt = mysqli_prepare($conn, $sql);
 				mysqli_stmt_execute($stmt);
-				$playerId = mysqli_insert_id($conn);
+				
+				// Get the newly inserted playerid
+				$sql = "SELECT MAX(playerid) as playerid FROM \"character\"";
+				$stmt = mysqli_prepare($conn, $sql);
+				mysqli_stmt_execute($stmt);
+				$result = mysqli_stmt_get_result($stmt);
+				$row = mysqli_fetch_assoc($result);
+				$playerId = $row['playerid'];
 				
 				// Create account row with random account name
 				$randomAccount = "player_" . $playerId . "_" . bin2hex(random_bytes(4));
