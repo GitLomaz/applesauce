@@ -517,7 +517,7 @@
 			$row = getRow($conn, "equipmenttemplate", $item);
 			$cost = $row['price'];
 			$silver = getAttribute($conn, "character", "silver", $acc);
-
+			ERROR_LOG('cost: '.$cost.' silver: '.$silver.' payReqd: '.$payReqd);
 			if($cost > $silver && $payReqd){
 				error_log('transaction failed, cost: '.$cost.' silver: '.$silver);
 				return '<span style="color:red;">Transaction Failed</span>';
@@ -579,7 +579,7 @@
 			return -1;
 		}
 
-		$sql = "SELECT * FROM equipmenttemplate WHERE \"index\" = ".$id;
+		$sql = "SELECT * FROM equipmenttemplate WHERE \"id\" = ".$id;
 		$sql_rows = sql_query($sql, $conn);
 		while($row = $sql_rows->fetch()){
 			$script = "<strong>Item Name: </strong>".$row['name']."<br/><br/><strong>Item Class: </strong>";
