@@ -76,7 +76,12 @@ function getKey($table){
         case "spawnpoints":
             $table = "spawnID";
             break;
+        case "equipmenttemplate":
+        case "equipmentinventory":
+            $table = "id";
+            break;
         default:
+            error_log('GET KEY DEFAULTING TO "INDEX" FOR TABLE: '.$table);
             $table = "index";
             break;
     }
