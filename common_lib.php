@@ -511,6 +511,7 @@
 	function buyEquipment($conn, $itemList, $acc, $payReqd){
 		$items = explode("|", $itemList);
 		$counter = 0;
+		error_log('getting starting equipment ready for purchase, item list: '.$itemList);
 		while ($counter != (count($items) - 1)){
 			$item = $items[$counter];
 			$row = getRow($conn, "equipmenttemplate", $item);
@@ -518,6 +519,7 @@
 			$silver = getAttribute($conn, "character", "silver", $acc);
 
 			if($cost > $silver && $payReqd){
+				error_log('transaction failed, cost: '.$cost.' silver: '.$silver);
 				return '<span style="color:red;">Transaction Failed</span>';
 			} else {
 				sql_query("UPDATE \"character\" set \"silver\"=\"silver\" - ".$cost." where \"playerid\"=".$acc, $conn);
@@ -531,6 +533,7 @@
 				$sql .= ($row['vit'] ?? 0).", ".($row['mindmg'] ?? 0).", ".($row['maxdmg'] ?? 0).", ".($row['armor'] ?? 0).", ".($row['fireres'] ?? 0).", ".($row['earthres'] ?? 0).", ".($row['iceres'] ?? 0).", ";
 				$sql .= ($row['arcaneres'] ?? 0).", ".($row['holyres'] ?? 0).", ".($row['maxhp'] ?? 0).", ".($row['maxmp'] ?? 0).", ".($row['regenhp'] ?? 0).", ".($row['regenmp'] ?? 0).", ".($row['evasion'] ?? 0).", ";
 				$sql .= ($row['itemdrop'] ?? 0).", ".($row['silverdrop'] ?? 0).", ".($row['critchance'] ?? 0).", ".($row['critdamage'] ?? 0).", ".($row['blockchance'] ?? 0).", ".($row['index'] ?? 0)." ,'".($row['statstring'] ?? '')."', ".($row['bonuspotheal'] ?? 0).", ".($row['bonuspotmana'] ?? 0).", ".($row['expdrop'] ?? 0).", ".($row['healthperc'] ?? 0).", ".($row['manaperc'] ?? 0).", ".($row['strperc'] ?? 0).", ".($row['vitperc'] ?? 0).", ".($row['dexperc'] ?? 0).", ".($row['sprperc'] ?? 0).", ".($row['spellreduction'] ?? 0).")";
+				error_log('executing sql: '.$sql);
 				sql_query($sql, $conn);
 
 				if(($row['script'] ?? '0') != "0"){
@@ -541,7 +544,7 @@
 			}
 
 		}
-
+		error_log('transaction successful');
 		return '<span style="color:green;">Transaction Successful</span>';
 	}
 
@@ -2725,12 +2728,6 @@
 			}
 		}
 	}
-
-
-
-
-
-
 
 	// -- Function Name : startQuest
 	// -- Params : $conn, $acc, $quest
