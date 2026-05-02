@@ -2151,7 +2151,12 @@
 			case "spawnpoints":
 				$table = "spawnid";
 				break;
+			case "equipmenttemplate":
+			case "equipmentinventory":
+				$table = "id";
+				break;
 			default:
+				error_log("=============  Getting key for table $table failed, defaulting to 'index'  =============");
 				$table = "index";
 				break;
 	}
