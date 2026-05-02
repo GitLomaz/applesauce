@@ -81,7 +81,7 @@ function getKey($table){
             $table = "id";
             break;
         default:
-            error_log('GET KEY DEFAULTING TO "INDEX" FOR TABLE: '.$table);
+            error_log('===================== GET KEY DEFAULTING TO "INDEX" FOR TABLE: '.$table);
             $table = "index";
             break;
     }
