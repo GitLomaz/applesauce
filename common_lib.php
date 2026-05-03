@@ -1065,7 +1065,7 @@
 					$maxVal1 = $row['usemax'] * $amnt;
 					$minVal2 = $row['combatmin'] * $amnt;
 					$maxVal2 = $row['combatmax'] * $amnt;
-					$Action1 = $row['useType'];
+					$Action1 = $row['usetype'];
 					$used = false;
 					$name = $row['name'];
 					$return = $amnt . "x " . $row['name']."<span> Used!<br>";
