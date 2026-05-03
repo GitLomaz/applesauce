@@ -2682,8 +2682,8 @@
     		$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     		$enemyid = $row['enemyid'];
     		if ($itemRow['combatType'] == 3) {
-    			$min = $itemRow['combatMin'];
-    			$max = $itemRow['combatMax'];
+    			$min = $itemRow['combatmin'];
+    			$max = $itemRow['combatmax'];
     			$damage = (rand($min, $max));
     			$damage = ceil($damage);
     			doDamage($conn, $acc, $damage, $row);
@@ -2706,7 +2706,7 @@
     		}
     		else
     		if ($itemRow['combatType'] == 2) {
-    			$mana = floor((rand($itemRow['useMin'], $itemRow['useMax'])) * (($calcValues["bonuspotmana"] / 100 + 1)));
+    			$mana = floor((rand($itemRow['usemin'], $itemRow['usemax'])) * (($calcValues["bonuspotmana"] / 100 + 1)));
     			mana($mana, $acc, $conn);
     			$text = getString($conn, $item, "combat", "left", "");
     			$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyid . ",'LEFT','" . $text . "')";
@@ -2720,7 +2720,7 @@
     		}
     		else
     		if ($itemRow['combatType'] == 1) {
-    			$health = floor((rand($itemRow['useMin'], $itemRow['useMax'])) * (($calcValues["bonuspotheal"] / 100 + 1)));
+    			$health = floor((rand($itemRow['usemin'], $itemRow['usemax'])) * (($calcValues["bonuspotheal"] / 100 + 1)));
     			heal($health, $acc, $conn);
     			$text = getString($conn, $item, "combat", "left", "");
     			$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyid . ",'LEFT','" . $text . "')";
@@ -2734,9 +2734,9 @@
     		}
             else
             if ($itemRow['combatType'] == 8) {
-                $health = floor((rand($itemRow['useMin'], $itemRow['useMax'])) * (($calcValues["bonuspotheal"] / 100 + 1)));
+                $health = floor((rand($itemRow['usemin'], $itemRow['usemax'])) * (($calcValues["bonuspotheal"] / 100 + 1)));
                 heal($health, $acc, $conn);
-                $mana = floor((rand($itemRow['useMin'], $itemRow['useMax'])) * (($calcValues["bonuspotmana"] / 100 + 1)));
+                $mana = floor((rand($itemRow['usemin'], $itemRow['usemax'])) * (($calcValues["bonuspotmana"] / 100 + 1)));
     			mana($mana, $acc, $conn);
                 $text = getString($conn, $item, "combat", "left", "");
                 $logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext) values (" . $acc . "," . $enemyid . ",'LEFT','" . $text . "')";
@@ -2752,7 +2752,7 @@
     		else
     		if ($itemRow['combatType'] == 7) {
     			$charStats = $calcValues;
-    			$amnt = rand($itemRow["useMin"], $itemRow["useMax"]) / 100;
+    			$amnt = rand($itemRow["usemin"], $itemRow["usemax"]) / 100;
     			$mana = floor($charStats["maxmana"] * $amnt);
     			$health = floor($charStats["maxhealth"] * $amnt);
     			heal($health, $acc, $conn);

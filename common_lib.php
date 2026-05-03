@@ -1061,10 +1061,10 @@
 				while($row = $sql_item_result->fetch()){
 
 				if($row['usable'] == 1){
-					$minVal1 = $row['useMin'] * $amnt;
-					$maxVal1 = $row['useMax'] * $amnt;
-					$minVal2 = $row['combatMin'] * $amnt;
-					$maxVal2 = $row['combatMax'] * $amnt;
+					$minVal1 = $row['usemin'] * $amnt;
+					$maxVal1 = $row['usemax'] * $amnt;
+					$minVal2 = $row['combatmin'] * $amnt;
+					$maxVal2 = $row['combatmax'] * $amnt;
 					$Action1 = $row['useType'];
 					$used = false;
 					$name = $row['name'];
