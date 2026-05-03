@@ -2817,7 +2817,7 @@
 			addItemAmount($conn, $acc, $item, $amnt);
 		}
 
-		$exp = $questRow['expAmnt'];
+		$exp = $questRow['expamnt'];
 		$silver = $questRow['silveramnt'];
 		giveEXPnoncombat($acc, $exp, $conn);
 		$sql = "UPDATE \"character\" SET \"silver\" = \"silver\" + ".$silver." WHERE playerid = ".$acc;
@@ -3329,7 +3329,7 @@
 				$output["rAmnt-".$counter] = $questRow['reward'.$counter.'amnt'];
 			}
 
-			$output["expAmnt"] = $questRow['expAmnt'];
+			$output["expAmnt"] = $questRow['expamnt'];
 			//enter exp reward
 			$output["silveramnt"] = $questRow['silveramnt'];
 			//enter silver reward
