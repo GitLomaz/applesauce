@@ -2849,37 +2849,37 @@
 		}
 
 		if($slot != "accessory"){
-			$sql = 'UPDATE "equipmentinventory" SET \"equipped\" = 0 WHERE \"slot\" = "'.$slot.'" AND \"equipped\" = 1 AND "playerid" = '.$acc. ' limit 1';
+			$sql = 'UPDATE "equipmentinventory" SET "equipped" = 0 WHERE "slot" = "'.$slot.'" AND "equipped" = 1 AND "playerid" = '.$acc. ' limit 1';
 			sql_query($sql, $conn);
 			if($slot == "2hweapon"){
 				$sql = 'UPDATE "equipmentinventory" SET "equipped" = 0 WHERE "slot" in ("offhand", "weapon", "2hweapon") AND "equipped" = 1 AND "playerid" = '.$acc. ' limit 3';
 				sql_query($sql, $conn);
 			}
 			if($slot == "offhand"){
-				$sql = 'UPDATE "equipmentinventory" SET \"equipped\" = 0 WHERE \"slot\" = "2hweapon" AND \"equipped\" = 1 AND "playerid" = '.$acc. ' limit 1';
+				$sql = 'UPDATE "equipmentinventory" SET "equipped" = 0 WHERE "slot" = "2hweapon" AND "equipped" = 1 AND "playerid" = '.$acc. ' limit 1';
 				sql_query($sql, $conn);
 			}
 			if($slot == "weapon"){
-				$sql = 'UPDATE "equipmentinventory" SET \"equipped\" = 0 WHERE \"slot\" = "2hweapon" AND \"equipped\" = 1 AND "playerid" = '.$acc. ' limit 1';
+				$sql = 'UPDATE "equipmentinventory" SET "equipped" = 0 WHERE "slot" = "2hweapon" AND "equipped" = 1 AND "playerid" = '.$acc. ' limit 1';
 				sql_query($sql, $conn);
 			}
 		} else {
-			$sql = 'SELECT COUNT(*) FROM "equipmentinventory" WHERE \"slot\" = "'.$slot.'" AND \"equipped\" = 1 AND "playerid" = '.$acc;
+			$sql = 'SELECT COUNT(*) FROM "equipmentinventory" WHERE "slot" = "'.$slot.'" AND "equipped" = 1 AND "playerid" = '.$acc;
 			$Row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$itemCount = $Row['COUNT(*)'];
 
 			if($itemCount == 2){
-				$sql = 'UPDATE "equipmentinventory" SET \"equipped\" = 0 WHERE \"slot\" = "'.$slot.'" AND \"equipped\" = 1 AND "playerid" = '.$acc. ' ORDER BY \"index\" DESC limit 1';
+				$sql = 'UPDATE "equipmentinventory" SET "equipped" = 0 WHERE "slot" = "'.$slot.'" AND "equipped" = 1 AND "playerid" = '.$acc. ' ORDER BY "index" DESC limit 1';
 				sql_query($sql, $conn);
 			}
 
 		}
 
-		$sql = 'UPDATE "equipmentinventory" SET "equipped" = 1 WHERE "index" = '.$item.' AND "playerid" = '.$acc;
+		$sql = 'UPDATE "equipmentinventory" SET "equipped" = 1 WHERE "id" = '.$item.' AND "playerid" = '.$acc;
 		sql_query($sql, $conn);
 
 		if($slot == "weapon" || $slot == "2hweapon"){
-			$sql = 'UPDATE "equipmentinventory" SET \"equipped\" = 0 WHERE \"name\" = \"unarmed\" AND "playerid" = '.$acc;
+			$sql = 'UPDATE "equipmentinventory" SET "equipped" = 0 WHERE "name" = "unarmed" AND "playerid" = '.$acc;
 			sql_query($sql, $conn);
 		}
 
@@ -2911,11 +2911,11 @@
 	// -- Purpose : removes an equipped item
 	function unequipEquipmentItem($conn, $acc, $item){
 		$slot = getAttribute($conn, "equipmentinventory", "slot", $item);
-		$sql = 'UPDATE "equipmentinventory" SET "equipped" = 0 WHERE "index" = '.$item.' AND "playerid" = '.$acc;
+		$sql = 'UPDATE "equipmentinventory" SET "equipped" = 0 WHERE "id" = '.$item.' AND "playerid" = '.$acc;
 		sql_query($sql, $conn);
 
 		if($slot == "weapon" || $slot == "2hweapon"){
-			$sql = 'UPDATE "equipmentinventory" SET \"equipped\" = 1 WHERE \"name\" = \"unarmed\" AND "playerid" = '.$acc;
+			$sql = 'UPDATE "equipmentinventory" SET "equipped" = 1 WHERE "name" = "unarmed" AND "playerid" = '.$acc;
 			sql_query($sql, $conn);
 		}
 

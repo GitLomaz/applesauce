@@ -673,7 +673,7 @@
 
     	// quest drops
 
-    	$sql = 'SELECT * FROM "questDrops" WHERE  "monsterID" = -1 or "monsterID" = ' . $enemyid;
+    	$sql = 'SELECT * FROM "questdrops" WHERE  "monsterID" = -1 or "monsterID" = ' . $enemyid;
     	$sql_drops = sql_query($sql, $conn);
     	while ($dropRow = mysqli_fetch_array($sql_drops, MYSQLI_ASSOC)) {
     		$quest = $dropRow['questid'];
@@ -798,7 +798,7 @@
 
     	$enemyid = $row['enemyid'];
     	$name = $row['name'];
-    	$sql = 'SELECT * FROM "equipmentDrops" WHERE "enemyid" = ' . $enemyid;
+    	$sql = 'SELECT * FROM "equipmentdrops" WHERE "enemyid" = ' . $enemyid;
     	$sql_drops = sql_query($sql, $conn);
     	while ($dropRow = mysqli_fetch_array($sql_drops, MYSQLI_ASSOC)) {
     		$odds = rand(0, 10000);
