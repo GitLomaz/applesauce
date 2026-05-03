@@ -1099,10 +1099,10 @@
 								break;
 						case 3:
 							//CHEST (RESET?)
-							$maxSQL = "SELECT SUM(rate) as total FROM \"chests\" where chestID = $item";
+							$maxSQL = "SELECT SUM(rate) as total FROM \"chests\" where chestid = $item";
 							$max = mysqli_fetch_array(sql_query($maxSQL, $conn),MYSQLI_ASSOC)['total'];
 							$roll = rand (0,($max - 1)) + 1;
-							$sql_get_items = "SELECT * FROM \"chests\" where chestID = $item";
+							$sql_get_items = "SELECT * FROM \"chests\" where chestid = $item";
 							$sql_result = sql_query($sql_get_items, $conn);
 							$totalWeight = 0;
 							while($row = mysqli_fetch_array($sql_result,MYSQLI_ASSOC)){
