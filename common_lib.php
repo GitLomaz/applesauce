@@ -2953,7 +2953,7 @@
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$script = "<strong>".($row['name'] ?? '')." </strong><br><br>".($row['description'] ?? '')."<br><br>[complete]";
-			$string = ($row['index'] ?? 0).'|'.($row['name'] ?? '').'|'.($row['image'] ?? '').'|'.$script;
+			$string = ($row['id'] ?? 0).'|'.($row['name'] ?? '').'|'.($row['image'] ?? '').'|'.$script;
 			$output[] = $string;
 		}
 
