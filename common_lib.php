@@ -2848,6 +2848,8 @@
 			setAchievement($conn, $acc, 6);
 		}
 
+		error_log("=========== SLOT: " . $slot);
+
 		if($slot != "accessory"){
 			$sql = 'UPDATE "equipmentinventory" SET "equipped" = 0 WHERE "slot" = "'.$slot.'" AND "equipped" = 1 AND "playerid" = '.$acc. ' limit 1';
 			sql_query($sql, $conn);
@@ -3145,7 +3147,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-			$sql = "select * from completeQuests where playerid = $acc and questid in (11,13,15,16,20)";
+			$sql = "select * from completequests where playerid = $acc and questid in (11,13,15,16,20)";
 			$result = sql_query($sql, $conn);
 
 			if(mysqli_num_rows($result) > 2){
@@ -3159,7 +3161,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-			$sql = "select questid, count(questid) from completeQuests where playerid = $acc and questid in (11,13,15,16,20) group by questid";
+			$sql = "select questid, count(questid) from completequests where playerid = $acc and questid in (11,13,15,16,20) group by questid";
 			$result = sql_query($sql, $conn);
 
 			if(mysqli_num_rows($result) > 4){
@@ -3173,7 +3175,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-			$sql = "SELECT questid, COUNT( questid ) AS counter FROM completeQuests WHERE playerid = $acc GROUP BY questid ORDER BY counter DESC";
+			$sql = "SELECT questid, COUNT( questid ) AS counter FROM completequests WHERE playerid = $acc GROUP BY questid ORDER BY counter DESC";
 			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 			$kills = $row['counter'];
 
@@ -3188,7 +3190,7 @@
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
-			$sql = "select * from completeQuests where playerid = $acc";
+			$sql = "select * from completequests where playerid = $acc";
 			$result = sql_query($sql, $conn);
 
 			if(mysqli_num_rows($result) > 2){
@@ -3225,7 +3227,7 @@
 		}
 
 		// ================================================== Get All Achievements ===================================================
-		$sql = 'SELECT * FROM \"achievements\" order by \"order\"';
+		$sql = 'SELECT * FROM "achievements" order by "order"';
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$counter = $row['index'];
@@ -3270,7 +3272,7 @@
 	// -- Params : $conn, $acc
 	// -- Purpose : gets all complete quests for log
 	function getCompleteQuests($conn, $acc){
-		$sql = "SELECT DISTINCT(q.questid) as questid, count(*) as 'count', repeatable, name FROM \"completeQuests\" c inner join \"quests\" q on c.questid = q.questid where playerid = $acc group by q.questid, repeatable, name";
+		$sql = "SELECT DISTINCT(q.questid) as questid, count(*) as 'count', repeatable, name FROM \"completequests\" c inner join \"quests\" q on c.questid = q.questid where playerid = $acc group by q.questid, repeatable, name";
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
 			$string = $row['questid']."|".$row['repeatable']."|".$row['count']."|".$row['name'];
@@ -3280,10 +3282,10 @@
 		return isset($output) ? $output : array();
 	}
 
-	// -- Function Name : getIncompleteQuests
+	// -- Function Name : getIncompletequests
 	// -- Params : $conn, $acc
 	// -- Purpose : gets all incomplete quests for log
-	function getIncompleteQuests($conn, $acc){
+	function getIncompletequests($conn, $acc){
 		$sql = "SELECT DISTINCT(q.questid) as questid, name FROM \"questplayerstatus\" c inner join \"quests\" q on c.questid = q.questid where playerid = $acc and status = 'working'";
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){

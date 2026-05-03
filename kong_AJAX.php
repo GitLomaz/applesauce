@@ -317,7 +317,7 @@
 					sql_query($sql, $conn);
 					break;
 				case "getQuestLog":
-					print json_encode(getCompleteQuests($conn, $account))."~".json_encode(getIncompleteQuests($conn, $account));
+					print json_encode(getCompleteQuests($conn, $account))."~".json_encode(getIncompletequests($conn, $account));
 					break;
 				case "getQuestLogDetail":
 					print getQuestForLog($conn, $account, $param1, $param2);

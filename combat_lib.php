@@ -673,7 +673,7 @@
 
     	// quest drops
 
-    	$sql = 'SELECT * FROM "questdrops" WHERE  "monsterID" = -1 or "monsterID" = ' . $enemyid;
+    	$sql = 'SELECT * FROM "questdrops" WHERE  "monsterid" = -1 or "monsterid" = ' . $enemyid;
     	$sql_drops = sql_query($sql, $conn);
     	while ($dropRow = mysqli_fetch_array($sql_drops, MYSQLI_ASSOC)) {
     		$quest = $dropRow['questid'];
