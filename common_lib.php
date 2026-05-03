@@ -409,7 +409,7 @@
 			$sql = "INSERT INTO \"equipmentinventory\" (\"script\", \"playerid\", \"price\", \"image\", \"name\", \"slot\", \"class\", \"basedmgmin\", \"basedmgmax\", ";
 			$sql .= "\"basearmor\", \"level\", \"str\", \"dex\", \"spr\", \"vit\", \"mindmg\", \"maxdmg\", \"armor\", \"fireres\", \"earthres\", ";
 			$sql .= "\"iceres\", \"arcaneres\", \"holyres\", \"maxhp\", \"maxmp\", \"regenhp\", \"regenmp\", \"evasion\", \"itemdrop\", \"silverdrop\", ";
-			$sql .= "\"critchance\", \"critdamage\", \"blockchance\", \"template\", \"statstring\", \"bonuspotheal\", \"bonuspotmana\", \"expdrop\", \"healthperc\", \"manaperc\", \"strPerc\", \"vitPerc\", \"dexPerc\", \"sprPerc\", \"spellreduction\") VALUES ('".$row['script']."', ".$acc.", ".$row['price'].", '".$row['image']."', '".$row['name']."', '".$row['slot']."', '".$row['class']."', ";
+			$sql .= "\"critchance\", \"critdamage\", \"blockchance\", \"template\", \"statstring\", \"bonuspotheal\", \"bonuspotmana\", \"expdrop\", \"healthperc\", \"manaperc\", \"strperc\", \"vitperc\", \"dexperc\", \"sprperc\", \"spellreduction\") VALUES ('".$row['script']."', ".$acc.", ".$row['price'].", '".$row['image']."', '".$row['name']."', '".$row['slot']."', '".$row['class']."', ";
 			$sql .= $row['basedmgmin'].", ".$row['basedmgmax'].", ".$row['baseArmor'].", ".$row['level'].", ".$row['str'].", ".$row['dex'].", ".$row['spr'].", ";
 			$sql .= $row['vit'].", ".$row['mindmg'].", ".$row['maxdmg'].", ".$row['armor'].", ".$row['fireres'].", ".$row['earthres'].", ".$row['iceres'].", ";
 			$sql .= $row['arcaneres'].", ".$row['holyres'].", ".$row['maxhp'].", ".$row['maxmp'].", ".$row['regenhp'].", ".$row['regenmp'].", ".$row['evasion'].", ";
@@ -484,7 +484,7 @@
 		$sql .= "\"basearmor\", \"level\", \"str\", \"dex\", \"spr\", \"vit\", \"mindmg\", \"maxdmg\", \"armor\", \"fireres\", \"earthres\", ";
 		$sql .= "\"iceres\", \"arcaneres\", \"holyres\", \"maxhp\", \"maxmp\", \"regenhp\", \"regenmp\", \"evasion\", \"itemdrop\", \"silverdrop\", ";
 		$sql .= "\"critchance\", \"critdamage\", \"blockchance\", \"template\", \"statstring\", \"bonuspotheal\", \"bonuspotmana\", \"expdrop\", \"healthperc\", ";
-		$sql .= "\"manaperc\", \"strPerc\", \"vitPerc\", \"dexPerc\", \"sprPerc\", \"spellreduction\", \"shapelessRes\", \"shapelessExpDrop\", \"shapelessDmg\") VALUES ('";
+		$sql .= "\"manaperc\", \"strperc\", \"vitperc\", \"dexperc\", \"sprperc\", \"spellreduction\", \"shapelessRes\", \"shapelessExpDrop\", \"shapelessDmg\") VALUES ('";
 		$sql .= $row['script']."', ".$acc.", ".$row['price'].", '".$row['image']."', '".$row['name']."', '".$row['slot']."', '".$row['class']."', ";
 		$sql .= $row['basedmgmin'].", ".$row['basedmgmax'].", ".$row['baseArmor'].", ".$row['level'].", ".$row['str'].", ".$row['dex'].", ".$row['spr'].", ";
 		$sql .= $row['vit'].", ".$row['mindmg'].", ".$row['maxdmg'].", ".$row['armor'].", ".$row['fireres'].", ".$row['earthres'].", ".$row['iceres'].", ";
@@ -528,7 +528,7 @@
 				$sql = "INSERT INTO \"equipmentinventory\" (\"script\", \"playerid\", \"price\", \"image\", \"name\", \"slot\", \"class\", \"basedmgmin\", \"basedmgmax\", ";
 				$sql .= "\"basearmor\", \"level\", \"str\", \"dex\", \"spr\", \"vit\", \"mindmg\", \"maxdmg\", \"armor\", \"fireres\", \"earthres\", ";
 				$sql .= "\"iceres\", \"arcaneres\", \"holyres\", \"maxhp\", \"maxmp\", \"regenhp\", \"regenmp\", \"evasion\", \"itemdrop\", \"silverdrop\", ";
-				$sql .= "\"critchance\", \"critdamage\", \"blockchance\", \"template\", \"statstring\", \"bonuspotheal\",  \"bonuspotmana\", \"expdrop\", \"healthperc\", \"manaperc\", \"strPerc\", \"vitPerc\", \"dexPerc\", \"sprPerc\", \"spellreduction\") VALUES ('".(($row['script'] ?? ''))."', ".$acc.", ".$row['price'].", '".(($row['image'] ?? ''))."', '".(($row['name'] ?? ''))."', '".(($row['slot'] ?? ''))."', '".(($row['class'] ?? ''))."', ";
+				$sql .= "\"critchance\", \"critdamage\", \"blockchance\", \"template\", \"statstring\", \"bonuspotheal\",  \"bonuspotmana\", \"expdrop\", \"healthperc\", \"manaperc\", \"strperc\", \"vitperc\", \"dexperc\", \"sprperc\", \"spellreduction\") VALUES ('".(($row['script'] ?? ''))."', ".$acc.", ".$row['price'].", '".(($row['image'] ?? ''))."', '".(($row['name'] ?? ''))."', '".(($row['slot'] ?? ''))."', '".(($row['class'] ?? ''))."', ";
 				$sql .= ($row['basedmgmin'] ?? 0).", ".($row['basedmgmax'] ?? 0).", ".($row['basearmor'] ?? 0).", ".($row['level'] ?? 0).", ".($row['str'] ?? 0).", ".($row['dex'] ?? 0).", ".($row['spr'] ?? 0).", ";
 				$sql .= ($row['vit'] ?? 0).", ".($row['mindmg'] ?? 0).", ".($row['maxdmg'] ?? 0).", ".($row['armor'] ?? 0).", ".($row['fireres'] ?? 0).", ".($row['earthres'] ?? 0).", ".($row['iceres'] ?? 0).", ";
 				$sql .= ($row['arcaneres'] ?? 0).", ".($row['holyres'] ?? 0).", ".($row['maxhp'] ?? 0).", ".($row['maxmp'] ?? 0).", ".($row['regenhp'] ?? 0).", ".($row['regenmp'] ?? 0).", ".($row['evasion'] ?? 0).", ";
