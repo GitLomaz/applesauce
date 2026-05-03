@@ -570,7 +570,7 @@
 			case "getErrorLog":
 				$blag = sql_query('SELECT * FROM "tortuga_debug" where "message" != "" order by "index" desc', $conn);
 				while($row = mysqli_fetch_array($blag,MYSQLI_ASSOC)){
-					$output[] = $row['index']."|".$row['timestamp']."|".$row['host']."|".$row['browser']."|".$row['user']."|".str_replace('"', "'", $row['message']);
+					$output[] = $row['id']."|".$row['timestamp']."|".$row['host']."|".$row['browser']."|".$row['user']."|".str_replace('"', "'", $row['message']);
 				}
 				print json_encode($output);
 				break;

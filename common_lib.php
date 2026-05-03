@@ -532,7 +532,7 @@
 				$sql .= ($row['basedmgmin'] ?? 0).", ".($row['basedmgmax'] ?? 0).", ".($row['basearmor'] ?? 0).", ".($row['level'] ?? 0).", ".($row['str'] ?? 0).", ".($row['dex'] ?? 0).", ".($row['spr'] ?? 0).", ";
 				$sql .= ($row['vit'] ?? 0).", ".($row['mindmg'] ?? 0).", ".($row['maxdmg'] ?? 0).", ".($row['armor'] ?? 0).", ".($row['fireres'] ?? 0).", ".($row['earthres'] ?? 0).", ".($row['iceres'] ?? 0).", ";
 				$sql .= ($row['arcaneres'] ?? 0).", ".($row['holyres'] ?? 0).", ".($row['maxhp'] ?? 0).", ".($row['maxmp'] ?? 0).", ".($row['regenhp'] ?? 0).", ".($row['regenmp'] ?? 0).", ".($row['evasion'] ?? 0).", ";
-				$sql .= ($row['itemdrop'] ?? 0).", ".($row['silverdrop'] ?? 0).", ".($row['critchance'] ?? 0).", ".($row['critdamage'] ?? 0).", ".($row['blockchance'] ?? 0).", ".($row['index'] ?? 0)." ,'".($row['statstring'] ?? '')."', ".($row['bonuspotheal'] ?? 0).", ".($row['bonuspotmana'] ?? 0).", ".($row['expdrop'] ?? 0).", ".($row['healthperc'] ?? 0).", ".($row['manaperc'] ?? 0).", ".($row['strperc'] ?? 0).", ".($row['vitperc'] ?? 0).", ".($row['dexperc'] ?? 0).", ".($row['sprperc'] ?? 0).", ".($row['spellreduction'] ?? 0).")";
+				$sql .= ($row['itemdrop'] ?? 0).", ".($row['silverdrop'] ?? 0).", ".($row['critchance'] ?? 0).", ".($row['critdamage'] ?? 0).", ".($row['blockchance'] ?? 0).", ".($row['id'] ?? 0)." ,'".($row['statstring'] ?? '')."', ".($row['bonuspotheal'] ?? 0).", ".($row['bonuspotmana'] ?? 0).", ".($row['expdrop'] ?? 0).", ".($row['healthperc'] ?? 0).", ".($row['manaperc'] ?? 0).", ".($row['strperc'] ?? 0).", ".($row['vitperc'] ?? 0).", ".($row['dexperc'] ?? 0).", ".($row['sprperc'] ?? 0).", ".($row['spellreduction'] ?? 0).")";
 				error_log('executing sql: '.$sql);
 				sql_query($sql, $conn);
 
@@ -711,7 +711,7 @@
 				$script .= "<br/><strong style=\"color:cyan\">".$row['statstring']."</strong>";
 			}
 
-			$output = $row['index']."|".$row['name']."|".$row['image']."|".$row['slot']."|".$script."|".$row['price'];
+			$output = $row['id']."|".$row['name']."|".$row['image']."|".$row['slot']."|".$script."|".$row['price'];
 			return $output;
 		}
 
@@ -875,7 +875,7 @@
 				$script .= "<br/><strong style=\"color:cyan\">".$row['statstring']."</strong>";
 			}
 
-			$output[] = ($row['index'] ?? 0)."|".($row['name'] ?? '')."|".($row['image'] ?? '')."|".($row['slot'] ?? '')."|".($script ?? '')."|".($row['script'] ?? '')."|".($row['price'] ?? 0)."|".($row['equipped'] ?? 0)."|".($row['stored'] ?? 0)."|".($row['template'] ?? 0);
+			$output[] = ($row['id'] ?? 0)."|".($row['name'] ?? '')."|".($row['image'] ?? '')."|".($row['slot'] ?? '')."|".($script ?? '')."|".($row['script'] ?? '')."|".($row['price'] ?? 0)."|".($row['equipped'] ?? 0)."|".($row['stored'] ?? 0)."|".($row['template'] ?? 0);
 		}
 
 
@@ -1041,7 +1041,7 @@
 				$script .= "<br/><strong style=\"color:cyan\">".$row['statstring']."</strong>";
 			}
 
-			$output[] = $row['index']."|".$row['name']."|".$row['image']."|".$row['slot']."|".$script."|".$row['script']."|".$row['price']."|".$row['equipped']."|".$row['stored'];
+			$output[] = $row['id']."|".$row['name']."|".$row['image']."|".$row['slot']."|".$script."|".$row['script']."|".$row['price']."|".$row['equipped']."|".$row['stored'];
 		}
 
 
@@ -3231,7 +3231,7 @@
 		$sql = 'SELECT * FROM "achievements" order by "order"';
 		$result = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($result,MYSQLI_ASSOC)){
-			$counter = $row['index'];
+			$counter = $row['id'];
 			$success = 0;
 			$time = '';
 			$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = $counter";
