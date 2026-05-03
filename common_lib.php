@@ -2532,7 +2532,7 @@
 	// -- Params : $conn, $acc, $item
 	// -- Purpose : Returns the current count of an item on an an account
 	function getInventoryItem($conn, $acc, $item){
-		error_log(debug_backtrace());
+		error_log(implode(",", debug_backtrace()));
 		$sql = "SELECT * FROM \"inventory\" WHERE \"playerid\" = ".$acc." AND \"itemid\" = ".$item;
 		$itemRow = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
