@@ -50,7 +50,7 @@ function getKey($table){
             $table = "combatenemyid";
             break;
         case "drops":
-            $table = "dropID";
+            $table = "dropid";
             break;
         case "enemies":
             $table = "enemyid";

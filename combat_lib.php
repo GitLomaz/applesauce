@@ -677,7 +677,7 @@
     	$sql_drops = sql_query($sql, $conn);
     	while ($dropRow = mysqli_fetch_array($sql_drops, MYSQLI_ASSOC)) {
     		$quest = $dropRow['questid'];
-    		$item = $dropRow['dropID'];
+    		$item = $dropRow['dropid'];
     		$sql = "SELECT * FROM \"questplayerstatus\" WHERE \"playerid\" = " . $acc . " AND \"questid\" = " . $quest;
     		$Row = mysqli_fetch_array(sql_query($sql, $conn) , MYSQLI_ASSOC);
     		$status = $Row['status'];
@@ -701,7 +701,7 @@
     				if ($quest == 27 || $quest == 28 || $quest == 29 || $quest == 30 || $quest == 31) { //DAILY
     					$pos1 = strpos($row["name"], "#AD8247");
     					$pos2 = strpos($row["name"], "#008B8B");
-    					if ($pos1 === false && $pos2 === false && $dropRow['dropID'] == 123) {
+    					if ($pos1 === false && $pos2 === false && $dropRow['dropid'] == 123) {
     						$color = '';
     						$currentItemAmnt = getInventoryItem($conn, $acc, $item);
     						if ($reqAmnt != $currentItemAmnt + 1) {
@@ -714,10 +714,10 @@
     						$message = "Common Enemies Slain";
     						$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyid . ",'CENTER','" . $message . "', '" . $color . "', '<strong>" . (getInventoryItem($conn, $acc, $item) + 1) . "/" . $reqAmnt . "</strong>')";
     						sql_query($logMessege, $conn);
-    						addItemAmount($conn, $acc, $dropRow['dropID'], 1);
+    						addItemAmount($conn, $acc, $dropRow['dropid'], 1);
     					}
     					else
-    					if ($pos2 > 0 && $dropRow['dropID'] == 124) {
+    					if ($pos2 > 0 && $dropRow['dropid'] == 124) {
     						$color = '';
     						$currentItemAmnt = getInventoryItem($conn, $acc, $item);
     						if ($reqAmnt != $currentItemAmnt + 1) {
@@ -730,10 +730,10 @@
     						$message = "Magic Enemies Slain";
     						$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyid . ",'CENTER','" . $message . "', '" . $color . "', '<strong>" . (getInventoryItem($conn, $acc, $item) + 1) . "/" . $reqAmnt . "</strong>')";
     						sql_query($logMessege, $conn);
-    						addItemAmount($conn, $acc, $dropRow['dropID'], 1);
+    						addItemAmount($conn, $acc, $dropRow['dropid'], 1);
     					}
     					else
-    					if ($pos1 > 0 && $dropRow['dropID'] == 125) {
+    					if ($pos1 > 0 && $dropRow['dropid'] == 125) {
     						$color = '';
     						$currentItemAmnt = getInventoryItem($conn, $acc, $item);
     						if ($reqAmnt != $currentItemAmnt + 1) {
@@ -746,13 +746,13 @@
     						$message = "Rare Enemies Slain";
     						$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyid . ",'CENTER','" . $message . "', '" . $color . "', '<strong>" . (getInventoryItem($conn, $acc, $item) + 1) . "/" . $reqAmnt . "</strong>')";
     						sql_query($logMessege, $conn);
-    						addItemAmount($conn, $acc, $dropRow['dropID'], 1);
+    						addItemAmount($conn, $acc, $dropRow['dropid'], 1);
     					}
     				}
     				else { //NOT DAILY
     					$droprate = ($dropRow['droprate'] * $dropMod) * (($calcValues['itemdrop'] / 100) + 1);
     					if ($droprate > $odds) {
-    						$questItemRow = getRow($conn, "item", $dropRow['dropID']);
+    						$questItemRow = getRow($conn, "item", $dropRow['dropid']);
     						$itemName = $questItemRow['name'];
     						$loot = $questItemRow['visible'];
     						$color = '';
@@ -773,7 +773,7 @@
 
     						$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyid . ",'CENTER','" . $message . "', '" . $color . "', '<strong>" . (getInventoryItem($conn, $acc, $item) + 1) . "/" . $reqAmnt . "</strong>')";
     						sql_query($logMessege, $conn);
-    						addItemAmount($conn, $acc, $dropRow['dropID'], 1);
+    						addItemAmount($conn, $acc, $dropRow['dropid'], 1);
     					}
     				}
     			}
@@ -804,7 +804,7 @@
     		$odds = rand(0, 10000);
     		$droprate = ($dropRow['rate'] * $dropMod) * (($calcValues['itemdrop'] / 100) + 1);
     		if ($droprate > $odds) {
-    			$itemName = generateItem($conn, $acc, $dropRow['dropID'], null, null);
+    			$itemName = generateItem($conn, $acc, $dropRow['dropid'], null, null);
     			$message = $name . " Dropped: " . $itemName;
     			$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyid . ",'CENTER','" . $message . "', 'WHITE', '<strong></strong>')";
     			sql_query($logMessege, $conn);

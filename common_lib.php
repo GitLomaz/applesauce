@@ -2532,6 +2532,7 @@
 	// -- Params : $conn, $acc, $item
 	// -- Purpose : Returns the current count of an item on an an account
 	function getInventoryItem($conn, $acc, $item){
+		error_log(debug_backtrace());
 		$sql = "SELECT * FROM \"inventory\" WHERE \"playerid\" = ".$acc." AND \"itemid\" = ".$item;
 		$itemRow = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
@@ -2967,7 +2968,7 @@
 	// -- Purpose : gets progrss of all achievements
 	function getAchievementProgress($conn, $acc){
 		// ===================================================== The Traveler =====================================================
-		$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = 1";
+		$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = 1";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
@@ -2980,7 +2981,7 @@
 		}
 
 		// ===================================================== The Adventurer ===================================================
-		$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = 2";
+		$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = 2";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
@@ -2993,7 +2994,7 @@
 		}
 
 		// ======================================================= Killer =========================================================
-		$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = 3";
+		$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = 3";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
@@ -3008,7 +3009,7 @@
 		}
 
 		// =================================================== Seasoned Figher ====================================================
-		$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = 4";
+		$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = 4";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
@@ -3023,7 +3024,7 @@
 		}
 
 		// ======================================================= Novice =========================================================
-		$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = 12";
+		$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = 12";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
@@ -3035,7 +3036,7 @@
 		}
 
 		// ====================================================== Trainee =========================================================
-		$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = 13";
+		$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = 13";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
@@ -3047,7 +3048,7 @@
 		}
 
 		// ====================================================== Well Trined ======================================================
-		$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = 14";
+		$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = 14";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
@@ -3059,7 +3060,7 @@
 		}
 
 		// ======================================================== Master ==========================================================
-		$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = 15";
+		$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = 15";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
@@ -3071,7 +3072,7 @@
 		}
 
 		// ======================================================= Potaholic ========================================================
-		$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = 18";
+		$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = 18";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
@@ -3086,7 +3087,7 @@
 		}
 
 		// ==================================================== Public Service ======================================================
-		$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = 19";
+		$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = 19";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
@@ -3098,7 +3099,7 @@
 		}
 
 		// ======================================================== Rocking =========================================================
-		$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = 24";
+		$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = 24";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
@@ -3113,7 +3114,7 @@
 		}
 
 		// ===================================================== Homeward Bound =====================================================
-		$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = 23";
+		$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = 23";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
@@ -3128,7 +3129,7 @@
 		}
 
 		// ======================================================= Massacre =========================================================
-		$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = 25";
+		$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = 25";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
@@ -3143,7 +3144,7 @@
 		}
 
 		// =================================================== The Collector I =======================================================
-		$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = 20";
+		$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = 20";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
@@ -3157,7 +3158,7 @@
 		}
 
 		// =================================================== The Collector II =======================================================
-		$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = 21";
+		$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = 21";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
@@ -3171,7 +3172,7 @@
 		}
 
 		// ================================================== Nothing Better To Do ====================================================
-		$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = 26";
+		$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = 26";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
@@ -3186,7 +3187,7 @@
 		}
 
 		// ==================================================== Lending a Hand ========================================================
-		$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = 17";
+		$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = 17";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
@@ -3200,7 +3201,7 @@
 		}
 
 		// ====================================================== Game Saved ==========================================================
-		$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = 27";
+		$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = 27";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
@@ -3214,7 +3215,7 @@
 		}
 
 		// ====================================================== Maxed Out ==========================================================
-		$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = 16";
+		$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = 16";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
@@ -3233,7 +3234,7 @@
 			$counter = $row['index'];
 			$success = 0;
 			$time = '';
-			$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = $counter";
+			$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = $counter";
 			$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 			if($row['timestamp'] != ''){
@@ -3259,7 +3260,7 @@
 	// -- Params : $conn, $acc, $ach
 	// -- Purpose : sets an achievement to complete
 	function setAchievement($conn, $acc, $ach){
-		$sql = "SELECT * FROM charAchievements WHERE playerid = $acc AND achievementID = $ach";
+		$sql = "SELECT * FROM charachievements WHERE playerid = $acc AND achievementID = $ach";
 		$row = mysqli_fetch_array(sql_query($sql, $conn),MYSQLI_ASSOC);
 
 		if($row['timestamp'] == ''){
