@@ -1209,14 +1209,14 @@
 							$resets = 0; //getAttribute($conn, "account", "paleResets", $acc); FIX
 							$row = getRow($conn, "character", $acc);
 							$points = ($row["strength"] - (5 + $resets * 2)) + ($row["dexterity"] - 3) + ($row["vitality"] - 3)+ ($row["spirit"] - 1);
-							$sql = "update \"character\" set \"strength\" = (5 + $resets * 2), \"dexterity\" = 3, \"vitality\" = 3, \"spirit\" = 1, statPoints = statPoints + $points where playerid = $acc";
+							$sql = "update \"character\" set \"strength\" = (5 + $resets * 2), \"dexterity\" = 3, \"vitality\" = 3, \"spirit\" = 1, statpoints = statpoints + $points where playerid = $acc";
 							sql_query($sql, $conn);
 							$used = true;
 							$return .= "All stat points have now been reset";
 							break;
 						case 101:
 							//SKILL RESET
-							$sql = "update \"character\" set skillPoints = skillPoints + (select sum(level) from charskills where playerid = $acc) where playerid = $acc";
+							$sql = "update \"character\" set skillpoints = skillpoints + (select sum(level) from charskills where playerid = $acc) where playerid = $acc";
 							sql_query($sql, $conn);
 							$sql = "delete from charskills where playerid = $acc";
 							sql_query($sql, $conn);
@@ -1229,9 +1229,9 @@
 							$resets = 1; // FIX getAttribute($conn, "account", "paleResets", $acc);
 							$row = getRow($conn, "character", $acc);
 							$points = ($row["strength"] - (5 + $resets * 2)) + ($row["dexterity"] - 3) + ($row["vitality"] - 3)+ ($row["spirit"] - 1);
-							$sql = "update \"character\" set \"strength\" = (5 + $resets * 2), \"dexterity\" = 3, \"vitality\" = 3, \"spirit\" = 1, statPoints = statPoints + $points where playerid = $acc";
+							$sql = "update \"character\" set \"strength\" = (5 + $resets * 2), \"dexterity\" = 3, \"vitality\" = 3, \"spirit\" = 1, statpoints = statpoints + $points where playerid = $acc";
 							sql_query($sql, $conn);
-							$sql = "update \"character\" set skillPoints = skillPoints + (select sum(level) from charskills where playerid = $acc) where playerid = $acc";
+							$sql = "update \"character\" set skillpoints = skillpoints + (select sum(level) from charskills where playerid = $acc) where playerid = $acc";
 							sql_query($sql, $conn);
 							$sql = "delete from charskills where playerid = $acc";
 							sql_query($sql, $conn);
@@ -1324,7 +1324,7 @@
 	// -- Params : $conn, $acc, $stat
 	// -- Purpose : Allocates a single stat point
 	function allocateStat($conn, $acc, $stat){
-		$sql = "UPDATE \"character\" SET ".$stat." = ".$stat." + 1, \"statPoints\" = \"statPoints\" - 1 WHERE \"statPoints\" > 0 AND \"playerid\" = ".$acc;
+		$sql = "UPDATE \"character\" SET ".$stat." = ".$stat." + 1, \"statpoints\" = \"statpoints\" - 1 WHERE \"statpoints\" > 0 AND \"playerid\" = ".$acc;
 		sql_query($sql, $conn);
 	}
 
@@ -1998,8 +1998,8 @@
 			}
 
 
-			if($currentLevel + $points <= $maxLevel && $points <= getAttribute($conn, 'character', 'skillPoints', $acc)){
-				$sql = "UPDATE \"character\" set \"skillPoints\" = \"skillPoints\" - ".$points." where \"playerid\" = ".$acc;
+			if($currentLevel + $points <= $maxLevel && $points <= getAttribute($conn, 'character', 'skillpoints', $acc)){
+				$sql = "UPDATE \"character\" set \"skillpoints\" = \"skillpoints\" - ".$points." where \"playerid\" = ".$acc;
 				sql_query($sql, $conn);
 				$sql = "UPDATE \"charskills\" set \"level\" = \"level\" + ".$points." where \"playerid\" = ".$acc." AND \"skillID\" = ".$skillID;
 				sql_query($sql, $conn);
@@ -2022,8 +2022,8 @@
 
 		if(getAttribute($conn, 'character', 'level', $acc) >= $row['requiredlevel']){
 
-			if($points <= $maxLevel && $points <= getAttribute($conn, 'character', 'skillPoints', $acc)){
-				$sql = "UPDATE \"character\" set \"skillPoints\" = \"skillPoints\" - ".$points." where \"playerid\" = ".$acc;
+			if($points <= $maxLevel && $points <= getAttribute($conn, 'character', 'skillpoints', $acc)){
+				$sql = "UPDATE \"character\" set \"skillpoints\" = \"skillpoints\" - ".$points." where \"playerid\" = ".$acc;
 				sql_query($sql, $conn);
 				$sql = "INSERT INTO \"charskills\" (\"level\", \"playerid\", \"skillid\") values (".$points.",".$acc.", ".$skillID.")";
 				sql_query($sql, $conn);

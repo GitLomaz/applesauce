@@ -392,7 +392,7 @@
 					$pala = 0;
 					$sin = 0;
 					$warlock = 0;
-					$skillPoints = 0;
+					$skillpoints = 0;
 					$reset = false;
 					$sql = "SELECT SUM(vit) as vit, SUM(str) as str, SUM(spr) as spr, SUM(dex) as dex, SUM(pala) as pala, SUM(sin) as sin, sum(warlock) as warlock
 						FROM resets WHERE playerid = $account";
@@ -416,7 +416,7 @@
 						$vit = $vit + 3;
 						$respawn = 100;
 						$unlockSQL = "UPDATE \"equipmentinventory\" set \"archived\" = 0 where \"playerid\" = $account and \"template\" in (60,61,62,63,64,65,66,67,90,91,92,93,94,95,96,97)";
-						$skillPoints = $warlock;
+						$skillpoints = $warlock;
 					}
 					if($param1 == 'Paladin'){
 						$spr = $spr + 1;
@@ -425,7 +425,7 @@
 						$vit = $vit + 3;
 						$respawn = 100;
 						$unlockSQL = "UPDATE \"equipmentinventory\" set \"archived\" = 0 where \"playerid\" = $account and \"template\" in (51,52,53,54,55,56,57,58,83,84,85,86,87,88,89)";
-						$skillPoints = $pala;
+						$skillpoints = $pala;
 					}
 					if($param1 == 'Assassin'){
 						$spr = $spr + 2;
@@ -434,12 +434,12 @@
 						$vit = $vit + 3;
 						$respawn = 202;
 						$unlockSQL = "UPDATE \"equipmentinventory\" set \"archived\" = 0 where \"playerid\" = $account and \"template\" in (68,69,70,71,72,73,74,98,99,100,101,102,103,104)";
-						$skillPoints = $sin;
+						$skillpoints = $sin;
 					}
 					$total = $pala + $sin + $warlock;
 
 					
-				$sqlCreateChar = "INSERT INTO \"character\"(playerid, class, strength, dexterity, spirit, vitality, respawn, skillpoints, diff, neverlogged, resetscript,  map, locationx, locationy, combatmodifier) VALUES ($account, '$param1',$str,$dex,$spr,$vit, $respawn, $skillPoints, $param2, 0, '$param4', 'VanaheimrNE', 4726, 5121, 100)";
+				$sqlCreateChar = "INSERT INTO \"character\"(playerid, class, strength, dexterity, spirit, vitality, respawn, skillpoints, diff, neverlogged, resetscript,  map, locationx, locationy, combatmodifier) VALUES ($account, '$param1',$str,$dex,$spr,$vit, $respawn, $skillpoints, $param2, 0, '$param4', 'VanaheimrNE', 4726, 5121, 100)";
 				sql_query($sqlCreateChar, $conn);
 				$sql_insert = "INSERT INTO \"equippedstuff\"(\"equipindex\") VALUES ($account)";
 				sql_query($sql_insert, $conn);
@@ -622,7 +622,7 @@
 					$cookie = bin2hex(random_bytes(8)); // Generate 16-char cookie
 					
 				// Create new Paladin character with proper stats (matching rebirth code)
-				// Paladin stats: str=3, dex=2, spr=1, vit=3, respawn=100, skillPoints=0
+				// Paladin stats: str=3, dex=2, spr=1, vit=3, respawn=100, skillpoints=0
 				// Location: VanaheimrNE at 4726, 5121
 				$sql = "INSERT INTO \"character\" (class, strength, dexterity, spirit, vitality, respawn, skillpoints, diff, neverlogged, resetscript, map, zone, locationx, locationy, combatmodifier) VALUES ('Paladin', 3, 2, 1, 3, 100, 0, 1, 0, '', 'VanaheimrNE', 'East Vanaheimr Village', 4726, 5121, 100)";
 				$stmt = mysqli_prepare($conn, $sql);

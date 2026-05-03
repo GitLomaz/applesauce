@@ -680,6 +680,9 @@
     		$item = $dropRow['dropid'];
     		$sql = "SELECT * FROM \"questplayerstatus\" WHERE \"playerid\" = " . $acc . " AND \"questid\" = " . $quest;
     		$Row = mysqli_fetch_array(sql_query($sql, $conn) , MYSQLI_ASSOC);
+				if ($Row == null) {
+					continue;
+				}
     		$status = $Row['status'];
     		$reqAmnt = 0;
     		if ($status == "working") {
@@ -2384,7 +2387,7 @@
     	sql_query($logMessege, $conn);
     	$logMessege = "INSERT INTO \"combat\" (playerid, enemyid, middlealign, middletext, leftcolor, lefttext) values (" . $acc . "," . $enemyid . ",'CENTER','', 'rgb(242,130,31)', '')";
     	sql_query($logMessege, $conn);
-    	$sql = "UPDATE \"character\" SET \"level\" = \"level\" + 1, \"exp\" = " . $diff . ", \"next\" = " . $nextLevel . ", \"statPoints\" = \"statPoints\" + 4, \"skillPoints\" = \"skillPoints\" + 1, ";
+    	$sql = "UPDATE \"character\" SET \"level\" = \"level\" + 1, \"exp\" = " . $diff . ", \"next\" = " . $nextLevel . ", \"statpoints\" = \"statpoints\" + 4, \"skillpoints\" = \"skillpoints\" + 1, ";
     	$sql.= " \"strength\" = \"strength\" + " . $str . ", \"dexterity\" = \"dexterity\" + " . $dex . ", \"spirit\" = \"spirit\" + " . $spr . " WHERE playerid = " . $acc;
     	sql_query($sql, $conn);
     	fullheal($acc, $conn);
