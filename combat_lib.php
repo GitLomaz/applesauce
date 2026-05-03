@@ -459,8 +459,8 @@
     					$sql = "SELECT * FROM monsterModLookup where enemyid = $enemyid and chance = 1 ORDER BY random() LIMIT 1";
     					$sql_result = sql_query($sql, $conn);
     					while ($row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC)) {
-    						$sql = "update combatenemies c, monsterMods m set c.prefix = '', c.name = concat_ws(' ', m.openTag, m.prefix, c.name, m.suffix, m.closeTag)";
-    						$sql.= ", hit = hit * hitMod, flee = flee * fleeMod, health = health * healthMod, maxhealth = maxhealth * healthMod, attack = attack * dmgMod, exp = exp * expMod, silver = silver * dropMod where playerid = $acc and modID = " . $row["modID"];
+    						$sql = "update combatenemies c, monstermods m set c.prefix = '', c.name = concat_ws(' ', m.openTag, m.prefix, c.name, m.suffix, m.closeTag)";
+    						$sql.= ", hit = hit * hitmod, flee = flee * fleemod, health = health * healthmod, maxhealth = maxhealth * healthmod, attack = attack * dmgmod, exp = exp * expmod, silver = silver * dropMod where playerid = $acc and modID = " . $row["modID"];
     						sql_query($sql, $conn);
     					}
     				}
@@ -469,8 +469,8 @@
     					$sql = "SELECT * FROM monsterModLookup where enemyid = $enemyid and chance = 15 ORDER BY random() LIMIT 1";
     					$sql_result = sql_query($sql, $conn);
     					while ($row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC)) {
-    						$sql = "update combatenemies c, monsterMods m set c.name = concat_ws(' ', m.openTag, m.prefix, c.name, m.suffix, m.closeTag)";
-    						$sql.= ", hit = hit * hitMod, flee = flee * fleeMod, health = health * healthMod, maxhealth = maxhealth * healthMod, attack = attack * dmgMod, exp = exp * expMod, silver = silver * dropMod where playerid = $acc and modID = " . $row["modID"];
+    						$sql = "update combatenemies c, monstermods m set c.name = concat_ws(' ', m.openTag, m.prefix, c.name, m.suffix, m.closeTag)";
+    						$sql.= ", hit = hit * hitmod, flee = flee * fleemod, health = health * healthmod, maxhealth = maxhealth * healthmod, attack = attack * dmgmod, exp = exp * expmod, silver = silver * dropMod where playerid = $acc and modID = " . $row["modID"];
     						sql_query($sql, $conn);
     					}
     				}
@@ -572,8 +572,8 @@
     							$sql = "SELECT * FROM monsterModLookup where enemyid = " . $row['enemyid'] . " and chance = 1 ORDER BY random() LIMIT 1";
     							$sql_result = sql_query($sql, $conn);
     							while ($row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC)) {
-    								$sql = "update combatenemies c, monsterMods m set c.prefix = '', c.name = concat_ws(' ', m.openTag, m.prefix, c.name, m.suffix, m.closeTag)";
-    								$sql.= ", hit = hit * hitMod, flee = flee * fleeMod, health = health * healthMod, attack = attack * dmgMod, exp = exp * expMod, silver = silver * dropMod where playerid = $acc and modID = " . $row["modID"];
+    								$sql = "update combatenemies c, monstermods m set c.prefix = '', c.name = concat_ws(' ', m.openTag, m.prefix, c.name, m.suffix, m.closeTag)";
+    								$sql.= ", hit = hit * hitmod, flee = flee * fleemod, health = health * healthmod, attack = attack * dmgmod, exp = exp * expmod, silver = silver * dropMod where playerid = $acc and modID = " . $row["modID"];
     								sql_query($sql, $conn);
     							}
     						}
@@ -582,8 +582,8 @@
     							$sql = "SELECT * FROM monsterModLookup where enemyid in (-1 , " . $row['enemyid'] . ") and chance = 15 ORDER BY random() LIMIT 1";
     							$sql_result = sql_query($sql, $conn);
     							while ($row = mysqli_fetch_array($sql_result, MYSQLI_ASSOC)) {
-    								$sql = "update combatenemies c, monsterMods m set c.name = concat_ws(' ', m.openTag, m.prefix, c.name, m.suffix, m.closeTag)";
-    								$sql.= ", hit = hit * hitMod, flee = flee * fleeMod, health = health * healthMod, attack = attack * dmgMod, exp = exp * expMod, silver = silver * dropMod where playerid = $acc and modID = " . $row["modID"];
+    								$sql = "update combatenemies c, monstermods m set c.name = concat_ws(' ', m.openTag, m.prefix, c.name, m.suffix, m.closeTag)";
+    								$sql.= ", hit = hit * hitmod, flee = flee * fleemod, health = health * healthmod, attack = attack * dmgmod, exp = exp * expmod, silver = silver * dropMod where playerid = $acc and modID = " . $row["modID"];
     								sql_query($sql, $conn);
     							}
     						}
