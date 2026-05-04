@@ -40,11 +40,11 @@
 				$star = '';
 			}
 			if($count > 100){
-				$fireresists = '<span style="color:red">Fire: </span>'.$row["fireRes"]."%<br/>";
-				$earthresists = '<span style="color:brown">Earth: </span>'.$row["earthRes"]."%<br/>";
-				$iceresists = '<span style="color:blue">Ice: </span>'.$row["iceRes"]."%<br/>";
+				$fireresists = '<span style="color:red">Fire: </span>'.$row["fireres"]."%<br/>";
+				$earthresists = '<span style="color:brown">Earth: </span>'.$row["earthres"]."%<br/>";
+				$iceresists = '<span style="color:blue">Ice: </span>'.$row["iceres"]."%<br/>";
 				$holyresists = '<span style="color:white">Holy: </span>'.$row["holyres"]."%<br/>";
-				$arcaneresists = '<span style="color:purple">Arcane: </span>'.$row["arcaneRes"]."%<br/>";
+				$arcaneresists = '<span style="color:purple">Arcane: </span>'.$row["arcaneres"]."%<br/>";
 				$phyresists = '<span style="color:grey">Phys.: </span>'.$row["physicalres"]."%<br/>";
 				$color = "#a2b0b6";
 			}else{

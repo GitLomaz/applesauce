@@ -971,7 +971,7 @@
     				if (strtolower($element) == 'holy') {
     					$elementText = "<span style=\'color:White\'> Holy</span>";
     				}
-                    $res = $calcValues[strtolower($element) . "Res"];
+                    $res = $calcValues[strtolower($element) . "res"];
     				$mod = (100 - $res) / 100;
                     if(in_array($enemyid, [147,148,149,150])){
                         $damage = floor($damage * ((100 - $calcValues['shapelessres']) / 100));

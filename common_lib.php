@@ -1463,10 +1463,10 @@
 				(((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 150)) + 0.9)) + 0.1) + (("equipmentbonus"."critdamage" + "buffsbonus"."critdamage") / 100)) AS "critmulti",
 				((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 750)) + 0.5)) + ("equipmentbonus"."blockchance" / 100)) AS "block",
 				("equipmentbonus"."armor" + "buffsbonus"."armor") AS "armor",
-				("equipmentbonus"."fireRes" + "buffsbonus"."fireRes") AS "fireRes",
-				("equipmentbonus"."iceRes" + "buffsbonus"."iceRes") AS "iceRes",
-				("equipmentbonus"."earthRes" + "buffsbonus"."earthRes") AS "earthRes",
-				("equipmentbonus"."arcaneRes" + "buffsbonus"."arcaneRes") AS "arcaneRes",
+				("equipmentbonus"."fireres" + "buffsbonus"."fireres") AS "fireres",
+				("equipmentbonus"."iceres" + "buffsbonus"."iceres") AS "iceres",
+				("equipmentbonus"."earthres" + "buffsbonus"."earthres") AS "earthres",
+				("equipmentbonus"."arcaneres" + "buffsbonus"."arcaneres") AS "arcaneres",
 				("equipmentbonus"."holyres" + "buffsbonus"."holyres") AS "holyres",
 				-- "equipmentinventory"."class" AS "weapon",
 				"character"."exp" AS "exp",
@@ -1485,7 +1485,7 @@
 				"equipmentbonus"."vitPerc" AS "vitPerc",
 				"equipmentbonus"."spellreduction" AS "spellreduction",
 				COALESCE("buffsbonus"."weapelement", \'physical\') AS "weapelement",
-				"equipmentbonus"."shapelessRes" AS "shapelessRes",
+				"equipmentbonus"."shapelessres" AS "shapelessres",
 				"equipmentbonus"."shapelessExpDrop" AS "shapelessExpDrop",
 				"equipmentbonus"."shapelessDmg" AS "shapelessDmg",
 				(SELECT class FROM "equipmentinventory" WHERE "playerid" = '.$index.' AND "equipped" = 1 AND ("slot" = \'weapon\' OR "slot" = \'2hweapon\') LIMIT 1) AS "weapon"
@@ -1531,10 +1531,10 @@
 		        (((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 150)) + 0.9)) + 0.1) + (("equipmentbonus"."critdamage" + "buffsbonus"."critdamage") / 100)) AS "critmulti",
 		        ((1 / ((1 / (((("character"."strength" + "equipmentbonus"."str") + FLOOR((("character"."strength" * "equipmentbonus"."strPerc") / 100))) + "buffsbonus"."str") / 750)) + 0.5)) + ("equipmentbonus"."blockchance" / 100)) AS "block",
 		        ("equipmentbonus"."armor" + "buffsbonus"."armor") AS "armor",
-		        ("equipmentbonus"."fireRes" + "buffsbonus"."fireRes") AS "fireRes",
-		        ("equipmentbonus"."iceRes" + "buffsbonus"."iceRes") AS "iceRes",
-		        ("equipmentbonus"."earthRes" + "buffsbonus"."earthRes") AS "earthRes",
-		        ("equipmentbonus"."arcaneRes" + "buffsbonus"."arcaneRes") AS "arcaneRes",
+		        ("equipmentbonus"."fireres" + "buffsbonus"."fireres") AS "fireres",
+		        ("equipmentbonus"."iceres" + "buffsbonus"."iceres") AS "iceres",
+		        ("equipmentbonus"."earthres" + "buffsbonus"."earthres") AS "earthres",
+		        ("equipmentbonus"."arcaneres" + "buffsbonus"."arcaneres") AS "arcaneres",
 		        ("equipmentbonus"."holyres" + "buffsbonus"."holyres") AS "holyres",
 		        (SELECT class FROM "equipmentinventory" WHERE "playerid" = '.$index.' AND "equipped" = 1 AND ("slot" = \'weapon\' OR "slot" = \'2hweapon\') LIMIT 1) AS "weapon",
 		        "character"."exp" AS "exp",
@@ -1553,7 +1553,7 @@
 		        "equipmentbonus"."vitPerc" AS "vitPerc",
 		        "equipmentbonus"."spellreduction" AS "spellreduction",
 		        COALESCE("buffsbonus"."weapelement", \'physical\') AS "weapelement",
-		        "equipmentbonus"."shapelessRes" AS "shapelessRes",
+		        "equipmentbonus"."shapelessres" AS "shapelessres",
 		        "equipmentbonus"."shapelessExpDrop" AS "shapelessExpDrop",
 		        "equipmentbonus"."shapelessDmg" AS "shapelessDmg"
 		    FROM
@@ -2208,7 +2208,7 @@
 		//
 		//  --------------------------------------------------------------------------------------------------
 		$output = array();
-		$sql_shop_result = sql_query("SELECT * FROM \"equipmentShops\" WHERE shop_index = $shop", $conn);
+		$sql_shop_result = sql_query("SELECT * FROM "equipmentshops\" WHERE shop_index = $shop", $conn);
 		while($row = mysqli_fetch_array($sql_shop_result,MYSQLI_ASSOC)){
 			$output[] = getSingleEquipment($conn, $row['item_1']);
 			$output[] = getSingleEquipment($conn, $row['item_2']);
@@ -2426,10 +2426,10 @@
 	// -- Purpose : Returns character to spawn point
 	function toSpawn($acc, $conn){
 		$row = getRow($conn, "spawnpoints", getAttribute($conn, "character", "respawn", $acc));
-		//if($row["mapName"] == "endless.php?"){
-			$sql = "UPDATE \"character\" set currenttowerlevel = 1, \"map\" = '".$row["mapName"]."', \"locationx\" = ".$row["telestoneX"].", \"locationy\" = ".$row["telestoneY"]." WHERE \"playerid\" = ".$acc;
+		//if($row["mapname"] == "endless.php?"){
+			$sql = "UPDATE \"character\" set currenttowerlevel = 1, \"map\" = '".$row["mapname"]."', \"locationx\" = ".$row["telestonex"].", \"locationy\" = ".$row["telestoney"]." WHERE \"playerid\" = ".$acc;
 		//}else{
-			//$sql = "UPDATE \"character\" set currenttowerlevel = 0, \"map\" = '".$row["mapName"]."', \"locationx\" = ".$row["telestoneX"].", \"locationy\" = ".$row["telestoneY"]." WHERE \"playerid\" = ".$acc;
+			//$sql = "UPDATE \"character\" set currenttowerlevel = 0, \"map\" = '".$row["mapname"]."', \"locationx\" = ".$row["telestonex"].", \"locationy\" = ".$row["telestoney"]." WHERE \"playerid\" = ".$acc;
 		//}
 		sql_query($sql, $conn);
 	}
@@ -3386,17 +3386,17 @@
 		$sql = "select * from spawnpoints s inner join \"character\" c on c.zone = s.displayName where c.playerid = $acc";
 		$sql_rows = sql_query($sql, $conn);
 		while($row = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
-			$x = $row['posX'];
-			$y = $row['posY'];
-			$z = $row['posZ'];
-			$sql = "SELECT * FROM playerwaypoints p inner join spawnpoints s on s.spawnID = p.spawnID where (p.playerid = $acc or p.playerid = -1) and s.spawnID = $loc order by p.id desc";
+			$x = $row['posx'];
+			$y = $row['posy'];
+			$z = $row['posz'];
+			$sql = "SELECT * FROM playerwaypoints p inner join spawnpoints s on s.spawnid = p.spawnid where (p.playerid = $acc or p.playerid = -1) and s.spawnid = $loc order by p.id desc";
 			$sql_rows = sql_query($sql, $conn);
 			while($waypoints = mysqli_fetch_array($sql_rows,MYSQLI_ASSOC)){
-				$distence = sqrt((($x - $waypoints['posX'])*($x - $waypoints['posX'])) + (($y - $waypoints['posY']) * ($y - $waypoints['posY'])) + (($z - $waypoints['posZ'])*($z - $waypoints['posZ'])));
+				$distence = sqrt((($x - $waypoints['posx'])*($x - $waypoints['posx'])) + (($y - $waypoints['posy']) * ($y - $waypoints['posy'])) + (($z - $waypoints['posz'])*($z - $waypoints['posz'])));
 				$distence = $distence * 15;
 				$distence = floor($distence /100) * 100;
-				$index = $waypoints['spawnID'];
-				$sql = "UPDATE \"character\" set \"map\" = '".$waypoints["mapName"]."', \"locationx\" = ".$waypoints["telestoneX"].", \"locationy\" = ".$waypoints["telestoneY"].", \"silver\" = \"silver\" - $distence WHERE \"playerid\" = $acc and \"silver\" + 1 > $distence LIMIT 1";
+				$index = $waypoints['spawnid'];
+				$sql = "UPDATE \"character\" set \"map\" = '".$waypoints["mapname"]."', \"locationx\" = ".$waypoints["telestonex"].", \"locationy\" = ".$waypoints["telestoney"].", \"silver\" = \"silver\" - $distence WHERE \"playerid\" = $acc and \"silver\" + 1 > $distence LIMIT 1";
 				sql_query($sql, $conn);
 				return "0";
 			}
