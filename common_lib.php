@@ -1731,7 +1731,7 @@
 		$counter = 0;
 		while($counter != 4){
 			$counter++;
-			$output[] = $row['skill_'.$counter];
+			$output[] = $row['item_'.$counter];
 		}
 
 		return json_encode($output);
