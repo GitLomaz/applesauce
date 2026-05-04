@@ -2336,7 +2336,7 @@
 							sql_query($sql, $conn);
 						}
 					}
-					$sql = "UPDATE \"character\" SET locationx = ".$x.", locationy = ".$y.", map = '".$map."', \"combatmodifier\" = 0 WHERE playerid = $acc LIMIT 1";
+					$sql = "UPDATE \"character\" SET locationx = ".$x.", locationy = ".$y.", map = '".$map."', \"combatmodifier\" = 0 WHERE playerid = $acc";
 				} else {
 					$oldX = isset($_SESSION['oldX']) ? floatval($_SESSION['oldX']) : null;
 					$oldY = isset($_SESSION['oldY']) ? floatval($_SESSION['oldY']) : null;
