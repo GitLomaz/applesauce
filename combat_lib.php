@@ -2681,7 +2681,7 @@
     		$sql_get_enemy = sql_query("SELECT * FROM combatenemies WHERE playerid = " . $acc . " ORDER BY \"combatenemyid\" DESC LIMIT 1", $conn);
     		$row = mysqli_fetch_array($sql_get_enemy, MYSQLI_ASSOC);
     		$enemyid = $row['enemyid'];
-    		if ($itemRow['combatType'] == 3) {
+    		if ($itemRow['combattype'] == 3) {
     			$min = $itemRow['combatmin'];
     			$max = $itemRow['combatmax'];
     			$damage = (rand($min, $max));
@@ -2705,7 +2705,7 @@
     			sql_query($logMessege, $conn);
     		}
     		else
-    		if ($itemRow['combatType'] == 2) {
+    		if ($itemRow['combattype'] == 2) {
     			$mana = floor((rand($itemRow['usemin'], $itemRow['usemax'])) * (($calcValues["bonuspotmana"] / 100 + 1)));
     			mana($mana, $acc, $conn);
     			$text = getString($conn, $item, "combat", "left", "");
@@ -2719,7 +2719,7 @@
     			sql_query($logMessege, $conn);
     		}
     		else
-    		if ($itemRow['combatType'] == 1) {
+    		if ($itemRow['combattype'] == 1) {
     			$health = floor((rand($itemRow['usemin'], $itemRow['usemax'])) * (($calcValues["bonuspotheal"] / 100 + 1)));
     			heal($health, $acc, $conn);
     			$text = getString($conn, $item, "combat", "left", "");
@@ -2733,7 +2733,7 @@
     			sql_query($logMessege, $conn);
     		}
             else
-            if ($itemRow['combatType'] == 8) {
+            if ($itemRow['combattype'] == 8) {
                 $health = floor((rand($itemRow['usemin'], $itemRow['usemax'])) * (($calcValues["bonuspotheal"] / 100 + 1)));
                 heal($health, $acc, $conn);
                 $mana = floor((rand($itemRow['usemin'], $itemRow['usemax'])) * (($calcValues["bonuspotmana"] / 100 + 1)));
@@ -2750,7 +2750,7 @@
                 sql_query($logMessege, $conn);
             }
     		else
-    		if ($itemRow['combatType'] == 7) {
+    		if ($itemRow['combattype'] == 7) {
     			$charStats = $calcValues;
     			$amnt = rand($itemRow["usemin"], $itemRow["usemax"]) / 100;
     			$mana = floor($charStats["maxmana"] * $amnt);
