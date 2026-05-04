@@ -2208,7 +2208,7 @@
 		//
 		//  --------------------------------------------------------------------------------------------------
 		$output = array();
-		$sql_shop_result = sql_query("SELECT * FROM "equipmentshops\" WHERE shop_index = $shop", $conn);
+		$sql_shop_result = sql_query("SELECT * FROM \"equipmentshops\" WHERE shop_index = $shop", $conn);
 		while($row = mysqli_fetch_array($sql_shop_result,MYSQLI_ASSOC)){
 			$output[] = getSingleEquipment($conn, $row['item_1']);
 			$output[] = getSingleEquipment($conn, $row['item_2']);
